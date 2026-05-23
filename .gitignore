@@ -1,0 +1,25 @@
+# Environment secrets
+.env
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Generated outputs
+output/
+rendered_scenes/
+scenes/*.html
+timestamps/
+logs/
+audio/
+
+# Media files (large)
+*.mp4
+*.mp3
+*.webm
+*.wav
+
+# OS
+.DS_Store
+Thumbs.db

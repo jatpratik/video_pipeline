@@ -1,0 +1,5 @@
+Want to know why most AI agents break in production?
+Because they trust raw text.
+Here’s the hidden problem with prompt chaining.
+Even if your prompts are good…
+The output between steps is usually messy.

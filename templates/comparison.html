@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            width: 1080px;
+            height: 960px;
+            background: #050505;
+            font-family: 'Inter', sans-serif;
+            color: #fff;
+            overflow: hidden;
+            position: relative;
+        }
+        .bg {
+            position: absolute; inset: 0;
+            background: radial-gradient(ellipse at 50% 45%, #0a0a1a 0%, #050505 100%);
+        }
+
+        .comp-wrapper {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 860px;
+            height: 440px;
+            display: flex;
+            gap: 30px;
+            align-items: stretch;
+        }
+
+        .panel {
+            flex: 1;
+            border-radius: 18px;
+            padding: 36px 32px;
+            display: flex;
+            flex-direction: column;
+            opacity: 0;
+            transform: translateY(24px);
+        }
+
+        .panel-left {
+            background: rgba(239,68,68,0.04);
+            border: 2px solid rgba(239,68,68,0.15);
+        }
+        .panel-right {
+            background: rgba(16,185,129,0.04);
+            border: 2px solid rgba(16,185,129,0.15);
+        }
+
+        .panel-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 24px;
+            padding: 8px 16px;
+            border-radius: 8px;
+            align-self: flex-start;
+        }
+        .panel-left .panel-badge {
+            color: #ef4444;
+            background: rgba(239,68,68,0.08);
+        }
+        .panel-right .panel-badge {
+            color: #10b981;
+            background: rgba(16,185,129,0.08);
+        }
+
+        .panel-text {
+            font-size: 26px;
+            font-weight: 600;
+            line-height: 1.6;
+            color: #cbd5e1;
+            flex: 1;
+            display: flex;
+            align-items: center;
+        }
+
+        /* Divider */
+        .vs-divider {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+        }
+        .vs-circle {
+            width: 52px; height: 52px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.04);
+            border: 2px solid rgba(255,255,255,0.1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 16px;
+            font-weight: 800;
+            color: #64748b;
+            letter-spacing: 1px;
+        }
+
+        /* Active glow */
+        .panel-glow {
+            position: absolute;
+            inset: 0;
+            border-radius: 18px;
+            opacity: 0;
+            pointer-events: none;
+        }
+        .panel-left .panel-glow {
+            box-shadow: inset 0 0 40px rgba(239,68,68,0.08);
+        }
+        .panel-right .panel-glow {
+            box-shadow: inset 0 0 40px rgba(16,185,129,0.08);
+        }
+
+        .panel { position: relative; }
+    </style>
+</head>
+<body>
+    <div class="bg"></div>
+    <div class="comp-wrapper" id="comp">
+        <div class="panel panel-left" id="left">
+            <div class="panel-glow" id="glow-l"></div>
+            <div class="panel-badge">✕ Before</div>
+            <div class="panel-text" id="text-l"></div>
+        </div>
+        <div class="vs-divider" id="vs">
+            <div class="vs-circle">VS</div>
+        </div>
+        <div class="panel panel-right" id="right">
+            <div class="panel-glow" id="glow-r"></div>
+            <div class="panel-badge">✓ After</div>
+            <div class="panel-text" id="text-r"></div>
+        </div>
+    </div>
+
+    <script>
+        const S = {{ scene_data_json }};
+
+        /* Populate panels */
+        const elems = S.elements || [];
+        const leftText  = elems[0] || S.text.split('.')[0] || 'Before';
+        const rightText = elems[1] || (S.text.split('.')[1] || 'After');
+
+        document.getElementById('text-l').textContent = leftText;
+        document.getElementById('text-r').textContent = rightText;
+
+        document.fonts.ready.then(() => {
+            const tl = gsap.timeline({
+                onComplete: () => { document.title = 'DONE'; }
+            });
+
+            const half = S.duration / 2;
+
+            /* Left panel slides in */
+            tl.to('#left', {
+                opacity: 1, y: 0,
+                duration: 0.45,
+                ease: 'power2.out'
+            }, 0.2);
+
+            /* Divider appears */
+            tl.to('#vs', {
+                opacity: 1,
+                duration: 0.25,
+                ease: 'power2.out'
+            }, half * 0.6);
+
+            /* Right panel slides in */
+            tl.to('#right', {
+                opacity: 1, y: 0,
+                duration: 0.45,
+                ease: 'power2.out'
+            }, half * 0.7);
+
+            /* Word emphasis */
+            S.words.forEach(w => {
+                if (!w.emphasis) return;
+                const kwLower = w.word.toLowerCase().replace(/[.,!?;:'"]/g, '');
+
+                /* Check which panel matches */
+                if (leftText.toLowerCase().includes(kwLower)) {
+                    tl.to('#left', {
+                        borderColor: 'rgba(239,68,68,0.5)',
+                        duration: 0.15
+                    }, w.start);
+                    tl.to('#glow-l', {
+                        opacity: 1, duration: 0.15
+                    }, w.start);
+                    tl.to('#glow-l', {
+                        opacity: 0, duration: 0.4
+                    }, w.start + 0.2);
+                    tl.to('#left', {
+                        borderColor: 'rgba(239,68,68,0.15)',
+                        duration: 0.4
+                    }, w.start + 0.2);
+                }
+                if (rightText.toLowerCase().includes(kwLower)) {
+                    tl.to('#right', {
+                        borderColor: 'rgba(16,185,129,0.5)',
+                        duration: 0.15
+                    }, w.start);
+                    tl.to('#glow-r', {
+                        opacity: 1, duration: 0.15
+                    }, w.start);
+                    tl.to('#glow-r', {
+                        opacity: 0, duration: 0.4
+                    }, w.start + 0.2);
+                    tl.to('#right', {
+                        borderColor: 'rgba(16,185,129,0.15)',
+                        duration: 0.4
+                    }, w.start + 0.2);
+                }
+            });
+
+            tl.to({}, { duration: 0.001 }, S.duration - 0.001);
+        });
+    </script>
+</body>
+</html>

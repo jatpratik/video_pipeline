@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            width: 1080px;
+            height: 960px;
+            background: #050505;
+            font-family: 'Inter', sans-serif;
+            color: #fff;
+            overflow: hidden;
+            position: relative;
+        }
+        .bg {
+            position: absolute; inset: 0;
+            background: radial-gradient(ellipse at 50% 45%, #0a0a1a 0%, #050505 100%);
+        }
+
+        .flow-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 860px;
+            height: 500px;
+        }
+
+        /* Nodes */
+        .flow-node {
+            position: absolute;
+            width: 220px;
+            background: rgba(255,255,255,0.03);
+            border: 2px solid rgba(255,255,255,0.08);
+            border-radius: 14px;
+            padding: 22px 20px;
+            text-align: center;
+            opacity: 0;
+        }
+        .flow-node .icon {
+            width: 44px; height: 44px;
+            border-radius: 12px;
+            background: rgba(59,130,246,0.1);
+            border: 1px solid rgba(59,130,246,0.3);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto 12px;
+            font-size: 20px;
+        }
+        .flow-node .label {
+            font-size: 18px;
+            font-weight: 600;
+            color: #cbd5e1;
+        }
+
+        /* Connector path */
+        .path-svg {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+        }
+        .path-bg {
+            fill: none;
+            stroke: rgba(255,255,255,0.04);
+            stroke-width: 3;
+            stroke-dasharray: 8 8;
+        }
+        .path-glow {
+            fill: none;
+            stroke: #3b82f6;
+            stroke-width: 4;
+            stroke-dasharray: 500;
+            stroke-dashoffset: 500;
+            filter: drop-shadow(0 0 6px rgba(59,130,246,0.5));
+        }
+
+        /* Data packet */
+        .packet {
+            position: absolute;
+            width: 18px; height: 18px;
+            border-radius: 50%;
+            background: #3b82f6;
+            box-shadow: 0 0 18px 4px rgba(59,130,246,0.6);
+            opacity: 0;
+            z-index: 20;
+        }
+    </style>
+</head>
+<body>
+    <div class="bg"></div>
+    <div class="flow-container" id="fc">
+        <svg class="path-svg" id="svg"></svg>
+    </div>
+
+    <script>
+        const S = {{ scene_data_json }};
+
+        const container = document.getElementById('fc');
+        const svg = document.getElementById('svg');
+
+        /* Build nodes */
+        const elems = S.elements && S.elements.length >= 2
+            ? S.elements
+            : ['Input', 'Process', 'Output'];
+
+        const count = elems.length;
+        const nodePositions = [];
+        const nodeEls = [];
+
+        elems.forEach((label, i) => {
+            const x = (860 / (count + 1)) * (i + 1) - 110;
+            const y = 200 + (i % 2 === 1 ? -40 : 40);
+            nodePositions.push({ x: x + 110, y: y + 35 });
+
+            const node = document.createElement('div');
+            node.className = 'flow-node';
+            node.id = 'fn' + i;
+            node.style.left = x + 'px';
+            node.style.top = y + 'px';
+
+            const icons = ['◈', '⬡', '◉', '▣', '◆', '⬢'];
+            node.innerHTML = `
+                <div class="icon">${icons[i % icons.length]}</div>
+                <div class="label">${label}</div>
+            `;
+            container.appendChild(node);
+            nodeEls.push(node);
+        });
+
+        /* Draw SVG paths between nodes */
+        const pathIds = [];
+        for (let i = 0; i < count - 1; i++) {
+            const a = nodePositions[i];
+            const b = nodePositions[i + 1];
+            const mx = (a.x + b.x) / 2;
+
+            const d = `M${a.x},${a.y} C${mx},${a.y} ${mx},${b.y} ${b.x},${b.y}`;
+
+            const bg = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+            bg.setAttribute('d', d);
+            bg.setAttribute('class', 'path-bg');
+            svg.appendChild(bg);
+
+            const glow = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+            glow.setAttribute('d', d);
+            glow.setAttribute('class', 'path-glow');
+            glow.id = 'pg' + i;
+            svg.appendChild(glow);
+
+            pathIds.push('pg' + i);
+        }
+
+        /* Create data packets */
+        const packets = [];
+        for (let i = 0; i < count - 1; i++) {
+            const pkt = document.createElement('div');
+            pkt.className = 'packet';
+            pkt.id = 'pkt' + i;
+            container.appendChild(pkt);
+            packets.push(pkt);
+        }
+
+        document.fonts.ready.then(() => {
+            const tl = gsap.timeline({
+                onComplete: () => { document.title = 'DONE'; }
+            });
+
+            const segTime = S.duration / (count + 1);
+
+            /* Appear nodes */
+            nodeEls.forEach((node, i) => {
+                tl.to(node, {
+                    opacity: 1,
+                    y: 0,
+                    duration: 0.35,
+                    ease: 'power2.out'
+                }, segTime * i + 0.2);
+            });
+
+            /* Animate data flow along each path */
+            for (let i = 0; i < count - 1; i++) {
+                const t = segTime * (i + 1);
+                const a = nodePositions[i];
+                const b = nodePositions[i + 1];
+
+                /* Glow path draw */
+                tl.to('#pg' + i, {
+                    strokeDashoffset: 0,
+                    duration: segTime * 0.7,
+                    ease: 'none'
+                }, t);
+
+                /* Packet travels */
+                tl.set('#pkt' + i, {
+                    opacity: 1,
+                    left: a.x - 9,
+                    top: a.y - 9
+                }, t);
+                tl.to('#pkt' + i, {
+                    left: b.x - 9,
+                    top: b.y - 9,
+                    duration: segTime * 0.7,
+                    ease: 'power1.inOut'
+                }, t);
+                tl.to('#pkt' + i, { opacity: 0, duration: 0.15 }, t + segTime * 0.7);
+
+                /* Destination node pulse */
+                tl.to('#fn' + (i + 1), {
+                    borderColor: 'rgba(59,130,246,0.6)',
+                    boxShadow: '0 0 24px rgba(59,130,246,0.25)',
+                    duration: 0.2
+                }, t + segTime * 0.65);
+                tl.to('#fn' + (i + 1), {
+                    borderColor: 'rgba(255,255,255,0.08)',
+                    boxShadow: 'none',
+                    duration: 0.4
+                }, t + segTime * 0.85);
+            }
+
+            /* Word emphasis: pulse matching node */
+            S.words.forEach(w => {
+                if (!w.emphasis) return;
+                const kwLower = w.word.toLowerCase().replace(/[.,!?;:'"]/g, '');
+                elems.forEach((label, i) => {
+                    if (label.toLowerCase().includes(kwLower)) {
+                        tl.to('#fn' + i, {
+                            borderColor: 'rgba(59,130,246,0.8)',
+                            background: 'rgba(59,130,246,0.08)',
+                            duration: 0.15
+                        }, w.start);
+                        tl.to('#fn' + i, {
+                            borderColor: 'rgba(255,255,255,0.08)',
+                            background: 'rgba(255,255,255,0.03)',
+                            duration: 0.4
+                        }, w.start + 0.25);
+                    }
+                });
+            });
+
+            tl.to({}, { duration: 0.001 }, S.duration - 0.001);
+        });
+    </script>
+</body>
+</html>

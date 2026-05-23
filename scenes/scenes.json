@@ -1,0 +1,336 @@
+[
+  {
+    "scene_id": "scene_001",
+    "text": "want to know why most AI agents break in production because they trust raw text.",
+    "start": 0.79,
+    "end": 7.82,
+    "duration": 7.03,
+    "template": "text_reveal",
+    "visual_concept": "Words appear one-by-one with emphasis on 'AI', 'break', and 'trust'",
+    "keywords": [
+      "AI",
+      "break",
+      "trust"
+    ],
+    "elements": [],
+    "words": [
+      {
+        "word": "want",
+        "start": -0.005,
+        "end": 0.316,
+        "abs_start": 0.785,
+        "abs_end": 1.106,
+        "emphasis": false
+      },
+      {
+        "word": "to",
+        "start": 1.037,
+        "end": 1.158,
+        "abs_start": 1.827,
+        "abs_end": 1.948,
+        "emphasis": false
+      },
+      {
+        "word": "know",
+        "start": 1.218,
+        "end": 1.458,
+        "abs_start": 2.008,
+        "abs_end": 2.248,
+        "emphasis": false
+      },
+      {
+        "word": "why",
+        "start": 1.799,
+        "end": 2.2,
+        "abs_start": 2.589,
+        "abs_end": 2.99,
+        "emphasis": false
+      },
+      {
+        "word": "most",
+        "start": 2.641,
+        "end": 2.881,
+        "abs_start": 3.431,
+        "abs_end": 3.671,
+        "emphasis": false
+      },
+      {
+        "word": "AI",
+        "start": 2.941,
+        "end": 3.162,
+        "abs_start": 3.731,
+        "abs_end": 3.952,
+        "emphasis": true
+      },
+      {
+        "word": "agents",
+        "start": 3.222,
+        "end": 3.543,
+        "abs_start": 4.012,
+        "abs_end": 4.333,
+        "emphasis": false
+      },
+      {
+        "word": "break",
+        "start": 3.923,
+        "end": 4.184,
+        "abs_start": 4.713,
+        "abs_end": 4.974,
+        "emphasis": true
+      },
+      {
+        "word": "in",
+        "start": 4.244,
+        "end": 4.324,
+        "abs_start": 5.034,
+        "abs_end": 5.114,
+        "emphasis": false
+      },
+      {
+        "word": "production",
+        "start": 4.384,
+        "end": 4.845,
+        "abs_start": 5.174,
+        "abs_end": 5.635,
+        "emphasis": false
+      },
+      {
+        "word": "because",
+        "start": 5.346,
+        "end": 5.647,
+        "abs_start": 6.136,
+        "abs_end": 6.437,
+        "emphasis": false
+      },
+      {
+        "word": "they",
+        "start": 5.707,
+        "end": 5.887,
+        "abs_start": 6.497,
+        "abs_end": 6.677,
+        "emphasis": false
+      },
+      {
+        "word": "trust",
+        "start": 5.968,
+        "end": 6.308,
+        "abs_start": 6.758,
+        "abs_end": 7.098,
+        "emphasis": true
+      },
+      {
+        "word": "raw",
+        "start": 6.448,
+        "end": 6.649,
+        "abs_start": 7.238,
+        "abs_end": 7.439,
+        "emphasis": false
+      },
+      {
+        "word": "text.",
+        "start": 6.709,
+        "end": 7.03,
+        "abs_start": 7.499,
+        "abs_end": 7.82,
+        "emphasis": false
+      }
+    ]
+  },
+  {
+    "scene_id": "scene_002",
+    "text": "Here's the hidden problem with prompt chaining.",
+    "start": 8.62,
+    "end": 10.79,
+    "duration": 2.17,
+    "template": "text_reveal",
+    "visual_concept": "Words appear sequentially with emphasis on 'hidden problem' and 'prompt chaining'",
+    "keywords": [
+      "hidden problem",
+      "prompt chaining"
+    ],
+    "elements": [],
+    "words": [
+      {
+        "word": "Here's",
+        "start": 0.001,
+        "end": 0.262,
+        "abs_start": 8.621,
+        "abs_end": 8.882,
+        "emphasis": false
+      },
+      {
+        "word": "the",
+        "start": 0.322,
+        "end": 0.422,
+        "abs_start": 8.942,
+        "abs_end": 9.042,
+        "emphasis": false
+      },
+      {
+        "word": "hidden",
+        "start": 0.462,
+        "end": 0.743,
+        "abs_start": 9.082,
+        "abs_end": 9.363,
+        "emphasis": false
+      },
+      {
+        "word": "problem",
+        "start": 0.783,
+        "end": 1.224,
+        "abs_start": 9.403,
+        "abs_end": 9.844,
+        "emphasis": false
+      },
+      {
+        "word": "with",
+        "start": 1.284,
+        "end": 1.444,
+        "abs_start": 9.904,
+        "abs_end": 10.064,
+        "emphasis": false
+      },
+      {
+        "word": "prompt",
+        "start": 1.564,
+        "end": 1.845,
+        "abs_start": 10.184,
+        "abs_end": 10.465,
+        "emphasis": false
+      },
+      {
+        "word": "chaining.",
+        "start": 1.865,
+        "end": 2.166,
+        "abs_start": 10.485,
+        "abs_end": 10.786,
+        "emphasis": false
+      }
+    ]
+  },
+  {
+    "scene_id": "scene_003",
+    "text": "Even if your prompts are good, the output between steps is usually messy.",
+    "start": 11.89,
+    "end": 16.8,
+    "duration": 4.91,
+    "template": "node_diagram",
+    "visual_concept": "Diagram showing a process with nodes labeled 'prompts', 'output', and 'steps', highlighting 'messy' transitions",
+    "keywords": [
+      "prompts",
+      "output",
+      "messy"
+    ],
+    "elements": [
+      "prompts",
+      "output",
+      "steps"
+    ],
+    "words": [
+      {
+        "word": "Even",
+        "start": -0.002,
+        "end": 0.238,
+        "abs_start": 11.888,
+        "abs_end": 12.128,
+        "emphasis": false
+      },
+      {
+        "word": "if",
+        "start": 0.419,
+        "end": 0.499,
+        "abs_start": 12.309,
+        "abs_end": 12.389,
+        "emphasis": false
+      },
+      {
+        "word": "your",
+        "start": 0.539,
+        "end": 0.739,
+        "abs_start": 12.429,
+        "abs_end": 12.629,
+        "emphasis": false
+      },
+      {
+        "word": "prompts",
+        "start": 0.78,
+        "end": 1.12,
+        "abs_start": 12.67,
+        "abs_end": 13.01,
+        "emphasis": true
+      },
+      {
+        "word": "are",
+        "start": 1.24,
+        "end": 1.381,
+        "abs_start": 13.13,
+        "abs_end": 13.271,
+        "emphasis": false
+      },
+      {
+        "word": "good,",
+        "start": 1.441,
+        "end": 1.681,
+        "abs_start": 13.331,
+        "abs_end": 13.571,
+        "emphasis": false
+      },
+      {
+        "word": "the",
+        "start": 2.102,
+        "end": 2.222,
+        "abs_start": 13.992,
+        "abs_end": 14.112,
+        "emphasis": false
+      },
+      {
+        "word": "output",
+        "start": 2.303,
+        "end": 2.703,
+        "abs_start": 14.193,
+        "abs_end": 14.593,
+        "emphasis": true
+      },
+      {
+        "word": "between",
+        "start": 2.944,
+        "end": 3.285,
+        "abs_start": 14.834,
+        "abs_end": 15.175,
+        "emphasis": false
+      },
+      {
+        "word": "steps",
+        "start": 3.325,
+        "end": 3.625,
+        "abs_start": 15.215,
+        "abs_end": 15.515,
+        "emphasis": false
+      },
+      {
+        "word": "is",
+        "start": 3.906,
+        "end": 3.986,
+        "abs_start": 15.796,
+        "abs_end": 15.876,
+        "emphasis": false
+      },
+      {
+        "word": "usually",
+        "start": 4.146,
+        "end": 4.487,
+        "abs_start": 16.036,
+        "abs_end": 16.377,
+        "emphasis": false
+      },
+      {
+        "word": "messy.",
+        "start": 4.567,
+        "end": 4.908,
+        "abs_start": 16.457,
+        "abs_end": 16.798,
+        "emphasis": true
+      }
+    ]
+  }
+]

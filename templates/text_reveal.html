@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            width: 1080px;
+            height: 960px;
+            background: #050505;
+            font-family: 'Inter', sans-serif;
+            color: #fff;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .bg {
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at 50% 40%, #0f0f1e 0%, #050505 100%);
+        }
+
+        /* Subtle animated grid */
+        .grid-bg {
+            position: absolute;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
+            background-size: 60px 60px;
+            opacity: 0;
+        }
+
+        .text-area {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 900px;
+            text-align: center;
+            z-index: 10;
+        }
+
+        .word {
+            display: inline-block;
+            font-size: 46px;
+            font-weight: 600;
+            line-height: 1.55;
+            color: rgba(255,255,255,0.0);
+            margin: 0 6px 4px 6px;
+            position: relative;
+        }
+
+        .word.kw {
+            font-weight: 800;
+        }
+
+        /* Progress bar */
+        .progress-track {
+            position: absolute;
+            bottom: 60px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 400px;
+            height: 3px;
+            background: rgba(255,255,255,0.06);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+        .progress-fill {
+            width: 0%;
+            height: 100%;
+            background: linear-gradient(90deg, #10b981, #3b82f6);
+            border-radius: 2px;
+        }
+
+        /* Glow orb behind keywords */
+        .glow-orb {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 300px;
+            height: 200px;
+            background: rgba(16, 185, 129, 0.12);
+            filter: blur(80px);
+            border-radius: 50%;
+            opacity: 0;
+            z-index: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="bg"></div>
+    <div class="grid-bg" id="grid"></div>
+    <div class="glow-orb" id="orb"></div>
+    <div class="text-area" id="text-area"></div>
+    <div class="progress-track"><div class="progress-fill" id="progress"></div></div>
+
+    <script>
+        const S = {{ scene_data_json }};
+
+        /* Build word spans */
+        const area = document.getElementById('text-area');
+        S.words.forEach((w, i) => {
+            const el = document.createElement('span');
+            el.className = 'word' + (w.emphasis ? ' kw' : '');
+            el.id = 'w' + i;
+            el.textContent = w.word;
+            area.appendChild(el);
+        });
+
+        document.fonts.ready.then(() => {
+            const tl = gsap.timeline({
+                onComplete: () => { document.title = 'DONE'; }
+            });
+
+            /* Grid fade in */
+            tl.to('#grid', { opacity: 1, duration: 0.6 }, 0);
+
+            /* Reveal each word at its exact timestamp */
+            S.words.forEach((w, i) => {
+                const el = document.getElementById('w' + i);
+
+                /* Word appears */
+                tl.to(el, {
+                    color: w.emphasis ? '#10b981' : 'rgba(255,255,255,0.92)',
+                    duration: 0.12,
+                    ease: 'power2.out'
+                }, w.start);
+
+                /* Keyword emphasis: scale + glow */
+                if (w.emphasis) {
+                    tl.to(el, {
+                        scale: 1.12,
+                        textShadow: '0 0 24px rgba(16,185,129,0.7)',
+                        duration: 0.18,
+                        ease: 'back.out(1.8)'
+                    }, w.start);
+
+                    tl.to(el, {
+                        scale: 1.0,
+                        textShadow: '0 0 8px rgba(16,185,129,0.25)',
+                        duration: 0.35,
+                        ease: 'power2.out'
+                    }, w.start + 0.25);
+
+                    /* Orb pulse */
+                    tl.to('#orb', {
+                        opacity: 0.5,
+                        duration: 0.15,
+                        ease: 'power2.in'
+                    }, w.start);
+                    tl.to('#orb', {
+                        opacity: 0,
+                        duration: 0.4,
+                        ease: 'power2.out'
+                    }, w.start + 0.2);
+                }
+            });
+
+            /* Progress bar tracks duration */
+            tl.to('#progress', {
+                width: '100%',
+                duration: S.duration,
+                ease: 'none'
+            }, 0);
+
+            /* Ensure timeline exactly matches scene duration */
+            tl.to({}, { duration: 0.001 }, S.duration - 0.001);
+        });
+    </script>
+</body>
+</html>
