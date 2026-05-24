@@ -1,28 +1,33 @@
 """
-AI Video Generation Pipeline — Main Orchestrator
-====================================================
-Fully automated pipeline:
+AI Video Generation Pipeline — Main Orchestrator (Phase 3)
+=============================================================
+Fully automated pipeline with multi-agent visual reasoning:
 
-  voice.mp3 + script.txt
+  voice.wav + script.txt
        ↓
   Step 1: WhisperX Forced Alignment (word-level timestamps)
        ↓
-  Step 2: LLM Scene Segmentation (OpenAI GPT-4o)
+  Step 2: Multi-Agent Visual Reasoning
+         Phase 1 → Script Understanding
+         Phase 2 → Visual Reasoning (narration-to-visual map)
+         Phase 2.5 → Asset Retrieval (web search + screenshot)
+         Phase 3 → Human Review (CLI + file)
+         Phase 4 → Scene Structuring
+         Phase 5 → Visual Implementation (Frontend + Critic)
        ↓
-  Step 3: Visual Generation (HTML/CSS/GSAP with word emphasis)
+  Step 3: Headless Rendering (Playwright → FFmpeg normalisation)
        ↓
-  Step 4: Headless Rendering (Playwright → FFmpeg normalisation)
+  Step 4: Video Assembly (FFmpeg concat + narration audio)
        ↓
-  Step 5: Video Assembly (FFmpeg concat + narration audio)
-       ↓
-  Step 6: Export Validation (resolution, fps, duration, audio sync)
+  Step 5: Export Validation (resolution, fps, duration, audio sync)
        ↓
   final_video.mp4 (1080 × 1920, 30 fps)
 
 Usage:
-  python main.py                   # Full pipeline
-  python main.py --skip-to 3       # Resume from Step 3
-  python main.py --parallel 5      # 5 concurrent renders
+  python main.py                      # Full pipeline
+  python main.py --skip-to 3          # Resume from rendering
+  python main.py --auto-approve       # Skip human review
+  python main.py --skip-search        # Skip web image search
   python main.py --help
 """
 
@@ -37,8 +42,7 @@ sys.path.insert(0, str(Path(__file__).parent))
 
 import config
 from scripts.step1_alignment import run_alignment
-from scripts.step2_segmentation import run_segmentation
-from scripts.step3_visual_gen import generate_visuals
+from agents.orchestrator import run_multi_agent_pipeline
 from scripts.step4_render import render_all_scenes
 from scripts.step5_assembly import assemble_video
 from scripts.step6_export import validate_export
@@ -46,7 +50,7 @@ from scripts.step6_export import validate_export
 
 def main() -> None:
     parser = argparse.ArgumentParser(
-        description="AI Video Generation Pipeline",
+        description="AI Video Generation Pipeline (Phase 2 — Multi-Agent)",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog=__doc__,
     )
@@ -54,7 +58,7 @@ def main() -> None:
         "--skip-to",
         type=int,
         default=1,
-        choices=[1, 2, 3, 4, 5, 6],
+        choices=[1, 2, 3, 4, 5],
         help="Resume from step N (default: 1 = full pipeline)",
     )
     parser.add_argument(
@@ -63,16 +67,38 @@ def main() -> None:
         default=config.RENDER_BATCH_SIZE,
         help=f"Concurrent Playwright renders (default: {config.RENDER_BATCH_SIZE})",
     )
+    parser.add_argument(
+        "--max-critic-retries",
+        type=int,
+        default=config.MAX_CRITIC_RETRIES,
+        help=f"Max critic retry attempts per scene (default: {config.MAX_CRITIC_RETRIES})",
+    )
+    parser.add_argument(
+        "--auto-approve",
+        action="store_true",
+        default=False,
+        help="Skip human review of the visual map (for testing/CI)",
+    )
+    parser.add_argument(
+        "--skip-search",
+        action="store_true",
+        default=False,
+        help="Skip web image search in Phase 2.5 (for testing without internet)",
+    )
     args = parser.parse_args()
 
     log = config.logger
     log.info("=" * 62)
-    log.info("   AI VIDEO GENERATION PIPELINE")
+    log.info("   AI VIDEO GENERATION PIPELINE  (Phase 3)")
+    log.info("   Multi-Agent Visual Reasoning System")
     log.info("=" * 62)
     log.info(f"  Device         : {config.DEVICE}")
     log.info(f"  WhisperX model : {config.WHISPERX_MODEL}")
     log.info(f"  OpenAI model   : {config.OPENAI_MODEL}")
     log.info(f"  Parallel       : {args.parallel}")
+    log.info(f"  Critic retries : {args.max_critic_retries}")
+    log.info(f"  Auto-approve   : {args.auto_approve}")
+    log.info(f"  Skip search    : {args.skip_search}")
     log.info(f"  Starting step  : {args.skip_to}")
     log.info(f"  Output         : {config.OUTPUT_DIR / 'final_video.mp4'}")
     log.info("=" * 62)
@@ -113,41 +139,43 @@ def main() -> None:
     else:
         alignment = _load_json(alignment_path, "alignment")
 
+    # Read script text
+    script_text = script_path.read_text(encoding="utf-8").strip()
+
     # ==================================================================
-    # STEP 2 — Scene Segmentation
+    # STEP 2 — Multi-Agent Visual Reasoning
     # ==================================================================
     if args.skip_to <= 2:
-        _banner(log, 2, "SCENE SEGMENTATION (OpenAI)")
-        scenes = run_segmentation(
+        _banner(log, 2, "MULTI-AGENT VISUAL REASONING (7-Phase)")
+        scenes, html_files = run_multi_agent_pipeline(
             alignment=alignment,
-            output_path=scenes_path,
+            script_text=script_text,
+            output_dir=config.SCENES_DIR,
+            timestamps_dir=config.TIMESTAMPS_DIR,
             api_key=config.OPENAI_API_KEY,
             model=config.OPENAI_MODEL,
+            max_critic_retries=args.max_critic_retries,
+            agent_temperature=config.AGENT_TEMPERATURE,
+            frontend_temperature=config.FRONTEND_TEMPERATURE,
+            auto_approve=args.auto_approve,
+            skip_search=args.skip_search,
+            assets_dir=config.ASSETS_DIR,
+            search_provider=config.SEARCH_API_PROVIDER,
+            search_api_key=config.SEARCH_API_KEY,
+            google_cse_id=config.GOOGLE_CSE_ID,
         )
     else:
         scenes = _load_json(scenes_path, "scenes")
-
-    # ==================================================================
-    # STEP 3 — Visual Generation
-    # ==================================================================
-    if args.skip_to <= 3:
-        _banner(log, 3, "VISUAL GENERATION (HTML/CSS/GSAP)")
-        html_files = generate_visuals(
-            scenes=scenes,
-            templates_dir=config.TEMPLATES_DIR,
-            output_dir=config.SCENES_DIR,
-        )
-    else:
         html_files = [
             config.SCENES_DIR / f"{s['scene_id']}.html"
             for s in scenes
         ]
 
     # ==================================================================
-    # STEP 4 — Headless Rendering
+    # STEP 3 — Headless Rendering
     # ==================================================================
-    if args.skip_to <= 4:
-        _banner(log, 4, "RENDERING SCENES (Playwright + FFmpeg)")
+    if args.skip_to <= 3:
+        _banner(log, 3, "RENDERING SCENES (Playwright + FFmpeg)")
         video_clips = render_all_scenes(
             html_files=html_files,
             scenes=scenes,
@@ -167,10 +195,10 @@ def main() -> None:
         ]
 
     # ==================================================================
-    # STEP 5 — Video Assembly
+    # STEP 4 — Video Assembly
     # ==================================================================
-    if args.skip_to <= 5:
-        _banner(log, 5, "VIDEO ASSEMBLY (FFmpeg)")
+    if args.skip_to <= 4:
+        _banner(log, 4, "VIDEO ASSEMBLY (FFmpeg)")
         final_path = config.OUTPUT_DIR / "final_video.mp4"
         assemble_video(
             scene_clips=video_clips,
@@ -190,9 +218,9 @@ def main() -> None:
         final_path = config.OUTPUT_DIR / "final_video.mp4"
 
     # ==================================================================
-    # STEP 6 — Export Validation
+    # STEP 5 — Export Validation
     # ==================================================================
-    _banner(log, 6, "EXPORT VALIDATION")
+    _banner(log, 5, "EXPORT VALIDATION")
     report = validate_export(
         video_path=final_path,
         audio_path=audio_path,

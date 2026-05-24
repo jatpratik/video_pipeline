@@ -270,8 +270,6 @@ def _validate_and_enrich(scenes_raw: list, alignment: dict) -> list:
                     "word": w["word"],
                     "start": round(w["start"] - start, 3),   # relative
                     "end": round(w["end"] - start, 3),        # relative
-                    "abs_start": w["start"],
-                    "abs_end": w["end"],
                     "emphasis": word_clean in kw_set,
                 })
 

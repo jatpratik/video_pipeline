@@ -37,7 +37,7 @@ def assemble_video(
     video_width: int = 1080,
     video_height: int = 1920,
     visual_width: int = 1080,
-    visual_height: int = 960,
+    visual_height: int = 1056,
     fps: int = 30,
     crf: int = 18,
     preset: str = "medium",
@@ -67,23 +67,7 @@ def assemble_video(
     current_time = 0.0
 
     for i, (clip, scene) in enumerate(zip(scene_clips, scenes)):
-        gap = scene["start"] - current_time
-
-        # Insert black filler if there is a gap > 1 frame
-        if gap > (1.0 / fps):
-            filler = work_dir / f"gap_{i:03d}.mp4"
-            _make_black_clip(
-                filler,
-                duration=gap,
-                width=visual_width,
-                height=visual_height,
-                fps=fps,
-            )
-            concat_entries.append(filler)
-            logger.info(f"  Inserted {gap:.3f}s black gap before {scene['scene_id']}")
-
         concat_entries.append(clip)
-        current_time = scene["end"]
 
     # ------------------------------------------------------------------
     # 2. Write concat list file
@@ -143,11 +127,21 @@ def assemble_video(
     _run_ffmpeg(cmd_final, "final assembly")
 
     # ------------------------------------------------------------------
-    # 5. Cleanup working files
+    # 5. Cleanup working files (with retry for Windows file locks)
     # ------------------------------------------------------------------
+    import time as _time
+    _time.sleep(1)  # Let FFmpeg fully release file handles
     for f in work_dir.iterdir():
-        f.unlink(missing_ok=True)
-    work_dir.rmdir()
+        for _attempt in range(3):
+            try:
+                f.unlink(missing_ok=True)
+                break
+            except PermissionError:
+                _time.sleep(1)
+    try:
+        work_dir.rmdir()
+    except OSError:
+        pass  # Directory may not be empty if some files couldn't be deleted
 
     logger.info(f"Assembly complete → {output_path}")
     return output_path
@@ -157,25 +151,7 @@ def assemble_video(
 # Helpers
 # ======================================================================
 
-def _make_black_clip(
-    path: Path,
-    duration: float,
-    width: int,
-    height: int,
-    fps: int,
-) -> None:
-    """Generate a silent black video clip of the specified duration."""
-    cmd = [
-        "ffmpeg", "-y",
-        "-f", "lavfi",
-        "-i", f"color=c=black:s={width}x{height}:r={fps}:d={duration:.3f}",
-        "-c:v", "libx264",
-        "-pix_fmt", "yuv420p",
-        "-preset", "ultrafast",
-        "-t", f"{duration:.3f}",
-        str(path),
-    ]
-    _run_ffmpeg(cmd, f"black clip ({duration:.3f}s)")
+
 
 
 def _run_ffmpeg(cmd: list[str], description: str) -> None:

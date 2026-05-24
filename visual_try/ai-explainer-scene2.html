@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Explainer - Part 2 (Prompt Chaining)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=JetBrains+Mono:wght@400;700&display=swap');
+
+        body {
+            margin: 0;
+            background-color: #050505;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            height: 100vh;
+            overflow: hidden;
+            font-family: 'Inter', sans-serif;
+            color: #ffffff;
+        }
+
+        #recording-area {
+            width: 1080px;
+            height: 1056px;
+            position: relative;
+            background: radial-gradient(circle at center, #11111a 0%, #050505 100%);
+            overflow: hidden;
+            border-bottom: 2px dashed rgba(255, 255, 255, 0.1);
+        }
+
+        /* Initial Chaotic Box */
+        .chaos-box {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -40%);
+            width: 600px;
+            height: 300px;
+            background: rgba(239, 68, 68, 0.1);
+            border: 2px solid rgba(239, 68, 68, 0.9);
+            border-radius: 24px;
+            box-shadow: 0 12px 64px rgba(239, 68, 68, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'JetBrains Mono', monospace;
+            color: #ef4444;
+            font-size: 24px;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .error-chip {
+            position: absolute;
+            background: #ef4444;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-weight: 800;
+            font-size: 20px;
+            box-shadow: 0 8px 24px rgba(239, 68, 68, 0.6);
+            opacity: 0;
+            transform: scale(0.5);
+            z-index: 20;
+        }
+
+        #chip1 { top: 25%; left: 15%; }
+        #chip2 { top: 25%; right: 15%; }
+        #chip3 { bottom: 35%; left: 10%; }
+        #chip4 { bottom: 35%; right: 10%; }
+
+        /* The Solution Text */
+        .solution-title {
+            position: absolute;
+            top: 15%;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 48px;
+            font-weight: 800;
+            letter-spacing: 2px;
+            color: #10b981; /* Emerald green */
+            text-shadow: 0 0 20px rgba(16, 185, 129, 0.5);
+            opacity: 0;
+            width: 100%;
+            text-align: center;
+        }
+
+        /* Node System */
+        .nodes-container {
+            position: absolute;
+            top: 35%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 800px;
+            height: 500px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 10;
+        }
+
+        .node {
+            width: 400px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 24px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            opacity: 0;
+            transform: translateY(20px);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .node-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            font-size: 20px;
+        }
+
+        .node-text {
+            font-size: 22px;
+            font-weight: 600;
+            color: #e2e8f0;
+        }
+
+        /* SVG Connections */
+        svg.connections {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 5;
+        }
+
+        .path-line {
+            fill: none;
+            stroke: rgba(255, 255, 255, 0.1);
+            stroke-width: 4;
+            stroke-dasharray: 10 10;
+        }
+
+        .path-glow {
+            fill: none;
+            stroke: #10b981;
+            stroke-width: 6;
+            stroke-dasharray: 400; /* Length of path approx */
+            stroke-dashoffset: 400;
+            filter: drop-shadow(0 0 8px #10b981);
+            opacity: 0;
+        }
+        
+        .data-packet {
+            width: 16px;
+            height: 16px;
+            background-color: #10b981;
+            border-radius: 50%;
+            position: absolute;
+            box-shadow: 0 0 20px 5px rgba(16, 185, 129, 0.8);
+            opacity: 0;
+            z-index: 15;
+            top: 0; left: 0; /* Positioned by JS */
+        }
+
+        .play-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #fff;
+            color: #000;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            z-index: 100;
+            font-family: 'Inter', sans-serif;
+            border: none;
+        }
+
+        .white-flash {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: white;
+            opacity: 0;
+            z-index: 90;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+    <button class="play-btn" onclick="playAnimation()">Replay Animation</button>
+    
+    <div id="recording-area">
+        <div class="white-flash" id="flash"></div>
+
+        <!-- Part 1 Leftovers (Chaos) -->
+        <div class="chaos-box" id="chaos-box">
+            SYSTEM.OVERLOAD<br/>...<br/>...
+        </div>
+        <div class="error-chip" id="chip1">Forget Instructions</div>
+        <div class="error-chip" id="chip2">Lose Context</div>
+        <div class="error-chip" id="chip3">Hallucinate</div>
+        <div class="error-chip" id="chip4">Skip Steps</div>
+
+        <!-- Part 2 Intro (Solution) -->
+        <div class="solution-title" id="title">PROMPT CHAINING</div>
+
+        <div class="nodes-container">
+            <div class="node" id="node1">
+                <div class="node-icon" id="icon1">1</div>
+                <div class="node-text">Summarize the Report</div>
+            </div>
+            
+            <div class="node" id="node2">
+                <div class="node-icon" id="icon2">2</div>
+                <div class="node-text">Extract Trends</div>
+            </div>
+
+            <div class="node" id="node3">
+                <div class="node-icon" id="icon3">3</div>
+                <div class="node-text">Generate Email</div>
+            </div>
+        </div>
+
+        <svg class="connections">
+            <!-- Line 1 to 2 -->
+            <path d="M540 460 L540 545" class="path-line" id="line1" />
+            <path d="M540 460 L540 545" class="path-glow" id="glow1" />
+            
+            <!-- Line 2 to 3 -->
+            <path d="M540 645 L540 730" class="path-line" id="line2" />
+            <path d="M540 645 L540 730" class="path-glow" id="glow2" />
+        </svg>
+
+        <div class="data-packet" id="packet"></div>
+
+    </div>
+
+    <script>
+        let tl;
+        let flowTl;
+
+        function playAnimation() {
+            if (tl) tl.kill();
+            if (flowTl) flowTl.kill();
+            
+            // Reset
+            gsap.set(["#chip1", "#chip2", "#chip3", "#chip4", "#title", ".node", ".path-glow", "#packet", "#flash"], { opacity: 0 });
+            gsap.set(["#chip1", "#chip2", "#chip3", "#chip4"], { scale: 0.5 });
+            gsap.set("#chaos-box", { scale: 1, opacity: 1, rotation: 0 });
+            gsap.set(".node", { y: 20, borderColor: "rgba(255, 255, 255, 0.1)", backgroundColor: "rgba(255, 255, 255, 0.05)", boxShadow: "none" });
+            gsap.set(".node-icon", { backgroundColor: "rgba(255, 255, 255, 0.1)", color: "#fff" });
+            gsap.set(".path-glow", { strokeDashoffset: 100 });
+            gsap.set("#packet", { x: 532, y: 452 }); // Match center of node 1 bottom
+
+            tl = gsap.timeline({ delay: 0.5 });
+
+            // "Because LLMs are terrible at handling too many cognitive tasks at once."
+            tl.to("#chaos-box", { 
+                x: "random(-5, 5, 2)", 
+                y: "random(-5, 5, 2)", 
+                duration: 0.05, 
+                repeat: 30, 
+                yoyo: true 
+            });
+
+            // "They forget instructions. Lose context. Hallucinate details. Or skip important parts entirely."
+            tl.to("#chip1", { opacity: 1, scale: 1, duration: 0.3, ease: "back.out(2)" }, "-=1")
+              .to("#chip2", { opacity: 1, scale: 1, duration: 0.3, ease: "back.out(2)" }, "-=0.8")
+              .to("#chip3", { opacity: 1, scale: 1, duration: 0.3, ease: "back.out(2)" }, "-=0.6")
+              .to("#chip4", { opacity: 1, scale: 1, duration: 0.3, ease: "back.out(2)" }, "-=0.4");
+
+            // "That’s why real AI systems use something called Prompt Chaining."
+            tl.to("#flash", { opacity: 1, duration: 0.1 })
+              .set(["#chaos-box", ".error-chip"], { opacity: 0 })
+              .to("#flash", { opacity: 0, duration: 0.5 })
+              .to("#title", { opacity: 1, y: 10, duration: 1, ease: "power3.out" }, "-=0.4");
+
+            // "Instead of one giant prompt… You split the task into smaller focused steps."
+            tl.to(".node", { opacity: 1, y: 0, duration: 0.6, stagger: 0.2, ease: "power2.out" });
+
+            // "First prompt: summarize the report."
+            tl.to("#node1", { 
+                borderColor: "rgba(16, 185, 129, 0.8)", 
+                backgroundColor: "rgba(16, 185, 129, 0.1)", 
+                boxShadow: "0 0 30px rgba(16, 185, 129, 0.3)",
+                duration: 0.5 
+            }, "+=0.5")
+            .to("#icon1", { backgroundColor: "#10b981", color: "#000", duration: 0.3 }, "<");
+
+            // "Second prompt: extract trends from the summary."
+            tl.to("#node1", { borderColor: "rgba(255, 255, 255, 0.1)", backgroundColor: "rgba(255, 255, 255, 0.05)", boxShadow: "none", duration: 0.5 }, "+=0.5")
+              .to("#icon1", { backgroundColor: "rgba(255, 255, 255, 0.1)", color: "#fff", duration: 0.3 }, "<")
+              .to("#node2", { 
+                  borderColor: "rgba(16, 185, 129, 0.8)", 
+                  backgroundColor: "rgba(16, 185, 129, 0.1)", 
+                  boxShadow: "0 0 30px rgba(16, 185, 129, 0.3)",
+                  duration: 0.5 
+              }, "<")
+              .to("#icon2", { backgroundColor: "#10b981", color: "#000", duration: 0.3 }, "<");
+
+            // "Third prompt: generate the email."
+            tl.to("#node2", { borderColor: "rgba(255, 255, 255, 0.1)", backgroundColor: "rgba(255, 255, 255, 0.05)", boxShadow: "none", duration: 0.5 }, "+=0.5")
+              .to("#icon2", { backgroundColor: "rgba(255, 255, 255, 0.1)", color: "#fff", duration: 0.3 }, "<")
+              .to("#node3", { 
+                  borderColor: "rgba(16, 185, 129, 0.8)", 
+                  backgroundColor: "rgba(16, 185, 129, 0.1)", 
+                  boxShadow: "0 0 30px rgba(16, 185, 129, 0.3)",
+                  duration: 0.5 
+              }, "<")
+              .to("#icon3", { backgroundColor: "#10b981", color: "#000", duration: 0.3 }, "<");
+
+            // Reset node 3
+            tl.to("#node3", { borderColor: "rgba(255, 255, 255, 0.1)", backgroundColor: "rgba(255, 255, 255, 0.05)", boxShadow: "none", duration: 0.5 }, "+=0.5")
+              .to("#icon3", { backgroundColor: "rgba(255, 255, 255, 0.1)", color: "#fff", duration: 0.3 }, "<");
+
+            // "Now every step has ONE job. And here’s the important part—"
+            tl.to(".node", { 
+                borderColor: "rgba(59, 130, 246, 0.5)", 
+                duration: 1, 
+                stagger: 0.1,
+                yoyo: true, 
+                repeat: 1 
+            });
+
+            // "The output from one step becomes the input for the next step. So the AI builds reasoning progressively… like a pipeline."
+            // Turn all nodes green permanently
+            tl.to(".node", { 
+                borderColor: "rgba(16, 185, 129, 0.5)", 
+                backgroundColor: "rgba(16, 185, 129, 0.05)",
+                duration: 0.5
+            }, "+=0.5");
+
+            // Start Flow Animation loop
+            tl.add(() => {
+                flowTl = gsap.timeline({ repeat: -1 });
+                
+                // Packet flows from Node 1 -> Node 2
+                flowTl.set("#packet", { opacity: 1, y: 440 })
+                      .to("#glow1", { strokeDashoffset: 0, opacity: 1, duration: 0.5, ease: "none" }, 0)
+                      .to("#packet", { y: 530, duration: 0.5, ease: "none" }, 0)
+                      // Hit Node 2
+                      .to("#node2", { boxShadow: "0 0 30px rgba(16, 185, 129, 0.4)", duration: 0.2, yoyo: true, repeat: 1 })
+                      .set("#packet", { opacity: 0 })
+                      .set("#glow1", { opacity: 0, strokeDashoffset: 100 })
+                      
+                      // Packet flows from Node 2 -> Node 3
+                      .set("#packet", { opacity: 1, y: 625 }, "+=0.3")
+                      .to("#glow2", { strokeDashoffset: 0, opacity: 1, duration: 0.5, ease: "none" }, "<")
+                      .to("#packet", { y: 715, duration: 0.5, ease: "none" }, "<")
+                      // Hit Node 3
+                      .to("#node3", { boxShadow: "0 0 30px rgba(16, 185, 129, 0.4)", duration: 0.2, yoyo: true, repeat: 1 })
+                      .set("#packet", { opacity: 0 })
+                      .set("#glow2", { opacity: 0, strokeDashoffset: 100 });
+            });
+        }
+
+        window.onload = playAnimation;
+    </script>
+</body>
+</html>

@@ -46,7 +46,7 @@ DEVICE: str = detect_device() if _device_env == "auto" else _device_env
 VIDEO_WIDTH: int = 1080
 VIDEO_HEIGHT: int = 1920
 VISUAL_WIDTH: int = 1080
-VISUAL_HEIGHT: int = 960
+VISUAL_HEIGHT: int = 1056
 FPS: int = 30
 
 
@@ -80,11 +80,45 @@ TEMPLATES_DIR: Path = BASE_DIR / "templates"
 TIMESTAMPS_DIR: Path = BASE_DIR / "timestamps"
 AUDIO_DIR: Path = BASE_DIR / "audio"
 LOGS_DIR: Path = BASE_DIR / "logs"
+AGENTS_DIR: Path = BASE_DIR / "agents"
+ASSETS_DIR: Path = BASE_DIR / "assets"
 
 # Create all directories on import
 for _dir in [INPUT_DIR, OUTPUT_DIR, SCENES_DIR, RENDERED_DIR, TEMPLATES_DIR,
-             TIMESTAMPS_DIR, AUDIO_DIR, LOGS_DIR]:
+             TIMESTAMPS_DIR, AUDIO_DIR, LOGS_DIR, ASSETS_DIR]:
     _dir.mkdir(parents=True, exist_ok=True)
+
+
+# ===========================================================================
+# MULTI-AGENT CONFIGURATION (Phase 2)
+# ===========================================================================
+
+MAX_CRITIC_RETRIES: int = int(os.environ.get("MAX_CRITIC_RETRIES", "1"))
+AGENT_TEMPERATURE: float = 0.3      # Reasoning agents (1-4, 6)
+FRONTEND_TEMPERATURE: float = 0.2   # Code generation agent (5)
+
+
+# ===========================================================================
+# COMPLEXITY BUDGET (per scene)
+# ===========================================================================
+
+MAX_TEACHING_IDEAS_PER_SCENE: int = 1
+MAX_MAJOR_OBJECTS_PER_SCENE: int = 2
+MAX_VISIBLE_WORDS_PER_SCENE: int = 8
+MAX_SIMULTANEOUS_MOTIONS: int = 3
+SAFE_AREA_TOP_PERCENT: int = 55   # All content in top 55% of 1080×1920
+
+
+# ===========================================================================
+# ASSET RETRIEVAL (Phase 2.5)
+# ===========================================================================
+
+SEARCH_API_PROVIDER: str = os.environ.get("SEARCH_API_PROVIDER", "duckduckgo")
+SEARCH_API_KEY: str = os.environ.get("SEARCH_API_KEY", "")        # For serpapi / google_cse
+GOOGLE_CSE_ID: str = os.environ.get("GOOGLE_CSE_ID", "")          # For google_cse
+MAX_SEARCH_RESULTS_PER_SEGMENT: int = 3
+ASSET_SCREENSHOT_WIDTH: int = 1280
+ASSET_SCREENSHOT_HEIGHT: int = 800
 
 
 # ===========================================================================
@@ -120,6 +154,18 @@ FFMPEG_AUDIO_BITRATE: str = "192k"
 
 def setup_logging() -> logging.Logger:
     """Configure pipeline-wide logging to file and console."""
+    # Reconfigure stdout/stderr to UTF-8 to prevent encoding errors on Windows console
+    if hasattr(sys.stdout, "reconfigure"):
+        try:
+            sys.stdout.reconfigure(encoding="utf-8")
+        except Exception:
+            pass
+    if hasattr(sys.stderr, "reconfigure"):
+        try:
+            sys.stderr.reconfigure(encoding="utf-8")
+        except Exception:
+            pass
+
     log_file = LOGS_DIR / "pipeline.log"
 
     # Root pipeline logger
