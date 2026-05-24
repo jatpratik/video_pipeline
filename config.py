@@ -59,13 +59,6 @@ WHISPERX_COMPUTE_TYPE: str = "float32" if DEVICE == "cpu" else "float16"
 WHISPERX_BATCH_SIZE: int = 4 if DEVICE == "cpu" else 16
 
 
-# ===========================================================================
-# OPENAI CONFIGURATION
-# ===========================================================================
-
-OPENAI_API_KEY: str = os.environ.get("OPENAI_API_KEY", "")
-OPENAI_MODEL: str = os.environ.get("OPENAI_MODEL", "gpt-4o")
-
 
 # ===========================================================================
 # DIRECTORY PATHS
@@ -80,22 +73,12 @@ TEMPLATES_DIR: Path = BASE_DIR / "templates"
 TIMESTAMPS_DIR: Path = BASE_DIR / "timestamps"
 AUDIO_DIR: Path = BASE_DIR / "audio"
 LOGS_DIR: Path = BASE_DIR / "logs"
-AGENTS_DIR: Path = BASE_DIR / "agents"
-ASSETS_DIR: Path = BASE_DIR / "assets"
 
 # Create all directories on import
 for _dir in [INPUT_DIR, OUTPUT_DIR, SCENES_DIR, RENDERED_DIR, TEMPLATES_DIR,
-             TIMESTAMPS_DIR, AUDIO_DIR, LOGS_DIR, ASSETS_DIR]:
+             TIMESTAMPS_DIR, AUDIO_DIR, LOGS_DIR]:
     _dir.mkdir(parents=True, exist_ok=True)
 
-
-# ===========================================================================
-# MULTI-AGENT CONFIGURATION (Phase 2)
-# ===========================================================================
-
-MAX_CRITIC_RETRIES: int = int(os.environ.get("MAX_CRITIC_RETRIES", "1"))
-AGENT_TEMPERATURE: float = 0.3      # Reasoning agents (1-4, 6)
-FRONTEND_TEMPERATURE: float = 0.2   # Code generation agent (5)
 
 
 # ===========================================================================
@@ -108,17 +91,6 @@ MAX_VISIBLE_WORDS_PER_SCENE: int = 8
 MAX_SIMULTANEOUS_MOTIONS: int = 3
 SAFE_AREA_TOP_PERCENT: int = 55   # All content in top 55% of 1080×1920
 
-
-# ===========================================================================
-# ASSET RETRIEVAL (Phase 2.5)
-# ===========================================================================
-
-SEARCH_API_PROVIDER: str = os.environ.get("SEARCH_API_PROVIDER", "duckduckgo")
-SEARCH_API_KEY: str = os.environ.get("SEARCH_API_KEY", "")        # For serpapi / google_cse
-GOOGLE_CSE_ID: str = os.environ.get("GOOGLE_CSE_ID", "")          # For google_cse
-MAX_SEARCH_RESULTS_PER_SEGMENT: int = 3
-ASSET_SCREENSHOT_WIDTH: int = 1280
-ASSET_SCREENSHOT_HEIGHT: int = 800
 
 
 # ===========================================================================

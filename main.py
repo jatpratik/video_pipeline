@@ -1,34 +1,11 @@
 """
-AI Video Generation Pipeline — Main Orchestrator (Phase 3)
+AI Video Generation Pipeline — Main Orchestrator (Manual Workflow)
 =============================================================
-Fully automated pipeline with multi-agent visual reasoning:
-
-  voice.wav + script.txt
-       ↓
-  Step 1: WhisperX Forced Alignment (word-level timestamps)
-       ↓
-  Step 2: Multi-Agent Visual Reasoning
-         Phase 1 → Script Understanding
-         Phase 2 → Visual Reasoning (narration-to-visual map)
-         Phase 2.5 → Asset Retrieval (web search + screenshot)
-         Phase 3 → Human Review (CLI + file)
-         Phase 4 → Scene Structuring
-         Phase 5 → Visual Implementation (Frontend + Critic)
-       ↓
-  Step 3: Headless Rendering (Playwright → FFmpeg normalisation)
-       ↓
-  Step 4: Video Assembly (FFmpeg concat + narration audio)
-       ↓
-  Step 5: Export Validation (resolution, fps, duration, audio sync)
-       ↓
-  final_video.mp4 (1080 × 1920, 30 fps)
-
-Usage:
-  python main.py                      # Full pipeline
-  python main.py --skip-to 3          # Resume from rendering
-  python main.py --auto-approve       # Skip human review
-  python main.py --skip-search        # Skip web image search
-  python main.py --help
+A hybrid pipeline for generating educational videos:
+  Step 1: Align audio & script (main.py align)
+  Step 2: Generate Visuals (Manual / AI Assistant to scenes/)
+  Step 3: Render HTML to MP4 (main.py render)
+  Step 4: Assemble final video (main.py assemble)
 """
 
 import argparse
@@ -42,92 +19,60 @@ sys.path.insert(0, str(Path(__file__).parent))
 
 import config
 from scripts.step1_alignment import run_alignment
-from agents.orchestrator import run_multi_agent_pipeline
 from scripts.step4_render import render_all_scenes
 from scripts.step5_assembly import assemble_video
 from scripts.step6_export import validate_export
 
+def _find_audio(input_dir: Path) -> Path | None:
+    supported = {".wav", ".mp3", ".m4a", ".ogg", ".flac"}
+    for ext in supported:
+        candidate = input_dir / f"voice{ext}"
+        if candidate.exists():
+            return candidate
+    for f in sorted(input_dir.iterdir()):
+        if f.suffix.lower() in supported:
+            return f
+    return None
 
-def main() -> None:
+def main():
     parser = argparse.ArgumentParser(
-        description="AI Video Generation Pipeline (Phase 2 — Multi-Agent)",
+        description="AI Video Generation Pipeline (Manual/Hybrid Workflow)",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog=__doc__,
     )
-    parser.add_argument(
-        "--skip-to",
-        type=int,
-        default=1,
-        choices=[1, 2, 3, 4, 5],
-        help="Resume from step N (default: 1 = full pipeline)",
-    )
-    parser.add_argument(
-        "--parallel",
-        type=int,
-        default=config.RENDER_BATCH_SIZE,
-        help=f"Concurrent Playwright renders (default: {config.RENDER_BATCH_SIZE})",
-    )
-    parser.add_argument(
-        "--max-critic-retries",
-        type=int,
-        default=config.MAX_CRITIC_RETRIES,
-        help=f"Max critic retry attempts per scene (default: {config.MAX_CRITIC_RETRIES})",
-    )
-    parser.add_argument(
-        "--auto-approve",
-        action="store_true",
-        default=False,
-        help="Skip human review of the visual map (for testing/CI)",
-    )
-    parser.add_argument(
-        "--skip-search",
-        action="store_true",
-        default=False,
-        help="Skip web image search in Phase 2.5 (for testing without internet)",
-    )
+    subparsers = parser.add_subparsers(dest="command", required=True)
+
+    # ALIGN
+    parser_align = subparsers.add_parser("align", help="Run WhisperX forced alignment")
+    
+    # RENDER
+    parser_render = subparsers.add_parser("render", help="Render HTML scenes to MP4")
+    parser_render.add_argument("--parallel", type=int, default=config.RENDER_BATCH_SIZE)
+
+    # ASSEMBLE
+    parser_assemble = subparsers.add_parser("assemble", help="Assemble clips into final video")
+
     args = parser.parse_args()
 
     log = config.logger
     log.info("=" * 62)
-    log.info("   AI VIDEO GENERATION PIPELINE  (Phase 3)")
-    log.info("   Multi-Agent Visual Reasoning System")
-    log.info("=" * 62)
-    log.info(f"  Device         : {config.DEVICE}")
-    log.info(f"  WhisperX model : {config.WHISPERX_MODEL}")
-    log.info(f"  OpenAI model   : {config.OPENAI_MODEL}")
-    log.info(f"  Parallel       : {args.parallel}")
-    log.info(f"  Critic retries : {args.max_critic_retries}")
-    log.info(f"  Auto-approve   : {args.auto_approve}")
-    log.info(f"  Skip search    : {args.skip_search}")
-    log.info(f"  Starting step  : {args.skip_to}")
-    log.info(f"  Output         : {config.OUTPUT_DIR / 'final_video.mp4'}")
+    log.info("   AI VIDEO GENERATION PIPELINE")
+    log.info(f"   Command: {args.command}")
     log.info("=" * 62)
 
-    start_time = time.time()
-
-    # ---- Validate inputs ----------------------------------------------
     audio_path = _find_audio(config.INPUT_DIR)
-    script_path = config.INPUT_DIR / "script.txt"
-
     if audio_path is None:
         log.error(f"No audio file found in {config.INPUT_DIR}")
-        log.error("Place your narration audio as: input/voice.wav (or .mp3, .m4a, .ogg, .flac)")
-        sys.exit(1)
-    log.info(f"  Audio input: {audio_path.name}")
-    if not script_path.exists():
-        log.error(f"Script not found: {script_path}")
-        log.error("Place your narration script at: input/script.txt")
         sys.exit(1)
 
-    alignment_path = config.TIMESTAMPS_DIR / "alignment.json"
-    scenes_path = config.SCENES_DIR / "scenes.json"
-
-    # ==================================================================
-    # STEP 1 — Forced Alignment
-    # ==================================================================
-    if args.skip_to <= 1:
-        _banner(log, 1, "FORCED ALIGNMENT (WhisperX)")
-        alignment = run_alignment(
+    if args.command == "align":
+        script_path = config.INPUT_DIR / "script.txt"
+        if not script_path.exists():
+            log.error(f"Script not found: {script_path}")
+            sys.exit(1)
+        alignment_path = config.TIMESTAMPS_DIR / "alignment.json"
+        log.info("Running Step 1: Forced Alignment...")
+        run_alignment(
             audio_path=audio_path,
             script_path=script_path,
             output_path=alignment_path,
@@ -136,47 +81,20 @@ def main() -> None:
             compute_type=config.WHISPERX_COMPUTE_TYPE,
             batch_size=config.WHISPERX_BATCH_SIZE,
         )
-    else:
-        alignment = _load_json(alignment_path, "alignment")
+        log.info(f"Alignment complete. Output: {alignment_path}")
 
-    # Read script text
-    script_text = script_path.read_text(encoding="utf-8").strip()
-
-    # ==================================================================
-    # STEP 2 — Multi-Agent Visual Reasoning
-    # ==================================================================
-    if args.skip_to <= 2:
-        _banner(log, 2, "MULTI-AGENT VISUAL REASONING (7-Phase)")
-        scenes, html_files = run_multi_agent_pipeline(
-            alignment=alignment,
-            script_text=script_text,
-            output_dir=config.SCENES_DIR,
-            timestamps_dir=config.TIMESTAMPS_DIR,
-            api_key=config.OPENAI_API_KEY,
-            model=config.OPENAI_MODEL,
-            max_critic_retries=args.max_critic_retries,
-            agent_temperature=config.AGENT_TEMPERATURE,
-            frontend_temperature=config.FRONTEND_TEMPERATURE,
-            auto_approve=args.auto_approve,
-            skip_search=args.skip_search,
-            assets_dir=config.ASSETS_DIR,
-            search_provider=config.SEARCH_API_PROVIDER,
-            search_api_key=config.SEARCH_API_KEY,
-            google_cse_id=config.GOOGLE_CSE_ID,
-        )
-    else:
-        scenes = _load_json(scenes_path, "scenes")
-        html_files = [
-            config.SCENES_DIR / f"{s['scene_id']}.html"
-            for s in scenes
-        ]
-
-    # ==================================================================
-    # STEP 3 — Headless Rendering
-    # ==================================================================
-    if args.skip_to <= 3:
-        _banner(log, 3, "RENDERING SCENES (Playwright + FFmpeg)")
-        video_clips = render_all_scenes(
+    elif args.command == "render":
+        scenes_path = config.SCENES_DIR / "scenes.json"
+        if not scenes_path.exists():
+            log.error(f"Scenes metadata not found: {scenes_path}")
+            sys.exit(1)
+        with open(scenes_path, "r", encoding="utf-8") as f:
+            scenes = json.load(f)
+        
+        html_files = [config.SCENES_DIR / f"{s['scene_id']}.html" for s in scenes]
+        log.info(f"Running Step 3: Rendering {len(scenes)} scenes...")
+        
+        render_all_scenes(
             html_files=html_files,
             scenes=scenes,
             output_dir=config.RENDERED_DIR,
@@ -188,18 +106,20 @@ def main() -> None:
             max_drift=config.MAX_DRIFT_TOLERANCE_S,
             max_retries=config.MAX_RE_RENDER_ATTEMPTS,
         )
-    else:
-        video_clips = [
-            config.RENDERED_DIR / f"{s['scene_id']}.mp4"
-            for s in scenes
-        ]
+        log.info("Rendering complete.")
 
-    # ==================================================================
-    # STEP 4 — Video Assembly
-    # ==================================================================
-    if args.skip_to <= 4:
-        _banner(log, 4, "VIDEO ASSEMBLY (FFmpeg)")
+    elif args.command == "assemble":
+        scenes_path = config.SCENES_DIR / "scenes.json"
+        if not scenes_path.exists():
+            log.error(f"Scenes metadata not found: {scenes_path}")
+            sys.exit(1)
+        with open(scenes_path, "r", encoding="utf-8") as f:
+            scenes = json.load(f)
+        
+        video_clips = [config.RENDERED_DIR / f"{s['scene_id']}.mp4" for s in scenes]
         final_path = config.OUTPUT_DIR / "final_video.mp4"
+        
+        log.info("Running Step 4: Video Assembly...")
         assemble_video(
             scene_clips=video_clips,
             scenes=scenes,
@@ -214,77 +134,21 @@ def main() -> None:
             preset=config.FFMPEG_PRESET,
             audio_bitrate=config.FFMPEG_AUDIO_BITRATE,
         )
-    else:
-        final_path = config.OUTPUT_DIR / "final_video.mp4"
-
-    # ==================================================================
-    # STEP 5 — Export Validation
-    # ==================================================================
-    _banner(log, 5, "EXPORT VALIDATION")
-    report = validate_export(
-        video_path=final_path,
-        audio_path=audio_path,
-        video_width=config.VIDEO_WIDTH,
-        video_height=config.VIDEO_HEIGHT,
-        fps=config.FPS,
-    )
-
-    # ---- Summary ------------------------------------------------------
-    elapsed = time.time() - start_time
-    log.info("")
-    log.info("=" * 62)
-    if report["passed"]:
-        log.info("   ✅  PIPELINE COMPLETE — ALL CHECKS PASSED")
-    else:
-        log.info("   ⚠️  PIPELINE COMPLETE — SOME CHECKS FAILED")
-    log.info(f"   Time   : {elapsed:.1f}s ({elapsed / 60:.1f} min)")
-    log.info(f"   Output : {final_path}")
-    log.info("=" * 62)
-
-
-# ======================================================================
-# Utilities
-# ======================================================================
-
-def _find_audio(input_dir: Path) -> Path | None:
-    """Find the narration audio file in the input directory.
-    Supports: .wav, .mp3, .m4a, .ogg, .flac
-    Prioritises files named 'voice.*'.
-    """
-    supported = {".wav", ".mp3", ".m4a", ".ogg", ".flac"}
-
-    # First look for voice.* specifically
-    for ext in supported:
-        candidate = input_dir / f"voice{ext}"
-        if candidate.exists():
-            return candidate
-
-    # Fall back to any supported audio file
-    for f in sorted(input_dir.iterdir()):
-        if f.suffix.lower() in supported:
-            return f
-
-    return None
-
-
-def _banner(log, step: int, title: str) -> None:
-    log.info("")
-    log.info(f"┌{'─' * 58}┐")
-    log.info(f"│  STEP {step} — {title:<49}│")
-    log.info(f"└{'─' * 58}┘")
-
-
-def _load_json(path: Path, name: str) -> dict | list:
-    """Load a checkpoint JSON file."""
-    if not path.exists():
-        raise FileNotFoundError(
-            f"Cannot --skip-to past step: {name} file not found at {path}"
+        
+        log.info("Running Step 5: Export Validation...")
+        report = validate_export(
+            video_path=final_path,
+            audio_path=audio_path,
+            video_width=config.VIDEO_WIDTH,
+            video_height=config.VIDEO_HEIGHT,
+            fps=config.FPS,
         )
-    with open(path, "r", encoding="utf-8") as f:
-        data = json.load(f)
-    config.logger.info(f"  Loaded {name} checkpoint from {path}")
-    return data
-
+        
+        if report["passed"]:
+            log.info("   ✅  PIPELINE COMPLETE — ALL CHECKS PASSED")
+        else:
+            log.info("   ⚠️  PIPELINE COMPLETE — SOME CHECKS FAILED")
+        log.info(f"   Output : {final_path}")
 
 if __name__ == "__main__":
     main()
