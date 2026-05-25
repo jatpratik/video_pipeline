@@ -51,6 +51,7 @@ def render_all_scenes(
     Returns:
         Ordered list of MP4 paths.
     """
+
     return asyncio.run(
         _render_all_async(
             html_files, scenes, output_dir,
@@ -91,7 +92,10 @@ async def _render_all_async(
     results: list[Path] = [Path()] * len(html_files)
 
     async with async_playwright() as pw:
-        browser = await pw.chromium.launch(headless=True)
+        browser = await pw.chromium.launch(
+            headless=True,
+            args=["--allow-file-access-from-files"],
+        )
 
         # Process in batches to limit memory pressure
         for batch_start in range(0, len(html_files), batch_size):

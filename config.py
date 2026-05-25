@@ -121,6 +121,25 @@ FFMPEG_AUDIO_BITRATE: str = "192k"
 
 
 # ===========================================================================
+# FACE VIDEO OVERLAY SETTINGS
+# ===========================================================================
+
+FACE_VIDEO_DELAY_S: float = 0.0      # Delay in seconds before face video starts overlaying
+FACE_VIDEO_TRIM_START_S: float = 7.0  # Skip first N seconds of the face video source
+
+# Face Beauty / Enhancement Settings
+FACE_BEAUTY_SMOOTH_SKIN: bool = True         # Enable edge-preserving skin smoothing (smartblur)
+FACE_BEAUTY_SMOOTH_RADIUS: float = 1.5       # Blur radius for skin smoothing
+FACE_BEAUTY_SMOOTH_STRENGTH: float = -0.2    # Blur strength (negative values blur)
+FACE_BEAUTY_SMOOTH_THRESHOLD: int = 2        # Threshold to keep edges sharp
+
+FACE_BEAUTY_SHARPEN_DETAILS: bool = True     # Enable detail sharpening (unsharp)
+FACE_BEAUTY_SHARPEN_AMOUNT: float = 0.4      # Amount of sharpening for luma channel
+
+FACE_BEAUTY_VIBRANCE: float = 0.12           # Vibrance boost (intensity) to add life to colors
+
+
+# ===========================================================================
 # LOGGING
 # ===========================================================================
 

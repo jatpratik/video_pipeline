@@ -666,6 +666,13 @@
             backdrop-filter: blur(20px);
             position: relative;
             transition: border-color 0.3s, box-shadow 0.3s;
+            overflow: hidden; /* Crop face video to the circle boundary */
+        }
+
+        .face-circle video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         .face-overlay.speaking .face-circle {
@@ -1005,10 +1012,7 @@
         <div class="teaser-overlay" id="teaser">
             ▶ NEXT EPISODE
         </div>
-        <!-- Face Overlay Placeholder -->
-        <div class="face-overlay" id="face-overlay">
-            <div class="face-circle"></div>
-        </div>
+
 
     </div>
 
@@ -1019,6 +1023,8 @@
     <script>
         // Master Timeline Setup
         const tl = gsap.timeline();
+
+
 
         // Helper: convert absolute seconds to timeline time
         const time = (sec) => sec;
@@ -2602,24 +2608,7 @@
         tl.to("#conveyor", { opacity: 0, duration: 0.5 }, time(104.8));
         tl.to("#teaser", { opacity: 1, x: 0, duration: 0.8, ease: "back.out(1.2)" }, time(105.8));
 
-        // Speaking state animations for talking head overlay
-        const speechSegments = [
-            { start: 1.8, end: 12.5 },
-            { start: 13.2, end: 22.5 },
-            { start: 26.5, end: 34.8 },
-            { start: 35.4, end: 39.4 },
-            { start: 40.1, end: 57.0 },
-            { start: 57.8, end: 68.3 },
-            { start: 69.2, end: 77.8 },
-            { start: 78.7, end: 90.4 },
-            { start: 90.9, end: 96.6 },
-            { start: 97.0, end: 107.3 }
-        ];
 
-        speechSegments.forEach(seg => {
-            tl.set("#face-overlay", { className: "face-overlay speaking" }, time(seg.start));
-            tl.set("#face-overlay", { className: "face-overlay" }, time(seg.end));
-        });
 
     </script>
 </body>
