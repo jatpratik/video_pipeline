@@ -39,7 +39,7 @@ def render_all_scenes(
     output_dir: Path,
     batch_size: int = 3,
     visual_width: int = 1080,
-    visual_height: int = 1056,
+    visual_height: int = 1920,
     fps: int = 30,
     timeout_buffer_ms: int = 2000,
     max_drift: float = 0.15,

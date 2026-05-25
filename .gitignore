@@ -9,7 +9,6 @@ __pycache__/
 # Generated outputs
 output/
 rendered_scenes/
-scenes/*.html
 timestamps/
 logs/
 audio/

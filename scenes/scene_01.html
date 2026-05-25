@@ -1,0 +1,2627 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, width=1080, height=1920">
+    <title>Prompt Chaining Visual</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Inter:wght@400;700;900&display=swap"
+        rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-color: #0A0A0F;
+            --neon-cyan: #00F0FF;
+            --neon-pink: #FF3366;
+            --neon-purple: #7B2CBF;
+            --glass-bg: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: #ffffff;
+            font-family: 'Inter', sans-serif;
+            width: 1080px;
+            height: 1920px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Subtle Grid & Scanline Overlay */
+        .bg-grid {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image:
+                linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+            background-size: 40px 40px;
+            z-index: 1;
+            opacity: 0.5;
+        }
+
+        .scanlines {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(0deg,
+                    rgba(0, 0, 0, 0.15),
+                    rgba(0, 0, 0, 0.15) 1px,
+                    transparent 1px,
+                    transparent 3px);
+            pointer-events: none;
+            z-index: 100;
+            opacity: 0.6;
+        }
+
+        .ambient-glow {
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(123, 44, 191, 0.2) 0%, rgba(0, 0, 0, 0) 70%);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 2;
+            filter: blur(50px);
+        }
+
+        /* Scene Container */
+        .scene-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 10;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            perspective: 1000px;
+        }
+
+        /* Core Scene (Added for Reel 3 Visuals) */
+        #core-scene {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            /* Align captions to the bottom */
+            align-items: center;
+            z-index: 15;
+        }
+
+        #caption-container {
+            font-size: 48px;
+            /* Reduced from 64px to make it smaller and cleaner */
+            font-weight: 900;
+            text-align: center;
+            min-height: 100px;
+            color: #fff;
+            width: 85%;
+            max-width: 950px;
+            text-shadow: 0 0 20px rgba(0, 240, 255, 0.3);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            z-index: 20;
+            margin-bottom: 540px;
+            /* Position above the enlarged 400px face circle */
+        }
+
+        .sentence-block {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 18px;
+            width: 100%;
+        }
+
+        .cap-word {
+            display: inline-block;
+            transition: opacity 0.1s, transform 0.1s, color 0.1s;
+        }
+
+        /* Hook Captions Styles */
+        .hook-caption .cap-word {
+            font-size: 36px;
+            /* Clean size for hook */
+            opacity: 0.15;
+            transform: scale(0.9);
+        }
+
+        .hook-caption .cap-word.active {
+            opacity: 1;
+            transform: scale(1.15);
+            color: #fff;
+            text-shadow: 0 0 25px rgba(255, 255, 255, 0.8);
+        }
+
+        .hook-caption .cap-word.active-fail {
+            opacity: 1;
+            transform: scale(1.3) rotate(-3deg);
+            color: var(--neon-pink) !important;
+            text-shadow: 0 0 35px var(--neon-pink);
+            font-weight: 900;
+        }
+
+        .hook-caption .cap-word.active-everything {
+            opacity: 1;
+            transform: scale(1.3) rotate(3deg);
+            color: var(--neon-cyan) !important;
+            text-shadow: 0 0 35px var(--neon-cyan);
+            font-weight: 900;
+        }
+
+        .hook-caption .cap-word.active-massive {
+            opacity: 1;
+            transform: scale(1.4);
+            color: var(--neon-purple) !important;
+            text-shadow: 0 0 40px var(--neon-purple);
+            font-weight: 900;
+        }
+
+        /* Simple Captions for the rest of the video */
+        .simple-caption .cap-word {
+            opacity: 0.35;
+            font-size: 34px;
+            /* Reduced for high legibility */
+            font-weight: 800;
+            color: #ffffff;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .simple-caption .cap-word.active {
+            opacity: 1;
+            color: var(--neon-cyan) !important;
+            text-shadow: 0 0 20px var(--neon-cyan);
+        }
+
+        /* Giant Prompt Box */
+        .giant-prompt-wrapper {
+            position: absolute;
+            top: 340px;
+            /* Position higher up the screen */
+            width: 700px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            opacity: 0;
+            transform: scale(0.8);
+        }
+
+        .giant-prompt-box {
+            background: var(--glass-bg);
+            border: 2px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 40px;
+            width: 100%;
+            box-shadow: 0 0 40px rgba(0, 240, 255, 0.1);
+            backdrop-filter: blur(10px);
+            position: relative;
+        }
+
+        .giant-prompt-header {
+            font-family: 'Fira Code', monospace;
+            color: var(--neon-cyan);
+            font-size: 20px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .giant-prompt-text {
+            font-size: 32px;
+            line-height: 1.5;
+            color: #e0e0e0;
+            font-weight: 600;
+        }
+
+        .prompt-word {
+            opacity: 0;
+            display: inline-block;
+        }
+
+        .text-highlight {
+            color: var(--neon-cyan);
+        }
+
+        .error-indicators {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .error-tag {
+            position: absolute;
+            background: rgba(255, 51, 102, 0.1);
+            border: 1px solid var(--neon-pink);
+            color: var(--neon-pink);
+            font-family: 'Fira Code', monospace;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: bold;
+            opacity: 0;
+            box-shadow: 0 0 20px rgba(255, 51, 102, 0.3);
+            text-transform: uppercase;
+        }
+
+        .glitch-crack {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 120%;
+            height: 120%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M 20 0 L 35 40 L 10 50 L 40 60 L 30 100" stroke="%23FF3366" stroke-width="2" fill="none"/></svg>') no-repeat center;
+            opacity: 0;
+        }
+
+        /* Chaotic Pieces */
+        .chaotic-piece {
+            position: absolute;
+            background: var(--glass-bg);
+            border: 1px solid var(--neon-pink);
+            padding: 20px;
+            border-radius: 8px;
+            font-family: 'Fira Code', monospace;
+            color: #fff;
+            opacity: 0;
+            font-size: 20px;
+            box-shadow: 0 0 20px rgba(255, 51, 102, 0.2);
+        }
+
+        /* Pipeline Layout */
+        .pipeline-container {
+            position: absolute;
+            top: 420px;
+            /* Position higher up the screen */
+            width: 960px;
+            height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            opacity: 0;
+        }
+
+        .node {
+            width: 260px;
+            height: 160px;
+            background: var(--glass-bg);
+            border: 2px solid var(--glass-border);
+            border-radius: 16px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            backdrop-filter: blur(10px);
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .node-label {
+            font-family: 'Fira Code', monospace;
+            color: var(--neon-cyan);
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        .node-title {
+            font-size: 24px;
+            font-weight: 700;
+            text-align: center;
+            padding: 0 10px;
+        }
+
+        .one-job-badge {
+            position: absolute;
+            top: -15px;
+            background: var(--neon-purple);
+            color: #fff;
+            font-family: 'Fira Code', monospace;
+            font-size: 14px;
+            font-weight: bold;
+            padding: 4px 12px;
+            border-radius: 20px;
+            opacity: 0;
+            box-shadow: 0 0 15px rgba(123, 44, 191, 0.6);
+        }
+
+        .arrow-container {
+            flex: 1;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            position: relative;
+            margin: 0 15px;
+            opacity: 0;
+        }
+
+        .arrow-flow {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 0%;
+            background: var(--neon-cyan);
+            box-shadow: 0 0 15px var(--neon-cyan);
+        }
+
+        .arrow-label {
+            position: absolute;
+            top: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: 'Fira Code', monospace;
+            font-size: 14px;
+            color: var(--neon-cyan);
+            opacity: 0;
+        }
+
+        /* Floating JSON & Badges */
+        .json-packet {
+            position: absolute;
+            background: #1A1A24;
+            border: 1px solid var(--neon-cyan);
+            border-radius: 8px;
+            padding: 10px;
+            font-family: 'Fira Code', monospace;
+            font-size: 12px;
+            color: #fff;
+            opacity: 0;
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%);
+            z-index: 20;
+            box-shadow: 0 0 20px rgba(0, 240, 255, 0.3);
+        }
+
+        .json-packet.error {
+            border-color: var(--neon-pink);
+            color: var(--neon-pink);
+            box-shadow: 0 0 20px rgba(255, 51, 102, 0.3);
+        }
+
+        .validation-badge {
+            position: absolute;
+            top: 60px;
+            left: 50%;
+            transform: translateX(-50%) scale(0);
+            background: #1A1A24;
+            border: 1px solid #00FF66;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-family: 'Fira Code', monospace;
+            font-size: 12px;
+            color: #00FF66;
+            z-index: 15;
+        }
+
+        .validation-badge.broken {
+            border-color: var(--neon-pink);
+            color: var(--neon-pink);
+        }
+
+        /* Brain / Lightbulbs */
+        .concept-header {
+            position: absolute;
+            top: 220px;
+            /* Position higher up the screen */
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100px;
+            opacity: 0;
+        }
+
+        .brain-icon {
+            font-size: 60px;
+            position: relative;
+        }
+
+        .explosion-x {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: var(--neon-pink);
+            font-size: 80px;
+            font-weight: 900;
+            opacity: 0;
+            text-shadow: 0 0 20px var(--neon-pink);
+        }
+
+        .lightbulbs {
+            display: flex;
+            gap: 40px;
+            opacity: 0;
+            position: absolute;
+        }
+
+        .bulb {
+            font-size: 50px;
+            filter: grayscale(100%) brightness(0.5);
+        }
+
+        .bulb.active {
+            filter: none;
+            text-shadow: 0 0 30px #FFE600;
+        }
+
+        /* Conveyor Belt */
+        .conveyor-belt {
+            position: absolute;
+            top: 780px;
+            /* Aligned under the shifted pipeline nodes */
+            width: 800px;
+            height: 20px;
+            border-top: 2px dashed rgba(255, 255, 255, 0.2);
+            opacity: 0;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .cog {
+            font-size: 24px;
+            color: rgba(255, 255, 255, 0.3);
+            transform-origin: center;
+        }
+
+        /* Controls / Valve */
+        .control-valve {
+            position: absolute;
+            top: -40px;
+            left: 50%;
+            transform: translateX(-50%) scale(0);
+            font-size: 30px;
+            color: var(--neon-cyan);
+            text-shadow: 0 0 20px var(--neon-cyan);
+        }
+
+        /* Final Polish */
+        .glass-coating {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+            pointer-events: none;
+            opacity: 0;
+            border-radius: 16px;
+        }
+
+        .final-badge {
+            position: absolute;
+            bottom: -80px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--glass-bg);
+            border: 1px solid var(--neon-cyan);
+            padding: 16px 32px;
+            border-radius: 30px;
+            font-size: 24px;
+            font-weight: 900;
+            color: #fff;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            box-shadow: 0 0 30px rgba(0, 240, 255, 0.2);
+            opacity: 0;
+        }
+
+        .final-badge span {
+            color: var(--neon-cyan);
+        }
+
+        /* Teaser Next */
+        .teaser-overlay {
+            position: absolute;
+            bottom: 40px;
+            right: 40px;
+            background: var(--neon-purple);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-family: 'Fira Code', monospace;
+            font-weight: bold;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            opacity: 0;
+            transform: translateX(50px);
+        }
+
+        /* Hook Visuals CSS */
+        #hook-visuals {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 12;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transform: translateY(-160px);
+            /* Shift hook visuals up to avoid larger face/captions */
+        }
+
+        .hook-asset {
+            position: absolute;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transform: scale(0.8);
+            width: 100%;
+            height: 100%;
+        }
+
+        .cyber-graphic {
+            max-width: 900px;
+            max-height: 900px;
+            object-fit: contain;
+            filter: drop-shadow(0 15px 40px rgba(0, 0, 0, 0.5));
+        }
+
+        #hook-alert {
+            transform: scale(0.7);
+        }
+
+        /* 3D Diagonal Task Cascade */
+        .hook-tasks {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotateX(20deg) rotateY(-25deg);
+            transform-style: preserve-3d;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            opacity: 0;
+            z-index: 14;
+        }
+
+        .task-chip {
+            background: rgba(10, 10, 15, 0.4);
+            border: 2px solid rgba(0, 240, 255, 0.35);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4),
+                0 0 25px rgba(0, 240, 255, 0.2),
+                inset 0 0 15px rgba(255, 255, 255, 0.05);
+            color: #fff;
+            padding: 18px 36px;
+            border-radius: 16px;
+            font-size: 26px;
+            font-weight: 800;
+            backdrop-filter: blur(15px);
+            opacity: 0;
+            transform: translate3d(80px, 80px, -150px);
+            width: 480px;
+            text-align: center;
+            letter-spacing: 2px;
+            text-shadow: 0 0 15px rgba(0, 240, 255, 0.6);
+        }
+
+        .task-chip:nth-child(even) {
+            border-color: rgba(255, 51, 102, 0.35);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4),
+                0 0 25px rgba(255, 51, 102, 0.2),
+                inset 0 0 15px rgba(255, 255, 255, 0.05);
+            text-shadow: 0 0 15px rgba(255, 51, 102, 0.6);
+        }
+
+        #hook-novice {
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        #hook-crush {
+            top: -500px;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Talking Head Face Overlay (Boundary Guide) */
+        .face-overlay {
+            position: absolute;
+            left: 80px;
+            bottom: 80px;
+            z-index: 200;
+        }
+
+        .face-circle {
+            width: 400px;
+            height: 400px;
+            border-radius: 50%;
+            background: rgba(10, 10, 15, 0.4);
+            border: 2px solid rgba(255, 51, 102, 0.25);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3), inset 0 0 20px rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            position: relative;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        .face-overlay.speaking .face-circle {
+            border-color: rgba(255, 51, 102, 0.8);
+            box-shadow: 0 0 40px rgba(255, 51, 102, 0.5), inset 0 0 20px rgba(255, 255, 255, 0.05);
+        }
+
+        /* Split Visual Container */
+        .split-visual-container {
+            position: absolute;
+            top: 380px;
+            width: 600px;
+            height: 600px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            z-index: 50;
+        }
+
+        .split-giant-box {
+            position: absolute;
+            width: 420px;
+            height: 380px;
+            background: rgba(255, 51, 102, 0.06);
+            border: 3px solid var(--neon-pink);
+            border-radius: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 0 40px rgba(255, 51, 102, 0.25);
+            text-align: center;
+            backdrop-filter: blur(10px);
+        }
+        .split-giant-box .box-label {
+            font-family: 'Fira Code', monospace;
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--neon-pink);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 12px;
+            text-shadow: 0 0 15px var(--neon-pink);
+        }
+        .split-giant-box .box-sub {
+            font-size: 20px;
+            color: #ccc;
+        }
+
+        .split-stack {
+            position: absolute;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+            opacity: 0;
+            width: 100%;
+        }
+        .split-step {
+            width: 380px;
+            height: 90px;
+            background: rgba(0, 240, 255, 0.05);
+            border: 2px solid rgba(0, 240, 255, 0.3);
+            border-radius: 16px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3), inset 0 0 10px rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(10px);
+            transform: scale(0.8);
+            opacity: 0;
+        }
+        .split-step .step-num {
+            font-family: 'Fira Code', monospace;
+            font-size: 14px;
+            color: var(--neon-cyan);
+            font-weight: bold;
+            letter-spacing: 1px;
+            margin-bottom: 4px;
+        }
+        .split-step .step-desc {
+            font-size: 22px;
+            font-weight: bold;
+            color: #fff;
+        }
+        .split-arrow {
+            font-size: 24px;
+            color: var(--neon-cyan);
+            opacity: 0;
+            transform: translateY(-10px);
+            text-shadow: 0 0 10px var(--neon-cyan);
+        }
+
+        /* Chaining Intro Visual */
+        .chaining-intro-container {
+            position: absolute;
+            top: 400px;
+            width: 500px;
+            height: 550px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            z-index: 45;
+            transform: scale(0.9);
+        }
+
+        .chain-box {
+            width: 340px;
+            padding: 24px;
+            background: rgba(0, 240, 255, 0.05);
+            border: 2px solid rgba(0, 240, 255, 0.35);
+            border-radius: 16px;
+            box-shadow: 0 0 30px rgba(0, 240, 255, 0.15);
+            backdrop-filter: blur(10px);
+            text-align: center;
+            transform: translateY(20px);
+            opacity: 0;
+        }
+        .chain-box .chain-hdr {
+            font-family: 'Fira Code', monospace;
+            font-size: 16px;
+            font-weight: 800;
+            color: var(--neon-cyan);
+            letter-spacing: 2px;
+            margin-bottom: 8px;
+            text-shadow: 0 0 10px var(--neon-cyan);
+        }
+        .chain-box .chain-txt {
+            font-size: 20px;
+            font-weight: bold;
+            color: #fff;
+        }
+
+        .chain-link {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 120px;
+            justify-content: center;
+            opacity: 0;
+        }
+        .link-line {
+            width: 4px;
+            height: 40px;
+            background: linear-gradient(to bottom, var(--neon-cyan), transparent);
+        }
+        .chain-link .link-line:last-child {
+            background: linear-gradient(to top, var(--neon-cyan), transparent);
+        }
+        .chain-link .link-icon {
+            font-size: 32px;
+            margin: 8px 0;
+            color: var(--neon-cyan);
+            text-shadow: 0 0 20px var(--neon-cyan);
+            transform: scale(0.8);
+            display: inline-block;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="bg-grid"></div>
+    <div class="ambient-glow"></div>
+    <div class="scanlines"></div>
+
+    <div class="scene-container">
+
+        <!-- Core Scene added for Reel 3 vibe -->
+        <div id="core-scene">
+            <div id="caption-container"></div>
+        </div>
+
+        <!-- Hook Visuals (0s - 12.5s) -->
+        <div id="hook-visuals">
+            <!-- 3D Warning Alert (fail_alert.png) -->
+            <div class="hook-asset" id="hook-alert">
+                <img src="../assets/fail_alert.png" alt="Fail Alert" class="cyber-graphic">
+            </div>
+
+            <!-- 3D Diagonal Task Cascade (pure CSS/HTML) -->
+            <div class="hook-tasks" id="hook-tasks">
+                <div class="task-chip">📝 SUMMARIZE</div>
+                <div class="task-chip">📊 ANALYZE TRENDS</div>
+                <div class="task-chip">📧 WRITE EMAIL</div>
+                <div class="task-chip">💼 PROFESSIONAL TONE</div>
+            </div>
+
+            <!-- 3D Robot Beginner (robot_beginner.png) -->
+            <div class="hook-asset" id="hook-novice">
+                <img src="../assets/robot_beginner.png" alt="Beginner Robot" class="cyber-graphic">
+            </div>
+
+            <!-- 3D Massive Prompt Crush (prompt_crush.png) -->
+            <div class="hook-asset" id="hook-crush">
+                <img src="../assets/prompt_crush.png" alt="Massive Prompt Crush" class="cyber-graphic">
+            </div>
+        </div>
+
+        <!-- Giant Prompt Concept -->
+        <div class="giant-prompt-wrapper" id="giant-prompt">
+            <div class="giant-prompt-box">
+                <div class="giant-prompt-header">SYSTEM_PROMPT.TXT</div>
+                <div class="giant-prompt-text" id="prompt-text">
+                    <!-- Populated by JS -->
+                </div>
+                <div class="glitch-crack" id="crack-svg"></div>
+            </div>
+
+            <div class="error-indicators">
+                <div class="error-tag" style="top: -20px; left: -40px;">FORGETS INSTRUCTIONS</div>
+                <div class="error-tag" style="top: 100px; right: -60px;">LOSES CONTEXT</div>
+                <div class="error-tag" style="bottom: -30px; left: 20px;">HALLUCINATES</div>
+                <div class="error-tag" style="bottom: 80px; left: -80px;">SKIPS PARTS</div>
+            </div>
+        </div>
+
+        <!-- Chaotic Pieces -->
+        <div id="chaotic-pieces">
+            <div class="chaotic-piece" style="top: 300px; left: 200px;">analyze()</div>
+            <div class="chaotic-piece" style="top: 650px; right: 200px;">summarize?</div>
+            <div class="chaotic-piece" style="top: 850px; left: 300px;">err_context_lost</div>
+            <div class="chaotic-piece" style="top: 500px; right: 300px;">write_email()</div>
+        </div>
+
+        <!-- Chaining Intro Visual (38.0s - 40.1s) -->
+        <div id="chaining-intro-visual" class="chaining-intro-container">
+            <div class="chain-box box-a">
+                <div class="chain-hdr">PROMPT A</div>
+                <div class="chain-txt">Extract text data</div>
+            </div>
+            <div class="chain-link">
+                <div class="link-line"></div>
+                <div class="link-icon">🔗</div>
+                <div class="link-line"></div>
+            </div>
+            <div class="chain-box box-b">
+                <div class="chain-hdr">PROMPT B</div>
+                <div class="chain-txt">Generate clean JSON</div>
+            </div>
+        </div>
+
+        <!-- Split Visual Concept (40.1s - 45.0s) -->
+        <div id="split-visual" class="split-visual-container">
+            <!-- The Giant Block (Initial state) -->
+            <div class="split-giant-box">
+                <div class="box-label">ONE GIANT PROMPT</div>
+                <div class="box-sub">Massive & Complex</div>
+            </div>
+            <!-- The Split Blocks (Vertical Stack) -->
+            <div class="split-stack">
+                <div class="split-step step-1">
+                    <div class="step-num">STEP 1</div>
+                    <div class="step-desc">Summarize Report</div>
+                </div>
+                <div id="split-arrow-1" class="split-arrow">↓</div>
+                <div class="split-step step-2">
+                    <div class="step-num">STEP 2</div>
+                    <div class="step-desc">Extract Trends</div>
+                </div>
+                <div id="split-arrow-2" class="split-arrow">↓</div>
+                <div class="split-step step-3">
+                    <div class="step-num">STEP 3</div>
+                    <div class="step-desc">Generate Email</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pipeline Concept -->
+        <div class="concept-header" id="concept-header">
+            <div class="brain-icon" id="brain-icon">🧠
+                <div class="explosion-x" id="explosion-x">✕</div>
+            </div>
+            <div class="lightbulbs" id="lightbulbs">
+                <div class="bulb">💡</div>
+                <div class="bulb">💡</div>
+                <div class="bulb">💡</div>
+            </div>
+        </div>
+
+        <div class="pipeline-container" id="pipeline">
+            <div class="glass-coating" id="pipeline-glass"></div>
+
+            <!-- Node 1 -->
+            <div class="node" id="node-1">
+                <div class="one-job-badge">ONE JOB</div>
+                <div class="node-label">PROMPT 1</div>
+                <div class="node-title">Summarize<br>Report</div>
+            </div>
+
+            <!-- Arrow 1 -> 2 -->
+            <div class="arrow-container" id="arrow-1-2">
+                <div class="arrow-label">output → input</div>
+                <div class="control-valve" id="valve-1">⚙️</div>
+                <div class="arrow-flow" id="flow-1"></div>
+                <div class="validation-badge" id="val-1">{status:"valid"}</div>
+            </div>
+
+            <!-- Node 2 -->
+            <div class="node" id="node-2">
+                <div class="one-job-badge">ONE JOB</div>
+                <div class="node-label">PROMPT 2</div>
+                <div class="node-title">Extract<br>Trends</div>
+            </div>
+
+            <!-- Arrow 2 -> 3 -->
+            <div class="arrow-container" id="arrow-2-3">
+                <div class="arrow-label">output → input</div>
+                <div class="control-valve" id="valve-2">⚙️</div>
+                <div class="arrow-flow" id="flow-2"></div>
+                <div class="validation-badge" id="val-2">{status:"valid"}</div>
+            </div>
+
+            <!-- Node 3 -->
+            <div class="node" id="node-3">
+                <div class="one-job-badge">ONE JOB</div>
+                <div class="node-label">PROMPT 3</div>
+                <div class="node-title">Generate<br>Email</div>
+            </div>
+
+            <div class="final-badge" id="final-badge">Structured Outputs <span>→</span> Production Grade</div>
+        </div>
+
+        <!-- Conveyor Belt -->
+        <div class="conveyor-belt" id="conveyor">
+            <div class="cog">⚙️</div>
+            <div class="cog">⚙️</div>
+            <div class="cog">⚙️</div>
+            <div class="cog">⚙️</div>
+        </div>
+
+        <!-- Teaser -->
+        <div class="teaser-overlay" id="teaser">
+            ▶ NEXT EPISODE
+        </div>
+        <!-- Face Overlay Placeholder -->
+        <div class="face-overlay" id="face-overlay">
+            <div class="face-circle"></div>
+        </div>
+
+    </div>
+
+    <!-- JSON Packets for animation -->
+    <div class="json-packet" id="packet-1">{ "data": "summary" }</div>
+    <div class="json-packet" id="packet-2">{ "data": "trends" }</div>
+
+    <script>
+        // Master Timeline Setup
+        const tl = gsap.timeline();
+
+        // Helper: convert absolute seconds to timeline time
+        const time = (sec) => sec;
+        // --- INJECT CAPTION DATA ---
+        const sentences = [
+            {
+                "start": 1.866,
+                "end": 4.888,
+                "words": [
+                    {
+                        "text": "Most",
+                        "start": 1.866,
+                        "end": 2.086
+                    },
+                    {
+                        "text": "AI",
+                        "start": 2.166,
+                        "end": 2.406
+                    },
+                    {
+                        "text": "systems",
+                        "start": 2.447,
+                        "end": 2.827
+                    },
+                    {
+                        "text": "fail",
+                        "start": 2.887,
+                        "end": 3.167
+                    },
+                    {
+                        "text": "for",
+                        "start": 3.567,
+                        "end": 3.747
+                    },
+                    {
+                        "text": "one",
+                        "start": 3.948,
+                        "end": 4.108
+                    },
+                    {
+                        "text": "simple",
+                        "start": 4.168,
+                        "end": 4.508
+                    },
+                    {
+                        "text": "reason.",
+                        "start": 4.568,
+                        "end": 4.888
+                    }
+                ]
+            },
+            {
+                "start": 5.669,
+                "end": 7.871,
+                "words": [
+                    {
+                        "text": "They",
+                        "start": 5.669,
+                        "end": 5.829
+                    },
+                    {
+                        "text": "try",
+                        "start": 5.869,
+                        "end": 6.109
+                    },
+                    {
+                        "text": "to",
+                        "start": 6.149,
+                        "end": 6.249
+                    },
+                    {
+                        "text": "do",
+                        "start": 6.309,
+                        "end": 6.45
+                    },
+                    {
+                        "text": "everything",
+                        "start": 6.55,
+                        "end": 6.99
+                    },
+                    {
+                        "text": "in",
+                        "start": 7.13,
+                        "end": 7.23
+                    },
+                    {
+                        "text": "one",
+                        "start": 7.39,
+                        "end": 7.51
+                    },
+                    {
+                        "text": "prompt.",
+                        "start": 7.55,
+                        "end": 7.871
+                    }
+                ]
+            },
+            {
+                "start": 8.311,
+                "end": 10.513,
+                "words": [
+                    {
+                        "text": "You",
+                        "start": 8.311,
+                        "end": 8.451
+                    },
+                    {
+                        "text": "know",
+                        "start": 8.491,
+                        "end": 8.651
+                    },
+                    {
+                        "text": "what",
+                        "start": 8.711,
+                        "end": 8.871
+                    },
+                    {
+                        "text": "most",
+                        "start": 8.931,
+                        "end": 9.152
+                    },
+                    {
+                        "text": "beginners",
+                        "start": 9.192,
+                        "end": 9.692
+                    },
+                    {
+                        "text": "do",
+                        "start": 9.752,
+                        "end": 9.872
+                    },
+                    {
+                        "text": "with",
+                        "start": 9.892,
+                        "end": 10.052
+                    },
+                    {
+                        "text": "LMMs.",
+                        "start": 10.192,
+                        "end": 10.513
+                    }
+                ]
+            },
+            {
+                "start": 11.273,
+                "end": 19.359,
+                "words": [
+                    {
+                        "text": "They",
+                        "start": 11.273,
+                        "end": 11.413
+                    },
+                    {
+                        "text": "write",
+                        "start": 11.453,
+                        "end": 11.653
+                    },
+                    {
+                        "text": "one",
+                        "start": 11.754,
+                        "end": 11.874
+                    },
+                    {
+                        "text": "massive",
+                        "start": 11.914,
+                        "end": 12.234
+                    },
+                    {
+                        "text": "prompt,",
+                        "start": 12.274,
+                        "end": 12.574
+                    },
+                    {
+                        "text": "analyze",
+                        "start": 13.255,
+                        "end": 13.595
+                    },
+                    {
+                        "text": "this",
+                        "start": 13.635,
+                        "end": 13.775
+                    },
+                    {
+                        "text": "report,",
+                        "start": 13.835,
+                        "end": 14.255
+                    },
+                    {
+                        "text": "find",
+                        "start": 14.356,
+                        "end": 14.616
+                    },
+                    {
+                        "text": "trends,",
+                        "start": 14.656,
+                        "end": 14.936
+                    },
+                    {
+                        "text": "summarize",
+                        "start": 14.956,
+                        "end": 15.396
+                    },
+                    {
+                        "text": "everything,",
+                        "start": 15.456,
+                        "end": 15.877
+                    },
+                    {
+                        "text": "write",
+                        "start": 16.397,
+                        "end": 16.637
+                    },
+                    {
+                        "text": "an",
+                        "start": 16.697,
+                        "end": 16.777
+                    },
+                    {
+                        "text": "email,",
+                        "start": 16.837,
+                        "end": 17.198
+                    },
+                    {
+                        "text": "and",
+                        "start": 18.038,
+                        "end": 18.138
+                    },
+                    {
+                        "text": "make",
+                        "start": 18.218,
+                        "end": 18.459
+                    },
+                    {
+                        "text": "it",
+                        "start": 18.519,
+                        "end": 18.599
+                    },
+                    {
+                        "text": "professional.",
+                        "start": 18.799,
+                        "end": 19.359
+                    }
+                ]
+            },
+            {
+                "start": 20.12,
+                "end": 22.362,
+                "words": [
+                    {
+                        "text": "And",
+                        "start": 20.12,
+                        "end": 20.24
+                    },
+                    {
+                        "text": "then",
+                        "start": 20.3,
+                        "end": 20.5
+                    },
+                    {
+                        "text": "the",
+                        "start": 20.64,
+                        "end": 20.74
+                    },
+                    {
+                        "text": "model",
+                        "start": 20.8,
+                        "end": 21.141
+                    },
+                    {
+                        "text": "completely",
+                        "start": 21.201,
+                        "end": 21.741
+                    },
+                    {
+                        "text": "falls",
+                        "start": 21.781,
+                        "end": 22.001
+                    },
+                    {
+                        "text": "apart.",
+                        "start": 22.061,
+                        "end": 22.362
+                    }
+                ]
+            },
+            {
+                "start": 22.882,
+                "end": 30.288,
+                "words": [
+                    {
+                        "text": "Because",
+                        "start": 22.882,
+                        "end": 23.242
+                    },
+                    {
+                        "text": "LMMs",
+                        "start": 23.542,
+                        "end": 23.843
+                    },
+                    {
+                        "text": "are",
+                        "start": 23.903,
+                        "end": 23.983
+                    },
+                    {
+                        "text": "terrible",
+                        "start": 24.023,
+                        "end": 24.383
+                    },
+                    {
+                        "text": "at",
+                        "start": 24.443,
+                        "end": 24.523
+                    },
+                    {
+                        "text": "handling",
+                        "start": 24.583,
+                        "end": 25.044
+                    },
+                    {
+                        "text": "too",
+                        "start": 25.424,
+                        "end": 25.584
+                    },
+                    {
+                        "text": "many",
+                        "start": 25.624,
+                        "end": 25.844
+                    },
+                    {
+                        "text": "cognitive",
+                        "start": 25.884,
+                        "end": 26.345
+                    },
+                    {
+                        "text": "tasks",
+                        "start": 26.405,
+                        "end": 26.725
+                    },
+                    {
+                        "text": "at",
+                        "start": 26.805,
+                        "end": 26.885
+                    },
+                    {
+                        "text": "once,",
+                        "start": 27.005,
+                        "end": 27.165
+                    },
+                    {
+                        "text": "they",
+                        "start": 27.666,
+                        "end": 27.826
+                    },
+                    {
+                        "text": "forget",
+                        "start": 27.866,
+                        "end": 28.226
+                    },
+                    {
+                        "text": "instructions,",
+                        "start": 28.306,
+                        "end": 28.867
+                    },
+                    {
+                        "text": "lose",
+                        "start": 29.527,
+                        "end": 29.787
+                    },
+                    {
+                        "text": "context,",
+                        "start": 29.827,
+                        "end": 30.288
+                    }
+                ]
+            },
+            {
+                "start": 30.949,
+                "end": 34.872,
+                "words": [
+                    {
+                        "text": "Hallucinate",
+                        "start": 30.949,
+                        "end": 31.529
+                    },
+                    {
+                        "text": "details",
+                        "start": 31.569,
+                        "end": 31.97
+                    },
+                    {
+                        "text": "or",
+                        "start": 32.77,
+                        "end": 32.91
+                    },
+                    {
+                        "text": "skip",
+                        "start": 33.05,
+                        "end": 33.351
+                    },
+                    {
+                        "text": "important",
+                        "start": 33.391,
+                        "end": 33.891
+                    },
+                    {
+                        "text": "parts",
+                        "start": 33.951,
+                        "end": 34.231
+                    },
+                    {
+                        "text": "entirely.",
+                        "start": 34.311,
+                        "end": 34.872
+                    }
+                ]
+            },
+            {
+                "start": 35.412,
+                "end": 39.435,
+                "words": [
+                    {
+                        "text": "That's",
+                        "start": 35.412,
+                        "end": 35.652
+                    },
+                    {
+                        "text": "why",
+                        "start": 35.712,
+                        "end": 35.912
+                    },
+                    {
+                        "text": "real",
+                        "start": 35.932,
+                        "end": 36.012
+                    },
+                    {
+                        "text": "AI",
+                        "start": 36.273,
+                        "end": 36.733
+                    },
+                    {
+                        "text": "systems",
+                        "start": 36.773,
+                        "end": 37.213
+                    },
+                    {
+                        "text": "use",
+                        "start": 37.573,
+                        "end": 37.734
+                    },
+                    {
+                        "text": "something",
+                        "start": 37.774,
+                        "end": 38.214
+                    },
+                    {
+                        "text": "called",
+                        "start": 38.334,
+                        "end": 38.554
+                    },
+                    {
+                        "text": "prompt",
+                        "start": 38.614,
+                        "end": 38.934
+                    },
+                    {
+                        "text": "chaining.",
+                        "start": 39.074,
+                        "end": 39.435
+                    }
+                ]
+            },
+            {
+                "start": 40.155,
+                "end": 45.078,
+                "words": [
+                    {
+                        "text": "Instead",
+                        "start": 40.155,
+                        "end": 40.555
+                    },
+                    {
+                        "text": "of",
+                        "start": 40.615,
+                        "end": 40.675
+                    },
+                    {
+                        "text": "one",
+                        "start": 40.816,
+                        "end": 40.936
+                    },
+                    {
+                        "text": "giant",
+                        "start": 40.996,
+                        "end": 41.316
+                    },
+                    {
+                        "text": "prompt,",
+                        "start": 41.356,
+                        "end": 41.676
+                    },
+                    {
+                        "text": "you",
+                        "start": 42.537,
+                        "end": 42.837
+                    },
+                    {
+                        "text": "split",
+                        "start": 42.877,
+                        "end": 43.197
+                    },
+                    {
+                        "text": "the",
+                        "start": 43.237,
+                        "end": 43.337
+                    },
+                    {
+                        "text": "task",
+                        "start": 43.397,
+                        "end": 43.698
+                    },
+                    {
+                        "text": "into",
+                        "start": 43.798,
+                        "end": 43.978
+                    },
+                    {
+                        "text": "smaller",
+                        "start": 44.038,
+                        "end": 44.378
+                    },
+                    {
+                        "text": "focus",
+                        "start": 44.418,
+                        "end": 44.758
+                    },
+                    {
+                        "text": "steps.",
+                        "start": 44.778,
+                        "end": 45.078
+                    }
+                ]
+            },
+            {
+                "start": 45.819,
+                "end": 47.72,
+                "words": [
+                    {
+                        "text": "First",
+                        "start": 45.819,
+                        "end": 46.099
+                    },
+                    {
+                        "text": "prompt,",
+                        "start": 46.199,
+                        "end": 46.619
+                    },
+                    {
+                        "text": "summarize",
+                        "start": 46.72,
+                        "end": 47.18
+                    },
+                    {
+                        "text": "the",
+                        "start": 47.22,
+                        "end": 47.3
+                    },
+                    {
+                        "text": "report.",
+                        "start": 47.34,
+                        "end": 47.72
+                    }
+                ]
+            },
+            {
+                "start": 48.461,
+                "end": 50.942,
+                "words": [
+                    {
+                        "text": "Second",
+                        "start": 48.461,
+                        "end": 48.801
+                    },
+                    {
+                        "text": "prompt,",
+                        "start": 48.841,
+                        "end": 49.141
+                    },
+                    {
+                        "text": "extract",
+                        "start": 49.441,
+                        "end": 49.942
+                    },
+                    {
+                        "text": "trends",
+                        "start": 49.982,
+                        "end": 50.242
+                    },
+                    {
+                        "text": "from",
+                        "start": 50.282,
+                        "end": 50.422
+                    },
+                    {
+                        "text": "the",
+                        "start": 50.462,
+                        "end": 50.542
+                    },
+                    {
+                        "text": "summary.",
+                        "start": 50.582,
+                        "end": 50.942
+                    }
+                ]
+            },
+            {
+                "start": 51.663,
+                "end": 54.064,
+                "words": [
+                    {
+                        "text": "Third",
+                        "start": 51.663,
+                        "end": 51.983
+                    },
+                    {
+                        "text": "prompt,",
+                        "start": 52.103,
+                        "end": 52.463
+                    },
+                    {
+                        "text": "generate",
+                        "start": 52.884,
+                        "end": 53.464
+                    },
+                    {
+                        "text": "the",
+                        "start": 53.604,
+                        "end": 53.704
+                    },
+                    {
+                        "text": "email.",
+                        "start": 53.744,
+                        "end": 54.064
+                    }
+                ]
+            },
+            {
+                "start": 54.645,
+                "end": 57.086,
+                "words": [
+                    {
+                        "text": "Now",
+                        "start": 54.645,
+                        "end": 54.805
+                    },
+                    {
+                        "text": "every",
+                        "start": 54.925,
+                        "end": 55.165
+                    },
+                    {
+                        "text": "step",
+                        "start": 55.205,
+                        "end": 55.525
+                    },
+                    {
+                        "text": "has",
+                        "start": 56.226,
+                        "end": 56.466
+                    },
+                    {
+                        "text": "one",
+                        "start": 56.626,
+                        "end": 56.746
+                    },
+                    {
+                        "text": "job.",
+                        "start": 56.806,
+                        "end": 57.086
+                    }
+                ]
+            },
+            {
+                "start": 57.867,
+                "end": 59.368,
+                "words": [
+                    {
+                        "text": "And",
+                        "start": 57.867,
+                        "end": 57.987
+                    },
+                    {
+                        "text": "here's",
+                        "start": 58.087,
+                        "end": 58.407
+                    },
+                    {
+                        "text": "the",
+                        "start": 58.447,
+                        "end": 58.567
+                    },
+                    {
+                        "text": "important",
+                        "start": 58.627,
+                        "end": 59.108
+                    },
+                    {
+                        "text": "part.",
+                        "start": 59.148,
+                        "end": 59.368
+                    }
+                ]
+            },
+            {
+                "start": 60.132,
+                "end": 63.976,
+                "words": [
+                    {
+                        "text": "The",
+                        "start": 60.132,
+                        "end": 60.252
+                    },
+                    {
+                        "text": "output",
+                        "start": 60.332,
+                        "end": 60.673
+                    },
+                    {
+                        "text": "from",
+                        "start": 60.753,
+                        "end": 60.933
+                    },
+                    {
+                        "text": "one",
+                        "start": 61.113,
+                        "end": 61.253
+                    },
+                    {
+                        "text": "step",
+                        "start": 61.293,
+                        "end": 61.594
+                    },
+                    {
+                        "text": "becomes",
+                        "start": 61.774,
+                        "end": 62.194
+                    },
+                    {
+                        "text": "the",
+                        "start": 62.274,
+                        "end": 62.414
+                    },
+                    {
+                        "text": "input",
+                        "start": 62.494,
+                        "end": 62.875
+                    },
+                    {
+                        "text": "for",
+                        "start": 63.255,
+                        "end": 63.395
+                    },
+                    {
+                        "text": "the",
+                        "start": 63.435,
+                        "end": 63.515
+                    },
+                    {
+                        "text": "next",
+                        "start": 63.555,
+                        "end": 63.716
+                    },
+                    {
+                        "text": "step.",
+                        "start": 63.756,
+                        "end": 63.976
+                    }
+                ]
+            },
+            {
+                "start": 64.536,
+                "end": 68.38,
+                "words": [
+                    {
+                        "text": "So,",
+                        "start": 64.536,
+                        "end": 64.797
+                    },
+                    {
+                        "text": "the",
+                        "start": 65.157,
+                        "end": 65.277
+                    },
+                    {
+                        "text": "AI",
+                        "start": 65.357,
+                        "end": 65.617
+                    },
+                    {
+                        "text": "builds",
+                        "start": 65.678,
+                        "end": 65.958
+                    },
+                    {
+                        "text": "reasoning",
+                        "start": 66.058,
+                        "end": 66.458
+                    },
+                    {
+                        "text": "progressively",
+                        "start": 66.538,
+                        "end": 67.219
+                    },
+                    {
+                        "text": "like",
+                        "start": 67.599,
+                        "end": 67.78
+                    },
+                    {
+                        "text": "a",
+                        "start": 67.8,
+                        "end": 67.84
+                    },
+                    {
+                        "text": "pipeline.",
+                        "start": 67.88,
+                        "end": 68.38
+                    }
+                ]
+            },
+            {
+                "start": 69.281,
+                "end": 77.89,
+                "words": [
+                    {
+                        "text": "This",
+                        "start": 69.281,
+                        "end": 69.441
+                    },
+                    {
+                        "text": "is",
+                        "start": 69.501,
+                        "end": 69.581
+                    },
+                    {
+                        "text": "basically",
+                        "start": 69.662,
+                        "end": 70.202
+                    },
+                    {
+                        "text": "how",
+                        "start": 70.743,
+                        "end": 70.923
+                    },
+                    {
+                        "text": "modern",
+                        "start": 71.003,
+                        "end": 71.383
+                    },
+                    {
+                        "text": "AI",
+                        "start": 71.443,
+                        "end": 71.603
+                    },
+                    {
+                        "text": "agents",
+                        "start": 71.724,
+                        "end": 72.024
+                    },
+                    {
+                        "text": "work",
+                        "start": 72.084,
+                        "end": 72.344
+                    },
+                    {
+                        "text": "internally,",
+                        "start": 72.564,
+                        "end": 73.125
+                    },
+                    {
+                        "text": "not",
+                        "start": 73.565,
+                        "end": 73.786
+                    },
+                    {
+                        "text": "one",
+                        "start": 73.966,
+                        "end": 74.126
+                    },
+                    {
+                        "text": "brain",
+                        "start": 74.386,
+                        "end": 74.707
+                    },
+                    {
+                        "text": "explosion,",
+                        "start": 74.767,
+                        "end": 75.347
+                    },
+                    {
+                        "text": "more",
+                        "start": 75.928,
+                        "end": 76.128
+                    },
+                    {
+                        "text": "like",
+                        "start": 76.168,
+                        "end": 76.348
+                    },
+                    {
+                        "text": "coordinated",
+                        "start": 76.448,
+                        "end": 77.109
+                    },
+                    {
+                        "text": "mini",
+                        "start": 77.209,
+                        "end": 77.529
+                    },
+                    {
+                        "text": "thoughts.",
+                        "start": 77.589,
+                        "end": 77.89
+                    }
+                ]
+            },
+            {
+                "start": 78.718,
+                "end": 86.068,
+                "words": [
+                    {
+                        "text": "That's",
+                        "start": 78.718,
+                        "end": 78.918
+                    },
+                    {
+                        "text": "exactly",
+                        "start": 78.999,
+                        "end": 79.519
+                    },
+                    {
+                        "text": "why",
+                        "start": 79.619,
+                        "end": 79.88
+                    },
+                    {
+                        "text": "production",
+                        "start": 80.42,
+                        "end": 80.901
+                    },
+                    {
+                        "text": "systems",
+                        "start": 80.961,
+                        "end": 81.362
+                    },
+                    {
+                        "text": "use",
+                        "start": 81.702,
+                        "end": 81.862
+                    },
+                    {
+                        "text": "validation",
+                        "start": 81.922,
+                        "end": 82.623
+                    },
+                    {
+                        "text": "and",
+                        "start": 83.144,
+                        "end": 83.264
+                    },
+                    {
+                        "text": "structured",
+                        "start": 83.364,
+                        "end": 83.905
+                    },
+                    {
+                        "text": "outputs",
+                        "start": 83.985,
+                        "end": 84.306
+                    },
+                    {
+                        "text": "like",
+                        "start": 84.326,
+                        "end": 84.506
+                    },
+                    {
+                        "text": "JSON",
+                        "start": 84.566,
+                        "end": 84.946
+                    },
+                    {
+                        "text": "between",
+                        "start": 85.287,
+                        "end": 85.647
+                    },
+                    {
+                        "text": "steps.",
+                        "start": 85.727,
+                        "end": 86.068
+                    }
+                ]
+            },
+            {
+                "start": 86.569,
+                "end": 90.434,
+                "words": [
+                    {
+                        "text": "Because",
+                        "start": 86.569,
+                        "end": 86.909
+                    },
+                    {
+                        "text": "one",
+                        "start": 87.61,
+                        "end": 87.73
+                    },
+                    {
+                        "text": "messy",
+                        "start": 87.79,
+                        "end": 88.07
+                    },
+                    {
+                        "text": "output",
+                        "start": 88.131,
+                        "end": 88.511
+                    },
+                    {
+                        "text": "can",
+                        "start": 88.952,
+                        "end": 89.132
+                    },
+                    {
+                        "text": "break",
+                        "start": 89.192,
+                        "end": 89.432
+                    },
+                    {
+                        "text": "the",
+                        "start": 89.492,
+                        "end": 89.572
+                    },
+                    {
+                        "text": "entire",
+                        "start": 89.633,
+                        "end": 89.953
+                    },
+                    {
+                        "text": "pipeline.",
+                        "start": 90.013,
+                        "end": 90.434
+                    }
+                ]
+            },
+            {
+                "start": 90.974,
+                "end": 93.357,
+                "words": [
+                    {
+                        "text": "Good",
+                        "start": 90.974,
+                        "end": 91.175
+                    },
+                    {
+                        "text": "agent",
+                        "start": 91.255,
+                        "end": 91.535
+                    },
+                    {
+                        "text": "systems",
+                        "start": 91.575,
+                        "end": 91.976
+                    },
+                    {
+                        "text": "don't",
+                        "start": 92.216,
+                        "end": 92.476
+                    },
+                    {
+                        "text": "just",
+                        "start": 92.516,
+                        "end": 92.717
+                    },
+                    {
+                        "text": "chain",
+                        "start": 92.777,
+                        "end": 92.997
+                    },
+                    {
+                        "text": "prompts.",
+                        "start": 93.057,
+                        "end": 93.357
+                    }
+                ]
+            },
+            {
+                "start": 93.798,
+                "end": 99.205,
+                "words": [
+                    {
+                        "text": "They",
+                        "start": 93.798,
+                        "end": 93.938
+                    },
+                    {
+                        "text": "control",
+                        "start": 93.978,
+                        "end": 94.479
+                    },
+                    {
+                        "text": "the",
+                        "start": 94.559,
+                        "end": 94.679
+                    },
+                    {
+                        "text": "data",
+                        "start": 94.739,
+                        "end": 95.08
+                    },
+                    {
+                        "text": "flowing",
+                        "start": 95.38,
+                        "end": 95.781
+                    },
+                    {
+                        "text": "between",
+                        "start": 96.081,
+                        "end": 96.402
+                    },
+                    {
+                        "text": "them",
+                        "start": 96.462,
+                        "end": 96.622
+                    },
+                    {
+                        "text": "and",
+                        "start": 97.082,
+                        "end": 97.183
+                    },
+                    {
+                        "text": "that",
+                        "start": 97.243,
+                        "end": 97.423
+                    },
+                    {
+                        "text": "structured",
+                        "start": 97.463,
+                        "end": 97.984
+                    },
+                    {
+                        "text": "output",
+                        "start": 98.544,
+                        "end": 98.925
+                    },
+                    {
+                        "text": "layer.",
+                        "start": 98.965,
+                        "end": 99.205
+                    }
+                ]
+            },
+            {
+                "start": 99.526,
+                "end": 104.492,
+                "words": [
+                    {
+                        "text": "Means",
+                        "start": 99.526,
+                        "end": 99.806
+                    },
+                    {
+                        "text": "that's",
+                        "start": 100.026,
+                        "end": 100.307
+                    },
+                    {
+                        "text": "actually",
+                        "start": 100.467,
+                        "end": 100.807
+                    },
+                    {
+                        "text": "what",
+                        "start": 100.847,
+                        "end": 101.028
+                    },
+                    {
+                        "text": "separates",
+                        "start": 101.088,
+                        "end": 101.508
+                    },
+                    {
+                        "text": "toy",
+                        "start": 101.548,
+                        "end": 101.829
+                    },
+                    {
+                        "text": "AI",
+                        "start": 101.949,
+                        "end": 102.189
+                    },
+                    {
+                        "text": "demos",
+                        "start": 102.229,
+                        "end": 102.61
+                    },
+                    {
+                        "text": "from",
+                        "start": 102.99,
+                        "end": 103.19
+                    },
+                    {
+                        "text": "real",
+                        "start": 103.271,
+                        "end": 103.491
+                    },
+                    {
+                        "text": "production",
+                        "start": 103.551,
+                        "end": 104.012
+                    },
+                    {
+                        "text": "agents.",
+                        "start": 104.172,
+                        "end": 104.492
+                    }
+                ]
+            },
+            {
+                "start": 104.893,
+                "end": 107.356,
+                "words": [
+                    {
+                        "text": "We'll",
+                        "start": 104.893,
+                        "end": 105.133
+                    },
+                    {
+                        "text": "break",
+                        "start": 105.213,
+                        "end": 105.474
+                    },
+                    {
+                        "text": "that",
+                        "start": 105.514,
+                        "end": 105.694
+                    },
+                    {
+                        "text": "down",
+                        "start": 105.794,
+                        "end": 106.094
+                    },
+                    {
+                        "text": "in",
+                        "start": 106.335,
+                        "end": 106.435
+                    },
+                    {
+                        "text": "the",
+                        "start": 106.495,
+                        "end": 106.595
+                    },
+                    {
+                        "text": "next",
+                        "start": 106.635,
+                        "end": 106.855
+                    },
+                    {
+                        "text": "episode.",
+                        "start": 106.935,
+                        "end": 107.356
+                    }
+                ]
+            }
+        ];
+
+        const captionContainer = document.getElementById("caption-container");
+        sentences.forEach((sentence, sIdx) => {
+            const sDiv = document.createElement("div");
+            sDiv.className = "sentence-block";
+
+            // Assign class depending on phase (hook vs remaining - threshold set to 10.6s)
+            if (sentence.start < 10.6) {
+                sDiv.classList.add("hook-caption");
+            } else {
+                sDiv.classList.add("simple-caption");
+            }
+
+            gsap.set(sDiv, { display: "none", opacity: 0 });
+
+            sentence.words.forEach((w, wIdx) => {
+                const wSpan = document.createElement("span");
+                wSpan.className = "cap-word";
+                wSpan.innerText = w.text;
+                sDiv.appendChild(wSpan);
+
+                // Add a space character after the word span to prevent letters from squishing together
+                sDiv.appendChild(document.createTextNode(" "));
+
+                if (sentence.start < 10.6) {
+                    // Kinetic Typography Highlights (Only active during the hook phase)
+                    let activeClass = "active";
+                    const cleanWord = w.text.toLowerCase().replace(/[.,\/#!$%\^&\*;:{}=\-_`~()?]/g, "");
+                    if (cleanWord === "fail") activeClass = "active-fail";
+                    if (cleanWord === "everything") activeClass = "active-everything";
+                    if (cleanWord === "massive") activeClass = "active-massive";
+
+                    tl.to(wSpan, {
+                        onStart: () => {
+                            wSpan.classList.add(activeClass);
+                        },
+                        onReverseComplete: () => {
+                            wSpan.classList.remove(activeClass);
+                        },
+                        duration: 0.05
+                    }, time(w.start));
+                } else {
+                    // Simple captions (karaoke style): Highlight active word from w.start to w.end
+                    tl.to(wSpan, {
+                        color: "#00F0FF", // var(--neon-cyan)
+                        opacity: 1,
+                        textShadow: "0 0 20px #00F0FF",
+                        duration: 0.05
+                    }, time(w.start));
+
+                    tl.to(wSpan, {
+                        color: "#ffffff",
+                        opacity: 0.35,
+                        textShadow: "0 2px 10px rgba(0, 0, 0, 0.5)",
+                        duration: 0.05
+                    }, time(w.end));
+                }
+            });
+
+            captionContainer.appendChild(sDiv);
+
+            // Show/hide sentence blocks
+            tl.set(sDiv, { display: "flex" }, time(sentence.start));
+            tl.to(sDiv, { opacity: 1, duration: 0.2 }, time(sentence.start));
+            tl.to(sDiv, { opacity: 0, duration: 0.2 }, time(sentence.end));
+            tl.set(sDiv, { display: "none" }, time(sentence.end + 0.2));
+        });
+
+        // --- INJECT PROMPT WORDS DATA ---
+        const promptWordsData = [
+            { text: "“Analyze", start: 13.255 }, { text: "this", start: 13.635 }, { text: "report,", start: 13.835 },
+            { text: "find", start: 14.356 }, { text: "trends,", start: 14.656 }, { text: "summarize", start: 14.956, highlight: true },
+            { text: "everything,", start: 15.456, highlight: true }, { text: "write", start: 16.397 }, { text: "an", start: 16.697 },
+            { text: "email,", start: 16.837 }, { text: "and", start: 18.038 }, { text: "make", start: 18.218 }, { text: "it", start: 18.519 },
+            { text: "professional.”", start: 18.799, highlight: true }
+        ];
+
+        const promptTextEl = document.getElementById("prompt-text");
+        let promptHtml = "";
+        promptWordsData.forEach((w, i) => {
+            let classes = "prompt-word";
+            if (w.highlight) classes += " text-highlight";
+
+            if (w.text.startsWith("<br><br>")) {
+                promptHtml += `<br><br><span class="${classes}" id="pword-${i}">${w.text.replace("<br><br>", "")}</span> `;
+            } else {
+                promptHtml += `<span class="${classes}" id="pword-${i}">${w.text}</span> `;
+            }
+        });
+        promptTextEl.innerHTML = promptHtml;
+
+        // -------------------------------------------------------------
+        // SCENE 1: Caption Phase (0s - 12.5s)
+        // -------------------------------------------------------------
+        tl.set("#core-scene", { opacity: 1 }, 0);
+        tl.set("#giant-prompt", { opacity: 0, scale: 0.8 }, 0);
+
+        // 3D Hook Animations
+        // FAIL Alert
+        tl.to("#hook-alert", { opacity: 1, scale: 1.0, duration: 0.6, ease: "back.out(1.5)" }, time(1.8));
+        // Shake screen on 'fail'
+        tl.to(".scene-container", { x: () => gsap.utils.random(-8, 8), y: () => gsap.utils.random(-8, 8), duration: 0.05, repeat: 10, yoyo: true }, time(2.8));
+        tl.to("#hook-alert", { opacity: 0, scale: 0.7, duration: 0.4, ease: "power2.in" }, time(5.1));
+
+        // EVERYTHING Task Cascade
+        tl.to("#hook-tasks", { opacity: 1, duration: 0.3 }, time(5.5));
+        tl.to(".task-chip:nth-child(1)", { opacity: 1, transform: "translate3d(0,0,0)", duration: 0.5, ease: "back.out(1.5)" }, time(5.6));
+        tl.to(".task-chip:nth-child(2)", { opacity: 1, transform: "translate3d(0,0,0)", duration: 0.5, ease: "back.out(1.5)" }, time(6.1));
+        tl.to(".task-chip:nth-child(3)", { opacity: 1, transform: "translate3d(0,0,0)", duration: 0.5, ease: "back.out(1.5)" }, time(6.5));
+        tl.to(".task-chip:nth-child(4)", { opacity: 1, transform: "translate3d(0,0,0)", duration: 0.5, ease: "back.out(1.5)" }, time(7.1));
+        tl.to("#hook-tasks", { opacity: 0, scale: 0.8, duration: 0.4, ease: "power2.in" }, time(7.9));
+
+        // BEGINNERS Question
+        tl.to("#hook-novice", { opacity: 1, scale: 1, duration: 0.6, ease: "back.out(1.2)" }, time(8.2));
+        tl.to("#hook-novice", { opacity: 0, scale: 0.9, duration: 0.3 }, time(10.3));
+
+        // MASSIVE PROMPT Crush
+        tl.set("#hook-crush", { top: "-600px", scale: 1.2 }, time(10.5));
+        tl.to("#hook-crush", { opacity: 1, top: "0px", scale: 1, duration: 0.6, ease: "bounce.out" }, time(10.6));
+        // Shake screen on crush impact
+        tl.to(".scene-container", { y: "+=12", duration: 0.05, repeat: 8, yoyo: true }, time(11.2));
+        tl.to("#hook-crush", { opacity: 0, scale: 1.2, duration: 0.5, ease: "power2.in" }, time(12.5));
+
+        // Note: Keep #core-scene visible for the full video captions
+        // tl.to("#core-scene", { opacity: 0, scale: 1.5, duration: 0.5, ease: "power2.in" }, time(12.5));
+
+        // -------------------------------------------------------------
+        // SCENE 1.5: Giant Prompt populates Word-by-Word
+        // -------------------------------------------------------------
+        tl.to("#giant-prompt", { opacity: 1, scale: 1, duration: 0.5, ease: "back.out" }, time(12.8));
+
+        promptWordsData.forEach((w, i) => {
+            tl.to(`#pword-${i}`, { opacity: 1, duration: 0.1 }, time(w.start));
+        });
+
+        // Simulate prompt getting too big/complex
+        tl.to(".giant-prompt-box", {
+            scale: 1.1,
+            boxShadow: "0 0 60px rgba(255, 51, 102, 0.4)",
+            borderColor: "rgba(255, 51, 102, 0.5)",
+            duration: 1.5,
+            ease: "power2.inOut"
+        }, time(18.5));
+
+        // "model completely falls apart" - Shake & Crack
+        tl.to(".giant-prompt-box", {
+            x: () => gsap.utils.random(-10, 10),
+            y: () => gsap.utils.random(-10, 10),
+            duration: 0.1,
+            repeat: 30,
+            yoyo: true
+        }, time(20.1));
+        tl.to("#crack-svg", { opacity: 1, duration: 0.2 }, time(21.5));
+
+        // "Because LLMs are terrible... forget, lose context, hallucinate" (22.8s - 34.8s)
+        const errors = document.querySelectorAll(".error-tag");
+        tl.to(errors[0], { opacity: 1, scale: 1.1, y: -10, duration: 0.4, ease: "back.out(1.7)" }, time(27.8)); // forget
+        tl.to(errors[1], { opacity: 1, scale: 1.1, x: 10, duration: 0.4, ease: "back.out(1.7)" }, time(29.5)); // lose context
+        tl.to(errors[2], { opacity: 1, scale: 1.1, y: 10, duration: 0.4, ease: "back.out(1.7)" }, time(30.9)); // hallucinate
+        tl.to(errors[3], { opacity: 1, scale: 1.1, x: -10, duration: 0.4, ease: "back.out(1.7)" }, time(33.0)); // skip
+
+        // -------------------------------------------------------------
+        // SCENE 2: Transition to Pipeline
+        // "That's why real AI systems use... prompt chaining" (35.4s - 39.4s)
+        // -------------------------------------------------------------
+        tl.to("#giant-prompt", { opacity: 0, scale: 1.5, duration: 0.5, ease: "power4.in" }, time(35.5));
+
+        // Explode into chaotic pieces briefly
+        tl.to(".chaotic-piece", {
+            opacity: 1,
+            rotation: () => gsap.utils.random(-30, 30),
+            x: () => gsap.utils.random(-100, 100),
+            y: () => gsap.utils.random(-100, 100),
+            duration: 0.5,
+            stagger: 0.1
+        }, time(35.8));
+
+        // Reveal Chaining Intro Visual at 38.0s
+        tl.to("#chaining-intro-visual", { opacity: 1, scale: 1.0, duration: 0.3 }, time(38.0));
+        tl.to(".box-a", { opacity: 1, y: 0, duration: 0.4, ease: "back.out(1.5)" }, time(38.0));
+        
+        // Show the connecting link at 38.3s
+        tl.to(".chain-link", { opacity: 1, duration: 0.3 }, time(38.3));
+        tl.to(".link-icon", { scale: 1.2, rotation: 360, duration: 0.5, ease: "back.out(1.5)" }, time(38.3));
+        
+        // Show Prompt B at 38.6s (on word "prompt")
+        tl.to(".box-b", { opacity: 1, y: 0, duration: 0.4, ease: "back.out(1.5)" }, time(38.6));
+        
+        // Pulse link icon at 39.0s (on word "chaining")
+        tl.to(".link-icon", { scale: 1.5, textShadow: "0 0 40px #00F0FF", duration: 0.2, yoyo: true, repeat: 1 }, time(39.0));
+
+        // Exit Chaining Intro Visual & Chaotic pieces
+        tl.to(".chaotic-piece", { opacity: 0, scale: 0, duration: 0.4, ease: "power2.in" }, time(37.5));
+        tl.to("#chaining-intro-visual", { opacity: 0, scale: 0.85, duration: 0.4, ease: "power2.in" }, time(39.5));
+
+        // Reveal Split Visual Concept (Giant Box first)
+        tl.to("#split-visual", { opacity: 1, duration: 0.3 }, time(40.1));
+        
+        // Reveal Pipeline Layout in the background (dimmed initially)
+        tl.to("#pipeline", { opacity: 0.15, duration: 1 }, time(41.0));
+
+        // Split transition: Giant box fades/blurs out, vertical stack steps cascade in at 42.5s
+        tl.to(".split-giant-box", { 
+            scale: 1.15, 
+            opacity: 0, 
+            filter: "blur(12px)", 
+            duration: 0.45, 
+            ease: "power2.in" 
+        }, time(42.5));
+        
+        tl.set(".split-stack", { opacity: 1 }, time(42.6));
+        
+        // Cascade vertical steps
+        tl.to(".step-1", { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(1.5)" }, time(42.6));
+        tl.to("#split-arrow-1", { opacity: 1, y: 0, duration: 0.3 }, time(42.9));
+        
+        tl.to(".step-2", { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(1.5)" }, time(43.1));
+        tl.to("#split-arrow-2", { opacity: 1, y: 0, duration: 0.3 }, time(43.4));
+        
+        tl.to(".step-3", { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(1.5)" }, time(43.6));
+
+        // Exit Split Visual Concept and fully highlight background Pipeline Layout
+        tl.to("#split-visual", { opacity: 0, scale: 0.85, duration: 0.5, ease: "power2.in" }, time(45.0));
+        tl.to("#pipeline", { opacity: 1, duration: 0.5 }, time(45.0));
+
+        // "First prompt... Second prompt... Third prompt" (45.8s - 54.0s)
+        tl.to("#node-1", { opacity: 1, y: 0, duration: 0.6, ease: "back.out(1.5)" }, time(45.8));
+        tl.to("#arrow-1-2", { opacity: 1, duration: 0.5 }, time(47.3));
+
+        tl.to("#node-2", { opacity: 1, y: 0, duration: 0.6, ease: "back.out(1.5)" }, time(48.4));
+        tl.to("#arrow-2-3", { opacity: 1, duration: 0.5 }, time(50.5));
+
+        tl.to("#node-3", { opacity: 1, y: 0, duration: 0.6, ease: "back.out(1.5)" }, time(51.6));
+
+        // "Now every step has ONE job" (54.6s - 57.0s)
+        tl.to(".one-job-badge", {
+            opacity: 1,
+            y: -10,
+            duration: 0.4,
+            stagger: 0.2,
+            ease: "back.out(2)"
+        }, time(54.6));
+
+        // "The output from one step becomes the input..." (57.8s - 63.9s)
+        tl.to(".arrow-label", { opacity: 1, y: -5, duration: 0.5, stagger: 0.3 }, time(58.5));
+        tl.to("#flow-1", { width: "100%", duration: 1.5, ease: "power1.inOut" }, time(60.1));
+        tl.to("#flow-2", { width: "100%", duration: 1.5, ease: "power1.inOut" }, time(61.6));
+
+        // Move JSON packet 1
+        const p1 = document.getElementById("packet-1");
+        const a1 = document.getElementById("arrow-1-2").getBoundingClientRect();
+        const p1_start_x = 260 + 15; // Width of node + margin
+        tl.set(p1, { x: p1_start_x, opacity: 1 }, time(60.1));
+        tl.to(p1, { x: p1_start_x + a1.width, duration: 1.5, ease: "none" }, time(60.1));
+        tl.to(p1, { opacity: 0, duration: 0.2 }, time(61.5));
+
+        // Move JSON packet 2
+        const p2 = document.getElementById("packet-2");
+        const a2 = document.getElementById("arrow-2-3").getBoundingClientRect();
+        const p2_start_x = p1_start_x + a1.width + 260 + 30;
+        tl.set(p2, { x: p2_start_x, opacity: 1 }, time(61.6));
+        tl.to(p2, { x: p2_start_x + a2.width, duration: 1.5, ease: "none" }, time(61.6));
+        tl.to(p2, { opacity: 0, duration: 0.2 }, time(63.0));
+
+        // "Reasoning progressively like a pipeline" (64.5s - 68.3s)
+        tl.to("#conveyor", { opacity: 1, duration: 1 }, time(64.5));
+        tl.to(".cog", { rotation: 360, duration: 4, repeat: 10, ease: "none" }, time(64.5));
+
+        // "Not one brain explosion, more like coordinated mini thoughts" (69.2s - 77.8s)
+        tl.to("#concept-header", { opacity: 1, duration: 0.5 }, time(69.2));
+        tl.to("#explosion-x", { opacity: 1, scale: 1.5, duration: 0.3, yoyo: true, repeat: 1 }, time(74.3)); // "brain explosion"
+        tl.to("#brain-icon", { opacity: 0, duration: 0.3 }, time(75.5));
+        tl.to("#lightbulbs", { opacity: 1, duration: 0.5 }, time(75.9));
+
+        // Blink lightbulbs sequentially
+        const bulbs = document.querySelectorAll(".bulb");
+        tl.to(bulbs[0], { className: "bulb active", duration: 0.2 }, time(76.4));
+        tl.to(bulbs[1], { className: "bulb active", duration: 0.2 }, time(76.8));
+        tl.to(bulbs[2], { className: "bulb active", duration: 0.2 }, time(77.2));
+
+        // "Validation and structured outputs like JSON" (78.7s - 86.0s)
+        tl.to(".validation-badge", { scale: 1, duration: 0.5, ease: "back.out(1.5)", stagger: 0.3 }, time(81.9));
+
+        // "Because one messy output can break the entire pipeline" (86.5s - 90.4s)
+        tl.to("#val-1", { className: "validation-badge broken", text: '{status:"error"}', duration: 0.1 }, time(87.8));
+        tl.to("#val-1", { x: "+=5", yoyo: true, repeat: 5, duration: 0.05 }, time(87.9)); // Shake
+        tl.to("#flow-1", { background: "var(--neon-pink)", boxShadow: "0 0 15px var(--neon-pink)", duration: 0.3 }, time(88.0));
+        tl.to("#node-2", { borderColor: "var(--neon-pink)", duration: 0.3 }, time(88.5));
+        tl.to("#flow-2", { opacity: 0.2, duration: 0.3 }, time(89.0));
+
+        // "Good agent systems... control the data" (90.9s - 96.6s)
+        tl.to("#val-1", { className: "validation-badge", text: '{status:"valid"}', duration: 0.5 }, time(94.0));
+        tl.to("#flow-1", { background: "var(--neon-cyan)", boxShadow: "0 0 15px var(--neon-cyan)", duration: 0.5 }, time(94.5));
+        tl.to("#node-2", { borderColor: "var(--glass-border)", duration: 0.5 }, time(94.5));
+        tl.to("#flow-2", { opacity: 1, duration: 0.5 }, time(95.0));
+
+        // Show control valves
+        tl.to(".control-valve", { scale: 1, rotation: 360, duration: 1, ease: "back.out(1.5)" }, time(93.9));
+
+        // "That structured-output layer... Production Grade" (97.0s - 104.4s)
+        tl.to("#pipeline-glass", { opacity: 1, duration: 1.5 }, time(97.4));
+        tl.to("#final-badge", { opacity: 1, bottom: -40, duration: 1, ease: "power3.out" }, time(103.5));
+
+        // "We'll break that down in the next episode" (104.8s - 107.3s)
+        tl.to("#pipeline", { scale: 0.6, y: -100, duration: 1.5, ease: "power3.inOut" }, time(104.8));
+        tl.to("#concept-header", { opacity: 0, duration: 0.5 }, time(104.8));
+        tl.to("#conveyor", { opacity: 0, duration: 0.5 }, time(104.8));
+        tl.to("#teaser", { opacity: 1, x: 0, duration: 0.8, ease: "back.out(1.2)" }, time(105.8));
+
+        // Speaking state animations for talking head overlay
+        const speechSegments = [
+            { start: 1.8, end: 12.5 },
+            { start: 13.2, end: 22.5 },
+            { start: 26.5, end: 34.8 },
+            { start: 35.4, end: 39.4 },
+            { start: 40.1, end: 57.0 },
+            { start: 57.8, end: 68.3 },
+            { start: 69.2, end: 77.8 },
+            { start: 78.7, end: 90.4 },
+            { start: 90.9, end: 96.6 },
+            { start: 97.0, end: 107.3 }
+        ];
+
+        speechSegments.forEach(seg => {
+            tl.set("#face-overlay", { className: "face-overlay speaking" }, time(seg.start));
+            tl.set("#face-overlay", { className: "face-overlay" }, time(seg.end));
+        });
+
+    </script>
+</body>
+
+</html>

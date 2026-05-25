@@ -46,7 +46,7 @@ DEVICE: str = detect_device() if _device_env == "auto" else _device_env
 VIDEO_WIDTH: int = 1080
 VIDEO_HEIGHT: int = 1920
 VISUAL_WIDTH: int = 1080
-VISUAL_HEIGHT: int = 1056
+VISUAL_HEIGHT: int = 1920
 FPS: int = 30
 
 

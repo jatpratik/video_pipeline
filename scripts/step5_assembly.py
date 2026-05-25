@@ -37,7 +37,7 @@ def assemble_video(
     video_width: int = 1080,
     video_height: int = 1920,
     visual_width: int = 1080,
-    visual_height: int = 1056,
+    visual_height: int = 1920,
     fps: int = 30,
     crf: int = 18,
     preset: str = "medium",
