@@ -26,6 +26,7 @@ def validate_export(
     video_height: int = 1920,
     fps: int = 30,
     duration_tolerance: float = 0.5,
+    scenes: list[dict] = None,
 ) -> dict:
     """
     Run comprehensive validation checks on the final video.
@@ -81,10 +82,19 @@ def validate_export(
     video_duration = float(video_info.get("format", {}).get("duration", 0))
     audio_duration = _get_audio_duration(audio_path)
 
-    student_video_path = audio_path.parent / "Female_student_speaking_to_camera_202605191546.mp4"
-    if student_video_path.exists():
-        # Account for the 8.5 seconds spliced student clip (8.0s video + 0.5s padding)
-        audio_duration += 8.5
+    # Calculate overlay durations dynamically
+    overlay_shift = 0.0
+    if scenes is not None:
+        for scene in scenes:
+            for ov in scene.get("overlays", []):
+                overlay_shift += ov["duration"] + ov.get("padding_start", 0.0)
+    else:
+        # Fallback to the old hardcoded logic if scenes is not passed
+        student_video_path = audio_path.parent / "Female_student_speaking_to_camera_202605191546.mp4"
+        if student_video_path.exists():
+            overlay_shift = 8.5
+
+    audio_duration += overlay_shift
 
     duration_diff = abs(video_duration - audio_duration)
     dur_pass = duration_diff <= duration_tolerance

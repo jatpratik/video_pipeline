@@ -142,6 +142,7 @@ def main():
             video_width=config.VIDEO_WIDTH,
             video_height=config.VIDEO_HEIGHT,
             fps=config.FPS,
+            scenes=scenes,
         )
         
         if report["passed"]:

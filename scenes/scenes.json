@@ -1,6 +1,16 @@
 [
   {
     "scene_id": "scene_01",
-    "duration": 116.5
+    "duration": 116.5,
+    "overlays": [
+      {
+        "video": "Female_student_speaking_to_camera_202605191546.mp4",
+        "insert_time": 78.0,
+        "duration": 8.0,
+        "padding_start": 0.5,
+        "position": {"x": 140, "y": 140, "w": 800, "h": 1160},
+        "crop": "1080:1568:0:176"
+      }
+    ]
   }
 ]
