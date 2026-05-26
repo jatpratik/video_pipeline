@@ -121,15 +121,13 @@ def assemble_video(
     if face_video_path is not None:
         logger.info(
             f"Found face video: {face_video_path.name}. "
-            f"Trimming {config.FACE_VIDEO_TRIM_START_S}s and overlaying in high quality "
-            f"at {config.FACE_VIDEO_DELAY_S}s delay..."
+            f"Trimming {config.FACE_VIDEO_TRIM_START_S}s and overlaying in high quality..."
         )
         delay_pts = config.FACE_VIDEO_DELAY_S
         trim_start = config.FACE_VIDEO_TRIM_START_S
 
-        # Build face video filter chain dynamically
+        # Build face video filter chain dynamically (without final setpts since we customize it for splicing)
         face_filters = [
-            f"trim=start={trim_start},setpts=PTS-STARTPTS",
             "crop=w='min(iw,ih)':h='min(iw,ih)',scale=400:400",
             "zscale=t=linear:npl=400,format=gbrpf32le,zscale=p=bt709",
             "tonemap=tonemap=mobius:desat=0,zscale=t=bt709:m=bt709:r=tv"
@@ -150,59 +148,138 @@ def assemble_video(
 
         face_filters.extend([
             "format=rgba",
-            "geq=r='r(X,Y)':g='g(X,Y)':b='b(X,Y)':a='if(lte(pow(X-200,2)+pow(Y-200,2),40000),255,0)'",
-            f"setpts=PTS+{delay_pts}/TB"
+            "geq=r='r(X,Y)':g='g(X,Y)':b='b(X,Y)':a='if(lte(pow(X-200,2)+pow(Y-200,2),40000),255,0)'"
         ])
 
         face_filter_str = ",".join(face_filters)
 
-        cmd_final = [
-            "ffmpeg", "-y",
-            "-i", str(concat_output),
-            "-i", str(audio_path),
-            "-i", str(face_video_path),
-            "-filter_complex",
-            f"[2:v]{face_filter_str}[face];"
-            f"[0:v]pad={video_width}:{video_height}:0:0:black[bg];"
-            f"[bg][face]overlay=x=80:y=1440:enable='gt(t,{delay_pts})':eof_action=pass[v]",
-            "-map", "[v]",
-            "-map", "1:a",
-            "-c:v", "libx264",
-            "-preset", preset,
-            "-crf", str(crf),
-            "-pix_fmt", "yuv420p",
-            "-color_range", "tv",
-            "-colorspace", "bt709",
-            "-color_trc", "bt709",
-            "-color_primaries", "bt709",
-            "-c:a", "aac",
-            "-b:a", audio_bitrate,
-            "-r", str(fps),
-            "-shortest",
-            "-movflags", "+faststart",
-            str(output_path),
-        ]
+        student_video_path = audio_path.parent / "Female_student_speaking_to_camera_202605191546.mp4"
+        has_student = student_video_path.exists()
+
+        if has_student:
+            logger.info("Found student video. Splicing audio, face video, and overlaying student video...")
+            filter_complex = (
+                f"[2:v]trim=start={trim_start}:end={trim_start + 78.0},setpts=PTS-STARTPTS,{face_filter_str},setpts=PTS+{delay_pts}/TB[face1];"
+                f"[2:v]trim=start={trim_start + 78.0},setpts=PTS-STARTPTS,{face_filter_str},setpts=PTS+{delay_pts + 86.5}/TB[face2];"
+                f"[3:v]tpad=start_duration=0.5:start_mode=clone,crop=1080:1568:0:176,scale=800:1160,fade=t=in:st=0:d=0.5,fade=t=out:st=8.0:d=0.5,setpts=PTS-STARTPTS+78.0/TB[student_v];"
+                f"[0:v]pad={video_width}:{video_height}:0:0:black[bg];"
+                f"[bg][face1]overlay=x=80:y=1440:enable='lt(t,78.0)':eof_action=pass[bg_mid1];"
+                f"[bg_mid1][face2]overlay=x=80:y=1440:enable='gt(t,86.5)':eof_action=pass[bg_mid2];"
+                f"[bg_mid2][student_v]overlay=x=140:y=140:enable='between(t,78.0,86.5)':eof_action=pass[v];"
+                f"[1:a]atrim=end=78.0,asetpts=PTS-STARTPTS,aformat=sample_rates=44100:channel_layouts=stereo[a1];"
+                f"[3:a]atrim=end=8.0,asetpts=PTS-STARTPTS,adelay=500|500,aformat=sample_rates=44100:channel_layouts=stereo[a_student];"
+                f"[1:a]atrim=start=78.0,asetpts=PTS-STARTPTS,aformat=sample_rates=44100:channel_layouts=stereo[a2];"
+                f"[a1][a_student][a2]concat=n=3:v=0:a=1[a]"
+            )
+
+            cmd_final = [
+                "ffmpeg", "-y",
+                "-i", str(concat_output),
+                "-i", str(audio_path),
+                "-i", str(face_video_path),
+                "-i", str(student_video_path),
+                "-filter_complex", filter_complex,
+                "-map", "[v]",
+                "-map", "[a]",
+                "-c:v", "libx264",
+                "-preset", preset,
+                "-crf", str(crf),
+                "-pix_fmt", "yuv420p",
+                "-color_range", "tv",
+                "-colorspace", "bt709",
+                "-color_trc", "bt709",
+                "-color_primaries", "bt709",
+                "-c:a", "aac",
+                "-b:a", audio_bitrate,
+                "-r", str(fps),
+                "-shortest",
+                "-movflags", "+faststart",
+                str(output_path),
+            ]
+        else:
+            face_filters.append(f"setpts=PTS+{delay_pts}/TB")
+            face_filter_str = ",".join(face_filters)
+            cmd_final = [
+                "ffmpeg", "-y",
+                "-i", str(concat_output),
+                "-i", str(audio_path),
+                "-i", str(face_video_path),
+                "-filter_complex",
+                f"[2:v]{face_filter_str}[face];"
+                f"[0:v]pad={video_width}:{video_height}:0:0:black[bg];"
+                f"[bg][face]overlay=x=80:y=1440:enable='gt(t,{delay_pts})':eof_action=pass[v]",
+                "-map", "[v]",
+                "-map", "1:a",
+                "-c:v", "libx264",
+                "-preset", preset,
+                "-crf", str(crf),
+                "-pix_fmt", "yuv420p",
+                "-color_range", "tv",
+                "-colorspace", "bt709",
+                "-color_trc", "bt709",
+                "-color_primaries", "bt709",
+                "-c:a", "aac",
+                "-b:a", audio_bitrate,
+                "-r", str(fps),
+                "-shortest",
+                "-movflags", "+faststart",
+                str(output_path),
+            ]
     else:
         logger.info("No face video found. Proceeding with standard layout assembly...")
-        cmd_final = [
-            "ffmpeg", "-y",
-            "-i", str(concat_output),
-            "-i", str(audio_path),
-            "-filter_complex",
-            f"[0:v]pad={video_width}:{video_height}:0:0:black[v]",
-            "-map", "[v]",
-            "-map", "1:a",
-            "-c:v", "libx264",
-            "-preset", preset,
-            "-crf", str(crf),
-            "-pix_fmt", "yuv420p",
-            "-c:a", "aac",
-            "-b:a", audio_bitrate,
-            "-r", str(fps),
-            "-shortest",
-            "-movflags", "+faststart",
-            str(output_path),
-        ]
+        student_video_path = audio_path.parent / "Female_student_speaking_to_camera_202605191546.mp4"
+        has_student = student_video_path.exists()
+
+        if has_student:
+            logger.info("Found student video. Splicing audio and overlaying student video...")
+            filter_complex = (
+                f"[2:v]tpad=start_duration=0.5:start_mode=clone,crop=1080:1568:0:176,scale=800:1160,fade=t=in:st=0:d=0.5,fade=t=out:st=8.0:d=0.5,setpts=PTS-STARTPTS+78.0/TB[student_v];"
+                f"[0:v]pad={video_width}:{video_height}:0:0:black[bg];"
+                f"[bg][student_v]overlay=x=140:y=140:enable='between(t,78.0,86.5)':eof_action=pass[v];"
+                f"[1:a]atrim=end=78.0,asetpts=PTS-STARTPTS,aformat=sample_rates=44100:channel_layouts=stereo[a1];"
+                f"[2:a]atrim=end=8.0,asetpts=PTS-STARTPTS,adelay=500|500,aformat=sample_rates=44100:channel_layouts=stereo[a_student];"
+                f"[1:a]atrim=start=78.0,asetpts=PTS-STARTPTS,aformat=sample_rates=44100:channel_layouts=stereo[a2];"
+                f"[a1][a_student][a2]concat=n=3:v=0:a=1[a]"
+            )
+            cmd_final = [
+                "ffmpeg", "-y",
+                "-i", str(concat_output),
+                "-i", str(audio_path),
+                "-i", str(student_video_path),
+                "-filter_complex", filter_complex,
+                "-map", "[v]",
+                "-map", "[a]",
+                "-c:v", "libx264",
+                "-preset", preset,
+                "-crf", str(crf),
+                "-pix_fmt", "yuv420p",
+                "-c:a", "aac",
+                "-b:a", audio_bitrate,
+                "-r", str(fps),
+                "-shortest",
+                "-movflags", "+faststart",
+                str(output_path),
+            ]
+        else:
+            cmd_final = [
+                "ffmpeg", "-y",
+                "-i", str(concat_output),
+                "-i", str(audio_path),
+                "-filter_complex",
+                f"[0:v]pad={video_width}:{video_height}:0:0:black[v]",
+                "-map", "[v]",
+                "-map", "1:a",
+                "-c:v", "libx264",
+                "-preset", preset,
+                "-crf", str(crf),
+                "-pix_fmt", "yuv420p",
+                "-c:a", "aac",
+                "-b:a", audio_bitrate,
+                "-r", str(fps),
+                "-shortest",
+                "-movflags", "+faststart",
+                str(output_path),
+            ]
     _run_ffmpeg(cmd_final, "final assembly")
 
     # ------------------------------------------------------------------
