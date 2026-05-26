@@ -90,7 +90,7 @@ def validate_export(
                 overlay_shift += ov["duration"] + ov.get("padding_start", 0.0)
     else:
         # Fallback to the old hardcoded logic if scenes is not passed
-        student_video_path = audio_path.parent / "Female_student_speaking_to_camera_202605191546.mp4"
+        student_video_path = audio_path.parent / "student_speaking.mp4"
         if student_video_path.exists():
             overlay_shift = 8.5
 
