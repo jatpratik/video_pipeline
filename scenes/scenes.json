@@ -1,21 +1,6 @@
 [
   {
-    "scene_id": "scene_01",
-    "duration": 116.5,
-    "overlays": [
-      {
-        "video": "student_speaking.mp4",
-        "insert_time": 78.0,
-        "duration": 8.0,
-        "padding_start": 0.5,
-        "position": {
-          "x": 140,
-          "y": 140,
-          "w": 800,
-          "h": 1160
-        },
-        "crop": "1080:1568:0:176"
-      }
-    ]
+    "scene_id": "scene_03",
+    "duration": 88.4
   }
 ]
