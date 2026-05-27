@@ -1,0 +1,82 @@
+[
+  {
+    "episode": 1,
+    "id": "ep_01_dot_product",
+    "title": "Dot Product Similarity",
+    "concept": "Vector Angles & Dot Product",
+    "application": "Vector Search & RAG",
+    "status": "Drafted"
+  },
+  {
+    "episode": 2,
+    "id": "ep_02_space_transforms",
+    "title": "Space Transformations",
+    "concept": "Matrix Multiplication",
+    "application": "Neural Network Layers",
+    "status": "Planned"
+  },
+  {
+    "episode": 3,
+    "id": "ep_03_dimensionality_projection",
+    "title": "Dimensionality Projection",
+    "concept": "Orthogonal Projections",
+    "application": "Noise Filtering & Latent Space",
+    "status": "Planned"
+  },
+  {
+    "episode": 4,
+    "id": "ep_04_matrix_scaling",
+    "title": "Matrix Scaling & Growth",
+    "concept": "Determinants",
+    "application": "Normalizing Flows",
+    "status": "Planned"
+  },
+  {
+    "episode": 5,
+    "id": "ep_05_attention_transpose",
+    "title": "Attention Transpose",
+    "concept": "Matrix Transpose (Q K^T)",
+    "application": "Transformer Attention Weights",
+    "status": "Planned"
+  },
+  {
+    "episode": 6,
+    "id": "ep_06_gradient_stabilizer",
+    "title": "The Gradient Stabilizer",
+    "concept": "Softmax Vector Scaling (sqrt(d_k))",
+    "application": "Transformer Softmax Gradients",
+    "status": "Planned"
+  },
+  {
+    "episode": 7,
+    "id": "ep_07_space_invariants",
+    "title": "Space Invariants",
+    "concept": "Eigenvalues & Eigenvectors",
+    "application": "PCA Embedding Compression",
+    "status": "Planned"
+  },
+  {
+    "episode": 8,
+    "id": "ep_08_matrix_decomposition",
+    "title": "Matrix Decomposition",
+    "concept": "Singular Value Decomposition (SVD)",
+    "application": "Collaborative Recommendation Filtering",
+    "status": "Planned"
+  },
+  {
+    "episode": 9,
+    "id": "ep_09_factorizing_adaptation",
+    "title": "Factorizing Adaptation",
+    "concept": "Low-Rank Matrix Factorization",
+    "application": "LoRA Parameter-Efficient Fine-Tuning",
+    "status": "Planned"
+  },
+  {
+    "episode": 10,
+    "id": "ep_10_projection_loss",
+    "title": "Projection Loss",
+    "concept": "Orthogonal Projection Error",
+    "application": "Reconstruction Loss in Autoencoders",
+    "status": "Planned"
+  }
+]

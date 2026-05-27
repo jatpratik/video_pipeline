@@ -1,0 +1,66 @@
+[
+  {
+    "episode": 1,
+    "id": "ep_01_intro",
+    "title": "What makes a system an Agent?",
+    "chapter": "Introduction / Front Matter",
+    "concept": "Perception-Reason-Action Loop",
+    "status": "Drafted"
+  },
+  {
+    "episode": 2,
+    "id": "ep_02_chaining",
+    "title": "Prompt Chaining Pattern",
+    "chapter": "Chapter 1",
+    "concept": "Sequential Workflows",
+    "status": "Planned"
+  },
+  {
+    "episode": 3,
+    "id": "ep_03_routing",
+    "title": "LLM Semantic Routing",
+    "chapter": "Chapter 2",
+    "concept": "Decision Classifier Prompts",
+    "status": "Planned"
+  },
+  {
+    "episode": 4,
+    "id": "ep_04_parallelization",
+    "title": "Parallelization & Merge",
+    "chapter": "Chapter 3",
+    "concept": "Concurrent Tasks",
+    "status": "Planned"
+  },
+  {
+    "episode": 5,
+    "id": "ep_05_reflection",
+    "title": "Reflection & Self-Correction",
+    "chapter": "Chapter 4",
+    "concept": "Critique-Refine Loops",
+    "status": "Planned"
+  },
+  {
+    "episode": 6,
+    "id": "ep_06_tool_use",
+    "title": "Tool Use Pattern",
+    "chapter": "Chapter 5",
+    "concept": "Function Calling & APIs",
+    "status": "Planned"
+  },
+  {
+    "episode": 7,
+    "id": "ep_07_planning",
+    "title": "Planning & ReAct",
+    "chapter": "Chapter 6",
+    "concept": "Task Decomposition",
+    "status": "Planned"
+  },
+  {
+    "episode": 8,
+    "id": "ep_08_multi_agent",
+    "title": "Multi-Agent Collaboration",
+    "chapter": "Chapter 7",
+    "concept": "Role Delegation & Protocols",
+    "status": "Planned"
+  }
+]
