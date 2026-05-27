@@ -190,32 +190,7 @@
             text-shadow: 0 0 18px var(--neon-cyan);
         }
 
-        /* Presenter's Face Guide (Used in development only) */
-        .face-overlay {
-            position: absolute;
-            left: 80px;
-            bottom: 80px;
-            z-index: 100;
-            pointer-events: none;
-        }
 
-        .face-circle {
-            width: 400px;
-            height: 400px;
-            border-radius: 50%;
-            background: rgba(10, 10, 15, 0.2);
-            border: 2px dashed rgba(255, 51, 102, 0.3);
-            box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(5px);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: 'Fira Code', monospace;
-            font-size: 14px;
-            color: rgba(255, 51, 102, 0.6);
-            letter-spacing: 1px;
-            text-transform: uppercase;
-        }
 
         /* HTML Elements for Scene States */
         .fade-element {
@@ -743,9 +718,17 @@
         <!-- Caption display area -->
         <div id="caption-container"></div>
 
-        <!-- Presenter's boundary guide (Zero visual overlay target area) -->
-        <div class="face-overlay">
-            <div class="face-circle">Face overlay</div>
+
+
+        <!-- Student Card Overlay (FFmpeg video target) -->
+        <div id="student-card"
+            style="position: absolute; left: 136px; top: 100px; width: 808px; height: 1212px; opacity: 0; transform: scale(0.8); z-index: 150; pointer-events: none;">
+            <div
+                style="font-family: 'Fira Code', monospace; color: var(--neon-cyan); font-size: 20px; text-transform: uppercase; letter-spacing: 2px; height: 24px; margin-bottom: 12px; text-align: center;">
+                QUESTION</div>
+            <div
+                style="width: 800px; height: 1160px; border: 4px solid var(--neon-cyan); box-shadow: 0 0 50px rgba(0, 240, 255, 0.3); background: rgba(10, 10, 15, 0.6); backdrop-filter: blur(10px);">
+            </div>
         </div>
 
         <!-- ======= STATE 2: PIPELINE CARD CHIPS (7.4s - 26.6s) ======= -->
@@ -1340,51 +1323,58 @@
 
         tl.to("#state5-conveyor", { opacity: 0, duration: 0.4 }, time(58.5));
 
+        // Student Question Overlay (59.0s - 67.0s)
+        tl.to("#student-card", { opacity: 1, scale: 1.0, duration: 0.5, ease: "back.out(1.5)" }, time(59.0));
+        tl.to("#caption-container", { y: 150, duration: 0.5, ease: "power2.out" }, time(59.0));
+
+        tl.to("#student-card", { opacity: 0, scale: 0.8, duration: 0.5, ease: "power2.in" }, time(68.0));
+        tl.to("#caption-container", { y: 0, duration: 0.5, ease: "power2.inOut" }, time(68.0));
+
         // =====================================================
-        // STATE 6: D3.JS VALIDATOR RETRY DIAGRAM (61.2s - 74.4s)
+        // STATE 6: D3.JS VALIDATOR RETRY DIAGRAM (70.7s - 83.9s)
         // =====================================================
-        tl.to("#d3-svg", { opacity: 1, duration: 0.4 }, time(61.0));
+        tl.to("#d3-svg", { opacity: 1, duration: 0.4 }, time(70.5));
 
         // Render D3 SVG elements
         tl.call(() => {
             renderD3ValidatorFlow();
-        }, null, time(61.2));
+        }, null, time(70.7));
 
         // Trigger packet 1: Invalid packet (red)
         tl.call(() => {
             sendD3Packet("packet-path-forward", "#00F0FF", "#FF3366", 1.5, true);
-        }, null, time(62.0));
+        }, null, time(71.5));
 
         // Trigger loop-back retry packet
         tl.call(() => {
             sendD3Packet("packet-path-retry", "#FF3366", "#7B2CBF", 1.8, false, true);
-        }, null, time(65.2));
+        }, null, time(74.7));
 
         // Schema enforcement scanning lights
-        tl.to("#d3-schema-grid", { opacity: 1, duration: 0.4 }, time(66.5));
-        tl.to("#d3-schema-scanbar", { y: 120, duration: 1.2, repeat: 1, yoyo: true, ease: "power1.inOut" }, time(66.8));
-        tl.to("#d3-schema-grid", { opacity: 0, duration: 0.3 }, time(69.2));
+        tl.to("#d3-schema-grid", { opacity: 1, duration: 0.4 }, time(76.0));
+        tl.to("#d3-schema-scanbar", { y: 120, duration: 1.2, repeat: 1, yoyo: true, ease: "power1.inOut" }, time(76.3));
+        tl.to("#d3-schema-grid", { opacity: 0, duration: 0.3 }, time(78.7));
 
         // Trigger packet 2: Valid packet (green)
         tl.call(() => {
             sendD3Packet("packet-path-forward", "#00FFAA", "#00FFAA", 1.4, false);
-        }, null, time(69.8));
+        }, null, time(79.3));
 
         // Forward valid packet to next step
         tl.call(() => {
             sendD3Packet("packet-path-next", "#00FFAA", "#00FFAA", 1.1, false);
             gsap.to("#d3-node-next", { scale: 1.12, duration: 0.25, yoyo: true, repeat: 1 });
             gsap.to("#d3-label-verify", { opacity: 1, scale: 1.1, duration: 0.4, ease: "back.out(1.5)" });
-        }, null, time(72.0));
+        }, null, time(81.5));
 
         // Fade flowchart out
-        tl.to("#d3-svg", { opacity: 0, duration: 0.5 }, time(74.4));
+        tl.to("#d3-svg", { opacity: 0, duration: 0.5 }, time(83.9));
 
         // =====================================================
-        // STATE 7: AUTONOMOUS AGENT SYSTEM UNIVERSE (75.0s - 88.4s)
+        // STATE 7: AUTONOMOUS AGENT SYSTEM UNIVERSE (84.5s - 97.9s)
         // =====================================================
-        tl.to("#state7-universe", { opacity: 1, scale: 1, duration: 0.45 }, time(75.0));
-        tl.to("#s7-core", { opacity: 1, scale: 1, duration: 0.5, ease: "back.out(1.5)" }, time(75.5));
+        tl.to("#state7-universe", { opacity: 1, scale: 1, duration: 0.45 }, time(84.5));
+        tl.to("#s7-core", { opacity: 1, scale: 1, duration: 0.5, ease: "back.out(1.5)" }, time(85.0));
 
         // Connectors beam down and flow dynamically
         tl.to("#s7c-1, #s7c-2, #s7c-3", {
@@ -1395,7 +1385,7 @@
                 document.getElementById("s7c-2").classList.add("beam-active");
                 document.getElementById("s7c-3").classList.add("beam-active");
             }
-        }, time(77.0));
+        }, time(86.5));
 
         // Satellite stations activate
         tl.to("#s7s-1", {
@@ -1404,7 +1394,7 @@
             boxShadow: "0 0 30px rgba(0, 240, 255, 0.25)",
             duration: 0.5,
             ease: "back.out(1.4)"
-        }, time(81.4));
+        }, time(90.9));
 
         tl.to("#s7s-2", {
             opacity: 1, y: 0,
@@ -1412,7 +1402,7 @@
             boxShadow: "0 0 30px rgba(123, 44, 191, 0.25)",
             duration: 0.5,
             ease: "back.out(1.4)"
-        }, time(82.7));
+        }, time(92.2));
 
         tl.to("#s7s-3", {
             opacity: 1, y: 0,
@@ -1420,16 +1410,16 @@
             boxShadow: "0 0 30px rgba(0, 255, 170, 0.25)",
             duration: 0.5,
             ease: "back.out(1.4)"
-        }, time(84.0));
+        }, time(93.5));
 
         // Fully autonomous display
-        tl.to("#s7-title", { opacity: 1, y: 0, duration: 0.5, ease: "back.out(1.4)" }, time(85.8));
+        tl.to("#s7-title", { opacity: 1, y: 0, duration: 0.5, ease: "back.out(1.4)" }, time(95.3));
 
         // Camera pull-back scale out
-        tl.to("#state7-universe", { scale: 0.86, duration: 1.8, ease: "power2.inOut" }, time(86.8));
+        tl.to("#state7-universe", { scale: 0.86, duration: 1.8, ease: "power2.inOut" }, time(96.3));
 
         // Dark fade out
-        tl.to("#state7-universe, .bg-grid, .ambient-glow", { opacity: 0, duration: 1.5 }, time(88.4));
+        tl.to("#state7-universe, .bg-grid, .ambient-glow", { opacity: 0, duration: 1.5 }, time(97.9));
 
         // =====================================================
         // DATA STREAM RENDERING LOGIC (CANVAS 2D)

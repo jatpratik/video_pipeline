@@ -2,6 +2,27 @@
 
 This document outlines the architecture, flow, and components of the AI Video Generation Pipeline. Use this document as context when assisting with development, debugging, or extending the project.
 
+## AI Educator Channel Mission & Monetization Goal
+- **Mission:** Create educational short-form vertical videos (YouTube Shorts/Reels) explaining AI concepts, math for AI, autonomous agents, and system architecture.
+- **Goal:** Drive user engagement to monetize the YouTube channel by posting daily, high-quality explanation videos.
+- **Progress:** Completed 2 Reels successfully (Reel 1: Prompt Chaining, Reel 2: Structured Outputs).
+- **Strategy:** The next 10 reels must strictly adhere to the same styling conventions, layout metrics, and high-quality FFmpeg overlay flow established here.
+
+## Core Design Conventions for Future Reels
+1. **Vertical 9:16 Mobile Aspect Ratio:** 1080 × 1920 viewport.
+2. **Full Screen Visualization:** Visual animations use 100% of the screen space.
+3. **Presenter Face Overlay (FFmpeg-driven):**
+   - Presenter's face is circle-cropped (`diameter: 400px`) and overlaid at the bottom-left corner (`x: 80, y: 1440`).
+   - Do NOT embed face `<video>` tags or circle placeholder markup inside HTML templates. Headless rendering should output a clean visual canvas.
+   - FFmpeg assembly script handles the face overlay, applying smartblur skin smoothing, unsharp detail sharpening, vibrance boost, Mobius tonemapping, and BT.709 colorspace.
+4. **Student Speaking Question Overlay (PiP Card):**
+   - When a question is asked, a picture-in-picture student video (`student_speaking.mp4`) card overlays the main visual space at coordinates `x: 140, y: 140, w: 800, h: 1160`.
+   - Card border, headers, and shadow overlays are handled by HTML/CSS and animated in/out with GSAP (typically for the 8s to 9s question duration).
+   - Audio is paused/split automatically by the assembly script during this window, and the face circle is hidden.
+5. **Caption Wrapping & Formatting:**
+   - Word blocks wrap dynamically to prevent clipping on mobile screens (`flex-wrap: wrap; justify-content: center;`).
+   - Captions are positioned safely above the face circle overlay (`bottom: 520px` or `margin-bottom: 540px`).
+
 ## Overview
 The pipeline is a hybrid automated/manual system that converts a narration script and audio file into a polished, vertical (1080×1920) video. It uses WhisperX for audio alignment, manual HTML/CSS/GSAP generation (via an AI coding assistant like Antigravity) for visuals, Playwright for headless rendering, and FFmpeg for final assembly.
 
