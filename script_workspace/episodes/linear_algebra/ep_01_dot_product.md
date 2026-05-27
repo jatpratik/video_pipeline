@@ -59,7 +59,7 @@ print(f"Cosine Similarity: {cosine_sim.item()}")  # Output: 0.96
 
 ## PART 2: THE VIDEO SCRIPT (For Production)
 
-- **Target Duration**: 60 seconds
+- **Target Duration**: 85-90 seconds
 - **Narrator Tone**: Enthusiastic, clear, authoritative AI educator.
 - **Maya's Timing**: 59.0s - 68.0s (9.0s duration).
 
@@ -67,31 +67,31 @@ print(f"Cosine Similarity: {cosine_sim.item()}")  # Output: 0.96
 This is the clean text you will read during voice recording/teleprompting.
 
 **Presenter:**
-"Every time you use AI search or RAG, the database is doing high-speed geometry. It translates your words into vector arrows and measures the angle between them.
+"AI doesn't see words. It sees arrows in space.
 
-This is the dot product. We multiply corresponding coordinates of two vectors and add them up. If the vectors point in the same direction, the sum is high—meaning high similarity.
+Every word, every sentence, even every pixel becomes a vector — an arrow with a specific direction and length in a high-dimensional meaning space.
 
-But watch out! If one vector has a huge magnitude—like a very long document—the raw dot product explodes, even if the meaning is identical. That's why we use Cosine Similarity to normalize length.
+Here's the critical part: If 'king' is here, and 'queen' is there, how does the AI know they're related? It measures the angle between them. Smaller the angle, stronger the semantic bond.
 
-In production, libraries like PyTorch or FAISS compute millions of these dot products in milliseconds to find the perfect context for your prompt. Most beginner developers completely ignore this math layer."
+The tool is the dot product. Mathematically, it's a simple calculation. But geometrically? It's like a beam of light from one vector to another. A strong, bright beam means the arrows are aligned — pointing in the same direction."
 
 **Maya (Overlay at 59.0s - 68.0s):**
-"Okay… but how does the AI model turn words into these vector numbers in the first place? And who decides what each coordinate represents?"
+"Hey, Maya here. That works well for two words. But we're building a RAG system for a million documents. Does dot product scale? What's the compute cost for brute-force angle calculations across a fleet of GPUs?"
 
 **Presenter:**
-"That is the magic of LLM embeddings! The neural network learns these representations during training, mapping semantic concepts to specific coordinate axes.
+"Good question, Maya. That's exactly the engineering challenge. Linear scanning an entire vector space is impractical. That's why we use Approximate Nearest Neighbor search. Algorithms like HNSW trade a small amount of accuracy for massive speed — letting us find relevant documents in milliseconds, not hours.
 
-But how does it learn to cluster similar words together without human labels? In the next reel, we'll break down the Loss Functions that train these models. Subscribe to master the math!"
+So next time a chatbot seems to read your mind? Remember: it's not reading text. It's flying through a universe of vectors, shining a spotlight on the closest match. That's how AI understands the world."
 
 ### 2. Visual Storyboard
 This coordinates the animations, overlays, and timing cues for the video assembly.
 
 | Time | Visual State / Animation | Audio Cues |
 | :--- | :--- | :--- |
-| **0.0s - 10.0s** | **[Hook]** Screen shows a glowing search bar with the query "How to build an AI agent". Two coordinates/points appear in a 3D space, drawing a vector arrow to each. | Presenter Intro |
-| **10.0s - 30.0s** | **[The Core Math]** Zoom in on the vector arrows. Show coordinates $(3, 4)$ and $(4, 3)$. The calculation $(3 \times 4) + (4 \times 3) = 24$ animates in bright neon text. | Presenter Math explanation |
-| **30.0s - 45.0s** | **[The Vector Catch]** Vector lengths stretch (e.g. $[30, 40]$ vs $[4, 3]$). The angle remains identical, but the dot product explodes to $240$. Show the cosine normalization formula. | Presenter explanation of Cosine Sim |
-| **45.0s - 59.0s** | **[Real-World Application]** Transition to a production diagram showing PyTorch code and FAISS indexing thousands of text nodes. | Presenter PyTorch / production warning |
-| **59.0s - 68.0s** | **[Maya Overlay (PiP)]** Maya's card slides in at $x:140, y:140$ with a sleek glassmorphic container and blue border glow. Narration audio pauses. | Maya's embedding question |
-| **68.0s - 75.0s** | **[The Answer]** Maya's card fades out. Presenter circle resumes. Show a neural network layout layer with words passing through weights to output float lists. | Presenter explanation of Embedding training |
-| **75.0s - 85.0s** | **[Curiosity Loop / Outro]** Text on screen: "How does an embedding model train?" with a glowing subscribe button. | Presenter Outro / Subscribe CTA |
+| **0.0s - 12.0s** | **[Hook]** Text "Words" and "Pixels" floating in dark space. They instantly transform into bright, glowing 3D vector arrows shooting out from a central origin point. | Presenter: "AI doesn't see words..." |
+| **12.0s - 28.0s** | **[The Angle Concept]** Show two labeled vector arrows: "king" and "queen". A neon blue arc representing the angle $\theta$ appears between them, pulsing and contracting to show closeness. | Presenter: "Here's the critical part..." |
+| **28.0s - 45.0s** | **[Dot Product Projection]** The "king" vector casts a glowing beam of yellow light directly onto the "queen" vector. The overlap region pulses with intense brightness when they align. | Presenter: "The tool is the dot product..." |
+| **45.0s - 59.0s** | **[Scale Warning]** Zoom out to show a cloud of thousands of vectors. Red lines rapidly scan across all of them (brute-force scan), with a GPU icon overheating. | Presenter leading into Maya's check. |
+| **59.0s - 68.0s** | **[Maya Overlay (PiP)]** Maya's overlay card slides in at $x: 140, y: 140$ with a glowing blue border. Brute-force scanning animations freeze in the background. | Maya: "Hey, Maya here. That works well..." |
+| **68.0s - 80.0s** | **[ANN / HNSW Graph]** Maya's card fades. The dense cloud transitions into a structured, multi-layer HNSW graph. A query node navigates the layers in just 3 quick steps. | Presenter: "Good question, Maya..." |
+| **80.0s - 90.0s** | **[Outro / Universe of Vectors]** Camera flies forward through a gorgeous starfield of vector coordinates, with spotlights highlighting matching nodes. Outro text: "Subscribe for AI Math". | Presenter: "So next time a chatbot..." |

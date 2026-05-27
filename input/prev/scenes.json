@@ -1,12 +1,12 @@
 [
   {
-    "scene_id": "scene_04",
-    "duration": 80.73,
+    "scene_id": "scene_03",
+    "duration": 97.9,
     "overlays": [
       {
         "video": "student_speaking.mp4",
-        "insert_time": 42.793,
-        "duration": 7.0,
+        "insert_time": 59.0,
+        "duration": 9.0,
         "padding_start": 0.5,
         "position": {
           "x": 140,
