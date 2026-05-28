@@ -225,46 +225,24 @@ def assemble_video(
         ])
         face_filter_str = ",".join(face_filters)
 
-        # Slice face video at overlay gaps
-        for i in range(M + 1):
-            narrator_start_t = 0.0 if i == 0 else overlays_meta[i - 1]["global_insert_narrator_time"]
-            narrator_end_t = overlays_meta[i]["global_insert_narrator_time"] if i < M else None
+        # Process the face video stream as a single continuous track
+        filter_parts.append(
+            f"[2:v]trim=start={trim_start},setpts=PTS-STARTPTS,{face_filter_str},setpts=PTS+{delay_pts}/TB[face_clean]"
+        )
 
-            trim_str = f"trim=start={trim_start + narrator_start_t}"
-            if narrator_end_t is not None:
-                trim_str += f":end={trim_start + narrator_end_t}"
+        # Build enable condition for overlaying the face (hide during student overlay segments)
+        enable_conds = [f"gt(t,{delay_pts})"]
+        for ov in overlays_meta:
+            ov_start = ov["global_insert_visual_time"]
+            ov_end = ov_start + ov["duration"] + ov["padding_start"]
+            enable_conds.append(f"not(between(t,{ov_start},{ov_end}))")
+        enable_cond = "*".join(enable_conds)
 
-            visual_start_t = 0.0 if i == 0 else overlays_meta[i - 1]["global_insert_visual_time"] + overlays_meta[i - 1]["shift"]
-            delay_val = delay_pts + visual_start_t
-
-            filter_parts.append(
-                f"[2:v]{trim_str},setpts=PTS-STARTPTS,{face_filter_str},setpts=PTS+{delay_val}/TB[face_{i}]"
-            )
-
-        # Chain face overlays onto background
-        for i in range(M + 1):
-            visual_start_t = 0.0 if i == 0 else overlays_meta[i - 1]["global_insert_visual_time"] + overlays_meta[i - 1]["shift"]
-            visual_end_t = overlays_meta[i]["global_insert_visual_time"] if i < M else None
-
-            if M == 0:
-                enable_cond = f"gt(t,{delay_pts})"
-            else:
-                if i == 0:
-                    enable_cond = f"lt(t,{delay_pts + visual_end_t})"
-                elif i == M:
-                    enable_cond = f"gt(t,{delay_pts + visual_start_t})"
-                else:
-                    enable_cond = f"between(t,{delay_pts + visual_start_t},{delay_pts + visual_end_t})"
-
-            next_bg = f"bg_face_{i}" if i < M or M > 0 else "v"
-            if i == M and M > 0:
-                # If this is the last face slice overlay, name it bg_face_final so we can chain overlay videos next
-                next_bg = "bg_face_final"
-
-            filter_parts.append(
-                f"[{bg_label}][face_{i}]overlay=x=80:y=1440:enable='{enable_cond}':eof_action=pass[{next_bg}]"
-            )
-            bg_label = next_bg
+        next_bg = "bg_face_final" if M > 0 else "v"
+        filter_parts.append(
+            f"[{bg_label}][face_clean]overlay=x=80:y=1440:enable='{enable_cond}':eof_action=pass[{next_bg}]"
+        )
+        bg_label = next_bg
 
     # 5b. Build student/overlay video filter chains
     for idx, ov in enumerate(overlays_meta):

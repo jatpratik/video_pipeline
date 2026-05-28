@@ -183,6 +183,11 @@ async def _render_single(
                 },
             )
 
+            # Prevent initial white screen flash by styling the root element of all loaded pages
+            await context.add_init_script(
+                "document.documentElement.style.background = '#05050a';"
+            )
+
             page = await context.new_page()
 
             # Navigate to the HTML file

@@ -125,7 +125,7 @@ FFMPEG_AUDIO_BITRATE: str = "192k"
 # ===========================================================================
 
 FACE_VIDEO_DELAY_S: float = 0.0      # Delay in seconds before face video starts overlaying
-FACE_VIDEO_TRIM_START_S: float = 7.0  # Skip first N seconds of the face video source
+FACE_VIDEO_TRIM_START_S: float = 3.0  # Skip first N seconds of the face video source
 
 # Face Beauty / Enhancement Settings
 FACE_BEAUTY_SMOOTH_SKIN: bool = True         # Enable edge-preserving skin smoothing (smartblur)

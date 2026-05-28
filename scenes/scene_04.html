@@ -32,7 +32,7 @@
             padding: 0;
         }
 
-        body {
+        html, body {
             background-color: var(--bg-color);
             color: #ffffff;
             font-family: 'Inter', sans-serif;
@@ -89,6 +89,7 @@
             height: 1920px;
             z-index: 5;
             pointer-events: none;
+            background: transparent;
         }
 
         /* 2D Canvas Layer (HUD, projections, graph routing) */
@@ -703,6 +704,7 @@
         camera.position.set(0, 0, 8);
 
         const renderer3D = new THREE.WebGLRenderer({ canvas: canvas3D, alpha: true, antialias: true });
+        renderer3D.setClearColor(0x000000, 0);
         renderer3D.setSize(1080, 1920);
         renderer3D.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 

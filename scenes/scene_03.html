@@ -31,7 +31,7 @@
             padding: 0;
         }
 
-        body {
+        html, body {
             background-color: var(--bg-color);
             color: #ffffff;
             font-family: 'Inter', sans-serif;
@@ -87,6 +87,7 @@
             height: 1920px;
             z-index: 5;
             pointer-events: none;
+            background: transparent;
         }
 
         /* 2D Canvas Layer (Data streams and chaotic text) */
@@ -962,6 +963,7 @@
         camera.position.z = 7.5;
 
         const renderer3D = new THREE.WebGLRenderer({ canvas: canvas3D, alpha: true, antialias: true });
+        renderer3D.setClearColor(0x000000, 0);
         renderer3D.setSize(1080, 1920);
         renderer3D.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
@@ -1198,8 +1200,7 @@
         tl.to(textParticles, { alpha: 0.0, duration: 0.3, ease: "power2.in" }, time(23.7));
 
         tl.call(() => {
-            triggerParticleBurst(540, 400, ["#FF3366", "#7B2CBF", "#FF0055"]);
-            triggerParticleBurst(540, 650, ["#FF3366", "#7B2CBF", "#FF0055"]);
+            triggerParticleBurst([{ x: 540, y: 400 }, { x: 540, y: 650 }], ["#FF3366", "#7B2CBF", "#FF0055"]);
             document.body.classList.add("shake-active");
         }, null, time(23.7));
 
@@ -1351,9 +1352,15 @@
         }, null, time(74.7));
 
         // Schema enforcement scanning lights
-        tl.to("#d3-schema-grid", { opacity: 1, duration: 0.4 }, time(76.0));
-        tl.to("#d3-schema-scanbar", { y: 120, duration: 1.2, repeat: 1, yoyo: true, ease: "power1.inOut" }, time(76.3));
-        tl.to("#d3-schema-grid", { opacity: 0, duration: 0.3 }, time(78.7));
+        tl.call(() => {
+            gsap.to("#d3-schema-grid", { opacity: 1, duration: 0.4 });
+        }, null, time(76.0));
+        tl.call(() => {
+            gsap.to("#d3-schema-scanbar", { y: 120, duration: 1.2, repeat: 1, yoyo: true, ease: "power1.inOut" });
+        }, null, time(76.3));
+        tl.call(() => {
+            gsap.to("#d3-schema-grid", { opacity: 0, duration: 0.3 });
+        }, null, time(78.7));
 
         // Trigger packet 2: Valid packet (green)
         tl.call(() => {
@@ -1469,12 +1476,33 @@
         // TSPARTICLES EXPLOSIONS SUPPORT
         // =====================================================
         async function triggerParticleBurst(x, y, colors) {
+            let emitters = [];
+            let actualColors = colors;
+
+            if (Array.isArray(x)) {
+                // New style: triggerParticleBurst(points, colors)
+                const points = x;
+                actualColors = y;
+                emitters = points.map(pt => ({
+                    position: { x: (pt.x / 1080) * 100, y: (pt.y / 1920) * 100 },
+                    rate: { quantity: 65, delay: 0 },
+                    life: { count: 1, duration: 0.25 }
+                }));
+            } else {
+                // Old style: triggerParticleBurst(x, y, colors)
+                emitters = [{
+                    position: { x: (x / 1080) * 100, y: (y / 1920) * 100 },
+                    rate: { quantity: 65, delay: 0 },
+                    life: { count: 1, duration: 0.25 }
+                }];
+            }
+
             try {
                 await tsParticles.load("tsparticles", {
                     fullScreen: false,
                     particles: {
-                        number: { value: 65 },
-                        color: { value: colors },
+                        number: { value: 65 * emitters.length },
+                        color: { value: actualColors },
                         shape: { type: ["circle", "square", "triangle"] },
                         size: { value: { min: 4, max: 12 } },
                         opacity: {
@@ -1490,11 +1518,7 @@
                         },
                         life: { duration: { value: 1.4 }, count: 1 }
                     },
-                    emitters: {
-                        position: { x: (x / 1080) * 100, y: (y / 1920) * 100 },
-                        rate: { quantity: 65, delay: 0 },
-                        life: { count: 1, duration: 0.25 }
-                    }
+                    emitters: emitters
                 });
             } catch (e) {
                 console.log("tsParticles burst failed:", e);
