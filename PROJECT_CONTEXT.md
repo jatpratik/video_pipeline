@@ -17,7 +17,7 @@ This document outlines the architecture, flow, and components of the AI Video Ge
    - FFmpeg assembly script handles the face overlay, applying smartblur skin smoothing, unsharp detail sharpening, vibrance boost, Mobius tonemapping, and BT.709 colorspace.
 4. **Student Speaking Question Overlay (PiP Card):**
    - When a question is asked, a picture-in-picture student video (`student_speaking.mp4`) card overlays the main visual space at coordinates `x: 140, y: 140, w: 800, h: 1160`.
-   - Card border, headers, and shadow overlays are handled by HTML/CSS and animated in/out with GSAP (typically for the 8s to 9s question duration).
+   - Card border, headers, and shadow overlays are handled by HTML/CSS and animated in/out with GSAP (typically for the 8s to 10s question duration).
    - Audio is paused/split automatically by the assembly script during this window, and the face circle is hidden.
 5. **Caption Wrapping & Formatting:**
    - Word blocks wrap dynamically to prevent clipping on mobile screens (`flex-wrap: wrap; justify-content: center;`).
@@ -33,6 +33,15 @@ The pipeline is a hybrid automated/manual system that converts a narration scrip
 - **Audio/Alignment:** `WhisperX` for forced alignment and word-level timestamps.
 - **Frontend/Animation:** HTML, CSS, JavaScript (GSAP for animations).
 - **Rendering:** Playwright (headless browser capture) and FFmpeg.
+
+
+**TECH STACK for visuals design used by antigravity**:  
+- Three.js – for 3D pipeline / chain visuals (optional, keep simple if needed)  
+- GSAP – master timeline for all animations  
+- Canvas API – for code blocks, JSON rendering, parsing chaos effects  
+- tsParticles – for “broken pipeline” particle bursts  
+- D3.js (optional, only for simple graph of validators/retries)  
+- CSS glitch / shake effects – for formatting errors 
 
 ## Core Pipeline Steps (`main.py`)
 
@@ -54,14 +63,6 @@ The pipeline is a hybrid automated/manual system that converts a narration scrip
    - Action: Uses FFmpeg to concatenate the rendered scene clips and overlay the original narration audio. Validates export.
    - Output: `output/final_video.mp4`
 
-## Key Rules Enforced in Code (for Visual Generation)
-- **One core idea per scene.** Viewer must understand within 1 second.
-- **Motion must explain.** If static works better, do not animate.
-- **Static rest state.** After animation completes, scene stabilises (no endless loops).
-- **Complexity budget:** Max 1 teaching idea, 2 major objects, 8 visible words, 3 simultaneous motions per scene.
-- **Top 55% safe area.** All important content inside top 1080×1056 of the 1080×1920 frame.
-- **Relative timestamps only.** Never use abs_start — always relative to scene start.
-
 ## Directory Structure
 - `input/`: Source files (`script.txt`, `voice.wav`).
 - `output/`: The final generated video.
@@ -71,9 +72,3 @@ The pipeline is a hybrid automated/manual system that converts a narration scrip
 - `timestamps/`: WhisperX alignment output.
 - `config.py`: Central configuration (video specs, directories).
 - `main.py`: The CLI entry point and main orchestrator.
-
-## Configuration & Specs (`config.py`)
-- **Video Format:** Vertical 1080×1920, 30 FPS.
-- **Visual Rendering Area:** 1080×1056 (top 55% safe area).
-- **Complexity Budget:** 1 idea, 2 objects, 8 words, 3 motions per scene.
-- **Concurrency:** Supports parallel Playwright rendering (default batch size: 3).
