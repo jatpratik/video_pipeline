@@ -6,16 +6,21 @@ Welcome to the unified **Scripting Workspace**. This folder contains the curricu
 - **`curriculums/`**: Contains curriculum JSON files tracking completion status.
   - [linear_algebra.json](file:///e:/my-workspace/content_design/video_pipeline/script_workspace/curriculums/linear_algebra.json): Coordinates for the Linear Algebra series.
   - [agentic_ai.json](file:///e:/my-workspace/content_design/video_pipeline/script_workspace/curriculums/agentic_ai.json): Outline for the Agentic AI Design Patterns series.
+  - [channel_meta.json](file:///e:/my-workspace/content_design/video_pipeline/script_workspace/curriculums/channel_meta.json): Tracking file for channel-level intro and roadmap videos.
 - **`episodes/`**: Subdivided by series to store the "Learn-First" Markdown files.
+  - `channel_meta/`: Introductory/meta-level videos outlining channel scope (e.g., [ep_00_channel_intro_roadmap.md](file:///e:/my-workspace/content_design/video_pipeline/script_workspace/episodes/channel_meta/ep_00_channel_intro_roadmap.md)).
   - `linear_algebra/`: Episodes for Linear Algebra (e.g., [ep_01_dot_product.md](file:///e:/my-workspace/content_design/video_pipeline/script_workspace/episodes/linear_algebra/ep_01_dot_product.md)).
   - `agentic_ai/`: Episodes for Agentic AI (e.g., [ep_01_intro.md](file:///e:/my-workspace/content_design/video_pipeline/script_workspace/episodes/agentic_ai/ep_01_intro.md)).
 - **`assets/`**: Stores gathered diagrams, charts, and media references.
-  - `linear_algebra/` & `agentic_ai/`
+  - `channel_meta/`, `linear_algebra/` & `agentic_ai/`
 
 ---
 
 ## Series Workflows
 We use slightly different workflows depending on the series:
+
+- **Channel Meta (Roadmap & Intro)**:
+  These files contain a Study Guide explaining the strategic channel vision/concept mapping, and the Video Script for production.
 
 - **Linear Algebra for AI (Learn-First Workflow)**:
   Because you are presenting these reels as an AI educator, it is critical that you have a deep, intuitive grasp of the mathematics before recording. Therefore, these files contain two parts:
