@@ -185,37 +185,72 @@ async def _render_single(
 
             # Prevent initial white screen flash by styling the root element of all loaded pages
             await context.add_init_script(
-                "document.documentElement.style.background = '#05050a';"
+                "const observer = new MutationObserver(() => {\n"
+                "  if (document.documentElement) {\n"
+                "    document.documentElement.style.background = '#05050a';\n"
+                "    observer.disconnect();\n"
+                "  }\n"
+                "});\n"
+                "observer.observe(document, { childList: true, subtree: true });"
             )
+
+            # Start recording timer
+            import time as _time
+            start_time = _time.time()
 
             page = await context.new_page()
 
+            # Listen to browser console and errors
+            page.on("console", lambda msg: logger.info(f"  [Browser Console] {msg.type}: {msg.text}"))
+            page.on("pageerror", lambda err: logger.error(f"  [Browser Page Error] {err}"))
+
             # Navigate to the HTML file
             file_url = html_file.resolve().as_uri()
+            logger.info(f"  [Render Debug] Navigating to {file_url}...")
             await page.goto(file_url, wait_until="networkidle")
+            logger.info("  [Render Debug] Navigation complete.")
 
             # Wait for fonts to load before animation starts
+            logger.info("  [Render Debug] Waiting for fonts to be ready...")
             await page.wait_for_function(
                 "document.fonts.ready.then(() => true)",
                 timeout=10_000,
             )
+            logger.info("  [Render Debug] Fonts ready.")
+
+            # Measure play start time to calculate loading latency offset
+            play_time = _time.time()
+            start_offset = max(0.0, play_time - start_time)
+            logger.info(f"  [Render Debug] Measured start offset: {start_offset:.3f}s")
+
+            # Trigger GSAP timeline to start playing
+            logger.info("  [Render Debug] Triggering window.tl.play()...")
+            await page.evaluate("if (window.tl) { window.tl.play(); } void 0;")
+            logger.info("  [Render Debug] window.tl.play() triggered.")
 
             # Wait for the full animation + buffer
             wait_ms = int(duration * 1000) + timeout_buffer_ms
+            logger.info(f"  [Render Debug] Waiting for animation duration + buffer ({wait_ms} ms)...")
             await page.wait_for_timeout(wait_ms)
+            logger.info("  [Render Debug] Finished waiting for animation.")
 
             # Playwright requires the page/context to be closed before the video
             # file is finalised. If we await save_as() before closing, it deadlocks.
             video = page.video
+            logger.info("  [Render Debug] Closing page...")
             await page.close()
+            logger.info("  [Render Debug] Closing context...")
             await context.close()
+            logger.info("  [Render Debug] Page and context closed.")
 
             # Now it is safe to save the video
             raw_video = attempt_dir / f"{scene_id}_raw.webm"
+            logger.info(f"  [Render Debug] Saving video to {raw_video}...")
             await video.save_as(str(raw_video))
+            logger.info("  [Render Debug] Video saved successfully.")
 
         except Exception as exc:
-            logger.warning(f"  Playwright error for {scene_id}: {exc}")
+            logger.warning(f"  [Render Debug] Playwright error for {scene_id}: {exc}")
             if attempt == max_retries:
                 raise
             continue
@@ -227,6 +262,7 @@ async def _render_single(
             width=visual_width,
             height=visual_height,
             fps=fps,
+            start_offset=start_offset,
         )
 
         # Validate
@@ -270,6 +306,7 @@ def _normalise_clip(
     width: int,
     height: int,
     fps: int,
+    start_offset: float = 0.0,
 ) -> None:
     """
     Normalise a raw Playwright WebM recording into a clean h264 MP4
@@ -277,6 +314,7 @@ def _normalise_clip(
     """
     cmd = [
         "ffmpeg", "-y",
+        "-ss", f"{start_offset:.3f}",
         "-i", str(src),
         "-t", f"{duration:.3f}",
         "-r", str(fps),

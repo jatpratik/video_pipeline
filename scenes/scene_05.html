@@ -57,21 +57,25 @@
             pointer-events: none;
         }
 
-        /* Captions (Centered horizontally, pushed above chest area) */
+        /* Captions Container (prompter box style for readability over face/body) */
         #caption-container {
             position: absolute;
             left: 50%;
-            bottom: 480px;
+            bottom: 120px; /* Lower on the chest area */
             transform: translateX(-50%);
-            width: 920px;
-            max-width: 920px;
-            min-height: 160px;
-            font-size: 44px;
-            font-weight: 900;
+            width: 900px;
+            max-width: 900px;
+            min-height: 120px; /* Smaller caption container */
             z-index: 90;
             display: flex;
             align-items: center;
             justify-content: center;
+            background: rgba(0, 0, 0, 0.35); /* Very faded black background */
+            border: 1.5px solid rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            padding: 16px 32px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(8px);
         }
 
         .sentence-block {
@@ -80,56 +84,45 @@
             justify-content: center;
             align-content: center;
             width: 100%;
-            gap: 10px 15px;
-            text-shadow: 0 4px 15px rgba(0, 0, 0, 0.9);
+            gap: 10px 14px; /* Slightly tighter gaps */
+            text-shadow: 0 4px 10px rgba(0, 0, 0, 0.9);
         }
 
         .cap-word {
             display: inline-block;
-            transition: opacity 0.08s, transform 0.08s, color 0.08s;
-        }
-
-        /* Hook Timings Captions (0s - 12s) */
-        .hook-caption .cap-word {
-            font-size: 42px;
-            opacity: 0.4;
-            transform: scale(1.0);
-            color: #ffffff;
-        }
-
-        .hook-caption .cap-word.active {
-            opacity: 1;
-            transform: scale(1.22);
-            color: var(--neon-cyan);
-            text-shadow: 0 0 15px var(--neon-cyan);
-        }
-
-        .hook-caption .cap-word.active-highlight {
-            opacity: 1;
-            transform: scale(1.25) rotate(-2deg);
-            color: var(--neon-pink) !important;
-            text-shadow: 0 0 15px var(--neon-pink);
-        }
-
-        /* Regular Captions */
-        .simple-caption .cap-word {
-            opacity: 0.35;
-            font-size: 38px;
+            font-size: 32px; /* Smaller caption size */
             font-weight: 800;
-            color: #ffffff;
+            color: rgba(255, 255, 255, 0.95);
+            transition: color 0.1s ease, transform 0.1s ease, text-shadow 0.1s ease;
+            transform-origin: center;
+            line-height: 1.5;
         }
 
-        .simple-caption .cap-word.active {
-            opacity: 1;
+        .cap-word.active {
             color: var(--neon-cyan) !important;
-            text-shadow: 0 0 12px var(--neon-cyan);
+            text-shadow: 0 0 20px var(--neon-cyan), 0 0 10px var(--neon-cyan);
+            transform: scale(1.15);
+            font-weight: 900;
         }
 
-        .simple-caption .cap-word.active-highlight {
-            opacity: 1;
+        .cap-word.active-highlight {
             color: var(--neon-yellow) !important;
-            text-shadow: 0 0 12px var(--neon-yellow);
-            transform: scale(1.08);
+            text-shadow: 0 0 20px var(--neon-yellow), 0 0 10px var(--neon-yellow);
+            transform: scale(1.18) rotate(-1deg);
+            font-weight: 900;
+        }
+
+        .cap-word.active-maya {
+            color: var(--neon-pink) !important;
+            text-shadow: 0 0 20px var(--neon-pink), 0 0 10px var(--neon-pink);
+            transform: scale(1.15);
+            font-weight: 900;
+        }
+
+        .cap-word.past {
+            color: rgba(255, 255, 255, 0.35) !important;
+            text-shadow: none;
+            transform: scale(1.0);
         }
 
         /* Interactive HTML Elements */
@@ -144,7 +137,7 @@
 
         /* Track Cards Layout (State 2) */
         .tracks-container {
-            top: 240px;
+            top: 140px; /* Moved higher up */
             width: 960px;
             left: 60px;
             display: flex;
@@ -154,11 +147,11 @@
 
         .track-card {
             width: 440px;
-            height: 520px;
+            height: 390px; /* Reduced card height */
             background: var(--glass-bg);
             border: 3px solid var(--glass-border);
             border-radius: 28px;
-            padding: 40px 30px;
+            padding: 28px 24px; /* Reduced card padding */
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -181,8 +174,8 @@
         }
 
         .track-icon {
-            font-size: 80px;
-            margin-bottom: 25px;
+            font-size: 70px; /* Smaller icon */
+            margin-bottom: 12px; /* Reduced gap */
             filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.2));
         }
 
@@ -192,12 +185,12 @@
 
         .track-num {
             font-family: 'Fira Code', monospace;
-            font-size: 16px;
+            font-size: 14px;
             font-weight: 700;
             color: #8888aa;
             text-transform: uppercase;
             letter-spacing: 3px;
-            margin-bottom: 12px;
+            margin-bottom: 10px;
         }
 
         .track-card.active .track-num {
@@ -205,70 +198,14 @@
         }
 
         .track-title {
-            font-size: 32px;
+            font-size: 28px; /* Slightly smaller title */
             font-weight: 900;
             text-align: center;
             line-height: 1.25;
             color: #ffffff;
         }
 
-        /* Student Card Frame (Maya co-host target overlay) */
-        #student-card {
-            position: absolute;
-            left: 136px;
-            top: 100px;
-            width: 808px;
-            height: 1212px;
-            opacity: 0;
-            transform: scale(0.8);
-            z-index: 150;
-            pointer-events: none;
-        }
-
-        .student-frame-hdr {
-            font-family: 'Fira Code', monospace;
-            color: var(--neon-pink);
-            font-size: 22px;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            height: 28px;
-            margin-bottom: 12px;
-            text-align: center;
-            text-shadow: 0 0 10px var(--neon-pink);
-        }
-
-        .student-frame-box {
-            width: 800px;
-            height: 1160px;
-            border: 4px solid var(--neon-pink);
-            box-shadow: 0 0 50px rgba(255, 51, 102, 0.4);
-            background: rgba(10, 10, 15, 0.7);
-            backdrop-filter: blur(15px);
-            position: relative;
-            border-radius: 20px;
-        }
-
-        /* Maya co-host subtitles */
-        #maya-caption-container {
-            position: absolute;
-            bottom: 40px;
-            left: 5%;
-            width: 90%;
-            min-height: 120px;
-            z-index: 160;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 32px;
-            font-weight: 800;
-            color: #ffffff;
-            text-align: center;
-            line-height: 1.4;
-            background: rgba(0, 0, 0, 0.6);
-            border-radius: 12px;
-            padding: 15px 25px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
+        /* Student co-host card styling removed since video overlay is full-screen */
 
         /* arXiv Research Papers Cascade (State 3) */
         .paper-cascade {
@@ -383,15 +320,19 @@
         <!-- Caption display area -->
         <div id="caption-container"></div>
 
-        <!-- Student co-host card overlay -->
-        <div id="student-card">
-            <div class="student-frame-hdr">CO-HOST_MAYA.EXE</div>
-            <div class="student-frame-box">
-                <!-- Subtitles for Maya -->
-                <div id="maya-caption-container">
-                    <!-- Populated by GSAP -->
-                </div>
-            </div>
+        <!-- Hook Class Board Image (State 1: 0.0s - 3.0s) -->
+        <div id="hook-image-container" class="fade-element" style="position: absolute; right: 60px; top: 80px; width: 580px; height: 440px; border-radius: 24px; overflow: hidden; border: 3.5px solid var(--neon-cyan); box-shadow: 0 0 35px rgba(0, 240, 255, 0.4); z-index: 25;">
+            <img src="../assets/teacher_board.png" style="width: 100%; height: 100%; object-fit: cover;">
+        </div>
+
+        <!-- Youtube & Insta Channel Screenshots (State 2: 12.324s - 16.247s) (Stacked Up & Down) -->
+        <div id="channel-yt" class="fade-element" style="position: absolute; left: 220px; top: 100px; width: 640px; height: 240px; border-radius: 24px; border: 3px solid var(--neon-cyan); box-shadow: 0 0 35px rgba(0, 240, 255, 0.35); overflow: hidden; z-index: 25; background: var(--glass-bg); transform: scale(0.9) translateY(-80px); opacity: 0;">
+            <div style="font-family: 'Fira Code', monospace; font-size: 15px; color: var(--neon-cyan); padding: 10px; border-bottom: 1px solid var(--glass-border); text-align: center; font-weight: bold; letter-spacing: 2px;">YOUTUBE_ROADMAP</div>
+            <img src="../assets/youtube_channel.png" style="width: 100%; height: calc(100% - 40px); object-fit: cover;">
+        </div>
+        <div id="channel-insta" class="fade-element" style="position: absolute; left: 220px; top: 370px; width: 640px; height: 240px; border-radius: 24px; border: 3px solid var(--neon-purple); box-shadow: 0 0 35px rgba(123, 44, 191, 0.35); overflow: hidden; z-index: 25; background: var(--glass-bg); transform: scale(0.9) translateY(80px); opacity: 0;">
+            <div style="font-family: 'Fira Code', monospace; font-size: 15px; color: var(--neon-purple); padding: 10px; border-bottom: 1px solid var(--glass-border); text-align: center; font-weight: bold; letter-spacing: 2px;">INSTAGRAM_META</div>
+            <img src="../assets/insta_channel.png" style="width: 100%; height: calc(100% - 40px); object-fit: cover;">
         </div>
 
         <!-- ======= STATE 2: TWO TRACKS LANES (12.3s - 35.3s) ======= -->
@@ -443,7 +384,7 @@
         <!-- ======= STATE 4: OUTRO ROADMAP (64.7s - 73.4s) ======= -->
         <div class="fade-element roadmap-container" id="state4-roadmap">
             <div class="subscribe-btn" style="margin-top: 150px; margin-bottom: 60px;">SUBSCRIBE</div>
-            <div style="font-family: 'Fira Code', monospace; color: var(--neon-cyan); font-size: 26px; font-weight: 700; text-shadow: 0 0 10px var(--neon-cyan);">
+            <div style="font-family: 'Inter', sans-serif; color: #FFDD00; font-size: 42px; font-weight: 900; letter-spacing: 2px; text-shadow: 0 0 25px rgba(255, 221, 0, 0.8), 0 0 10px rgba(255, 221, 0, 0.9), 0 4px 15px rgba(0, 0, 0, 0.95); margin-top: 10px;">
                 LET'S BUILD TOGETHER
             </div>
         </div>
@@ -453,10 +394,12 @@
     <script src="scene_05_captions.js"></script>
 
     <script>
+        console.log("Master GSAP Timeline script started");
         // =====================================================
         // MASTER GSAP TIMELINE
         // =====================================================
-        const tl = gsap.timeline();
+        const tl = gsap.timeline({ paused: true });
+        window.tl = tl;
         const time = (sec) => sec;
 
         // Shared animation state for Canvas drawing
@@ -480,91 +423,62 @@
         // =====================================================
         const sentences = window.scene_05_captions;
         const captionContainer = document.getElementById("caption-container");
-        const mayaCaptionBox = document.getElementById("maya-caption-container");
 
         sentences.forEach((sentence, sIdx) => {
             // Check if this segment belongs to Maya (35.354s - 45.354s)
             const isMaya = sentence.start >= 35.353 && sentence.end <= 45.355;
             
-            if (isMaya) {
-                // Register Maya subtitles inside the co-host box
-                sentence.words.forEach((w) => {
-                    tl.call(() => {
-                        mayaCaptionBox.innerText += w.text + " ";
-                    }, null, time(w.start));
-                    
-                    // Clear text slightly after word ends or at the end of the sentence
-                    if (w.text.endsWith(".") || w.text.endsWith("?")) {
-                        tl.call(() => {
-                            mayaCaptionBox.innerText = "";
-                        }, null, time(w.end + 0.15));
-                    }
-                });
-            } else {
-                // Presenter subtitles
-                const sDiv = document.createElement("div");
-                sDiv.className = "sentence-block";
+            // Presenter & Maya subtitles (both in main container)
+            const sDiv = document.createElement("div");
+            sDiv.className = "sentence-block";
 
-                // Hook typography style for first 12s
-                if (sentence.start < 12.0) {
-                    sDiv.classList.add("hook-caption");
-                } else {
-                    sDiv.classList.add("simple-caption");
+            gsap.set(sDiv, { display: "none", opacity: 0 });
+
+            sentence.words.forEach((w, idx) => {
+                const wSpan = document.createElement("span");
+                wSpan.className = "cap-word";
+                wSpan.innerText = w.text;
+                sDiv.appendChild(wSpan);
+
+                let activeClass = isMaya ? "active-maya" : "active";
+                const cleanWord = w.text.toLowerCase().replace(/[.,\/#!$%\^&\*;:{}=\-_`~()?]/g, "");
+                if (!isMaya && ["boring", "copy", "apis", "code", "maths", "math", "generative", "agentic", "agents", "research", "projects", "subscribe"].includes(cleanWord)) {
+                    activeClass = "active-highlight";
                 }
+                
+                // Highlight active word
+                tl.to(wSpan, {
+                    onStart: () => {
+                        wSpan.classList.add(activeClass);
+                        wSpan.classList.remove("past");
+                    },
+                    onReverseComplete: () => {
+                        wSpan.classList.remove(activeClass);
+                        wSpan.classList.remove("past");
+                    },
+                    duration: 0.05
+                }, time(w.start));
 
-                gsap.set(sDiv, { display: "none", opacity: 0 });
+                // Faint word after spoken
+                tl.to(wSpan, {
+                    onStart: () => {
+                        wSpan.classList.remove(activeClass);
+                        wSpan.classList.add("past");
+                    },
+                    onReverseComplete: () => {
+                        wSpan.classList.add(activeClass);
+                        wSpan.classList.remove("past");
+                    },
+                    duration: 0.05
+                }, time(w.end));
+            });
 
-                sentence.words.forEach((w, idx) => {
-                    const wSpan = document.createElement("span");
-                    wSpan.className = "cap-word";
-                    wSpan.innerText = w.text;
-                    sDiv.appendChild(wSpan);
-                    if (idx < sentence.words.length - 1) {
-                        sDiv.appendChild(document.createTextNode(" "));
-                    }
+            captionContainer.appendChild(sDiv);
 
-                    if (sentence.start < 12.0) {
-                        let activeClass = "active";
-                        const cleanWord = w.text.toLowerCase().replace(/[.,\/#!$%\^&\*;:{}=\-_`~()?]/g, "");
-                        if (["boring", "copy", "apis", "code"].includes(cleanWord)) {
-                            activeClass = "active-highlight";
-                        }
-                        tl.to(wSpan, {
-                            onStart: () => { wSpan.classList.add(activeClass); },
-                            onReverseComplete: () => { wSpan.classList.remove(activeClass); },
-                            duration: 0.05
-                        }, time(w.start));
-                    } else {
-                        let activeClass = "active";
-                        const cleanWord = w.text.toLowerCase().replace(/[.,\/#!$%\^&\*;:{}=\-_`~()?]/g, "");
-                        if (["maths", "math", "generative", "agentic", "agents", "research", "projects", "code", "subscribe"].includes(cleanWord)) {
-                            activeClass = "active-highlight";
-                        }
-                        
-                        // Highlight active word
-                        tl.to(wSpan, {
-                            onStart: () => { wSpan.classList.add(activeClass); },
-                            onReverseComplete: () => { wSpan.classList.remove(activeClass); },
-                            duration: 0.05
-                        }, time(w.start));
-
-                        // Faint word after spoken
-                        tl.to(wSpan, {
-                            onStart: () => { wSpan.classList.remove(activeClass); },
-                            onReverseComplete: () => { wSpan.classList.add(activeClass); },
-                            opacity: 0.35,
-                            duration: 0.05
-                        }, time(w.end));
-                    }
-                });
-
-                captionContainer.appendChild(sDiv);
-
-                tl.set(sDiv, { display: "flex" }, time(sentence.start));
-                tl.to(sDiv, { opacity: 1, duration: 0.15 }, time(sentence.start));
-                tl.to(sDiv, { opacity: 0, duration: 0.15 }, time(sentence.end));
-                tl.set(sDiv, { display: "none" }, time(sentence.end + 0.15));
-            }
+            tl.set(sDiv, { display: "flex" }, time(sentence.start));
+            tl.to(sDiv, { opacity: 1, duration: 0.15 }, time(sentence.start));
+            tl.to(sDiv, { opacity: 0, duration: 0.15 }, time(sentence.end));
+            tl.set(sDiv, { display: "none" }, time(sentence.end + 0.15));
         });
 
 
@@ -575,7 +489,11 @@
         // -----------------------------------------------------
         // STATE 1: Hook (0.0s - 12.0s)
         // -----------------------------------------------------
-        // Fades chalkboard, shatters at 3.0s, reveals rotating vector space
+        // Fade/Scale in Classroom image container at hook start
+        tl.to("#hook-image-container", { opacity: 1, scale: 1, duration: 0.5, ease: "back.out(1.2)" }, time(0.1));
+        
+        // Shatters / transition at 3.0s: Fade out Classroom image, reveal rotating vector space
+        tl.to("#hook-image-container", { opacity: 0, scale: 0.8, duration: 0.4 }, time(2.976));
         tl.to(canvasState, { chalkboardShatter: 1.0, chalkboardOpacity: 0.0, duration: 0.8, ease: "power3.inOut" }, time(2.976));
         
         // Fade in vector space
@@ -593,21 +511,31 @@
         // -----------------------------------------------------
         // STATE 2: Two Track Cards (12.3s - 35.3s)
         // -----------------------------------------------------
-        // Slide in Track Cards container
-        tl.to("#state2-tracks", { opacity: 1, scale: 1, duration: 0.6, ease: "back.out(1.3)" }, time(12.324));
+        // Slide in Youtube/Insta screenshots during channel intro (vertical translation)
+        tl.to("#channel-yt", { opacity: 1, scale: 1.0, y: 0, duration: 0.6, ease: "back.out(1.2)" }, time(12.324));
+        tl.to("#channel-insta", { opacity: 1, scale: 1.0, y: 0, duration: 0.6, ease: "back.out(1.2)" }, time(12.324));
+        
+        // Slide out channel screenshots
+        tl.to("#channel-yt", { opacity: 0, scale: 0.9, y: -40, duration: 0.5 }, time(16.247));
+        tl.to("#channel-insta", { opacity: 0, scale: 0.9, y: 40, duration: 0.5 }, time(16.247));
+
+        // Slide in Track Cards container (starts active, equal prominence)
+        tl.to("#state2-tracks", { opacity: 1, scale: 1, duration: 0.6, ease: "back.out(1.3)" }, time(16.768));
+        tl.set("#track-math", { opacity: 1, scale: 1 }, time(16.768));
+        tl.set("#track-agents", { opacity: 1, scale: 1 }, time(16.768));
         
         // Presenter talks about Track 1 (18.9s - 26.4s)
-        // Highlight Track 1 Card, dim Track 2
-        tl.to("#track-math", { className: "track-card active", duration: 0.4 }, time(18.923));
-        tl.to("#track-agents", { className: "track-card dimmed", duration: 0.4 }, time(18.923));
+        // Highlight Track 1 Card, completely hide Track 2 card to avoid coordinate overlap
+        tl.to("#track-math", { className: "track-card active", scale: 1.05, duration: 0.4 }, time(18.923));
+        tl.to("#track-agents", { opacity: 0, scale: 0.8, pointerEvents: "none", duration: 0.4 }, time(18.923));
         
         // Show mathematical coordinates on canvas next to card
         tl.to(canvasState, { mathAxesOpacity: 1.0, mathAxesScale: 1.0, duration: 0.6, ease: "back.out(1.5)" }, time(19.2));
 
         // Presenter talks about Track 2 (27.0s - 35.3s)
-        // Highlight Track 2 Card, dim Track 1
-        tl.to("#track-agents", { className: "track-card active", duration: 0.4 }, time(27.049));
-        tl.to("#track-math", { className: "track-card dimmed", duration: 0.4 }, time(27.049));
+        // Highlight Track 2 Card, completely hide Track 1 card to avoid agent graph overlap
+        tl.to("#track-agents", { className: "track-card active", opacity: 1, scale: 1.05, pointerEvents: "auto", duration: 0.4 }, time(27.049));
+        tl.to("#track-math", { opacity: 0, scale: 0.8, pointerEvents: "none", duration: 0.4 }, time(27.049));
         tl.to(canvasState, { mathAxesOpacity: 0.0, duration: 0.4 }, time(27.049));
         
         // Show Agent Graph next to card
@@ -621,15 +549,9 @@
         // -----------------------------------------------------
         // STATE 3: Co-host Maya Overlay (35.354s - 45.354s)
         // -----------------------------------------------------
-        // Hide Track elements
+        // Hide all Track elements completely to prep for Maya's full-screen overlay
         tl.to("#state2-tracks", { opacity: 0, scale: 0.8, duration: 0.5, ease: "power2.in" }, time(35.354));
         tl.to(canvasState, { agentGraphOpacity: 0.0, duration: 0.5 }, time(35.354));
-
-        // Slide in Maya co-host PiP frame
-        tl.to("#student-card", { opacity: 1, scale: 1.0, duration: 0.6, ease: "back.out(1.4)" }, time(35.354));
-        
-        // Slide out Maya co-host PiP frame
-        tl.to("#student-card", { opacity: 0, scale: 0.8, duration: 0.5, ease: "power2.in" }, time(45.354));
 
         // -----------------------------------------------------
         // STATE 4: arXiv Paper Cascade (46.0s - 64.0s)
@@ -716,43 +638,10 @@
             // Clear canvas
             ctx.clearRect(0, 0, 1080, 1920);
 
-            // 1. Draw Chalkboard
-            if (canvasState.chalkboardOpacity > 0.01) {
-                ctx.save();
-                ctx.globalAlpha = canvasState.chalkboardOpacity;
-                
-                // Draw blackboard background card frame
-                ctx.fillStyle = "rgba(10, 15, 25, 0.9)";
-                ctx.strokeStyle = "rgba(255, 255, 255, 0.1)";
-                ctx.lineWidth = 4;
-                ctx.beginPath();
-                ctx.roundRect(100, 150, 880, 800, 24);
-                ctx.fill();
-                ctx.stroke();
-
-                // Draw equations inside
-                ctx.fillStyle = "rgba(255, 255, 255, 0.35)";
-                ctx.font = "italic 32px 'Fira Code', monospace";
-                chalkboardEqs.forEach((eq) => {
-                    ctx.save();
-                    ctx.translate(eq.x, eq.y);
-                    ctx.rotate(eq.rotation);
-                    ctx.font = `bold ${eq.scale}px 'Fira Code', monospace`;
-                    ctx.fillText(eq.text, 0, 0);
-                    ctx.restore();
-                });
-                
-                // Title
-                ctx.fillStyle = "#FF3366";
-                ctx.font = "bold 24px 'Fira Code', monospace";
-                ctx.fillText("BORING_MATH_CLASS.TXT", 140, 210);
-                
-                ctx.restore();
-            }
-
+            // 1. Chalkboard (Green Blackboard canvas drawing is completely disabled to clear the presenter's face)
             // Trigger shatter particles once when shatter starts
             if (canvasState.chalkboardShatter > 0.0 && canvasState.chalkboardShatter < 0.1 && particles.length === 0) {
-                createShatterParticles(540, 550);
+                createShatterParticles(540, 300); // Trigger near image container height
             }
 
             // Draw and update shatter particles
@@ -782,36 +671,126 @@
             if (canvasState.vectorsOpacity > 0.01) {
                 ctx.save();
                 ctx.globalAlpha = canvasState.vectorsOpacity;
-                ctx.translate(540, 500); // Orbit center
-
-                // Axes
-                const rot = canvasState.vectorsRotation;
-                ctx.strokeStyle = "rgba(0, 240, 255, 0.3)";
+                
+                // Draw rounded transparent black background card backdrop for visuals contrast
+                ctx.fillStyle = "rgba(5, 5, 10, 0.55)";
+                ctx.strokeStyle = "rgba(255, 255, 255, 0.08)";
                 ctx.lineWidth = 2;
-                
-                // X axis projection
                 ctx.beginPath();
-                ctx.moveTo(-250 * Math.cos(rot), -80 * Math.sin(rot));
-                ctx.lineTo(250 * Math.cos(rot), 80 * Math.sin(rot));
+                ctx.roundRect(60, 60, 960, 600, 28);
+                ctx.fill();
                 ctx.stroke();
 
-                // Y axis projection
+                ctx.translate(540, 360); // Centered above presenter face
+
+                // Gentle camera sway
+                const rot = Math.sin(canvasState.vectorsRotation) * 0.15;
+
+                // 3D Projection helper
+                function project3D(X, Y, Z) {
+                    const cosR = Math.cos(rot);
+                    const sinR = Math.sin(rot);
+                    const xRot = X * cosR - Y * sinR;
+                    const yRot = X * sinR + Y * cosR;
+                    const screenX = (xRot - yRot) * 0.866;
+                    const screenY = (xRot + yRot) * 0.4 - Z;
+                    return { x: screenX, y: screenY };
+                }
+
+                // Ground Grid (Z = 0 plane)
+                ctx.strokeStyle = "rgba(255, 255, 255, 0.04)";
+                ctx.lineWidth = 1;
+                for (let g = -360; g <= 360; g += 60) {
+                    // Lines parallel to Y
+                    ctx.beginPath();
+                    let p1 = project3D(-360, g, 0);
+                    let p2 = project3D(300, g, 0); // Keep boundary sync
+                    ctx.moveTo(p1.x, p1.y);
+                    ctx.lineTo(p2.x, p2.y);
+                    ctx.stroke();
+
+                    // Lines parallel to X
+                    ctx.beginPath();
+                    p1 = project3D(g, -360, 0);
+                    p2 = project3D(g, 360, 0);
+                    ctx.moveTo(p1.x, p1.y);
+                    ctx.lineTo(p2.x, p2.y);
+                    ctx.stroke();
+                }
+
+                // Draw Coordinate Axes (X: Cyan, Y: Purple, Z: White)
+                const axisLen = 380; // Enlarge axis length from 320
+                
+                // Z-Axis (Up)
+                ctx.strokeStyle = "rgba(255, 255, 255, 0.2)";
+                ctx.lineWidth = 2.5;
                 ctx.beginPath();
-                ctx.moveTo(-80 * Math.sin(rot), -250 * Math.cos(rot));
-                ctx.lineTo(80 * Math.sin(rot), 250 * Math.cos(rot));
+                ctx.moveTo(0, 0);
+                const zTip = project3D(0, 0, axisLen);
+                ctx.lineTo(zTip.x, zTip.y);
                 ctx.stroke();
 
-                // Draw rotating arrows (King & Queen vector representations)
-                const arrowX1 = 180 * Math.cos(rot + 0.5);
-                const arrowY1 = 150 * Math.sin(rot + 0.5);
-                
-                const arrowX2 = -150 * Math.cos(rot - 0.8);
-                const arrowY2 = 180 * Math.sin(rot - 0.8);
+                // X-Axis (Left-Down)
+                ctx.strokeStyle = "rgba(0, 240, 255, 0.25)";
+                ctx.beginPath();
+                ctx.moveTo(0, 0);
+                const xTip = project3D(-axisLen, 0, 0);
+                ctx.lineTo(xTip.x, xTip.y);
+                ctx.stroke();
 
-                // Cyan arrow
-                drawVectorArrow(0, 0, arrowX1, arrowY1, "#00F0FF", "V_king");
-                // Pink arrow
-                drawVectorArrow(0, 0, arrowX2, arrowY2, "#FF3366", "V_queen");
+                // Y-Axis (Right-Down)
+                ctx.strokeStyle = "rgba(123, 44, 191, 0.25)";
+                ctx.beginPath();
+                ctx.moveTo(0, 0);
+                const yTip = project3D(0, axisLen, 0);
+                ctx.lineTo(yTip.x, yTip.y);
+                ctx.stroke();
+
+                // Define Analogy Vector Coordinates (Scaled up by ~20%)
+                const man3d = { X: -240, Y: -100, Z: 80 };
+                const woman3d = { X: -240, Y: 160, Z: 80 };
+                const king3d = { X: 180, Y: -100, Z: 240 };
+                const queen3d = { X: 180, Y: 160, Z: 240 };
+
+                const man = project3D(man3d.X, man3d.Y, man3d.Z);
+                const woman = project3D(woman3d.X, woman3d.Y, woman3d.Z);
+                const king = project3D(king3d.X, king3d.Y, king3d.Z);
+                const queen = project3D(queen3d.X, queen3d.Y, queen3d.Z);
+
+                // Floor projection points for dashed drop lines
+                const manFloor = project3D(man3d.X, man3d.Y, 0);
+                const womanFloor = project3D(woman3d.X, woman3d.Y, 0);
+                const kingFloor = project3D(king3d.X, king3d.Y, 0);
+                const queenFloor = project3D(queen3d.X, queen3d.Y, 0);
+
+                // Draw projection lines to floor (Z axis helpers)
+                ctx.strokeStyle = "rgba(255, 255, 255, 0.15)";
+                ctx.setLineDash([5, 5]);
+                ctx.lineWidth = 1.5;
+                
+                ctx.beginPath();
+                ctx.moveTo(man.x, man.y); ctx.lineTo(manFloor.x, manFloor.y);
+                ctx.moveTo(woman.x, woman.y); ctx.lineTo(womanFloor.x, womanFloor.y);
+                ctx.moveTo(king.x, king.y); ctx.lineTo(kingFloor.x, kingFloor.y);
+                ctx.moveTo(queen.x, queen.y); ctx.lineTo(queenFloor.x, queenFloor.y);
+                ctx.stroke();
+                ctx.setLineDash([]);
+
+                // Draw base vectors from Origin
+                // V_man (Cyan)
+                drawVectorArrow(0, 0, man.x, man.y, "#00F0FF", "V_man");
+                // V_woman (Purple)
+                drawVectorArrow(0, 0, woman.x, woman.y, "#9D4EDD", "V_woman");
+                // V_king (Green)
+                drawVectorArrow(0, 0, king.x, king.y, "#00FF66", "V_king");
+                // V_queen (Pink)
+                drawVectorArrow(0, 0, queen.x, queen.y, "#FF3366", "V_queen");
+
+                // Draw analogy relationship vectors
+                // Dashed Yellow: V_man to V_woman
+                drawVectorArrow(man.x, man.y, woman.x, woman.y, "#FFDD00", "gender shift", true);
+                // Dashed Yellow: V_king to V_queen
+                drawVectorArrow(king.x, king.y, queen.x, queen.y, "#FFDD00", "+ (Woman - Man)", true);
 
                 ctx.restore();
             }
@@ -820,41 +799,82 @@
             if (canvasState.neuralNetOpacity > 0.01) {
                 ctx.save();
                 ctx.globalAlpha = canvasState.neuralNetOpacity;
-                ctx.translate(540, 480);
+                ctx.translate(540, 420); // Moved up to y:420 to clear presenter face
 
-                const pulse = 1.0 + Math.sin(Date.now() * 0.005) * 0.08 * canvasState.neuralNetPulse;
-                const size = 180 * pulse;
+                const timeVal = Date.now() * 0.001;
+                const pulse = 1.0 + Math.sin(timeVal * 5) * 0.05 * canvasState.neuralNetPulse;
+                const baseSize = 150 * pulse;
 
-                // Glowing outer paths
-                ctx.strokeStyle = "rgba(0, 240, 255, 0.15)";
-                ctx.lineWidth = 4;
+                // Outer rotating ring 1 (Cyan, dashed, clockwise)
+                ctx.strokeStyle = "rgba(0, 240, 255, 0.3)";
+                ctx.lineWidth = 2.5;
+                ctx.setLineDash([18, 12]);
+                ctx.save();
+                ctx.rotate(timeVal * 0.4);
                 ctx.beginPath();
-                ctx.arc(0, 0, size, 0, Math.PI * 2);
+                ctx.arc(0, 0, baseSize * 1.5, 0, Math.PI * 2);
                 ctx.stroke();
+                ctx.restore();
 
-                // Connect paths outwards
-                ctx.strokeStyle = "rgba(123, 44, 191, 0.4)";
-                ctx.lineWidth = 3;
-                for (let a = 0; a < Math.PI * 2; a += Math.PI / 4) {
+                // Outer rotating ring 2 (Pink, dashed, counter-clockwise)
+                ctx.strokeStyle = "rgba(255, 51, 102, 0.25)";
+                ctx.lineWidth = 2;
+                ctx.setLineDash([10, 15]);
+                ctx.save();
+                ctx.rotate(-timeVal * 0.6);
+                ctx.beginPath();
+                ctx.arc(0, 0, baseSize * 1.25, 0, Math.PI * 2);
+                ctx.stroke();
+                ctx.restore();
+
+                // Dendrites / radiating neuron connections
+                ctx.lineWidth = 2;
+                ctx.shadowBlur = 10;
+                for (let i = 0; i < 8; i++) {
+                    const angle = (i * Math.PI / 4) + timeVal * 0.25;
+                    const endDist = baseSize * (1.6 + 0.25 * Math.sin(timeVal * 2.5 + i));
+                    
+                    // Dendrite connector line
+                    ctx.strokeStyle = i % 2 === 0 ? "rgba(0, 240, 255, 0.4)" : "rgba(123, 44, 191, 0.4)";
+                    ctx.shadowColor = i % 2 === 0 ? "#00F0FF" : "#7B2CBF";
                     ctx.beginPath();
                     ctx.moveTo(0, 0);
-                    ctx.lineTo(Math.cos(a) * size * 1.5, Math.sin(a) * size * 1.5);
+                    ctx.lineTo(Math.cos(angle) * endDist, Math.sin(angle) * endDist);
                     ctx.stroke();
-                }
 
-                // Inner core node
-                ctx.fillStyle = "rgba(10, 10, 20, 0.9)";
+                    // Outer neuron point
+                    ctx.fillStyle = i % 2 === 0 ? "#00F0FF" : "#7B2CBF";
+                    ctx.beginPath();
+                    ctx.arc(Math.cos(angle) * endDist, Math.sin(angle) * endDist, 7, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+                ctx.setLineDash([]);
+                ctx.shadowBlur = 0; // reset
+
+                // Inner core orb using a premium radial gradient
+                const grad = ctx.createRadialGradient(0, 0, 0, 0, 0, baseSize * 0.55);
+                grad.addColorStop(0, "rgba(0, 240, 255, 0.95)");
+                grad.addColorStop(0.5, "rgba(10, 15, 30, 0.98)");
+                grad.addColorStop(1, "rgba(123, 44, 191, 0.85)");
+
+                ctx.fillStyle = grad;
                 ctx.strokeStyle = "#00F0FF";
-                ctx.lineWidth = 6;
+                ctx.lineWidth = 5;
+                ctx.shadowColor = "#00F0FF";
+                ctx.shadowBlur = 25;
                 ctx.beginPath();
-                ctx.arc(0, 0, size * 0.4, 0, Math.PI * 2);
+                ctx.arc(0, 0, baseSize * 0.5, 0, Math.PI * 2);
                 ctx.fill();
                 ctx.stroke();
 
+                // Core label text
                 ctx.fillStyle = "#ffffff";
-                ctx.font = "bold 24px 'Fira Code', monospace";
+                ctx.shadowColor = "#ffffff";
+                ctx.shadowBlur = 5;
+                ctx.font = "bold 26px 'Fira Code', monospace";
                 ctx.textAlign = "center";
-                ctx.fillText("AI_CORE", 0, 8);
+                ctx.textBaseline = "middle";
+                ctx.fillText("AI_CORE", 0, 0);
 
                 ctx.restore();
             }
@@ -1006,21 +1026,31 @@
         }
 
         // Vector arrow drawing helper
-        function drawVectorArrow(fromx, fromy, tox, toy, color, label) {
+        function drawVectorArrow(fromx, fromy, tox, toy, color, label, isDashed = false) {
             const headlen = 16; // length of head in pixels
             const dx = tox - fromx;
             const dy = toy - fromy;
             const angle = Math.atan2(dy, dx);
 
+            ctx.save();
             ctx.strokeStyle = color;
             ctx.fillStyle = color;
-            ctx.lineWidth = 4;
+            ctx.shadowColor = color;
+            ctx.shadowBlur = 15;
+            ctx.lineWidth = 5.5; // Thicker arrow line
+
+            if (isDashed) {
+                ctx.setLineDash([6, 6]);
+            }
             
             // Draw shaft
             ctx.beginPath();
             ctx.moveTo(fromx, fromy);
             ctx.lineTo(tox, toy);
             ctx.stroke();
+            
+            ctx.setLineDash([]);
+            ctx.shadowBlur = 0; // Disable glow shadow for head to keep it sharp
 
             // Draw head
             ctx.beginPath();
@@ -1029,10 +1059,15 @@
             ctx.lineTo(tox - headlen * Math.cos(angle + Math.PI / 6), toy - headlen * Math.sin(angle + Math.PI / 6));
             ctx.fill();
 
-            // Draw text tag near arrow head
+            // Draw text tag near arrow head (white, sharp, legible)
             ctx.fillStyle = "#ffffff";
-            ctx.font = "bold 16px 'Fira Code', monospace";
-            ctx.fillText(label, tox + 12 * Math.cos(angle), toy + 12 * Math.sin(angle));
+            ctx.font = "bold 20px 'Fira Code', monospace";
+            
+            // Slightly offset text so it doesn't overlap
+            const textX = tox + 15 * Math.cos(angle);
+            const textY = toy + 15 * Math.sin(angle);
+            ctx.fillText(label, textX, textY);
+            ctx.restore();
         }
 
         // Cubic bezier mathematics helper
