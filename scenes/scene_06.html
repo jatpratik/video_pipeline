@@ -1,0 +1,1586 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, width=1080, height=1920">
+    <title>Warrior Series - Physical and Mental Health</title>
+    <!-- Core JS Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600;700&family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-color: #00ff00; /* Chroma green screen background */
+            --neon-cyan: #00F0FF;
+            --neon-pink: #FF3366;
+            --neon-purple: #7B2CBF;
+            --neon-green: #00FF66;
+            --neon-yellow: #FFDD00;
+            --glass-bg: rgba(10, 10, 20, 0.9);
+            --glass-border: rgba(255, 255, 255, 0.15);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html, body {
+            background-color: var(--bg-color);
+            color: #ffffff;
+            font-family: 'Inter', sans-serif;
+            width: 1080px;
+            height: 1920px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* 2D Canvas Layer (Math animations, neural nets, waves) */
+        #canvas-2d {
+            position: absolute;
+            top: 0; left: 0;
+            width: 1080px;
+            height: 1920px;
+            z-index: 5;
+            pointer-events: none;
+        }
+
+        /* Main container layout */
+        .scene-container {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: 10;
+            pointer-events: none;
+        }
+
+        /* Captions Container */
+        #caption-container {
+            position: absolute;
+            left: 50%;
+            bottom: 120px;
+            transform: translateX(-50%);
+            width: 960px;
+            max-width: 960px;
+            min-height: 130px;
+            z-index: 90;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 0, 0, 0.55);
+            border: 2px solid rgba(255, 255, 255, 0.12);
+            border-radius: 20px;
+            padding: 20px 36px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(12px);
+        }
+
+        .sentence-block {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-content: center;
+            width: 100%;
+            gap: 10px 14px;
+            text-shadow: 0 4px 10px rgba(0, 0, 0, 0.9);
+        }
+
+        .cap-word {
+            display: inline-block;
+            font-size: 34px;
+            font-weight: 800;
+            color: rgba(255, 255, 255, 0.9);
+            transition: color 0.1s ease, transform 0.1s ease, text-shadow 0.1s ease;
+            transform-origin: center;
+            line-height: 1.5;
+        }
+
+        .cap-word.active {
+            color: var(--neon-cyan) !important;
+            text-shadow: 0 0 20px var(--neon-cyan), 0 0 10px var(--neon-cyan);
+            transform: scale(1.15);
+            font-weight: 900;
+        }
+
+        .cap-word.active-highlight {
+            color: var(--neon-yellow) !important;
+            text-shadow: 0 0 20px var(--neon-yellow), 0 0 10px var(--neon-yellow);
+            transform: scale(1.18) rotate(-1.5deg);
+            font-weight: 900;
+        }
+
+        .cap-word.active-danger {
+            color: var(--neon-pink) !important;
+            text-shadow: 0 0 20px var(--neon-pink), 0 0 10px var(--neon-pink);
+            transform: scale(1.18) rotate(1.5deg);
+            font-weight: 900;
+        }
+
+        .cap-word.past {
+            color: rgba(255, 255, 255, 0.35) !important;
+            text-shadow: none;
+            transform: scale(1.0);
+        }
+
+        /* Interactive HTML Elements */
+        .fade-element {
+            opacity: 0;
+            transform: scale(0.92);
+            position: absolute;
+            z-index: 20;
+            width: 100%;
+            pointer-events: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Opaque Glassmorphic Panels */
+        .glass-panel {
+            width: 960px;
+            background: var(--glass-bg);
+            border: 3px solid var(--glass-border);
+            border-radius: 28px;
+            padding: 36px 30px;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(20px);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Titles and Typography */
+        .panel-title {
+            font-size: 42px;
+            font-weight: 900;
+            text-align: center;
+            margin-bottom: 24px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+            background: linear-gradient(90deg, #ffffff, #a0a0ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .panel-subtitle {
+            font-size: 24px;
+            color: #8888aa;
+            text-align: center;
+            margin-top: -12px;
+            margin-bottom: 24px;
+            font-family: 'Fira Code', monospace;
+        }
+
+        /* State specific styles */
+        #state1-brain { top: 120px; }
+        #state2-chain { top: 120px; }
+        #state3-goggins { top: 120px; }
+        #state4-huberman { top: 120px; }
+        #state5-bdnf { top: 120px; }
+        #state6-testo { top: 120px; }
+        #state7-nervous { top: 120px; }
+        #state8-rules12 { top: 120px; }
+        #state9-rules34 { top: 120px; }
+        #state10-outro { top: 120px; }
+
+        /* General layout helpers */
+        .row-container {
+            display: flex;
+            width: 100%;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .info-card {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .info-card-icon {
+            font-size: 56px;
+            margin-bottom: 12px;
+            filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.2));
+        }
+
+        .info-card-value {
+            font-size: 36px;
+            font-weight: 800;
+            color: var(--neon-cyan);
+            margin-bottom: 8px;
+        }
+
+        .info-card-label {
+            font-size: 18px;
+            color: #b0b0cc;
+            line-height: 1.4;
+        }
+
+        /* Glitch animations */
+        .glitch-text {
+            animation: textGlitch 0.3s infinite alternate;
+        }
+
+        @keyframes textGlitch {
+            0% { text-shadow: 2px 0 0 red, -2px 0 0 blue; }
+            100% { text-shadow: -2px 0 0 red, 2px 0 0 blue; }
+        }
+
+        /* Rules Cards */
+        .rule-badge {
+            font-family: 'Fira Code', monospace;
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--neon-yellow);
+            border: 1px solid var(--neon-yellow);
+            padding: 6px 14px;
+            border-radius: 12px;
+            background: rgba(255, 221, 0, 0.08);
+            margin-bottom: 12px;
+        }
+
+        /* Quote box styling */
+        .quote-box {
+            border-left: 6px solid var(--neon-purple);
+            padding-left: 24px;
+            margin: 20px 0;
+            text-align: left;
+            width: 100%;
+        }
+
+        .quote-text {
+            font-size: 26px;
+            font-style: italic;
+            font-weight: 600;
+            line-height: 1.5;
+            color: #e2e2ff;
+        }
+
+        .quote-author {
+            font-size: 20px;
+            font-weight: 700;
+            margin-top: 12px;
+            color: var(--neon-purple);
+            font-family: 'Fira Code', monospace;
+        }
+
+        /* Progress bars */
+        .bar-container {
+            width: 100%;
+            height: 24px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            overflow: hidden;
+            margin-top: 8px;
+            position: relative;
+        }
+
+        .bar-fill {
+            height: 100%;
+            width: 0%;
+            border-radius: 12px;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+            transition: width 0.3s ease;
+        }
+
+        .bar-label {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            font-size: 20px;
+            font-weight: 700;
+            margin-top: 12px;
+        }
+
+        /* Subscribe button pulse */
+        .cta-btn {
+            background: linear-gradient(135deg, var(--neon-pink), var(--neon-purple));
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 35px;
+            padding: 16px 40px;
+            font-size: 26px;
+            font-weight: 900;
+            color: #ffffff;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            box-shadow: 0 0 35px rgba(255, 51, 102, 0.4);
+            animation: pulse-subscribe 1.4s infinite alternate;
+            z-index: 100;
+            display: inline-block;
+            margin-top: 20px;
+        }
+
+        @keyframes pulse-subscribe {
+            0% { transform: scale(1.0); box-shadow: 0 0 25px rgba(255, 51, 102, 0.4); }
+            100% { transform: scale(1.06); box-shadow: 0 0 45px rgba(255, 51, 102, 0.7), 0 0 20px var(--neon-purple); }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Developer Preview HUD (Hidden in Playwright Headless Render Mode) -->
+    <div id="dev-controls" style="position: absolute; left: 40px; top: 40px; z-index: 9999; background: rgba(10, 10, 20, 0.95); border: 2px solid rgba(255, 255, 255, 0.25); border-radius: 20px; padding: 24px; width: 440px; font-family: 'Fira Code', monospace; pointer-events: auto; backdrop-filter: blur(12px); box-shadow: 0 15px 45px rgba(0, 0, 0, 0.8);">
+        <div style="font-size: 16px; font-weight: bold; color: var(--neon-cyan); margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1.5px solid rgba(255,255,255,0.1); padding-bottom: 8px;">
+            <span>PREVIEW HUD</span>
+            <span id="hud-time" style="color: #fff;">0.0s / 403.0s</span>
+        </div>
+        <div style="display: flex; gap: 12px; margin-bottom: 15px;">
+            <button id="btn-play" style="flex: 1; background: var(--neon-cyan); color: #000; border: none; padding: 12px 0; border-radius: 10px; font-weight: bold; cursor: pointer; font-family: 'Fira Code', monospace; font-size: 14px; transition: transform 0.2s;">PLAY</button>
+            <button id="btn-pause" style="flex: 1; background: rgba(255,255,255,0.08); color: #fff; border: 1.5px solid rgba(255,255,255,0.2); padding: 12px 0; border-radius: 10px; font-weight: bold; cursor: pointer; font-family: 'Fira Code', monospace; font-size: 14px; transition: transform 0.2s;">PAUSE</button>
+        </div>
+        <div style="margin-bottom: 20px; display: flex; flex-direction: column; gap: 6px;">
+            <span style="font-size: 11px; color: #8888aa;">TIMELINE TIMING SEEKER</span>
+            <input type="range" id="hud-slider" min="0" max="1000" value="0" style="width: 100%; accent-color: var(--neon-cyan); cursor: pointer; height: 8px; border-radius: 4px; background: rgba(255,255,255,0.1);">
+        </div>
+        <div style="font-size: 11px; color: #8888aa; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px;">Jump To Phases:</div>
+        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px;" id="hud-phases">
+            <button class="phase-btn" data-time="0" style="background: rgba(255,255,255,0.05); color: #ccc; border: 1px solid rgba(255,255,255,0.1); padding: 8px 0; border-radius: 6px; font-size: 11px; cursor: pointer; font-family: 'Fira Code', monospace;">P1: Brain Shrink</button>
+            <button class="phase-btn" data-time="16.6" style="background: rgba(255,255,255,0.05); color: #ccc; border: 1px solid rgba(255,255,255,0.1); padding: 8px 0; border-radius: 6px; font-size: 11px; cursor: pointer; font-family: 'Fira Code', monospace;">P2: Grit Chain</button>
+            <button class="phase-btn" data-time="35.2" style="background: rgba(255,255,255,0.05); color: #ccc; border: 1px solid rgba(255,255,255,0.1); padding: 8px 0; border-radius: 6px; font-size: 11px; cursor: pointer; font-family: 'Fira Code', monospace;">P3: Goggins Curve</button>
+            <button class="phase-btn" data-time="63" style="background: rgba(255,255,255,0.05); color: #ccc; border: 1px solid rgba(255,255,255,0.1); padding: 8px 0; border-radius: 6px; font-size: 11px; cursor: pointer; font-family: 'Fira Code', monospace;">P4: Huberman Quote</button>
+            <button class="phase-btn" data-time="89.4" style="background: rgba(255,255,255,0.05); color: #ccc; border: 1px solid rgba(255,255,255,0.1); padding: 8px 0; border-radius: 6px; font-size: 11px; cursor: pointer; font-family: 'Fira Code', monospace;">P5: BDNF Growth</button>
+            <button class="phase-btn" data-time="151" style="background: rgba(255,255,255,0.05); color: #ccc; border: 1px solid rgba(255,255,255,0.1); padding: 8px 0; border-radius: 6px; font-size: 11px; cursor: pointer; font-family: 'Fira Code', monospace;">P6: Testo Spike</button>
+            <button class="phase-btn" data-time="181.4" style="background: rgba(255,255,255,0.05); color: #ccc; border: 1px solid rgba(255,255,255,0.1); padding: 8px 0; border-radius: 6px; font-size: 11px; cursor: pointer; font-family: 'Fira Code', monospace;">P7: Autonomic wave</button>
+            <button class="phase-btn" data-time="220.3" style="background: rgba(255,255,255,0.05); color: #ccc; border: 1px solid rgba(255,255,255,0.1); padding: 8px 0; border-radius: 6px; font-size: 11px; cursor: pointer; font-family: 'Fira Code', monospace;">P8: Rules 1 & 2</button>
+            <button class="phase-btn" data-time="312.4" style="background: rgba(255,255,255,0.05); color: #ccc; border: 1px solid rgba(255,255,255,0.1); padding: 8px 0; border-radius: 6px; font-size: 11px; cursor: pointer; font-family: 'Fira Code', monospace;">P9: Rules 3 & 4</button>
+            <button class="phase-btn" data-time="370.6" style="background: rgba(255,255,255,0.05); color: #ccc; border: 1px solid rgba(255,255,255,0.1); padding: 8px 0; border-radius: 6px; font-size: 11px; cursor: pointer; font-family: 'Fira Code', monospace;">P10: Outro Finale</button>
+        </div>
+    </div>
+
+    <!-- 2D Canvas Layer (for math projections, waves, brains) -->
+    <canvas id="canvas-2d" width="1080" height="1920"></canvas>
+
+    <div class="scene-container">
+        <!-- Caption display area -->
+        <div id="caption-container"></div>
+
+        <!-- ======= PHASE 1: 2020 STUDY & BRAIN SHRINK (0.0s - 16.5s) ======= -->
+        <div id="state1-brain" class="fade-element">
+            <div class="glass-panel">
+                <div class="panel-title" id="p1-title">CLINICAL STUDY: 2020</div>
+                <div class="panel-subtitle">N = 100,000+ SUBJECTS</div>
+                <div class="row-container">
+                    <div class="info-card" id="p1-card-1" style="border-color: rgba(255, 51, 102, 0.3);">
+                        <div class="info-card-icon">🧠</div>
+                        <div class="info-card-value" style="color: var(--neon-pink);" id="p1-shrink-val">40% FASTER</div>
+                        <div class="info-card-label">Brain Shrinkage Rate in Physically Weak Individuals</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ======= PHASE 2: GLOWING RESILIENCE CHAIN (16.5s - 35.0s) ======= -->
+        <div id="state2-chain" class="fade-element">
+            <div class="glass-panel">
+                <div class="panel-title">THE WARRIOR EQUATION</div>
+                <div class="panel-subtitle">BIOLOGICAL PRECEDENCE</div>
+                <div class="row-container">
+                    <div class="info-card" id="p2-card-1" style="border-color: rgba(0, 240, 255, 0.3);">
+                        <div class="info-card-icon">⚡</div>
+                        <div class="info-card-value">PHYSICAL GRIT</div>
+                        <div class="info-card-label">Phase 1: Fight the Body First</div>
+                    </div>
+                    <div class="info-card" id="p2-card-2" style="border-color: rgba(123, 44, 191, 0.3);">
+                        <div class="info-card-icon">🌀</div>
+                        <div class="info-card-value" style="color: var(--neon-purple);">MENTAL DRIVE</div>
+                        <div class="info-card-label">Phase 2: Rewire the Brain Second</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ======= PHASE 3: GOGGINS RESILIENCE CHART (35.0s - 62.0s) ======= -->
+        <div id="state3-goggins" class="fade-element">
+            <div class="glass-panel">
+                <div class="panel-title">DAVID GOGGINS RETROSPECTIVE</div>
+                <div class="panel-subtitle">PHYSICAL STRESS VS RESILIENCE</div>
+                <div style="width: 100%; height: 320px; position: relative;" id="goggins-chart-container">
+                    <!-- SVG graph container -->
+                    <svg id="goggins-svg" width="900" height="320" style="position: absolute; top:0; left:0;"></svg>
+                </div>
+                <div class="row-container" style="margin-top: 20px;">
+                    <div class="info-card">
+                        <div class="info-card-value" style="color: var(--neon-pink); font-size: 28px;">BEFORE: 300 lbs</div>
+                        <div class="info-card-label">Depressed & Mentally Broken</div>
+                    </div>
+                    <div class="info-card">
+                        <div class="info-card-value" style="color: var(--neon-green); font-size: 28px;">AFTER: WARRIOR</div>
+                        <div class="info-card-label">Most Resilient Human Mindset</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ======= PHASE 4: HUBERMAN FOUNDATION (62.0s - 89.0s) ======= -->
+        <div id="state4-huberman" class="fade-element">
+            <div class="glass-panel">
+                <div class="panel-title">NEUROLOGICAL FOUNDATION</div>
+                <div class="panel-subtitle">STANFORD UNIVERSITY MEDICINE</div>
+                <div class="quote-box">
+                    <div class="quote-text">"Physical training is the single most powerful tool for mental health — more than any drug, more than any therapy."</div>
+                    <div class="quote-author">Dr. Andrew Huberman</div>
+                </div>
+                <div class="row-container">
+                    <div class="info-card">
+                        <div class="info-card-icon">🧬</div>
+                        <div class="info-card-label">Regulates Neurotransmitters & Hormonal Axes</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ======= PHASE 5: BDNF & BRAIN CELLS (89.0s - 150.0s) ======= -->
+        <div id="state5-bdnf" class="fade-element">
+            <div class="glass-panel">
+                <div class="panel-title">BRAIN REWIRING CHEMISTRY</div>
+                <div class="panel-subtitle">BDNF (MIRACLE-GRO FOR NEURONS)</div>
+                <div style="width: 100%; text-align: left; margin-bottom: 20px;">
+                    <div>
+                        <div class="bar-label">
+                            <span>BDNF (Brain Cell Growth)</span>
+                            <span style="color: var(--neon-green);" id="bar-bdnf-pct">+200%</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar-fill" id="bar-bdnf-fill" style="background: var(--neon-green);"></div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="bar-label">
+                            <span>Dopamine (Motivation & Focus)</span>
+                            <span style="color: var(--neon-cyan);" id="bar-dop-pct">+150%</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar-fill" id="bar-dop-fill" style="background: var(--neon-cyan);"></div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="bar-label">
+                            <span>Serotonin (Emotional Regulation)</span>
+                            <span style="color: var(--neon-purple);" id="bar-ser-pct">+120%</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar-fill" id="bar-ser-fill" style="background: var(--neon-purple);"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row-container">
+                    <div class="info-card" style="flex-direction: row; gap: 15px; text-align: left; padding: 15px;">
+                        <div style="font-size: 40px;">🧠</div>
+                        <div>
+                            <div style="font-weight: 800; font-size: 20px; color: var(--neon-purple);" id="hippocampus-title">HIPPOCAMPUS EXPANSION</div>
+                            <div style="font-size: 16px; color: #aab;">MRI scans confirm physical training enlarges memory & emotional control centers.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ======= PHASE 6: TESTOSTERONE SPIKE (150.0s - 180.0s) ======= -->
+        <div id="state6-testo" class="fade-element">
+            <div class="glass-panel">
+                <div class="panel-title">HORMONAL DRIVE MATRIX</div>
+                <div class="panel-subtitle">TESTOSTERONE SPIKE</div>
+                <div class="row-container">
+                    <div class="info-card" style="border-color: rgba(255, 221, 0, 0.3);">
+                        <div class="info-card-icon">🔥</div>
+                        <div class="info-card-value" style="color: var(--neon-yellow);" id="testo-status">LOW TESTOSTERONE</div>
+                        <div class="info-card-label" id="testo-desc">No Drive • Ambition Collapse • Survival Mode</div>
+                    </div>
+                </div>
+                <div style="font-size: 20px; font-weight: bold; color: var(--neon-yellow); margin-top: 24px; text-align: center; line-height: 1.4; border: 1px dashed rgba(255,221,0,0.3); padding: 16px 20px; border-radius: 16px; background: rgba(255,221,0,0.02); width: 100%;">
+                    "Resistance training 2-3 times a week is enough to significantly elevate baseline testosterone."
+                </div>
+            </div>
+        </div>
+
+        <!-- ======= PHASE 7: NERVOUS SYSTEM WAVES (180.0s - 220.0s) ======= -->
+        <div id="state7-nervous" class="fade-element">
+            <div class="glass-panel">
+                <div class="panel-title">AUTONOMIC SYSTEM FEEDBACK</div>
+                <div class="panel-subtitle">STRESS VS PRESSURE CALM</div>
+                <div class="row-container">
+                    <div class="info-card" id="ns-card-left" style="border-color: rgba(255, 51, 102, 0.15); transition: border-color 0.4s;">
+                        <div class="info-card-icon">🚨</div>
+                        <div class="info-card-value" style="color: var(--neon-pink); font-size: 26px;">DANGER MODE</div>
+                        <div class="info-card-label">Weak Body • Fight or Flight • Chronic Stress & Panic</div>
+                    </div>
+                    <div class="info-card" id="ns-card-right" style="border-color: rgba(0, 240, 255, 0.15); transition: border-color 0.4s;">
+                        <div class="info-card-icon">🌊</div>
+                        <div class="info-card-value" style="color: var(--neon-cyan); font-size: 26px;">WARRIOR CALM</div>
+                        <div class="info-card-label">Trained Body • Nervous Regulation • Resilience Under Pressure</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ======= PHASE 8: PRACTICAL RULES 1 & 2 (220.0s - 311.0s) ======= -->
+        <div id="state8-rules12" class="fade-element">
+            <div class="glass-panel">
+                <div class="panel-title">WARRIOR CODE: RULES 1 & 2</div>
+                <div class="panel-subtitle">STEREOPHONIC DISCIPLINE</div>
+                <div class="row-container">
+                    <div class="info-card" id="p8-card-1" style="border-color: rgba(0, 240, 255, 0.15); transition: border-color 0.4s;">
+                        <div class="rule-badge">RULE 1</div>
+                        <div class="info-card-value" style="font-size: 28px;">DAILY DISCOMFORT</div>
+                        <div class="info-card-label" style="text-align: left; width: 100%;">
+                            • Pushups & Pullups<br>
+                            • Running & Sprints<br>
+                            • Uncomfortable Zone Daily
+                        </div>
+                    </div>
+                    <div class="info-card" id="p8-card-2" style="border-color: rgba(255, 51, 102, 0.15); transition: border-color 0.4s;">
+                        <div class="rule-badge" style="color: var(--neon-pink); border-color: var(--neon-pink); background: rgba(255, 51, 102, 0.08);">RULE 2</div>
+                        <div class="info-card-value" style="color: var(--neon-pink); font-size: 28px;">DEEP SLEEP FLUSH</div>
+                        <div class="info-card-label" style="text-align: left; width: 100%;">
+                            • 7-8 Hours Rest<br>
+                            • Glymphatic Waste Flush<br>
+                            • Eliminates Brain Fog
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ======= PHASE 9: PRACTICAL RULES 3 & 4 (311.0s - 370.0s) ======= -->
+        <div id="state9-rules34" class="fade-element">
+            <div class="glass-panel">
+                <div class="panel-title">WARRIOR CODE: RULES 3 & 4</div>
+                <div class="panel-subtitle">BIO-HARVEST SYSTEM</div>
+                <div class="row-container">
+                    <div class="info-card" id="p9-card-1" style="border-color: rgba(0, 255, 102, 0.15); transition: border-color 0.4s;">
+                        <div class="rule-badge" style="color: var(--neon-green); border-color: var(--neon-green); background: rgba(0, 255, 102, 0.08);">RULE 3</div>
+                        <div class="info-card-value" style="color: var(--neon-green); font-size: 28px;">CLEAN GUT FUEL</div>
+                        <div class="info-card-label" style="text-align: left; width: 100%;">
+                            • 90% Serotonin in Gut<br>
+                            • Protein, Veggies, Fats<br>
+                            • Eliminate Inflammation
+                        </div>
+                    </div>
+                    <div class="info-card" id="p9-card-2" style="border-color: rgba(255, 221, 0, 0.15); transition: border-color 0.4s;">
+                        <div class="rule-badge">RULE 4</div>
+                        <div class="info-card-value" style="color: var(--neon-yellow); font-size: 28px;">COLD EXPOSURE</div>
+                        <div class="info-card-label" style="text-align: left; width: 100%;">
+                            • 2-3 Min Cold Shower<br>
+                            • Dopamine Spikes 250%<br>
+                            • Focus & Mood Boost
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ======= PHASE 10: WARRIOR OUTRO (370.0s - 403.0s) ======= -->
+        <div id="state10-outro" class="fade-element">
+            <div class="glass-panel">
+                <div class="panel-title" style="background: linear-gradient(90deg, var(--neon-cyan), var(--neon-pink)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">STEEL BODY • CALM MIND</div>
+                <div class="panel-subtitle">EPISODE 8: FINALE</div>
+                <div class="row-container" style="margin-top: 10px;">
+                    <div class="info-card" style="border-color: var(--neon-cyan); background: rgba(0, 240, 255, 0.02);">
+                        <div class="info-card-value">STEEL</div>
+                        <div class="info-card-label">Physical Body</div>
+                    </div>
+                    <div class="info-card" style="border-color: var(--neon-pink); background: rgba(255, 51, 102, 0.02);">
+                        <div class="info-card-value" style="color: var(--neon-pink);">CALM</div>
+                        <div class="info-card-label">Nervous Mind</div>
+                    </div>
+                </div>
+                <div class="cta-btn" id="subscribe-cta">SUBSCRIBE & LIKE</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Include captions Alignment JavaScript data -->
+    <script src="scene_06_captions.js"></script>
+
+    <script>
+        console.log("Master GSAP Timeline script started for Scene 06");
+        // =====================================================
+        // MASTER GSAP TIMELINE
+        // =====================================================
+        const tl = gsap.timeline({ paused: true });
+        window.tl = tl;
+        const time = (sec) => sec;
+
+        // Shared animation state variables for canvas drawing loop
+        const canvasState = {
+            activePhase: 1,
+            
+            // Brain visual state
+            brainOpacity: 0.0,
+            brainScale: 1.0,
+            brainCollapse: 0.0,
+            brainRotY: 0.0,
+            
+            // Chain visual state
+            chainOpacity: 0.0,
+            chainRotY: 0.0,
+            chainStrength: 1.0,
+            chainBreakProgress: 0.0,
+            
+            // Goggins Chart
+            chartProgress: 0.0,
+            chartOpacity: 0.0,
+            
+            // Huberman Neural Net
+            netOpacity: 0.0,
+            netPulse: 0.0,
+            
+            // BDNF rain
+            bdnfOpacity: 0.0,
+            bdnfScale: 1.0,
+            
+            // Testosterone Spike
+            testoOpacity: 0.0,
+            testoValue: 0.1, // 0.1 (low) to 1.0 (peak)
+            fireHeight: 0.0,
+            
+            // Nervous Waves
+            wavesOpacity: 0.0,
+            wavePulse: 0.0,
+            activeWaveSide: 0, // -1: left (danger), 1: right (calm), 0: none
+            
+            // Outro helix
+            outroOpacity: 0.0,
+            helixRotation: 0.0
+        };
+
+        // =====================================================
+        // CAPTIONS INTEGRATION
+        // =====================================================
+        const sentences = window.scene_06_captions;
+        const captionContainer = document.getElementById("caption-container");
+
+        sentences.forEach((sentence, sIdx) => {
+            const sDiv = document.createElement("div");
+            sDiv.className = "sentence-block";
+            gsap.set(sDiv, { display: "none", opacity: 0 });
+
+            sentence.words.forEach((w, idx) => {
+                const wSpan = document.createElement("span");
+                wSpan.className = "cap-word";
+                wSpan.innerText = w.text;
+                sDiv.appendChild(wSpan);
+
+                // Analyze word to select the style class
+                let activeClass = "active";
+                const cleanWord = w.text.toLowerCase().replace(/[.,\/#!$%\^&\*;:{}=\-_`~()?]/g, "");
+                
+                // Highlight words based on positive/negative meaning
+                const dangerWords = ["weak", "shrink", "broken", "danger", "reels", "toxic", "exhausted", "fog", "depression", "anxiety", "lazy", "survive", "inflammation", "panic", "uncomfortable"];
+                const positiveWords = ["resilient", "strong", "science", "dopamine", "serotonin", "testosterone", "calm", "steel", "warrior", "huberman", "goggins", "bdnf", "clean", "sleep", "discipline", "miracle"];
+                
+                if (dangerWords.includes(cleanWord)) {
+                    activeClass = "active-danger";
+                } else if (positiveWords.includes(cleanWord)) {
+                    activeClass = "active-highlight";
+                }
+
+                // GSAP timeline triggers
+                tl.to(wSpan, {
+                    onStart: () => {
+                        wSpan.classList.add(activeClass);
+                        wSpan.classList.remove("past");
+                    },
+                    onReverseComplete: () => {
+                        wSpan.classList.remove(activeClass);
+                        wSpan.classList.remove("past");
+                    },
+                    duration: 0.05
+                }, time(w.start));
+
+                tl.to(wSpan, {
+                    onStart: () => {
+                        wSpan.classList.remove(activeClass);
+                        wSpan.classList.add("past");
+                    },
+                    onReverseComplete: () => {
+                        wSpan.classList.add(activeClass);
+                        wSpan.classList.remove("past");
+                    },
+                    duration: 0.05
+                }, time(w.end));
+            });
+
+            captionContainer.appendChild(sDiv);
+
+            tl.set(sDiv, { display: "flex" }, time(sentence.start));
+            tl.to(sDiv, { opacity: 1, duration: 0.15 }, time(sentence.start));
+            tl.to(sDiv, { opacity: 0, duration: 0.15 }, time(sentence.end));
+            tl.set(sDiv, { display: "none" }, time(sentence.end + 0.15));
+        });
+
+        // =====================================================
+        // GSAP PHASES TIMELINE ANIMATIONS
+        // =====================================================
+        
+        // -----------------------------------------------------
+        // PHASE 1: Brain Shrink (0s - 16s)
+        // -----------------------------------------------------
+        tl.to(canvasState, { brainOpacity: 1.0, duration: 0.8 }, time(0.1));
+        tl.to("#state1-brain", { opacity: 1, scale: 1, duration: 0.8, ease: "back.out(1.1)" }, time(0.2));
+        
+        // Brain shrinkage & collapse trigger at 8.0s (Segment 1 "brain literally 40% faster shrink")
+        tl.to(canvasState, { brainScale: 0.6, brainCollapse: 0.45, duration: 3.5, ease: "power2.inOut" }, time(8.0));
+        tl.to("#p1-title", { className: "panel-title glitch-text", duration: 0.1 }, time(8.0));
+        tl.to("#p1-shrink-val", { fontSize: "46px", scale: 1.15, textShadow: "0 0 30px #FF3366", duration: 0.5 }, time(8.2));
+        
+        // Face out Phase 1
+        tl.to("#state1-brain", { opacity: 0, scale: 0.85, duration: 0.5 }, time(16.0));
+        tl.to(canvasState, { brainOpacity: 0.0, duration: 0.5 }, time(16.0));
+
+        // -----------------------------------------------------
+        // PHASE 2: Glowing Chain (16.6s - 34.6s)
+        // -----------------------------------------------------
+        tl.set(canvasState, { activePhase: 2 }, time(16.5));
+        tl.to(canvasState, { chainOpacity: 1.0, duration: 0.5 }, time(16.6));
+        tl.to("#state2-chain", { opacity: 1, scale: 1, duration: 0.6, ease: "back.out(1.1)" }, time(16.7));
+        
+        // Link 1 (Physical Grit) pulse at 23.5s
+        tl.to("#p2-card-1", { borderColor: "rgba(0, 240, 255, 0.85)", boxShadow: "0 0 25px rgba(0,240,255,0.4)", scale: 1.05, duration: 0.4 }, time(23.5));
+        
+        // Link 2 (Mental Resilience) pulse at 26.0s
+        tl.to("#p2-card-2", { borderColor: "rgba(123, 44, 191, 0.85)", boxShadow: "0 0 25px rgba(123,44,191,0.4)", scale: 1.05, duration: 0.4 }, time(26.0));
+        
+        // Break the chain at 28.5s (Segment 2 "agar teri body weak hai... mind strong ho sakta hai kya?")
+        tl.to(canvasState, { chainStrength: 0.0, chainBreakProgress: 1.0, duration: 1.8, ease: "power2.out" }, time(28.5));
+        tl.to("#p2-card-1, #p2-card-2", { scale: 0.95, opacity: 0.6, duration: 0.5 }, time(29.0));
+        
+        // Fade out Phase 2
+        tl.to("#state2-chain", { opacity: 0, scale: 0.85, duration: 0.5 }, time(34.5));
+        tl.to(canvasState, { chainOpacity: 0.0, duration: 0.5 }, time(34.5));
+
+        // -----------------------------------------------------
+        // PHASE 3: Goggins Chart (35.2s - 55.3s)
+        // -----------------------------------------------------
+        tl.set(canvasState, { activePhase: 3 }, time(35.1));
+        tl.to("#state3-goggins", { opacity: 1, scale: 1, duration: 0.6, ease: "back.out(1.1)" }, time(35.26));
+        tl.to(canvasState, { chartOpacity: 1.0, duration: 0.5 }, time(35.26));
+        
+        // Draw the resilience chart curve dynamically
+        tl.to(canvasState, { chartProgress: 1.0, duration: 16.0, ease: "power1.inOut" }, time(36.0));
+        
+        // Fade out Phase 3
+        tl.to("#state3-goggins", { opacity: 0, scale: 0.85, duration: 0.5 }, time(54.8));
+        tl.to(canvasState, { chartOpacity: 0.0, duration: 0.5 }, time(54.8));
+
+        // -----------------------------------------------------
+        // PHASE 4: Huberman Quote (62.9s - 87.3s)
+        // -----------------------------------------------------
+        // Note: Gap in captions between 55.3s and 62.95s is handled by pipeline assembly / display control.
+        tl.set(canvasState, { activePhase: 4 }, time(62.5));
+        tl.to(canvasState, { netOpacity: 1.0, duration: 0.8 }, time(62.95));
+        tl.to("#state4-huberman", { opacity: 1, scale: 1, duration: 0.6, ease: "back.out(1.1)" }, time(63.0));
+        tl.to(canvasState, { netPulse: 1.0, duration: 5.0, repeat: -1, yoyo: true }, time(63.0));
+        
+        // Fade out Phase 4
+        tl.to("#state4-huberman", { opacity: 0, scale: 0.9, duration: 0.5 }, time(86.8));
+        tl.to(canvasState, { netOpacity: 0.0, duration: 0.5 }, time(86.8));
+
+        // -----------------------------------------------------
+        // PHASE 5: BDNF & Hippocampus Growth (89.4s - 150.0s)
+        // -----------------------------------------------------
+        tl.set(canvasState, { activePhase: 5 }, time(89.0));
+        tl.to(canvasState, { bdnfOpacity: 1.0, duration: 0.6 }, time(89.42));
+        tl.to("#state5-bdnf", { opacity: 1, scale: 1, duration: 0.6, ease: "back.out(1.1)" }, time(89.5));
+        
+        // Animate progress bars
+        tl.to("#bar-bdnf-fill", { width: "100%", duration: 2.5, ease: "power2.out" }, time(91.0));
+        tl.to("#bar-dop-fill", { width: "75%", duration: 2.2, ease: "power2.out" }, time(91.5));
+        tl.to("#bar-ser-fill", { width: "60%", duration: 2.0, ease: "power2.out" }, time(92.0));
+        
+        // Hippocampus expansion at 135.3s
+        tl.to(canvasState, { bdnfScale: 1.35, duration: 2.5, ease: "back.out(1.2)" }, time(135.3));
+        tl.to("#hippocampus-title", { textShadow: "0 0 25px var(--neon-purple)", color: "#ffffff", scale: 1.05, duration: 0.5 }, time(135.5));
+        
+        // Fade out Phase 5
+        tl.to("#state5-bdnf", { opacity: 0, scale: 0.85, duration: 0.5 }, time(149.5));
+        tl.to(canvasState, { bdnfOpacity: 0.0, duration: 0.5 }, time(149.5));
+
+        // -----------------------------------------------------
+        // PHASE 6: Testosterone Spike (151.0s - 180.8s)
+        // -----------------------------------------------------
+        tl.set(canvasState, { activePhase: 6 }, time(150.5));
+        tl.to(canvasState, { testoOpacity: 1.0, duration: 0.5 }, time(151.0));
+        tl.to("#state6-testo", { opacity: 1, scale: 1, duration: 0.6, ease: "back.out(1.1)" }, time(151.1));
+        
+        // Testosterone level is low initially
+        tl.set(canvasState, { testoValue: 0.1, fireHeight: 0.1 }, time(151.2));
+        
+        // Testosterone spikes at 160.0s (sprint, lift, pushups spike testosterone)
+        tl.to(canvasState, { testoValue: 0.95, fireHeight: 1.0, duration: 4.0, ease: "power2.inOut" }, time(160.0));
+        tl.to("#testo-status", {
+            textContent: "PEAK TESTOSTERONE",
+            color: "var(--neon-green)",
+            textShadow: "0 0 20px rgba(0, 255, 102, 0.6)",
+            duration: 1.5
+        }, time(161.0));
+        tl.to("#testo-desc", {
+            textContent: "Peak Focus • Warrior Drive • Unstoppable Ambition",
+            color: "#ffffff",
+            duration: 1.5
+        }, time(161.0));
+        
+        // Fade out Phase 6
+        tl.to("#state6-testo", { opacity: 0, scale: 0.85, duration: 0.5 }, time(180.3));
+        tl.to(canvasState, { testoOpacity: 0.0, duration: 0.5 }, time(180.3));
+
+        // -----------------------------------------------------
+        // PHASE 7: Autonomic Nervous Waves (181.4s - 214.3s)
+        // -----------------------------------------------------
+        tl.set(canvasState, { activePhase: 7 }, time(181.0));
+        tl.to(canvasState, { wavesOpacity: 1.0, duration: 0.5 }, time(181.44));
+        tl.to("#state7-nervous", { opacity: 1, scale: 1, duration: 0.6, ease: "back.out(1.1)" }, time(181.5));
+        
+        // Danger wave side active (Left)
+        tl.to(canvasState, { activeWaveSide: -1, wavePulse: 1.0, duration: 0.5 }, time(182.0));
+        tl.to("#ns-card-left", { borderColor: "rgba(255, 51, 102, 0.85)", boxShadow: "0 0 25px rgba(255, 51, 102, 0.4)", scale: 1.04, duration: 0.4 }, time(182.2));
+        
+        // Switch to Calm wave side active (Right)
+        tl.to(canvasState, { activeWaveSide: 1, wavePulse: 1.0, duration: 0.5 }, time(195.0));
+        tl.to("#ns-card-right", { borderColor: "rgba(0, 240, 255, 0.85)", boxShadow: "0 0 25px rgba(0, 240, 255, 0.4)", scale: 1.04, duration: 0.4 }, time(195.2));
+        tl.to("#ns-card-left", { borderColor: "rgba(255, 51, 102, 0.15)", boxShadow: "none", scale: 1.0, opacity: 0.5, duration: 0.5 }, time(195.2));
+        
+        // Fade out Phase 7
+        tl.to("#state7-nervous", { opacity: 0, scale: 0.85, duration: 0.5 }, time(213.8));
+        tl.to(canvasState, { wavesOpacity: 0.0, duration: 0.5 }, time(213.8));
+
+        // -----------------------------------------------------
+        // PHASE 8: Practical Rules 1 & 2 (220.3s - 311.7s)
+        // -----------------------------------------------------
+        tl.set(canvasState, { activePhase: 8 }, time(220.0));
+        tl.to("#state8-rules12", { opacity: 1, scale: 1, duration: 0.6, ease: "back.out(1.1)" }, time(220.35));
+        
+        // Rule 1 Card glows
+        tl.to("#p8-card-1", { borderColor: "rgba(0, 240, 255, 0.8)", boxShadow: "0 0 20px rgba(0, 240, 255, 0.25)", duration: 0.5 }, time(222.0));
+        
+        // Rule 2 Card glows & Glymphatic flush particles fade-in
+        tl.to("#p8-card-2", { borderColor: "rgba(255, 51, 102, 0.8)", boxShadow: "0 0 20px rgba(255, 51, 102, 0.25)", duration: 0.5 }, time(250.02));
+        tl.to(canvasState, { wavesOpacity: 0.6, activeWaveSide: 2, wavePulse: 0.0, duration: 0.8 }, time(274.21)); // Using waveSide=2 for Glymphatic water flush particles
+        tl.to(canvasState, { wavePulse: 1.0, duration: 8.0, ease: "power1.inOut" }, time(274.21));
+        
+        // 3 AM Reels scroll interruption (glitch shock)
+        tl.to(canvasState, { wavePulse: 0.1, wavesOpacity: 0.1, duration: 0.4 }, time(284.22));
+        tl.to("#p8-card-2", { className: "info-card glitch-text", duration: 0.1 }, time(284.22));
+        
+        // Fade out Phase 8
+        tl.to("#state8-rules12", { opacity: 0, scale: 0.85, duration: 0.5 }, time(311.2));
+        tl.to(canvasState, { wavesOpacity: 0.0, duration: 0.5 }, time(311.2));
+
+        // -----------------------------------------------------
+        // PHASE 9: Practical Rules 3 & 4 (312.4s - 370.0s)
+        // -----------------------------------------------------
+        tl.set(canvasState, { activePhase: 9 }, time(312.0));
+        tl.to("#state9-rules34", { opacity: 1, scale: 1, duration: 0.6, ease: "back.out(1.1)" }, time(312.44));
+        tl.to(canvasState, { wavesOpacity: 0.8, activeWaveSide: 3, wavePulse: 0.5, duration: 0.8 }, time(312.44)); // waveSide=3 for Gut-Brain connection
+        
+        // Junk inflammation drops health
+        tl.to(canvasState, { wavePulse: 0.1, duration: 2.0 }, time(315.0));
+        tl.to("#p9-card-1", { borderColor: "rgba(255, 51, 102, 0.7)", boxShadow: "0 0 20px rgba(255, 51, 102, 0.2)", duration: 0.5 }, time(315.5));
+        
+        // Healthy protein repair
+        tl.to(canvasState, { wavePulse: 1.0, duration: 3.0 }, time(330.0));
+        tl.to("#p9-card-1", { borderColor: "rgba(0, 255, 102, 0.85)", boxShadow: "0 0 25px rgba(0, 255, 102, 0.3)", duration: 0.5 }, time(330.5));
+        
+        // Cold exposure thermometer drop & dopamine burst
+        tl.to("#p9-card-2", { borderColor: "rgba(255, 221, 0, 0.9)", boxShadow: "0 0 30px rgba(255, 221, 0, 0.45)", scale: 1.04, duration: 0.5 }, time(341.17));
+        tl.to(canvasState, { wavePulse: 2.5, duration: 4.5, ease: "power3.out" }, time(341.17)); // Trigger massive particles
+        
+        // Fade out Phase 9
+        tl.to("#state9-rules34", { opacity: 0, scale: 0.85, duration: 0.5 }, time(369.5));
+        tl.to(canvasState, { wavesOpacity: 0.0, duration: 0.5 }, time(369.5));
+
+        // -----------------------------------------------------
+        // PHASE 10: Outro Finale (370.6s - 403.0s)
+        // -----------------------------------------------------
+        tl.set(canvasState, { activePhase: 10 }, time(370.5));
+        tl.to(canvasState, { outroOpacity: 1.0, duration: 0.8 }, time(370.69));
+        tl.to("#state10-outro", { opacity: 1, scale: 1, duration: 0.6, ease: "back.out(1.1)" }, time(370.8));
+        
+        // Infinite helix rotation
+        tl.to(canvasState, { helixRotation: Math.PI * 4, duration: 31.0, ease: "none" }, time(370.8));
+        
+        // Final pulse of CTA
+        tl.to("#subscribe-cta", { scale: 1.08, repeat: -1, yoyo: true, duration: 0.7 }, time(387.0));
+        
+        // Finale fade-out
+        tl.to("#state10-outro", { opacity: 0, scale: 0.9, duration: 0.8 }, time(401.8));
+        tl.to(canvasState, { outroOpacity: 0.0, duration: 0.8 }, time(401.8));
+
+
+        // =====================================================
+        // CANVAS 2D DRAWING & ANIMATION LOOP
+        // =====================================================
+        const canvas = document.getElementById("canvas-2d");
+        const ctx = canvas.getContext("2d");
+
+        // Generate 3D Brain points programmatically
+        const brainPoints = [];
+        const brainLines = [];
+        function generateBrain() {
+            // Left Hemisphere
+            for (let phi = 0.1; phi < Math.PI - 0.1; phi += 0.22) {
+                for (let theta = 0; theta < Math.PI * 2; theta += 0.35) {
+                    const ripple = 1.0 + 0.11 * Math.sin(phi * 9) * Math.sin(theta * 9);
+                    const x = -28 + 95 * Math.sin(phi) * Math.cos(theta) * ripple;
+                    const y = -15 + 115 * Math.sin(phi) * Math.sin(theta) * ripple;
+                    const z = 75 * Math.cos(phi) * ripple;
+                    brainPoints.push({ x, y, z, ox: x, oy: y, oz: z, hemi: 'left' });
+                }
+            }
+            // Right Hemisphere
+            for (let phi = 0.1; phi < Math.PI - 0.1; phi += 0.22) {
+                for (let theta = 0; theta < Math.PI * 2; theta += 0.35) {
+                    const ripple = 1.0 + 0.11 * Math.sin(phi * 9) * Math.sin(theta * 9);
+                    const x = 28 + 95 * Math.sin(phi) * Math.cos(theta) * ripple;
+                    const y = -15 + 115 * Math.sin(phi) * Math.sin(theta) * ripple;
+                    const z = 75 * Math.cos(phi) * ripple;
+                    brainPoints.push({ x, y, z, ox: x, oy: y, oz: z, hemi: 'right' });
+                }
+            }
+            // Cerebellum
+            for (let phi = 0.6; phi < Math.PI * 0.92; phi += 0.28) {
+                for (let theta = -Math.PI; theta < 0; theta += 0.45) {
+                    const ripple = 1.0 + 0.04 * Math.sin(phi * 11);
+                    const x = 50 * Math.sin(phi) * Math.cos(theta) * ripple;
+                    const y = 85 + 45 * Math.sin(phi) * Math.sin(theta) * ripple;
+                    const z = -55 + 32 * Math.cos(phi) * ripple;
+                    brainPoints.push({ x, y, z, ox: x, oy: y, oz: z, hemi: 'cerebellum' });
+                }
+            }
+            // Brain Stem
+            for (let h = -50; h > -140; h -= 22) {
+                const radius = 24 - (h + 50) * 0.07;
+                for (let theta = 0; theta < Math.PI * 2; theta += 0.9) {
+                    const x = radius * Math.cos(theta);
+                    const y = 35 + radius * Math.sin(theta);
+                    const z = h;
+                    brainPoints.push({ x, y, z, ox: x, oy: y, oz: z, hemi: 'stem' });
+                }
+            }
+            // Link close nodes to form mesh lines
+            for (let i = 0; i < brainPoints.length; i++) {
+                const p1 = brainPoints[i];
+                let conn = 0;
+                for (let j = i + 1; j < brainPoints.length; j++) {
+                    const p2 = brainPoints[j];
+                    if (p1.hemi === p2.hemi) {
+                        const dist = Math.hypot(p1.x - p2.x, p1.y - p2.y, p1.z - p2.z);
+                        if (dist < 34 && conn < 4) {
+                            brainLines.push([i, j]);
+                            conn++;
+                        }
+                    }
+                }
+            }
+        }
+        generateBrain();
+
+        // 3D projection mathematical coordinates mapping helper
+        function project3D(x, y, z, rotX, rotY, scale) {
+            let cosY = Math.cos(rotY), sinY = Math.sin(rotY);
+            let x1 = x * cosY - z * sinY;
+            let z1 = x * sinY + z * cosY;
+
+            let cosX = Math.cos(rotX), sinX = Math.sin(rotX);
+            let y2 = y * cosX - z1 * sinX;
+            let z2 = y * sinX + z1 * cosX;
+
+            const fov = 400;
+            const distance = 400;
+            const f = fov / (distance - z2);
+
+            return {
+                x: x1 * f * scale,
+                y: y2 * f * scale,
+                z: z2
+            };
+        }
+
+        // Custom particles cache
+        const customParticles = [];
+        function createExplosion(x, y, color, count = 30) {
+            for (let i = 0; i < count; i++) {
+                const angle = Math.random() * Math.PI * 2;
+                const speed = 2 + Math.random() * 8;
+                customParticles.push({
+                    x: x, y: y,
+                    vx: Math.cos(angle) * speed,
+                    vy: Math.sin(angle) * speed - 1.5,
+                    size: 3 + Math.random() * 8,
+                    color: color,
+                    alpha: 1.0,
+                    life: 1.0,
+                    decay: 0.015 + Math.random() * 0.015
+                });
+            }
+        }
+
+        // Periodic triggers
+        let lastTime = 0;
+
+        function drawScene() {
+            ctx.clearRect(0, 0, 1080, 1920);
+            const timeVal = Date.now() * 0.001;
+
+            // Trigger random particles based on state triggers
+            if (canvasState.brainCollapse > 0.02 && canvasState.brainOpacity > 0.01) {
+                if (Math.random() < 0.18) {
+                    customParticles.push({
+                        x: 540 + (Math.random() - 0.5) * 200,
+                        y: 420 + (Math.random() - 0.5) * 200,
+                        vx: (Math.random() - 0.5) * 3,
+                        vy: -1.5 - Math.random() * 3,
+                        size: 2 + Math.random() * 5,
+                        color: "#FF3366",
+                        alpha: 1.0,
+                        life: 1.0,
+                        decay: 0.02
+                    });
+                }
+            }
+
+            // Draw custom particle explosions
+            if (customParticles.length > 0) {
+                customParticles.forEach((p, idx) => {
+                    p.x += p.vx;
+                    p.y += p.vy;
+                    p.vy += 0.08; // Gravity
+                    p.life -= p.decay;
+                    if (p.life <= 0) {
+                        customParticles.splice(idx, 1);
+                        return;
+                    }
+                    ctx.save();
+                    ctx.globalAlpha = p.life;
+                    ctx.fillStyle = p.color;
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.restore();
+                });
+            }
+
+            // 1. Draw 3D Brain Wireframe (Phase 1)
+            if (canvasState.brainOpacity > 0.01) {
+                ctx.save();
+                ctx.globalAlpha = canvasState.brainOpacity;
+                ctx.translate(540, 540); // Safe Area top center
+
+                canvasState.brainRotY += 0.012;
+                const rotX = 0.35 + Math.sin(timeVal * 0.4) * 0.15;
+                const scale = 2.4 * canvasState.brainScale;
+
+                // Adjust points if collapsing
+                brainPoints.forEach((p, idx) => {
+                    if (canvasState.brainCollapse > 0.01) {
+                        // Collapse points, make them drift away
+                        const collapseSeed = Math.sin(idx * 0.9) * 200;
+                        const factor = canvasState.brainCollapse;
+                        p.x = p.ox + Math.sin(idx * 1.5) * factor * 50;
+                        p.y = p.oy + factor * 80 + Math.abs(Math.cos(idx)) * factor * 120;
+                        p.z = p.oz + Math.cos(idx * 1.5) * factor * 50;
+                    } else {
+                        p.x = p.ox;
+                        p.y = p.oy;
+                        p.z = p.oz;
+                    }
+                });
+
+                // Project all points
+                const projected = brainPoints.map(p => project3D(p.x, p.y, p.z, rotX, canvasState.brainRotY, scale));
+
+                // Draw lines
+                ctx.strokeStyle = canvasState.brainCollapse > 0.1 ? "rgba(255, 51, 102, 0.22)" : "rgba(0, 240, 255, 0.35)";
+                ctx.lineWidth = 1.2;
+                ctx.beginPath();
+                brainLines.forEach(([i, j]) => {
+                    ctx.moveTo(projected[i].x, projected[i].y);
+                    ctx.lineTo(projected[j].x, projected[j].y);
+                });
+                ctx.stroke();
+
+                // Draw points with gradient glow
+                projected.forEach((p, idx) => {
+                    const radius = Math.max(1, 2.2 + p.z * 0.005);
+                    ctx.fillStyle = canvasState.brainCollapse > 0.1 ? "rgba(255, 51, 102, 0.75)" : "rgba(0, 240, 255, 0.85)";
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, radius, 0, Math.PI * 2);
+                    ctx.fill();
+                });
+
+                ctx.restore();
+            }
+
+            // 2. Draw Interlocking Glowing 3D Chain (Phase 2)
+            if (canvasState.chainOpacity > 0.01) {
+                ctx.save();
+                ctx.globalAlpha = canvasState.chainOpacity;
+                ctx.translate(540, 540);
+
+                canvasState.chainRotY += 0.015;
+                const rotX = 0.2;
+
+                // Chain link drawing helper (Torus-like rings)
+                function drawChainLink(offsetY, isRotated, glowColor, activeGlow) {
+                    const radius = 95;
+                    const ringCount = 18;
+                    const scale = 2.5;
+
+                    ctx.save();
+                    ctx.strokeStyle = glowColor;
+                    ctx.shadowColor = glowColor;
+                    ctx.shadowBlur = activeGlow ? 25 : 8;
+                    ctx.lineWidth = activeGlow ? 7 : 3.5;
+
+                    ctx.beginPath();
+                    for (let i = 0; i <= ringCount; i++) {
+                        const angle = (i / ringCount) * Math.PI * 2;
+                        let lx = Math.cos(angle) * radius;
+                        let ly = Math.sin(angle) * (radius * 0.4);
+                        let lz = 0;
+
+                        if (isRotated) {
+                            // Rotate 90 degrees around Y axis
+                            const temp = lx;
+                            lx = 0;
+                            lz = temp;
+                        }
+
+                        // Project point
+                        const p = project3D(lx, ly + offsetY, lz, rotX, canvasState.chainRotY, scale);
+                        if (i === 0) ctx.moveTo(p.x, p.y);
+                        else ctx.lineTo(p.x, p.y);
+                    }
+                    ctx.closePath();
+                    ctx.stroke();
+                    ctx.restore();
+                }
+
+                const dist = 75 + (canvasState.chainBreakProgress * 380); // Pull apart if breaking
+                const isPulse1 = timeVal % 2 < 1.0;
+
+                // Trigger broken particles explosion once
+                if (canvasState.chainBreakProgress > 0.05 && canvasState.chainBreakProgress < 0.12 && customParticles.length < 5) {
+                    createExplosion(540, 540, "#FF3366", 45);
+                    createExplosion(540, 540, "#FFDD00", 25);
+                }
+
+                // Draw physical link (Top - Cyan)
+                drawChainLink(-dist, false, "#00F0FF", !isPulse1 && canvasState.chainBreakProgress === 0.0);
+                // Draw mental link (Bottom - Purple/Pink)
+                drawChainLink(dist, true, canvasState.chainBreakProgress > 0.0 ? "#FF3366" : "#7B2CBF", isPulse1 && canvasState.chainBreakProgress === 0.0);
+
+                ctx.restore();
+            }
+
+            // 3. Draw D3-like line graph on SVG (Phase 3)
+            if (canvasState.chartOpacity > 0.01) {
+                const svg = document.getElementById("goggins-svg");
+                if (svg && svg.childNodes.length === 0) {
+                    // Generate Goggins Resilience Chart using standard SVG paths
+                    const width = 900;
+                    const height = 320;
+                    const padding = { top: 30, right: 40, bottom: 40, left: 60 };
+
+                    // Coordinate points
+                    const points = [
+                        { x: 0, y: 1.0 },   // Start: low
+                        { x: 0.2, y: 0.95 }, 
+                        { x: 0.4, y: 0.5 },  // Toddling up
+                        { x: 0.6, y: 0.3 }, 
+                        { x: 0.8, y: 0.15 }, 
+                        { x: 1.0, y: 0.05 }  // High resilience (lower y is higher in SVG)
+                    ];
+
+                    const axisColor = "rgba(255,255,255,0.15)";
+                    const textColor = "#8888aa";
+
+                    // Grid lines
+                    let gridLines = "";
+                    for (let gridY = 0.1; gridY < 1.0; gridY += 0.2) {
+                        const yPos = padding.top + (height - padding.top - padding.bottom) * gridY;
+                        gridLines += `<line x1="${padding.left}" y1="${yPos}" x2="${width - padding.right}" y2="${yPos}" stroke="rgba(255,255,255,0.04)" stroke-width="1.5" />`;
+                    }
+
+                    // Path calculation helper
+                    let pathD = `M ${padding.left + points[0].x * (width - padding.left - padding.right)} ${padding.top + points[0].y * (height - padding.top - padding.bottom)}`;
+                    for (let i = 1; i < points.length; i++) {
+                        const px = padding.left + points[i].x * (width - padding.left - padding.right);
+                        const py = padding.top + points[i].y * (height - padding.top - padding.bottom);
+                        pathD += ` L ${px} ${py}`;
+                    }
+
+                    svg.innerHTML = `
+                        <!-- Grid and Axes -->
+                        ${gridLines}
+                        <line x1="${padding.left}" y1="${height - padding.bottom}" x2="${width - padding.right}" y2="${height - padding.bottom}" stroke="${axisColor}" stroke-width="2.5" />
+                        <line x1="${padding.left}" y1="${padding.top}" x2="${padding.left}" y2="${height - padding.bottom}" stroke="${axisColor}" stroke-width="2.5" />
+                        
+                        <!-- Axis Labels -->
+                        <text x="${padding.left - 15}" y="${height - padding.bottom + 6}" fill="${textColor}" font-size="14" font-weight="700" text-anchor="end">0</text>
+                        <text x="${padding.left - 15}" y="${padding.top + 6}" fill="${textColor}" font-size="14" font-weight="700" text-anchor="end">MAX</text>
+                        <text x="${padding.left}" y="${height - padding.bottom + 25}" fill="${textColor}" font-size="14" font-weight="700" text-anchor="middle">300 lbs</text>
+                        <text x="${padding.left + (width - padding.left - padding.right) * 0.5}" y="${height - padding.bottom + 25}" fill="${textColor}" font-size="14" font-weight="700" text-anchor="middle">Rewire</text>
+                        <text x="${width - padding.right}" y="${height - padding.bottom + 25}" fill="${textColor}" font-size="14" font-weight="700" text-anchor="middle">Warrior</text>
+                        <text x="${width * 0.5}" y="${height - 5}" fill="rgba(255,255,255,0.4)" font-size="16" font-weight="900" text-anchor="middle" letter-spacing="1.5">TIMELINE DEVELOPMENT</text>
+                        
+                        <!-- Line Graph Path -->
+                        <path id="graph-line" d="${pathD}" fill="none" stroke="url(#gradient-cyan)" stroke-width="6.5" stroke-linecap="round" stroke-dasharray="1200" stroke-dashoffset="1200" style="filter: drop-shadow(0 0 10px rgba(0, 240, 255, 0.45));" />
+                        
+                        <!-- Gradients definition -->
+                        <defs>
+                            <linearGradient id="gradient-cyan" x1="0%" y1="0%" x2="100%" y2="0%">
+                                <stop offset="0%" stop-color="#FF3366" />
+                                <stop offset="50%" stop-color="#7B2CBF" />
+                                <stop offset="100%" stop-color="#00F0FF" />
+                            </linearGradient>
+                        </defs>
+                    `;
+                }
+
+                // Animate SVG path dashoffset based on canvasState progress
+                const pathEl = document.getElementById("graph-line");
+                if (pathEl) {
+                    const progress = canvasState.chartProgress;
+                    const offset = 1200 - (1200 * progress);
+                    pathEl.setAttribute("stroke-dashoffset", offset);
+                }
+            }
+
+            // 4. Draw pulsing Neural Network Backdrop (Phase 4)
+            if (canvasState.netOpacity > 0.01) {
+                ctx.save();
+                ctx.globalAlpha = canvasState.netOpacity;
+                ctx.translate(540, 480);
+
+                const pulse = 1.0 + Math.sin(timeVal * 3) * 0.04 * canvasState.netPulse;
+                const baseSize = 130 * pulse;
+
+                // Draw outer rotating rings
+                ctx.strokeStyle = "rgba(123, 44, 191, 0.35)";
+                ctx.lineWidth = 2;
+                ctx.setLineDash([12, 10]);
+                ctx.save();
+                ctx.rotate(timeVal * 0.35);
+                ctx.beginPath(); ctx.arc(0, 0, baseSize * 1.5, 0, Math.PI * 2); ctx.stroke();
+                ctx.restore();
+
+                ctx.strokeStyle = "rgba(0, 240, 255, 0.25)";
+                ctx.setLineDash([6, 12]);
+                ctx.save();
+                ctx.rotate(-timeVal * 0.5);
+                ctx.beginPath(); ctx.arc(0, 0, baseSize * 1.2, 0, Math.PI * 2); ctx.stroke();
+                ctx.restore();
+
+                // Draw node structure
+                ctx.setLineDash([]);
+                for (let i = 0; i < 8; i++) {
+                    const angle = (i * Math.PI / 4) + timeVal * 0.2;
+                    const endX = Math.cos(angle) * baseSize * 1.4;
+                    const endY = Math.sin(angle) * baseSize * 1.4;
+
+                    ctx.strokeStyle = "rgba(123, 44, 191, 0.4)";
+                    ctx.lineWidth = 1.5;
+                    ctx.beginPath(); ctx.moveTo(0, 0); ctx.lineTo(endX, endY); ctx.stroke();
+
+                    ctx.fillStyle = i % 2 === 0 ? "#7B2CBF" : "#00F0FF";
+                    ctx.beginPath(); ctx.arc(endX, endY, 6, 0, Math.PI * 2); ctx.fill();
+                }
+
+                // Core orb gradient
+                const grad = ctx.createRadialGradient(0, 0, 0, 0, 0, baseSize * 0.6);
+                grad.addColorStop(0, "rgba(0, 240, 255, 0.9)");
+                grad.addColorStop(0.5, "rgba(10, 15, 30, 0.95)");
+                grad.addColorStop(1, "rgba(123, 44, 191, 0.8)");
+
+                ctx.fillStyle = grad;
+                ctx.strokeStyle = "#00F0FF";
+                ctx.lineWidth = 4;
+                ctx.shadowColor = "#00F0FF"; ctx.shadowBlur = 20;
+                ctx.beginPath(); ctx.arc(0, 0, baseSize * 0.5, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+                ctx.shadowBlur = 0;
+
+                ctx.fillStyle = "#ffffff";
+                ctx.font = "bold 20px 'Fira Code', monospace";
+                ctx.textAlign = "center"; ctx.textBaseline = "middle";
+                ctx.fillText("OPTIMIZE", 0, 0);
+
+                ctx.restore();
+            }
+
+            // 5. BDNF rain & Hippocampus visual (Phase 5)
+            if (canvasState.bdnfOpacity > 0.01) {
+                ctx.save();
+                ctx.globalAlpha = canvasState.bdnfOpacity;
+                ctx.translate(540, 540);
+
+                // Rain bdnf glowing particles down the screen
+                ctx.fillStyle = "rgba(0, 255, 102, 0.35)";
+                for (let i = 0; i < 15; i++) {
+                    const px = Math.sin(i * 13) * 400;
+                    const py = -250 + ((timeVal * 150 + i * 40) % 500);
+                    ctx.beginPath();
+                    ctx.arc(px, py, 4, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+
+                // Draw central hippocampus glowing block
+                const hScale = canvasState.bdnfScale;
+                ctx.strokeStyle = "rgba(123, 44, 191, 0.65)";
+                ctx.fillStyle = "rgba(123, 44, 191, 0.15)";
+                ctx.lineWidth = 3;
+                ctx.shadowColor = "#7B2CBF";
+                ctx.shadowBlur = 20 * hScale;
+
+                ctx.beginPath();
+                ctx.arc(-110, 0, 70 * hScale, Math.PI * 0.5, Math.PI * 1.5);
+                ctx.bezierCurveTo(-110, -110 * hScale, 110, -110 * hScale, 110, 0);
+                ctx.arc(110, 0, 70 * hScale, Math.PI * 1.5, Math.PI * 0.5);
+                ctx.bezierCurveTo(110, 110 * hScale, -110, 110 * hScale, -110, 0);
+                ctx.closePath();
+                ctx.fill();
+                ctx.stroke();
+
+                ctx.shadowBlur = 0;
+                ctx.fillStyle = "#ffffff";
+                ctx.font = "bold 24px 'Inter', sans-serif";
+                ctx.textAlign = "center";
+                ctx.fillText("HIPPOCAMPUS", 0, -5);
+                ctx.fillStyle = "var(--neon-green)";
+                ctx.font = "bold 18px 'Fira Code', monospace";
+                ctx.fillText(hScale > 1.05 ? "EXPANDED +35%" : "STRETCH TRAINING", 0, 25);
+
+                ctx.restore();
+            }
+
+            // 6. Draw circular Dial & Ambition Fire (Phase 6)
+            if (canvasState.testoOpacity > 0.01) {
+                ctx.save();
+                ctx.globalAlpha = canvasState.testoOpacity;
+                ctx.translate(540, 520);
+
+                // Draw dial background circle
+                ctx.strokeStyle = "rgba(255,255,255,0.06)";
+                ctx.lineWidth = 22;
+                ctx.beginPath(); ctx.arc(0, 0, 140, 0, Math.PI * 2); ctx.stroke();
+
+                // Draw active progress
+                const val = canvasState.testoValue;
+                const endAngle = -Math.PI * 0.5 + (Math.PI * 2 * val);
+                
+                // Color matches testosterone level: low -> Red, peak -> Green/Yellow
+                ctx.strokeStyle = val > 0.6 ? "var(--neon-green)" : (val > 0.3 ? "var(--neon-yellow)" : "var(--neon-pink)");
+                ctx.shadowColor = ctx.strokeStyle;
+                ctx.shadowBlur = 20;
+                ctx.lineWidth = 22;
+                ctx.lineCap = "round";
+                ctx.beginPath(); ctx.arc(0, 0, 140, -Math.PI * 0.5, endAngle); ctx.stroke();
+                ctx.shadowBlur = 0;
+
+                // Inside text percentage
+                ctx.fillStyle = "#ffffff";
+                ctx.font = "bold 44px 'Fira Code', monospace";
+                ctx.textAlign = "center"; ctx.textBaseline = "middle";
+                ctx.fillText(`${Math.round(val * 100)}%`, 0, -10);
+                
+                ctx.font = "bold 16px 'Fira Code', monospace";
+                ctx.fillStyle = "rgba(255,255,255,0.5)";
+                ctx.fillText("TESTOSTERONE", 0, 30);
+
+                // Draw flame indicators if val > 0.4
+                if (canvasState.fireHeight > 0.02) {
+                    ctx.fillStyle = "rgba(255, 221, 0, 0.45)";
+                    ctx.shadowColor = "#FFDD00";
+                    ctx.shadowBlur = 15;
+                    for (let i = 0; i < 6; i++) {
+                        const angle = timeVal * 4 + i * 2.5;
+                        const fx = Math.sin(angle) * 12;
+                        const fy = -180 - (canvasState.fireHeight * 50) + Math.cos(angle * 1.5) * 8;
+                        ctx.beginPath();
+                        ctx.arc(fx, fy, 8 - i, 0, Math.PI * 2);
+                        ctx.fill();
+                    }
+                }
+
+                ctx.restore();
+            }
+
+            // 7. Split-screen autonomic system waves (Phase 7 & Phase 8/9 wave states)
+            if (canvasState.wavesOpacity > 0.01) {
+                ctx.save();
+                ctx.globalAlpha = canvasState.wavesOpacity;
+
+                const waveSide = canvasState.activeWaveSide; // -1: Left (Erratic), 1: Right (Calm), 2: Glymphatic Flush, 3: Gut-Brain
+                const pulse = canvasState.wavePulse;
+
+                if (waveSide === -1 || waveSide === 0) {
+                    // Left Panel (Erratic Red wave)
+                    ctx.strokeStyle = "rgba(255, 51, 102, 0.75)";
+                    ctx.lineWidth = 4;
+                    ctx.beginPath();
+                    for (let x = 60; x < 500; x += 6) {
+                        const freq = canvasState.dangerFrequency;
+                        const amp = canvasState.dangerAmplitude * pulse;
+                        const y = 800 + Math.sin(x * 0.12 - timeVal * freq) * amp + Math.cos(x * 0.05 + timeVal * 8) * (amp * 0.4);
+                        if (x === 60) ctx.moveTo(x, y);
+                        else ctx.lineTo(x, y);
+                    }
+                    ctx.stroke();
+                }
+
+                if (waveSide === 1 || waveSide === 0) {
+                    // Right Panel (Smooth blue wave)
+                    ctx.strokeStyle = "rgba(0, 240, 255, 0.75)";
+                    ctx.lineWidth = 4;
+                    ctx.beginPath();
+                    for (let x = 580; x < 1020; x += 6) {
+                        const freq = canvasState.calmFrequency;
+                        const amp = canvasState.calmAmplitude * pulse;
+                        const y = 800 + Math.sin(x * 0.035 - timeVal * freq) * amp;
+                        if (x === 580) ctx.moveTo(x, y);
+                        else ctx.lineTo(x, y);
+                    }
+                    ctx.stroke();
+                }
+
+                if (waveSide === 2) {
+                    // Phase 8 Glymphatic Flush (blue particles flowing downwards)
+                    ctx.fillStyle = "rgba(0, 240, 255, 0.45)";
+                    for (let i = 0; i < 30; i++) {
+                        const px = 60 + ((i * 37) % 960);
+                        const py = 450 + ((timeVal * 180 + i * 55) % 480) * pulse;
+                        ctx.beginPath(); ctx.arc(px, py, 5 + (i%4), 0, Math.PI * 2); ctx.fill();
+                    }
+                }
+
+                if (waveSide === 3) {
+                    // Phase 9 Gut-Brain Axis connecting curve
+                    ctx.strokeStyle = pulse > 0.5 ? "rgba(0, 255, 102, 0.5)" : "rgba(255, 51, 102, 0.4)";
+                    ctx.lineWidth = 5;
+                    ctx.setLineDash([8, 8]);
+                    ctx.beginPath();
+                    ctx.moveTo(540, 480);
+                    ctx.bezierCurveTo(420, 600, 420, 800, 540, 920);
+                    ctx.stroke();
+                    ctx.setLineDash([]);
+                }
+
+                ctx.restore();
+            }
+
+            // 8. Draw Outro Helix (Phase 10)
+            if (canvasState.outroOpacity > 0.01) {
+                ctx.save();
+                ctx.globalAlpha = canvasState.outroOpacity;
+                ctx.translate(540, 540);
+
+                const scale = 2.4;
+                const rotY = canvasState.helixRotation;
+                const rotX = 0.25;
+
+                // Draw Double Helix representation of Steel Body and Calm Mind
+                ctx.lineWidth = 4;
+                for (let angle = 0; angle < Math.PI * 2.5; angle += 0.15) {
+                    const offset = timeVal * 2;
+                    
+                    // Strand 1: Cyan (Body)
+                    const x1 = Math.cos(angle + offset) * 75;
+                    const y1 = -160 + angle * 120;
+                    const z1 = Math.sin(angle + offset) * 75;
+                    const p1 = project3D(x1, y1, z1, rotX, rotY, scale);
+
+                    // Strand 2: Pink (Mind)
+                    const x2 = Math.cos(angle + offset + Math.PI) * 75;
+                    const y2 = -160 + angle * 120;
+                    const z2 = Math.sin(angle + offset + Math.PI) * 75;
+                    const p2 = project3D(x2, y2, z2, rotX, rotY, scale);
+
+                    // Draw connecting ladder steps
+                    ctx.strokeStyle = "rgba(255, 255, 255, 0.08)";
+                    ctx.beginPath(); ctx.moveTo(p1.x, p1.y); ctx.lineTo(p2.x, p2.y); ctx.stroke();
+
+                    // Draw Strand 1 Node
+                    ctx.fillStyle = "var(--neon-cyan)";
+                    ctx.beginPath(); ctx.arc(p1.x, p1.y, 7 + p1.z * 0.02, 0, Math.PI * 2); ctx.fill();
+
+                    // Draw Strand 2 Node
+                    ctx.fillStyle = "var(--neon-pink)";
+                    ctx.beginPath(); ctx.arc(p2.x, p2.y, 7 + p2.z * 0.02, 0, Math.PI * 2); ctx.fill();
+                }
+
+                ctx.restore();
+            }
+
+            requestAnimationFrame(drawScene);
+        }
+
+        // Start animation loop
+        drawScene();
+
+        // =====================================================
+        // HUD PREVIEW CONTROLS & AUTO-PLAY
+        // =====================================================
+        const devHUD = document.getElementById("dev-controls");
+        const playBtn = document.getElementById("btn-play");
+        const pauseBtn = document.getElementById("btn-pause");
+        const slider = document.getElementById("hud-slider");
+        const timeText = document.getElementById("hud-time");
+        const phaseBtns = document.querySelectorAll(".phase-btn");
+
+        // Hide HUD in Headless Playwright Render
+        if (navigator.webdriver) {
+            devHUD.style.display = "none";
+        } else {
+            // Auto-play preview after 1.5 seconds in local browser
+            setTimeout(() => {
+                window.tl.play();
+                console.log("HUD Auto-play started");
+            }, 1500);
+        }
+
+        // Play/Pause listeners
+        playBtn.addEventListener("click", () => window.tl.play());
+        pauseBtn.addEventListener("click", () => window.tl.pause());
+
+        // Seek listener
+        slider.addEventListener("input", () => {
+            const progress = slider.value / 1000;
+            window.tl.progress(progress);
+        });
+
+        // Phase jump listeners
+        phaseBtns.forEach(btn => {
+            btn.addEventListener("click", () => {
+                const targetTime = parseFloat(btn.getAttribute("data-time"));
+                window.tl.seek(targetTime);
+                window.tl.play();
+            });
+        });
+
+        // Sync slider and elapsed time with timeline progress
+        gsap.ticker.add(() => {
+            if (!navigator.webdriver) {
+                const progress = window.tl.progress();
+                slider.value = progress * 1000;
+                
+                const duration = window.tl.duration() || 403.0;
+                const currentTime = progress * duration;
+                timeText.innerText = `${currentTime.toFixed(1)}s / ${duration.toFixed(1)}s`;
+            }
+        });
+
+    </script>
+</body>
+
+</html>

@@ -328,7 +328,7 @@ def _normalise_clip(
         str(dst),
     ]
     result = subprocess.run(
-        cmd, capture_output=True, text=True, timeout=120,
+        cmd, capture_output=True, text=True, timeout=600,
     )
     if result.returncode != 0:
         raise RuntimeError(
