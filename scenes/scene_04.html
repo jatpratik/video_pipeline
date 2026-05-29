@@ -949,12 +949,12 @@
 
         // Search Routing transitions
         const routingSteps = [
-            { layer: "L2", type: "hop", from: l2Nodes[2], to: l2Nodes[1], delay: 51.5 },
-            { layer: "L2", type: "hop", from: l2Nodes[1], to: l2Nodes[0], delay: 52.8 },
-            { layer: "L1", type: "drop", from: l2Nodes[0], to: l1Nodes[0], delay: 54.0 },
-            { layer: "L1", type: "hop", from: l1Nodes[0], to: l1Nodes[1], delay: 55.2 },
-            { layer: "L1", type: "hop", from: l1Nodes[1], to: l1Nodes[2], delay: 56.5 },
-            { layer: "L0", type: "drop", from: l1Nodes[2], to: l0Nodes[4], delay: 58.0 }
+            { layer: "L2", type: "hop", from: l2Nodes[2], to: l2Nodes[1], delay: 62.0 },
+            { layer: "L2", type: "hop", from: l2Nodes[1], to: l2Nodes[0], delay: 63.3 },
+            { layer: "L1", type: "drop", from: l2Nodes[0], to: l1Nodes[0], delay: 64.5 },
+            { layer: "L1", type: "hop", from: l1Nodes[0], to: l1Nodes[1], delay: 65.7 },
+            { layer: "L1", type: "hop", from: l1Nodes[1], to: l1Nodes[2], delay: 67.0 },
+            { layer: "L0", type: "drop", from: l1Nodes[2], to: l0Nodes[4], delay: 68.5 }
         ];
 
         // Draw Layer background outline
@@ -1280,20 +1280,20 @@
             vectorSpaceGroup.visible = false;
         }, null, time(42.5));
 
-        // --- STATE 5: STUDENT PIP & CRITICAL GLITCH (42.8s - 50.8s) ---
+        // --- STATE 5: STUDENT PIP & CRITICAL GLITCH (42.8s - 53.3s) ---
         // Student overlay slides in
         tl.to("#student-card", { opacity: 1, scale: 1.0, duration: 0.5, ease: "back.out(1.5)" }, time(42.793));
         tl.to("#caption-container", { y: 150, duration: 0.5, ease: "power2.out" }, time(42.793));
 
         // Student overlay slides out
-        tl.to("#student-card", { opacity: 0, scale: 0.8, duration: 0.5, ease: "power2.in" }, time(49.793));
-        tl.to("#caption-container", { y: 0, duration: 0.5, ease: "power2.inOut" }, time(49.793));
+        tl.to("#student-card", { opacity: 0, scale: 0.8, duration: 0.5, ease: "power2.in" }, time(53.293));
+        tl.to("#caption-container", { y: 0, duration: 0.5, ease: "power2.inOut" }, time(53.293));
 
         // Database scan fail appears "Linear scanning is impractical"
         tl.call(() => {
             drawLinearScanning = true;
             gsap.to(".ambient-glow", { background: "radial-gradient(circle, rgba(255,51,102,0.18) 0%, rgba(0,0,0,0) 70%)", duration: 0.5 });
-        }, null, time(46.735));
+        }, null, time(57.235));
 
         // Sweeping scanner movement
         tl.to({ val: 0 }, {
@@ -1303,31 +1303,31 @@
             onUpdate: function() {
                 linearScanLine = this.targets()[0].val;
             }
-        }, time(46.735));
+        }, time(57.235));
 
         // Linear Scan error banners pops up
-        tl.to("#state5-fail", { opacity: 1, scale: 1, duration: 0.35, ease: "back.out(1.4)" }, time(48.2));
+        tl.to("#state5-fail", { opacity: 1, scale: 1, duration: 0.35, ease: "back.out(1.4)" }, time(58.7));
         tl.call(() => {
             document.body.classList.add("shake-active");
             triggerParticleBurst(540, 500, ["#FF3366"]);
-        }, null, time(48.5));
+        }, null, time(59.0));
 
         // Release fail shake
         tl.call(() => {
             document.body.classList.remove("shake-active");
             drawLinearScanning = false;
-        }, null, time(50.3));
+        }, null, time(60.8));
         
-        tl.to("#state5-fail", { opacity: 0, scale: 0.8, duration: 0.3 }, time(50.4));
+        tl.to("#state5-fail", { opacity: 0, scale: 0.8, duration: 0.3 }, time(60.9));
 
-        // --- STATE 6: HNSW GRAPH ROUTING (50.8s - 66.1s) ---
+        // --- STATE 6: HNSW GRAPH ROUTING (61.3s - 76.6s) ---
         // Layered planes and HUD fade in
         tl.call(() => {
             drawHNSWMode = true;
             gsap.to(".ambient-glow", { background: "radial-gradient(circle, rgba(123,44,191,0.15) 0%, rgba(0,0,0,0) 70%)", duration: 0.8 });
-        }, null, time(50.8));
+        }, null, time(61.3));
 
-        tl.to("#state6-hnsw", { opacity: 1, duration: 0.4 }, time(50.8));
+        tl.to("#state6-hnsw", { opacity: 1, duration: 0.4 }, time(61.3));
 
         // Animate HNSW Graph packet hops (with reduced tight particles to keep graph visible)
         routingSteps.forEach((step, idx) => {
@@ -1341,54 +1341,54 @@
             }, null, time(step.delay));
         });
 
-        // HNSW ArXiv Research Paper timeline triggers (55.0s - 64.5s)
-        tl.to("#hnsw-paper-container", { opacity: 1, scale: 1, y: -20, duration: 0.6, ease: "back.out(1.2)" }, time(54.98));
-        tl.to("#paper-scroll-content", { y: -220, duration: 8.0, ease: "none" }, time(55.5));
-        tl.to("#hnsw-paper-container", { opacity: 0, scale: 0.85, y: 30, duration: 0.5, ease: "power2.in" }, time(63.8));
+        // HNSW ArXiv Research Paper timeline triggers (65.5s - 75.0s)
+        tl.to("#hnsw-paper-container", { opacity: 1, scale: 1, y: -20, duration: 0.6, ease: "back.out(1.2)" }, time(65.48));
+        tl.to("#paper-scroll-content", { y: -220, duration: 8.0, ease: "none" }, time(66.0));
+        tl.to("#hnsw-paper-container", { opacity: 0, scale: 0.85, y: 30, duration: 0.5, ease: "power2.in" }, time(74.3));
 
         // Search successful lock on target node
         tl.call(() => {
             triggerParticleBurst(540, 890, ["#00FFAA", "#ffffff"], 15);
             document.getElementById("hnsw-curr-layer").innerText = "L0 DONE";
-        }, null, time(59.5));
+        }, null, time(70.0));
 
         // Fades HNSW graph out
-        tl.to("#state6-hnsw", { opacity: 0, duration: 0.4 }, time(65.0));
+        tl.to("#state6-hnsw", { opacity: 0, duration: 0.4 }, time(75.5));
         tl.call(() => {
             drawHNSWMode = false;
-        }, null, time(65.5));
+        }, null, time(76.0));
 
-        // --- STATE 7: SPOTLIGHT CONE VECTOR UNIVERSE (66.1s - 80.7s) ---
+        // --- STATE 7: SPOTLIGHT CONE VECTOR UNIVERSE (76.6s - 91.23s) ---
         // Universe elements fade in
         tl.call(() => {
             universeGroup.visible = true;
             gsap.to(".ambient-glow", { background: "radial-gradient(circle, rgba(0,240,255,0.14) 0%, rgba(0,0,0,0) 70%)", duration: 1.0 });
-        }, null, time(66.1));
+        }, null, time(76.6));
 
-        tl.to(spotCylMat, { opacity: 0.18, duration: 1.0 }, time(67.0));
+        tl.to(spotCylMat, { opacity: 0.18, duration: 1.0 }, time(77.5));
 
         // Camera flies forward (zoom camera in 3D)
-        tl.to(camera.position, { z: 3.5, duration: 8.0, ease: "power1.inOut" }, time(68.0));
+        tl.to(camera.position, { z: 3.5, duration: 8.0, ease: "power1.inOut" }, time(78.5));
 
-        // Spotlight sweeps close to match node (72.3s "shining a spotlight")
-        tl.to(spotBeam.position, { x: matchNode.position.x, y: matchNode.position.y + 2, z: matchNode.position.z + 4, duration: 1.5, ease: "power1.inOut" }, time(71.0));
+        // Spotlight sweeps close to match node (82.8s "shining a spotlight")
+        tl.to(spotBeam.position, { x: matchNode.position.x, y: matchNode.position.y + 2, z: matchNode.position.z + 4, duration: 1.5, ease: "power1.inOut" }, time(81.5));
 
         // Target match info card appears
-        tl.to("#state7-match", { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(1.4)" }, time(72.3));
+        tl.to("#state7-match", { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(1.4)" }, time(82.8));
 
         // Particles burst when spotlight locks on the closest match vector
         tl.call(() => {
             triggerParticleBurst(540, 960, ["#00FFAA", "#ffffff", "#00F0FF"]);
             // Target expands and glows
             gsap.to(matchNode.scale, { x: 2.0, y: 2.0, z: 2.0, duration: 0.5, yoyo: true, repeat: 1 });
-        }, null, time(72.5));
+        }, null, time(83.0));
 
-        // Fades universe elements out at final scene end (78.5s - 80.73s)
-        tl.to("#state7-match", { opacity: 0, scale: 0.85, duration: 0.5 }, time(77.5));
-        tl.to(spotCylMat, { opacity: 0.0, duration: 1.5 }, time(78.5));
-        tl.to(starMat, { opacity: 0.0, duration: 1.5 }, time(78.5));
-        tl.to(matchMat, { opacity: 0.0, duration: 1.5 }, time(78.5));
-        tl.to(".bg-grid, .ambient-glow, .scanlines", { opacity: 0, duration: 2.0 }, time(78.7));
+        // Fades universe elements out at final scene end (89.0s - 91.23s)
+        tl.to("#state7-match", { opacity: 0, scale: 0.85, duration: 0.5 }, time(88.0));
+        tl.to(spotCylMat, { opacity: 0.0, duration: 1.5 }, time(89.0));
+        tl.to(starMat, { opacity: 0.0, duration: 1.5 }, time(89.0));
+        tl.to(matchMat, { opacity: 0.0, duration: 1.5 }, time(89.0));
+        tl.to(".bg-grid, .ambient-glow, .scanlines", { opacity: 0, duration: 2.0 }, time(89.2));
 
     </script>
 </body>

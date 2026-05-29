@@ -581,456 +581,666 @@ window.scene_04_captions = [
     ]
   },
   {
-    "start": 42.793,
-    "end": 43.733,
+    "start": 43.293,
+    "end": 44.5,
     "words": [
       {
-        "text": "Good",
-        "start": 42.793,
-        "end": 42.973
+        "text": "Hey,",
+        "start": 43.293,
+        "end": 43.593
       },
       {
-        "text": "question",
-        "start": 43.033,
-        "end": 43.413
+        "text": "Maya",
+        "start": 43.693,
+        "end": 44.093
       },
       {
-        "text": "Maya.",
-        "start": 43.453,
-        "end": 43.733
+        "text": "here.",
+        "start": 44.193,
+        "end": 44.5
       }
     ]
   },
   {
-    "start": 44.134,
-    "end": 46.215,
+    "start": 44.6,
+    "end": 46.4,
     "words": [
       {
-        "text": "That's",
-        "start": 44.134,
-        "end": 44.374
+        "text": "That",
+        "start": 44.6,
+        "end": 44.85
       },
       {
-        "text": "exactly",
-        "start": 44.454,
-        "end": 44.974
+        "text": "works",
+        "start": 44.9,
+        "end": 45.15
       },
       {
-        "text": "the",
-        "start": 44.994,
-        "end": 45.154
-      },
-      {
-        "text": "engineering",
-        "start": 45.214,
-        "end": 45.755
-      },
-      {
-        "text": "challenge.",
-        "start": 45.835,
-        "end": 46.215
-      }
-    ]
-  },
-  {
-    "start": 46.735,
-    "end": 50.517,
-    "words": [
-      {
-        "text": "Linear",
-        "start": 46.735,
-        "end": 47.135
-      },
-      {
-        "text": "scanning",
-        "start": 47.155,
-        "end": 47.596
-      },
-      {
-        "text": "an",
-        "start": 47.876,
-        "end": 47.996
-      },
-      {
-        "text": "entire",
-        "start": 48.076,
-        "end": 48.476
-      },
-      {
-        "text": "vector",
-        "start": 48.536,
-        "end": 48.836
-      },
-      {
-        "text": "space",
-        "start": 48.856,
-        "end": 49.196
-      },
-      {
-        "text": "is",
-        "start": 49.697,
-        "end": 49.777
-      },
-      {
-        "text": "impractical.",
-        "start": 49.837,
-        "end": 50.517
-      }
-    ]
-  },
-  {
-    "start": 50.877,
-    "end": 54.459,
-    "words": [
-      {
-        "text": "That's",
-        "start": 50.877,
-        "end": 51.158
-      },
-      {
-        "text": "why",
-        "start": 51.238,
-        "end": 51.478
-      },
-      {
-        "text": "we",
-        "start": 51.918,
-        "end": 52.158
-      },
-      {
-        "text": "use",
-        "start": 52.358,
-        "end": 52.578
-      },
-      {
-        "text": "approximate",
-        "start": 52.899,
-        "end": 53.459
-      },
-      {
-        "text": "nearest",
-        "start": 53.499,
-        "end": 53.799
-      },
-      {
-        "text": "neighbor",
-        "start": 53.859,
-        "end": 54.159
-      },
-      {
-        "text": "search.",
-        "start": 54.199,
-        "end": 54.459
-      }
-    ]
-  },
-  {
-    "start": 54.98,
-    "end": 65.505,
-    "words": [
-      {
-        "text": "Algorithms",
-        "start": 54.98,
-        "end": 55.6
-      },
-      {
-        "text": "like",
-        "start": 55.9,
-        "end": 56.1
-      },
-      {
-        "text": "HNSW",
-        "start": 56.42,
-        "end": 56.981
-      },
-      {
-        "text": "trade",
-        "start": 57.821,
-        "end": 58.141
-      },
-      {
-        "text": "a",
-        "start": 58.201,
-        "end": 58.241
-      },
-      {
-        "text": "small",
-        "start": 58.302,
-        "end": 58.682
-      },
-      {
-        "text": "amount",
-        "start": 58.782,
-        "end": 59.102
-      },
-      {
-        "text": "of",
-        "start": 59.182,
-        "end": 59.242
-      },
-      {
-        "text": "accuracy",
-        "start": 59.362,
-        "end": 59.882
+        "text": "well",
+        "start": 45.2,
+        "end": 45.45
       },
       {
         "text": "for",
-        "start": 60.283,
-        "end": 60.443
+        "start": 45.5,
+        "end": 45.75
       },
       {
-        "text": "massive",
-        "start": 60.523,
-        "end": 60.903
+        "text": "two",
+        "start": 45.8,
+        "end": 46.05
       },
       {
-        "text": "speed,",
-        "start": 60.943,
-        "end": 61.263
-      },
-      {
-        "text": "letting",
-        "start": 61.683,
-        "end": 61.964
-      },
-      {
-        "text": "us",
-        "start": 62.004,
-        "end": 62.104
-      },
-      {
-        "text": "find",
-        "start": 62.184,
-        "end": 62.424
-      },
-      {
-        "text": "relevant",
-        "start": 62.484,
-        "end": 62.864
-      },
-      {
-        "text": "documents",
-        "start": 62.904,
-        "end": 63.424
-      },
-      {
-        "text": "in",
-        "start": 63.544,
-        "end": 63.604
-      },
-      {
-        "text": "milliseconds,",
-        "start": 63.644,
-        "end": 64.265
-      },
-      {
-        "text": "not",
-        "start": 64.785,
-        "end": 65.005
-      },
-      {
-        "text": "hours.",
-        "start": 65.105,
-        "end": 65.505
+        "text": "words.",
+        "start": 46.1,
+        "end": 46.4
       }
     ]
   },
   {
-    "start": 66.106,
-    "end": 69.788,
+    "start": 46.5,
+    "end": 49.3,
     "words": [
       {
-        "text": "So,",
-        "start": 66.106,
-        "end": 66.426
+        "text": "But",
+        "start": 46.5,
+        "end": 46.7
       },
       {
-        "text": "next",
-        "start": 66.726,
-        "end": 66.926
+        "text": "we're",
+        "start": 46.75,
+        "end": 47.0
       },
       {
-        "text": "time",
-        "start": 66.986,
-        "end": 67.206
+        "text": "building",
+        "start": 47.05,
+        "end": 47.35
       },
       {
         "text": "a",
-        "start": 67.246,
-        "end": 67.266
+        "start": 47.4,
+        "end": 47.5
       },
       {
-        "text": "chatbot",
-        "start": 67.306,
-        "end": 67.707
+        "text": "RAG",
+        "start": 47.55,
+        "end": 47.9
       },
       {
-        "text": "seems",
-        "start": 67.747,
-        "end": 67.967
+        "text": "system",
+        "start": 47.95,
+        "end": 48.3
       },
       {
-        "text": "to",
-        "start": 68.027,
-        "end": 68.107
-      },
-      {
-        "text": "read",
-        "start": 68.187,
-        "end": 68.347
-      },
-      {
-        "text": "your",
-        "start": 68.367,
-        "end": 68.547
-      },
-      {
-        "text": "mind,",
-        "start": 68.587,
-        "end": 68.827
-      },
-      {
-        "text": "remember",
-        "start": 69.368,
-        "end": 69.788
-      }
-    ]
-  },
-  {
-    "start": 70.581,
-    "end": 71.727,
-    "words": [
-      {
-        "text": "It's",
-        "start": 70.581,
-        "end": 70.702
-      },
-      {
-        "text": "not",
-        "start": 70.802,
-        "end": 70.983
-      },
-      {
-        "text": "reading",
-        "start": 71.043,
-        "end": 71.345
-      },
-      {
-        "text": "text.",
-        "start": 71.425,
-        "end": 71.727
-      }
-    ]
-  },
-  {
-    "start": 72.269,
-    "end": 77.955,
-    "words": [
-      {
-        "text": "It's",
-        "start": 72.269,
-        "end": 72.389
-      },
-      {
-        "text": "flying",
-        "start": 72.47,
-        "end": 72.791
-      },
-      {
-        "text": "through",
-        "start": 72.872,
-        "end": 73.153
+        "text": "for",
+        "start": 48.35,
+        "end": 48.5
       },
       {
         "text": "a",
-        "start": 73.213,
-        "end": 73.273
+        "start": 48.55,
+        "end": 48.65
       },
       {
-        "text": "universe",
-        "start": 73.374,
-        "end": 73.796
+        "text": "million",
+        "start": 48.7,
+        "end": 49.0
+      },
+      {
+        "text": "documents.",
+        "start": 49.05,
+        "end": 49.3
+      }
+    ]
+  },
+  {
+    "start": 49.4,
+    "end": 50.6,
+    "words": [
+      {
+        "text": "Does",
+        "start": 49.4,
+        "end": 49.65
+      },
+      {
+        "text": "dot",
+        "start": 49.7,
+        "end": 49.95
+      },
+      {
+        "text": "product",
+        "start": 50.0,
+        "end": 50.25
+      },
+      {
+        "text": "scale?",
+        "start": 50.3,
+        "end": 50.6
+      }
+    ]
+  },
+  {
+    "start": 50.7,
+    "end": 53.15,
+    "words": [
+      {
+        "text": "What's",
+        "start": 50.7,
+        "end": 50.85
+      },
+      {
+        "text": "the",
+        "start": 50.88,
+        "end": 50.98
+      },
+      {
+        "text": "compute",
+        "start": 51.02,
+        "end": 51.22
+      },
+      {
+        "text": "cost",
+        "start": 51.25,
+        "end": 51.45
+      },
+      {
+        "text": "for",
+        "start": 51.48,
+        "end": 51.58
+      },
+      {
+        "text": "brute-force",
+        "start": 51.62,
+        "end": 51.92
+      },
+      {
+        "text": "angle",
+        "start": 51.95,
+        "end": 52.15
+      },
+      {
+        "text": "calculations",
+        "start": 52.18,
+        "end": 52.48
+      },
+      {
+        "text": "across",
+        "start": 52.5,
+        "end": 52.65
+      },
+      {
+        "text": "a",
+        "start": 52.68,
+        "end": 52.74
+      },
+      {
+        "text": "fleet",
+        "start": 52.77,
+        "end": 52.9
       },
       {
         "text": "of",
-        "start": 73.836,
-        "end": 73.916
+        "start": 52.92,
+        "end": 52.98
       },
       {
-        "text": "vectors,",
-        "start": 73.977,
-        "end": 74.399
-      },
-      {
-        "text": "shining",
-        "start": 75.021,
-        "end": 75.463
-      },
-      {
-        "text": "a",
-        "start": 75.483,
-        "end": 75.504
-      },
-      {
-        "text": "spotlight",
-        "start": 75.684,
-        "end": 76.287
-      },
-      {
-        "text": "on",
-        "start": 76.85,
-        "end": 76.93
-      },
-      {
-        "text": "the",
-        "start": 76.99,
-        "end": 77.071
-      },
-      {
-        "text": "closest",
-        "start": 77.131,
-        "end": 77.573
-      },
-      {
-        "text": "match.",
-        "start": 77.653,
-        "end": 77.955
+        "text": "GPUs?",
+        "start": 53.0,
+        "end": 53.15
       }
     ]
   },
   {
-    "start": 78.557,
-    "end": 80.727,
+    "start": 53.293,
+    "end": 54.233,
+    "words": [
+      {
+        "text": "Good",
+        "start": 53.293,
+        "end": 53.473
+      },
+      {
+        "text": "question",
+        "start": 53.533,
+        "end": 53.913
+      },
+      {
+        "text": "Maya.",
+        "start": 53.953,
+        "end": 54.233
+      }
+    ]
+  },
+  {
+    "start": 54.634,
+    "end": 56.715,
     "words": [
       {
         "text": "That's",
-        "start": 78.557,
-        "end": 78.798
+        "start": 54.634,
+        "end": 54.874
       },
       {
-        "text": "how",
-        "start": 78.859,
-        "end": 79.039
-      },
-      {
-        "text": "AI",
-        "start": 79.22,
-        "end": 79.501
-      },
-      {
-        "text": "understands",
-        "start": 79.622,
-        "end": 80.225
+        "text": "exactly",
+        "start": 54.954,
+        "end": 55.474
       },
       {
         "text": "the",
-        "start": 80.325,
-        "end": 80.406
+        "start": 55.494,
+        "end": 55.654
+      },
+      {
+        "text": "engineering",
+        "start": 55.714,
+        "end": 56.255
+      },
+      {
+        "text": "challenge.",
+        "start": 56.335,
+        "end": 56.715
+      }
+    ]
+  },
+  {
+    "start": 57.235,
+    "end": 61.017,
+    "words": [
+      {
+        "text": "Linear",
+        "start": 57.235,
+        "end": 57.635
+      },
+      {
+        "text": "scanning",
+        "start": 57.655,
+        "end": 58.096
+      },
+      {
+        "text": "an",
+        "start": 58.376,
+        "end": 58.496
+      },
+      {
+        "text": "entire",
+        "start": 58.576,
+        "end": 58.976
+      },
+      {
+        "text": "vector",
+        "start": 59.036,
+        "end": 59.336
+      },
+      {
+        "text": "space",
+        "start": 59.356,
+        "end": 59.696
+      },
+      {
+        "text": "is",
+        "start": 60.197,
+        "end": 60.277
+      },
+      {
+        "text": "impractical.",
+        "start": 60.337,
+        "end": 61.017
+      }
+    ]
+  },
+  {
+    "start": 61.377,
+    "end": 64.959,
+    "words": [
+      {
+        "text": "That's",
+        "start": 61.377,
+        "end": 61.658
+      },
+      {
+        "text": "why",
+        "start": 61.738,
+        "end": 61.978
+      },
+      {
+        "text": "we",
+        "start": 62.418,
+        "end": 62.658
+      },
+      {
+        "text": "use",
+        "start": 62.858,
+        "end": 63.078
+      },
+      {
+        "text": "approximate",
+        "start": 63.399,
+        "end": 63.959
+      },
+      {
+        "text": "nearest",
+        "start": 63.999,
+        "end": 64.299
+      },
+      {
+        "text": "neighbor",
+        "start": 64.359,
+        "end": 64.659
+      },
+      {
+        "text": "search.",
+        "start": 64.699,
+        "end": 64.959
+      }
+    ]
+  },
+  {
+    "start": 65.48,
+    "end": 76.005,
+    "words": [
+      {
+        "text": "Algorithms",
+        "start": 65.48,
+        "end": 66.1
+      },
+      {
+        "text": "like",
+        "start": 66.4,
+        "end": 66.6
+      },
+      {
+        "text": "HNSW",
+        "start": 66.92,
+        "end": 67.481
+      },
+      {
+        "text": "trade",
+        "start": 68.321,
+        "end": 68.641
+      },
+      {
+        "text": "a",
+        "start": 68.701,
+        "end": 68.741
+      },
+      {
+        "text": "small",
+        "start": 68.802,
+        "end": 69.182
+      },
+      {
+        "text": "amount",
+        "start": 69.282,
+        "end": 69.602
+      },
+      {
+        "text": "of",
+        "start": 69.682,
+        "end": 69.742
+      },
+      {
+        "text": "accuracy",
+        "start": 69.862,
+        "end": 70.382
+      },
+      {
+        "text": "for",
+        "start": 70.783,
+        "end": 70.943
+      },
+      {
+        "text": "massive",
+        "start": 71.023,
+        "end": 71.403
+      },
+      {
+        "text": "speed,",
+        "start": 71.443,
+        "end": 71.763
+      },
+      {
+        "text": "letting",
+        "start": 72.183,
+        "end": 72.464
+      },
+      {
+        "text": "us",
+        "start": 72.504,
+        "end": 72.604
+      },
+      {
+        "text": "find",
+        "start": 72.684,
+        "end": 72.924
+      },
+      {
+        "text": "relevant",
+        "start": 72.984,
+        "end": 73.364
+      },
+      {
+        "text": "documents",
+        "start": 73.404,
+        "end": 73.924
+      },
+      {
+        "text": "in",
+        "start": 74.044,
+        "end": 74.104
+      },
+      {
+        "text": "milliseconds,",
+        "start": 74.144,
+        "end": 74.765
+      },
+      {
+        "text": "not",
+        "start": 75.285,
+        "end": 75.505
+      },
+      {
+        "text": "hours.",
+        "start": 75.605,
+        "end": 76.005
+      }
+    ]
+  },
+  {
+    "start": 76.606,
+    "end": 80.288,
+    "words": [
+      {
+        "text": "So,",
+        "start": 76.606,
+        "end": 76.926
+      },
+      {
+        "text": "next",
+        "start": 77.226,
+        "end": 77.426
+      },
+      {
+        "text": "time",
+        "start": 77.486,
+        "end": 77.706
+      },
+      {
+        "text": "a",
+        "start": 77.746,
+        "end": 77.766
+      },
+      {
+        "text": "chatbot",
+        "start": 77.806,
+        "end": 78.207
+      },
+      {
+        "text": "seems",
+        "start": 78.247,
+        "end": 78.467
+      },
+      {
+        "text": "to",
+        "start": 78.527,
+        "end": 78.607
+      },
+      {
+        "text": "read",
+        "start": 78.687,
+        "end": 78.847
+      },
+      {
+        "text": "your",
+        "start": 78.867,
+        "end": 79.047
+      },
+      {
+        "text": "mind,",
+        "start": 79.087,
+        "end": 79.327
+      },
+      {
+        "text": "remember",
+        "start": 79.868,
+        "end": 80.288
+      }
+    ]
+  },
+  {
+    "start": 81.081,
+    "end": 82.227,
+    "words": [
+      {
+        "text": "It's",
+        "start": 81.081,
+        "end": 81.202
+      },
+      {
+        "text": "not",
+        "start": 81.302,
+        "end": 81.483
+      },
+      {
+        "text": "reading",
+        "start": 81.543,
+        "end": 81.845
+      },
+      {
+        "text": "text.",
+        "start": 81.925,
+        "end": 82.227
+      }
+    ]
+  },
+  {
+    "start": 82.769,
+    "end": 88.455,
+    "words": [
+      {
+        "text": "It's",
+        "start": 82.769,
+        "end": 82.889
+      },
+      {
+        "text": "flying",
+        "start": 82.97,
+        "end": 83.291
+      },
+      {
+        "text": "through",
+        "start": 83.372,
+        "end": 83.653
+      },
+      {
+        "text": "a",
+        "start": 83.713,
+        "end": 83.773
+      },
+      {
+        "text": "universe",
+        "start": 83.874,
+        "end": 84.296
+      },
+      {
+        "text": "of",
+        "start": 84.336,
+        "end": 84.416
+      },
+      {
+        "text": "vectors,",
+        "start": 84.477,
+        "end": 84.899
+      },
+      {
+        "text": "shining",
+        "start": 85.521,
+        "end": 85.963
+      },
+      {
+        "text": "a",
+        "start": 85.983,
+        "end": 86.004
+      },
+      {
+        "text": "spotlight",
+        "start": 86.184,
+        "end": 86.787
+      },
+      {
+        "text": "on",
+        "start": 87.35,
+        "end": 87.43
+      },
+      {
+        "text": "the",
+        "start": 87.49,
+        "end": 87.571
+      },
+      {
+        "text": "closest",
+        "start": 87.631,
+        "end": 88.073
+      },
+      {
+        "text": "match.",
+        "start": 88.153,
+        "end": 88.455
+      }
+    ]
+  },
+  {
+    "start": 89.057,
+    "end": 91.227,
+    "words": [
+      {
+        "text": "That's",
+        "start": 89.057,
+        "end": 89.298
+      },
+      {
+        "text": "how",
+        "start": 89.359,
+        "end": 89.539
+      },
+      {
+        "text": "AI",
+        "start": 89.72,
+        "end": 90.001
+      },
+      {
+        "text": "understands",
+        "start": 90.122,
+        "end": 90.725
+      },
+      {
+        "text": "the",
+        "start": 90.825,
+        "end": 90.906
       },
       {
         "text": "world.",
-        "start": 80.466,
-        "end": 80.727
+        "start": 90.966,
+        "end": 91.227
       }
     ]
   }
