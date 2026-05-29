@@ -188,24 +188,23 @@ def assemble_video(
     
     M = len(overlays_meta)
 
-    # Visual padding base
+    # 5a. Build background/face video filter chains
     bg_label = "bg"
     if M == 0 and face_video_path is None:
         bg_label = "v"
-    filter_parts.append(f"[0:v]pad={video_width}:{video_height}:0:0:black[{bg_label}]")
 
-    # 5a. Build face video filter chains (if face video is available)
-    if face_video_path is not None:
+    if getattr(config, "FULL_SCREEN_PRESENTER", False) and face_video_path is not None:
         logger.info(
-            f"Found face video: {face_video_path.name}. "
-            f"Trimming {config.FACE_VIDEO_TRIM_START_S}s and overlaying..."
+            f"FULL_SCREEN_PRESENTER enabled. Found face video: {face_video_path.name}. "
+            f"Scaling/cropping to {video_width}x{video_height} for full-screen background..."
         )
         trim_start = config.FACE_VIDEO_TRIM_START_S
         delay_pts = config.FACE_VIDEO_DELAY_S
 
-        # Build face video enhancement filters
+        # Build presenter video enhancement and full-screen scaling filters
         face_filters = [
-            "crop=w='min(iw,ih)':h='min(iw,ih)',scale=400:400",
+            f"scale={video_width}:{video_height}:force_original_aspect_ratio=increase",
+            f"crop={video_width}:{video_height}",
             "zscale=t=linear:npl=400,format=gbrpf32le,zscale=p=bt709",
             "tonemap=tonemap=mobius:desat=0,zscale=t=bt709:m=bt709:r=tv"
         ]
@@ -219,30 +218,79 @@ def assemble_video(
             strg = config.FACE_BEAUTY_SMOOTH_STRENGTH
             th = config.FACE_BEAUTY_SMOOTH_THRESHOLD
             face_filters.append(f"smartblur={rad}:{strg}:{th}")
-        face_filters.extend([
-            "format=rgba",
-            "geq=r='r(X,Y)':g='g(X,Y)':b='b(X,Y)':a='if(lte(pow(X-200,2)+pow(Y-200,2),40000),255,0)'"
-        ])
+        
+        face_filters.append("format=yuv420p")
         face_filter_str = ",".join(face_filters)
 
-        # Process the face video stream as a single continuous track
+        # Process the presenter video stream as a full-screen base track
         filter_parts.append(
-            f"[2:v]trim=start={trim_start},setpts=PTS-STARTPTS,{face_filter_str},setpts=PTS+{delay_pts}/TB[face_clean]"
+            f"[2:v]trim=start={trim_start},setpts=PTS-STARTPTS,{face_filter_str},setpts=PTS+{delay_pts}/TB[presenter_bg]"
         )
 
-        # Build enable condition for overlaying the face (hide during student overlay segments)
-        enable_conds = [f"gt(t,{delay_pts})"]
-        for ov in overlays_meta:
-            ov_start = ov["global_insert_visual_time"]
-            ov_end = ov_start + ov["duration"] + ov["padding_start"]
-            enable_conds.append(f"not(between(t,{ov_start},{ov_end}))")
-        enable_cond = "*".join(enable_conds)
+        # Apply chroma key to key out green background from HTML visuals (0:v)
+        filter_parts.append(
+            f"[0:v]colorkey=0x00ff00:0.3:0.1,format=rgba[visuals_keyed]"
+        )
 
+        # Overlay keyed visuals on presenter background
         next_bg = "bg_face_final" if M > 0 else "v"
         filter_parts.append(
-            f"[{bg_label}][face_clean]overlay=x=80:y=1440:enable='{enable_cond}':eof_action=pass[{next_bg}]"
+            f"[presenter_bg][visuals_keyed]overlay=x=0:y=0:eof_action=pass[{next_bg}]"
         )
         bg_label = next_bg
+
+    else:
+        # Fallback to padded visuals with circle-cropped face video
+        filter_parts.append(f"[0:v]pad={video_width}:{video_height}:0:0:black[{bg_label}]")
+
+        if face_video_path is not None:
+            logger.info(
+                f"Found face video: {face_video_path.name}. "
+                f"Trimming {config.FACE_VIDEO_TRIM_START_S}s and overlaying circle crop..."
+            )
+            trim_start = config.FACE_VIDEO_TRIM_START_S
+            delay_pts = config.FACE_VIDEO_DELAY_S
+
+            # Build circle-cropped face video filters
+            face_filters = [
+                "crop=w='min(iw,ih)':h='min(iw,ih)',scale=400:400",
+                "zscale=t=linear:npl=400,format=gbrpf32le,zscale=p=bt709",
+                "tonemap=tonemap=mobius:desat=0,zscale=t=bt709:m=bt709:r=tv"
+            ]
+            if getattr(config, "FACE_BEAUTY_VIBRANCE", 0.0) > 0.0:
+                face_filters.append(f"vibrance=intensity={config.FACE_BEAUTY_VIBRANCE}")
+            if getattr(config, "FACE_BEAUTY_SHARPEN_DETAILS", False):
+                amt = config.FACE_BEAUTY_SHARPEN_AMOUNT
+                face_filters.append(f"unsharp=3:3:{amt}:3:3:0.0")
+            if getattr(config, "FACE_BEAUTY_SMOOTH_SKIN", False):
+                rad = config.FACE_BEAUTY_SMOOTH_RADIUS
+                strg = config.FACE_BEAUTY_SMOOTH_STRENGTH
+                th = config.FACE_BEAUTY_SMOOTH_THRESHOLD
+                face_filters.append(f"smartblur={rad}:{strg}:{th}")
+            face_filters.extend([
+                "format=rgba",
+                "geq=r='r(X,Y)':g='g(X,Y)':b='b(X,Y)':a='if(lte(pow(X-200,2)+pow(Y-200,2),40000),255,0)'"
+            ])
+            face_filter_str = ",".join(face_filters)
+
+            # Process the face video stream as a circular overlay
+            filter_parts.append(
+                f"[2:v]trim=start={trim_start},setpts=PTS-STARTPTS,{face_filter_str},setpts=PTS+{delay_pts}/TB[face_clean]"
+            )
+
+            # Build enable condition to hide during student overlays
+            enable_conds = [f"gt(t,{delay_pts})"]
+            for ov in overlays_meta:
+                ov_start = ov["global_insert_visual_time"]
+                ov_end = ov_start + ov["duration"] + ov["padding_start"]
+                enable_conds.append(f"not(between(t,{ov_start},{ov_end}))")
+            enable_cond = "*".join(enable_conds)
+
+            next_bg = "bg_face_final" if M > 0 else "v"
+            filter_parts.append(
+                f"[{bg_label}][face_clean]overlay=x=80:y=1440:enable='{enable_cond}':eof_action=pass[{next_bg}]"
+            )
+            bg_label = next_bg
 
     # 5b. Build student/overlay video filter chains
     for idx, ov in enumerate(overlays_meta):

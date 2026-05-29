@@ -1,0 +1,1060 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, width=1080, height=1920">
+    <title>Channel Intro and Roadmap Visuals</title>
+    <!-- Core JS Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600;700&family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-color: #00ff00; /* Chroma green screen background */
+            --neon-cyan: #00F0FF;
+            --neon-pink: #FF3366;
+            --neon-purple: #7B2CBF;
+            --neon-green: #00FF66;
+            --neon-yellow: #FFDD00;
+            --glass-bg: rgba(10, 10, 20, 0.88);
+            --glass-border: rgba(255, 255, 255, 0.15);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html, body {
+            background-color: var(--bg-color);
+            color: #ffffff;
+            font-family: 'Inter', sans-serif;
+            width: 1080px;
+            height: 1920px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* 2D Canvas Layer (Math animations, shattering, vector space, agent workflows) */
+        #canvas-2d {
+            position: absolute;
+            top: 0; left: 0;
+            width: 1080px;
+            height: 1920px;
+            z-index: 5;
+            pointer-events: none;
+        }
+
+        /* Main container layout */
+        .scene-container {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: 10;
+            pointer-events: none;
+        }
+
+        /* Captions (Centered horizontally, pushed above chest area) */
+        #caption-container {
+            position: absolute;
+            left: 50%;
+            bottom: 480px;
+            transform: translateX(-50%);
+            width: 920px;
+            max-width: 920px;
+            min-height: 160px;
+            font-size: 44px;
+            font-weight: 900;
+            z-index: 90;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .sentence-block {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-content: center;
+            width: 100%;
+            gap: 10px 15px;
+            text-shadow: 0 4px 15px rgba(0, 0, 0, 0.9);
+        }
+
+        .cap-word {
+            display: inline-block;
+            transition: opacity 0.08s, transform 0.08s, color 0.08s;
+        }
+
+        /* Hook Timings Captions (0s - 12s) */
+        .hook-caption .cap-word {
+            font-size: 42px;
+            opacity: 0.4;
+            transform: scale(1.0);
+            color: #ffffff;
+        }
+
+        .hook-caption .cap-word.active {
+            opacity: 1;
+            transform: scale(1.22);
+            color: var(--neon-cyan);
+            text-shadow: 0 0 15px var(--neon-cyan);
+        }
+
+        .hook-caption .cap-word.active-highlight {
+            opacity: 1;
+            transform: scale(1.25) rotate(-2deg);
+            color: var(--neon-pink) !important;
+            text-shadow: 0 0 15px var(--neon-pink);
+        }
+
+        /* Regular Captions */
+        .simple-caption .cap-word {
+            opacity: 0.35;
+            font-size: 38px;
+            font-weight: 800;
+            color: #ffffff;
+        }
+
+        .simple-caption .cap-word.active {
+            opacity: 1;
+            color: var(--neon-cyan) !important;
+            text-shadow: 0 0 12px var(--neon-cyan);
+        }
+
+        .simple-caption .cap-word.active-highlight {
+            opacity: 1;
+            color: var(--neon-yellow) !important;
+            text-shadow: 0 0 12px var(--neon-yellow);
+            transform: scale(1.08);
+        }
+
+        /* Interactive HTML Elements */
+        .fade-element {
+            opacity: 0;
+            transform: scale(0.9);
+            position: absolute;
+            z-index: 20;
+            width: 100%;
+            pointer-events: none;
+        }
+
+        /* Track Cards Layout (State 2) */
+        .tracks-container {
+            top: 240px;
+            width: 960px;
+            left: 60px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .track-card {
+            width: 440px;
+            height: 520px;
+            background: var(--glass-bg);
+            border: 3px solid var(--glass-border);
+            border-radius: 28px;
+            padding: 40px 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(15px);
+            position: relative;
+            transition: transform 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
+        }
+
+        .track-card.active {
+            border-color: var(--neon-cyan);
+            box-shadow: 0 0 40px rgba(0, 240, 255, 0.4);
+            transform: scale(1.05);
+        }
+
+        .track-card.dimmed {
+            opacity: 0.3;
+            transform: scale(0.95);
+        }
+
+        .track-icon {
+            font-size: 80px;
+            margin-bottom: 25px;
+            filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.2));
+        }
+
+        .track-card.active .track-icon {
+            filter: drop-shadow(0 0 20px var(--neon-cyan));
+        }
+
+        .track-num {
+            font-family: 'Fira Code', monospace;
+            font-size: 16px;
+            font-weight: 700;
+            color: #8888aa;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 12px;
+        }
+
+        .track-card.active .track-num {
+            color: var(--neon-cyan);
+        }
+
+        .track-title {
+            font-size: 32px;
+            font-weight: 900;
+            text-align: center;
+            line-height: 1.25;
+            color: #ffffff;
+        }
+
+        /* Student Card Frame (Maya co-host target overlay) */
+        #student-card {
+            position: absolute;
+            left: 136px;
+            top: 100px;
+            width: 808px;
+            height: 1212px;
+            opacity: 0;
+            transform: scale(0.8);
+            z-index: 150;
+            pointer-events: none;
+        }
+
+        .student-frame-hdr {
+            font-family: 'Fira Code', monospace;
+            color: var(--neon-pink);
+            font-size: 22px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            height: 28px;
+            margin-bottom: 12px;
+            text-align: center;
+            text-shadow: 0 0 10px var(--neon-pink);
+        }
+
+        .student-frame-box {
+            width: 800px;
+            height: 1160px;
+            border: 4px solid var(--neon-pink);
+            box-shadow: 0 0 50px rgba(255, 51, 102, 0.4);
+            background: rgba(10, 10, 15, 0.7);
+            backdrop-filter: blur(15px);
+            position: relative;
+            border-radius: 20px;
+        }
+
+        /* Maya co-host subtitles */
+        #maya-caption-container {
+            position: absolute;
+            bottom: 40px;
+            left: 5%;
+            width: 90%;
+            min-height: 120px;
+            z-index: 160;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 32px;
+            font-weight: 800;
+            color: #ffffff;
+            text-align: center;
+            line-height: 1.4;
+            background: rgba(0, 0, 0, 0.6);
+            border-radius: 12px;
+            padding: 15px 25px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* arXiv Research Papers Cascade (State 3) */
+        .paper-cascade {
+            top: 180px;
+            width: 960px;
+            left: 60px;
+            height: 800px;
+            position: absolute;
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+            z-index: 30;
+        }
+
+        .paper-card {
+            width: 850px;
+            background: var(--glass-bg);
+            border: 2px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 24px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            backdrop-filter: blur(8px);
+            opacity: 0;
+            transform: translateY(100px) scale(0.9);
+        }
+
+        .paper-card.left-side {
+            align-self: flex-start;
+            border-left: 6px solid var(--neon-cyan);
+        }
+
+        .paper-card.right-side {
+            align-self: flex-end;
+            border-right: 6px solid var(--neon-purple);
+        }
+
+        .paper-info {
+            flex: 1;
+        }
+
+        .paper-meta {
+            font-family: 'Fira Code', monospace;
+            font-size: 13px;
+            color: #8888aa;
+            margin-bottom: 6px;
+        }
+
+        .paper-title {
+            font-size: 24px;
+            font-weight: 800;
+            color: #ffffff;
+            line-height: 1.3;
+        }
+
+        .paper-stars {
+            font-family: 'Fira Code', monospace;
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--neon-yellow);
+            background: rgba(255, 221, 0, 0.08);
+            border: 1px solid var(--neon-yellow);
+            padding: 8px 18px;
+            border-radius: 20px;
+            margin-left: 20px;
+            text-shadow: 0 0 10px rgba(255, 221, 0, 0.3);
+        }
+
+        /* Roadmap Outro */
+        .roadmap-container {
+            top: 200px;
+            width: 960px;
+            left: 60px;
+            height: 700px;
+            position: absolute;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            z-index: 25;
+        }
+
+        .subscribe-btn {
+            background: linear-gradient(135deg, var(--neon-pink), var(--neon-purple));
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 40px;
+            padding: 20px 50px;
+            font-size: 32px;
+            font-weight: 900;
+            color: #ffffff;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            box-shadow: 0 0 40px rgba(255, 51, 102, 0.4);
+            animation: pulse-subscribe 1.5s infinite alternate;
+            z-index: 100;
+            display: inline-block;
+        }
+
+        @keyframes pulse-subscribe {
+            0% { transform: scale(1.0); box-shadow: 0 0 30px rgba(255, 51, 102, 0.4); }
+            100% { transform: scale(1.06); box-shadow: 0 0 50px rgba(255, 51, 102, 0.7), 0 0 20px var(--neon-purple); }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 2D Canvas Layer -->
+    <canvas id="canvas-2d" width="1080" height="1920"></canvas>
+
+    <div class="scene-container">
+        <!-- Caption display area -->
+        <div id="caption-container"></div>
+
+        <!-- Student co-host card overlay -->
+        <div id="student-card">
+            <div class="student-frame-hdr">CO-HOST_MAYA.EXE</div>
+            <div class="student-frame-box">
+                <!-- Subtitles for Maya -->
+                <div id="maya-caption-container">
+                    <!-- Populated by GSAP -->
+                </div>
+            </div>
+        </div>
+
+        <!-- ======= STATE 2: TWO TRACKS LANES (12.3s - 35.3s) ======= -->
+        <div class="fade-element tracks-container" id="state2-tracks">
+            <div class="track-card" id="track-math">
+                <div class="track-icon">📐</div>
+                <div class="track-num">Track 1</div>
+                <div class="track-title">Fundamental<br>Maths for AI</div>
+            </div>
+            <div class="track-card" id="track-agents">
+                <div class="track-icon">🤖</div>
+                <div class="track-num">Track 2</div>
+                <div class="track-title">Generative &<br>Agentic AI</div>
+            </div>
+        </div>
+
+        <!-- ======= STATE 3: ARXIV PAPER CASCADE (46.0s - 64.0s) ======= -->
+        <div class="fade-element paper-cascade" id="state3-papers">
+            <div class="paper-card left-side" id="paper-1">
+                <div class="paper-info">
+                    <div class="paper-meta">arXiv:1706.03762v7 [cs.CL]</div>
+                    <div class="paper-title">Attention Is All You Need</div>
+                </div>
+                <div class="paper-stars" id="stars-1">⭐ 142k</div>
+            </div>
+            <div class="paper-card right-side" id="paper-2">
+                <div class="paper-info">
+                    <div class="paper-meta">arXiv:2106.09685v2 [cs.LG]</div>
+                    <div class="paper-title">LoRA: Low-Rank Adaptation</div>
+                </div>
+                <div class="paper-stars" id="stars-2">⭐ 84k</div>
+            </div>
+            <div class="paper-card left-side" id="paper-3">
+                <div class="paper-info">
+                    <div class="paper-meta">arXiv:2305.18290v2 [cs.LG]</div>
+                    <div class="paper-title">Direct Preference Optimization</div>
+                </div>
+                <div class="paper-stars" id="stars-3">⭐ 41k</div>
+            </div>
+            <div class="paper-card right-side" id="paper-4">
+                <div class="paper-info">
+                    <div class="paper-meta">arXiv:1603.09320v4 [cs.DS]</div>
+                    <div class="paper-title">HNSW Vector Search</div>
+                </div>
+                <div class="paper-stars" id="stars-4">⭐ 32k</div>
+            </div>
+        </div>
+
+        <!-- ======= STATE 4: OUTRO ROADMAP (64.7s - 73.4s) ======= -->
+        <div class="fade-element roadmap-container" id="state4-roadmap">
+            <div class="subscribe-btn" style="margin-top: 150px; margin-bottom: 60px;">SUBSCRIBE</div>
+            <div style="font-family: 'Fira Code', monospace; color: var(--neon-cyan); font-size: 26px; font-weight: 700; text-shadow: 0 0 10px var(--neon-cyan);">
+                LET'S BUILD TOGETHER
+            </div>
+        </div>
+    </div>
+
+    <!-- Include Captions File -->
+    <script src="scene_05_captions.js"></script>
+
+    <script>
+        // =====================================================
+        // MASTER GSAP TIMELINE
+        // =====================================================
+        const tl = gsap.timeline();
+        const time = (sec) => sec;
+
+        // Shared animation state for Canvas drawing
+        const canvasState = {
+            chalkboardOpacity: 1.0,
+            chalkboardShatter: 0.0, // Progress 0 to 1
+            vectorsOpacity: 0.0,
+            vectorsRotation: 0.0,
+            neuralNetOpacity: 0.0,
+            neuralNetPulse: 0.0,
+            mathAxesOpacity: 0.0,
+            mathAxesScale: 0.8,
+            agentGraphOpacity: 0.0,
+            agentActiveNode: -1, // -1: none, 0: Planner, 1: Coder, 2: Validator
+            agentFlowProgress: 0.0,
+            roadmapOpacity: 0.0
+        };
+
+        // =====================================================
+        // CAPTIONS TIMELINE INTEGRATION
+        // =====================================================
+        const sentences = window.scene_05_captions;
+        const captionContainer = document.getElementById("caption-container");
+        const mayaCaptionBox = document.getElementById("maya-caption-container");
+
+        sentences.forEach((sentence, sIdx) => {
+            // Check if this segment belongs to Maya (35.354s - 45.354s)
+            const isMaya = sentence.start >= 35.353 && sentence.end <= 45.355;
+            
+            if (isMaya) {
+                // Register Maya subtitles inside the co-host box
+                sentence.words.forEach((w) => {
+                    tl.call(() => {
+                        mayaCaptionBox.innerText += w.text + " ";
+                    }, null, time(w.start));
+                    
+                    // Clear text slightly after word ends or at the end of the sentence
+                    if (w.text.endsWith(".") || w.text.endsWith("?")) {
+                        tl.call(() => {
+                            mayaCaptionBox.innerText = "";
+                        }, null, time(w.end + 0.15));
+                    }
+                });
+            } else {
+                // Presenter subtitles
+                const sDiv = document.createElement("div");
+                sDiv.className = "sentence-block";
+
+                // Hook typography style for first 12s
+                if (sentence.start < 12.0) {
+                    sDiv.classList.add("hook-caption");
+                } else {
+                    sDiv.classList.add("simple-caption");
+                }
+
+                gsap.set(sDiv, { display: "none", opacity: 0 });
+
+                sentence.words.forEach((w, idx) => {
+                    const wSpan = document.createElement("span");
+                    wSpan.className = "cap-word";
+                    wSpan.innerText = w.text;
+                    sDiv.appendChild(wSpan);
+                    if (idx < sentence.words.length - 1) {
+                        sDiv.appendChild(document.createTextNode(" "));
+                    }
+
+                    if (sentence.start < 12.0) {
+                        let activeClass = "active";
+                        const cleanWord = w.text.toLowerCase().replace(/[.,\/#!$%\^&\*;:{}=\-_`~()?]/g, "");
+                        if (["boring", "copy", "apis", "code"].includes(cleanWord)) {
+                            activeClass = "active-highlight";
+                        }
+                        tl.to(wSpan, {
+                            onStart: () => { wSpan.classList.add(activeClass); },
+                            onReverseComplete: () => { wSpan.classList.remove(activeClass); },
+                            duration: 0.05
+                        }, time(w.start));
+                    } else {
+                        let activeClass = "active";
+                        const cleanWord = w.text.toLowerCase().replace(/[.,\/#!$%\^&\*;:{}=\-_`~()?]/g, "");
+                        if (["maths", "math", "generative", "agentic", "agents", "research", "projects", "code", "subscribe"].includes(cleanWord)) {
+                            activeClass = "active-highlight";
+                        }
+                        
+                        // Highlight active word
+                        tl.to(wSpan, {
+                            onStart: () => { wSpan.classList.add(activeClass); },
+                            onReverseComplete: () => { wSpan.classList.remove(activeClass); },
+                            duration: 0.05
+                        }, time(w.start));
+
+                        // Faint word after spoken
+                        tl.to(wSpan, {
+                            onStart: () => { wSpan.classList.remove(activeClass); },
+                            onReverseComplete: () => { wSpan.classList.add(activeClass); },
+                            opacity: 0.35,
+                            duration: 0.05
+                        }, time(w.end));
+                    }
+                });
+
+                captionContainer.appendChild(sDiv);
+
+                tl.set(sDiv, { display: "flex" }, time(sentence.start));
+                tl.to(sDiv, { opacity: 1, duration: 0.15 }, time(sentence.start));
+                tl.to(sDiv, { opacity: 0, duration: 0.15 }, time(sentence.end));
+                tl.set(sDiv, { display: "none" }, time(sentence.end + 0.15));
+            }
+        });
+
+
+        // =====================================================
+        // GSAP TIMELINE GRAPHICS STATES
+        // =====================================================
+        
+        // -----------------------------------------------------
+        // STATE 1: Hook (0.0s - 12.0s)
+        // -----------------------------------------------------
+        // Fades chalkboard, shatters at 3.0s, reveals rotating vector space
+        tl.to(canvasState, { chalkboardShatter: 1.0, chalkboardOpacity: 0.0, duration: 0.8, ease: "power3.inOut" }, time(2.976));
+        
+        // Fade in vector space
+        tl.to(canvasState, { vectorsOpacity: 1.0, duration: 1.0 }, time(3.5));
+        tl.to(canvasState, { vectorsRotation: Math.PI * 2, duration: 8.5, ease: "none" }, time(3.5));
+        
+        // Zoom into Neural Net at 8.32s
+        tl.to(canvasState, { vectorsOpacity: 0.0, duration: 0.5 }, time(8.0));
+        tl.to(canvasState, { neuralNetOpacity: 1.0, duration: 0.8 }, time(8.32));
+        tl.to(canvasState, { neuralNetPulse: 1.0, duration: 3.0, repeat: -1, yoyo: true }, time(8.32));
+        
+        // Fade out State 1 elements
+        tl.to(canvasState, { neuralNetOpacity: 0.0, duration: 0.5 }, time(11.8));
+
+        // -----------------------------------------------------
+        // STATE 2: Two Track Cards (12.3s - 35.3s)
+        // -----------------------------------------------------
+        // Slide in Track Cards container
+        tl.to("#state2-tracks", { opacity: 1, scale: 1, duration: 0.6, ease: "back.out(1.3)" }, time(12.324));
+        
+        // Presenter talks about Track 1 (18.9s - 26.4s)
+        // Highlight Track 1 Card, dim Track 2
+        tl.to("#track-math", { className: "track-card active", duration: 0.4 }, time(18.923));
+        tl.to("#track-agents", { className: "track-card dimmed", duration: 0.4 }, time(18.923));
+        
+        // Show mathematical coordinates on canvas next to card
+        tl.to(canvasState, { mathAxesOpacity: 1.0, mathAxesScale: 1.0, duration: 0.6, ease: "back.out(1.5)" }, time(19.2));
+
+        // Presenter talks about Track 2 (27.0s - 35.3s)
+        // Highlight Track 2 Card, dim Track 1
+        tl.to("#track-agents", { className: "track-card active", duration: 0.4 }, time(27.049));
+        tl.to("#track-math", { className: "track-card dimmed", duration: 0.4 }, time(27.049));
+        tl.to(canvasState, { mathAxesOpacity: 0.0, duration: 0.4 }, time(27.049));
+        
+        // Show Agent Graph next to card
+        tl.to(canvasState, { agentGraphOpacity: 1.0, duration: 0.5 }, time(27.5));
+        
+        // Animate agent nodes activity
+        tl.to(canvasState, { agentActiveNode: 0, duration: 0.1 }, time(28.0)); // Planner active
+        tl.to(canvasState, { agentActiveNode: 1, agentFlowProgress: 0.5, duration: 2.0 }, time(29.5)); // Coder active
+        tl.to(canvasState, { agentActiveNode: 2, agentFlowProgress: 1.0, duration: 2.0 }, time(32.0)); // Validator active
+
+        // -----------------------------------------------------
+        // STATE 3: Co-host Maya Overlay (35.354s - 45.354s)
+        // -----------------------------------------------------
+        // Hide Track elements
+        tl.to("#state2-tracks", { opacity: 0, scale: 0.8, duration: 0.5, ease: "power2.in" }, time(35.354));
+        tl.to(canvasState, { agentGraphOpacity: 0.0, duration: 0.5 }, time(35.354));
+
+        // Slide in Maya co-host PiP frame
+        tl.to("#student-card", { opacity: 1, scale: 1.0, duration: 0.6, ease: "back.out(1.4)" }, time(35.354));
+        
+        // Slide out Maya co-host PiP frame
+        tl.to("#student-card", { opacity: 0, scale: 0.8, duration: 0.5, ease: "power2.in" }, time(45.354));
+
+        // -----------------------------------------------------
+        // STATE 4: arXiv Paper Cascade (46.0s - 64.0s)
+        // -----------------------------------------------------
+        tl.to("#state3-papers", { opacity: 1, duration: 0.3 }, time(46.095));
+        
+        // Cascade arXiv papers word-by-word or in steps
+        tl.to("#paper-1", { opacity: 1, y: 0, scale: 1, duration: 0.5, ease: "back.out(1.5)" }, time(46.5));
+        // Count up stars animate
+        tl.fromTo("#stars-1", { textContent: "⭐ 0k" }, { textContent: "⭐ 142k", duration: 1.5, ease: "power1.out", snap: { textContent: 1 } }, time(46.8));
+        
+        tl.to("#paper-2", { opacity: 1, y: 0, scale: 1, duration: 0.5, ease: "back.out(1.5)" }, time(48.5));
+        tl.fromTo("#stars-2", { textContent: "⭐ 0k" }, { textContent: "⭐ 84k", duration: 1.5, ease: "power1.out", snap: { textContent: 1 } }, time(48.8));
+        
+        tl.to("#paper-3", { opacity: 1, y: 0, scale: 1, duration: 0.5, ease: "back.out(1.5)" }, time(50.8));
+        tl.fromTo("#stars-3", { textContent: "⭐ 0k" }, { textContent: "⭐ 41k", duration: 1.5, ease: "power1.out", snap: { textContent: 1 } }, time(51.1));
+        
+        tl.to("#paper-4", { opacity: 1, y: 0, scale: 1, duration: 0.5, ease: "back.out(1.5)" }, time(53.0));
+        tl.fromTo("#stars-4", { textContent: "⭐ 0k" }, { textContent: "⭐ 32k", duration: 1.5, ease: "power1.out", snap: { textContent: 1 } }, time(53.3));
+        
+        // Fade out arXiv papers
+        tl.to("#state3-papers", { opacity: 0, y: -50, scale: 0.9, duration: 0.5 }, time(63.0));
+
+        // -----------------------------------------------------
+        // STATE 5: Outro & Roadmap (64.7s - 73.4s)
+        // -----------------------------------------------------
+        tl.to("#state4-roadmap", { opacity: 1, scale: 1, duration: 0.6, ease: "back.out(1.3)" }, time(64.779));
+        tl.to(canvasState, { roadmapOpacity: 1.0, duration: 0.8 }, time(65.0));
+        
+        // Final fade out before video ends
+        tl.to("#state4-roadmap", { opacity: 0, scale: 0.9, duration: 0.5 }, time(72.5));
+        tl.to(canvasState, { roadmapOpacity: 0.0, duration: 0.5 }, time(72.5));
+
+
+        // =====================================================
+        // CANVAS 2D DRAWING & ANIMATION LOOP
+        // =====================================================
+        const canvas = document.getElementById("canvas-2d");
+        const ctx = canvas.getContext("2d");
+
+        // Chalkboard formulas equations list
+        const formulas = [
+            "∂L/∂W = ∑ (y - f(x)) * x",
+            "cos(θ) = A · B / (||A|| ||B||)",
+            "f(x) = σ(Wᵀx + b)",
+            "[ 1  0  2 ]ᵀ",
+            "E = mc²",
+            "h_t = tanh(W_h h_{t-1} + W_x x_t)"
+        ];
+
+        // Chalkboard equations objects (for position)
+        const chalkboardEqs = [];
+        for (let i = 0; i < 8; i++) {
+            chalkboardEqs.push({
+                text: formulas[i % formulas.length],
+                x: 100 + Math.random() * 880,
+                y: 150 + Math.random() * 800,
+                scale: 18 + Math.random() * 14,
+                rotation: (Math.random() - 0.5) * 0.2
+            });
+        }
+
+        // Particle system for shatter
+        const particles = [];
+        function createShatterParticles(x, y) {
+            for (let i = 0; i < 80; i++) {
+                const angle = Math.random() * Math.PI * 2;
+                const speed = 3 + Math.random() * 15;
+                particles.push({
+                    x: x,
+                    y: y,
+                    vx: Math.cos(angle) * speed,
+                    vy: Math.sin(angle) * speed,
+                    size: 4 + Math.random() * 10,
+                    color: i % 2 === 0 ? "#00F0FF" : "#FF3366",
+                    alpha: 1.0,
+                    life: 1.0,
+                    decay: 0.015 + Math.random() * 0.02
+                });
+            }
+        }
+
+        function drawScene() {
+            // Clear canvas
+            ctx.clearRect(0, 0, 1080, 1920);
+
+            // 1. Draw Chalkboard
+            if (canvasState.chalkboardOpacity > 0.01) {
+                ctx.save();
+                ctx.globalAlpha = canvasState.chalkboardOpacity;
+                
+                // Draw blackboard background card frame
+                ctx.fillStyle = "rgba(10, 15, 25, 0.9)";
+                ctx.strokeStyle = "rgba(255, 255, 255, 0.1)";
+                ctx.lineWidth = 4;
+                ctx.beginPath();
+                ctx.roundRect(100, 150, 880, 800, 24);
+                ctx.fill();
+                ctx.stroke();
+
+                // Draw equations inside
+                ctx.fillStyle = "rgba(255, 255, 255, 0.35)";
+                ctx.font = "italic 32px 'Fira Code', monospace";
+                chalkboardEqs.forEach((eq) => {
+                    ctx.save();
+                    ctx.translate(eq.x, eq.y);
+                    ctx.rotate(eq.rotation);
+                    ctx.font = `bold ${eq.scale}px 'Fira Code', monospace`;
+                    ctx.fillText(eq.text, 0, 0);
+                    ctx.restore();
+                });
+                
+                // Title
+                ctx.fillStyle = "#FF3366";
+                ctx.font = "bold 24px 'Fira Code', monospace";
+                ctx.fillText("BORING_MATH_CLASS.TXT", 140, 210);
+                
+                ctx.restore();
+            }
+
+            // Trigger shatter particles once when shatter starts
+            if (canvasState.chalkboardShatter > 0.0 && canvasState.chalkboardShatter < 0.1 && particles.length === 0) {
+                createShatterParticles(540, 550);
+            }
+
+            // Draw and update shatter particles
+            if (particles.length > 0) {
+                particles.forEach((p, idx) => {
+                    p.x += p.vx;
+                    p.y += p.vy;
+                    p.vy += 0.2; // Gravity
+                    p.life -= p.decay;
+                    
+                    if (p.life <= 0) {
+                        particles.splice(idx, 1);
+                        return;
+                    }
+
+                    ctx.save();
+                    ctx.globalAlpha = p.life;
+                    ctx.fillStyle = p.color;
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.restore();
+                });
+            }
+
+            // 2. Draw 3D-like Vector Space (State 1: 3.5s - 12.0s)
+            if (canvasState.vectorsOpacity > 0.01) {
+                ctx.save();
+                ctx.globalAlpha = canvasState.vectorsOpacity;
+                ctx.translate(540, 500); // Orbit center
+
+                // Axes
+                const rot = canvasState.vectorsRotation;
+                ctx.strokeStyle = "rgba(0, 240, 255, 0.3)";
+                ctx.lineWidth = 2;
+                
+                // X axis projection
+                ctx.beginPath();
+                ctx.moveTo(-250 * Math.cos(rot), -80 * Math.sin(rot));
+                ctx.lineTo(250 * Math.cos(rot), 80 * Math.sin(rot));
+                ctx.stroke();
+
+                // Y axis projection
+                ctx.beginPath();
+                ctx.moveTo(-80 * Math.sin(rot), -250 * Math.cos(rot));
+                ctx.lineTo(80 * Math.sin(rot), 250 * Math.cos(rot));
+                ctx.stroke();
+
+                // Draw rotating arrows (King & Queen vector representations)
+                const arrowX1 = 180 * Math.cos(rot + 0.5);
+                const arrowY1 = 150 * Math.sin(rot + 0.5);
+                
+                const arrowX2 = -150 * Math.cos(rot - 0.8);
+                const arrowY2 = 180 * Math.sin(rot - 0.8);
+
+                // Cyan arrow
+                drawVectorArrow(0, 0, arrowX1, arrowY1, "#00F0FF", "V_king");
+                // Pink arrow
+                drawVectorArrow(0, 0, arrowX2, arrowY2, "#FF3366", "V_queen");
+
+                ctx.restore();
+            }
+
+            // 3. Draw Stylized Neural Network Node (State 1 End: 8.3s - 12s)
+            if (canvasState.neuralNetOpacity > 0.01) {
+                ctx.save();
+                ctx.globalAlpha = canvasState.neuralNetOpacity;
+                ctx.translate(540, 480);
+
+                const pulse = 1.0 + Math.sin(Date.now() * 0.005) * 0.08 * canvasState.neuralNetPulse;
+                const size = 180 * pulse;
+
+                // Glowing outer paths
+                ctx.strokeStyle = "rgba(0, 240, 255, 0.15)";
+                ctx.lineWidth = 4;
+                ctx.beginPath();
+                ctx.arc(0, 0, size, 0, Math.PI * 2);
+                ctx.stroke();
+
+                // Connect paths outwards
+                ctx.strokeStyle = "rgba(123, 44, 191, 0.4)";
+                ctx.lineWidth = 3;
+                for (let a = 0; a < Math.PI * 2; a += Math.PI / 4) {
+                    ctx.beginPath();
+                    ctx.moveTo(0, 0);
+                    ctx.lineTo(Math.cos(a) * size * 1.5, Math.sin(a) * size * 1.5);
+                    ctx.stroke();
+                }
+
+                // Inner core node
+                ctx.fillStyle = "rgba(10, 10, 20, 0.9)";
+                ctx.strokeStyle = "#00F0FF";
+                ctx.lineWidth = 6;
+                ctx.beginPath();
+                ctx.arc(0, 0, size * 0.4, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.stroke();
+
+                ctx.fillStyle = "#ffffff";
+                ctx.font = "bold 24px 'Fira Code', monospace";
+                ctx.textAlign = "center";
+                ctx.fillText("AI_CORE", 0, 8);
+
+                ctx.restore();
+            }
+
+            // 4. Draw Math Axes and projections (State 2: Track 1 details, 18.9s - 26.4s)
+            if (canvasState.mathAxesOpacity > 0.01) {
+                ctx.save();
+                ctx.globalAlpha = canvasState.mathAxesOpacity;
+                ctx.translate(760, 480); // upper right floating maths
+                ctx.scale(canvasState.mathAxesScale, canvasState.mathAxesScale);
+
+                // Math Grid card
+                ctx.fillStyle = "rgba(10, 15, 25, 0.9)";
+                ctx.strokeStyle = "rgba(0, 240, 255, 0.35)";
+                ctx.lineWidth = 3;
+                ctx.beginPath();
+                ctx.roundRect(-200, -200, 400, 400, 24);
+                ctx.fill();
+                ctx.stroke();
+
+                // Coordinate lines
+                ctx.strokeStyle = "rgba(255, 255, 255, 0.1)";
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.moveTo(-180, 0); ctx.lineTo(180, 0);
+                ctx.moveTo(0, -180); ctx.lineTo(0, 180);
+                ctx.stroke();
+
+                // Math vector arrow and projection lines
+                const angle = Date.now() * 0.001;
+                const ax = 140 * Math.cos(angle);
+                const ay = 140 * Math.sin(angle);
+
+                // Projection lines to X/Y axes
+                ctx.strokeStyle = "rgba(255, 221, 0, 0.5)";
+                ctx.setLineDash([6, 6]);
+                ctx.beginPath();
+                ctx.moveTo(ax, ay); ctx.lineTo(ax, 0);
+                ctx.moveTo(ax, ay); ctx.lineTo(0, ay);
+                ctx.stroke();
+                ctx.setLineDash([]);
+
+                // Vector A
+                drawVectorArrow(0, 0, ax, ay, "#00FFAA", "W · x");
+
+                ctx.restore();
+            }
+
+            // 5. Draw Agent Workflow Graph (State 2: Track 2 details, 27s - 35.3s)
+            if (canvasState.agentGraphOpacity > 0.01) {
+                ctx.save();
+                ctx.globalAlpha = canvasState.agentGraphOpacity;
+                ctx.translate(280, 460); // upper left floating agents
+
+                // Draw workflow box card background
+                ctx.fillStyle = "rgba(10, 15, 25, 0.9)";
+                ctx.strokeStyle = "rgba(255, 51, 102, 0.35)";
+                ctx.lineWidth = 3;
+                ctx.beginPath();
+                ctx.roundRect(-220, -180, 440, 360, 24);
+                ctx.fill();
+                ctx.stroke();
+
+                // Nodes definitions
+                const nodes = [
+                    { name: "PLANNER", x: -140, y: -60, color: "#00F0FF" },
+                    { name: "CODER", x: 140, y: -60, color: "#FF3366" },
+                    { name: "CRITIC", x: 0, y: 80, color: "#7B2CBF" }
+                ];
+
+                // Draw connections
+                ctx.strokeStyle = "rgba(255, 255, 255, 0.15)";
+                ctx.lineWidth = 3;
+                ctx.beginPath();
+                ctx.moveTo(nodes[0].x, nodes[0].y); ctx.lineTo(nodes[1].x, nodes[1].y);
+                ctx.lineTo(nodes[2].x, nodes[2].y); ctx.lineTo(nodes[0].x, nodes[0].y);
+                ctx.stroke();
+
+                // Draw active connection pulses
+                if (canvasState.agentFlowProgress > 0) {
+                    ctx.strokeStyle = "#00FF66";
+                    ctx.lineWidth = 4;
+                    ctx.beginPath();
+                    if (canvasState.agentFlowProgress < 0.5) {
+                        // Planner to Coder
+                        const p = canvasState.agentFlowProgress * 2;
+                        ctx.moveTo(nodes[0].x, nodes[0].y);
+                        ctx.lineTo(nodes[0].x + (nodes[1].x - nodes[0].x) * p, nodes[0].y);
+                    } else {
+                        // Coder to Critic
+                        const p = (canvasState.agentFlowProgress - 0.5) * 2;
+                        ctx.moveTo(nodes[1].x, nodes[1].y);
+                        ctx.lineTo(nodes[1].x + (nodes[2].x - nodes[1].x) * p, nodes[1].y + (nodes[2].y - nodes[1].y) * p);
+                    }
+                    ctx.stroke();
+                }
+
+                // Draw nodes
+                nodes.forEach((n, idx) => {
+                    const active = canvasState.agentActiveNode === idx;
+                    ctx.fillStyle = active ? n.color : "rgba(20, 20, 30, 0.9)";
+                    ctx.strokeStyle = n.color;
+                    ctx.lineWidth = active ? 4 : 2;
+
+                    ctx.beginPath();
+                    ctx.roundRect(n.x - 65, n.y - 30, 130, 60, 12);
+                    ctx.fill();
+                    ctx.stroke();
+
+                    ctx.fillStyle = active ? "#000000" : "#ffffff";
+                    ctx.font = "bold 16px 'Fira Code', monospace";
+                    ctx.textAlign = "center";
+                    ctx.fillText(n.name, n.x, n.y + 6);
+                });
+
+                ctx.restore();
+            }
+
+            // 6. Draw Outro Roadmap Connecting curves (64.7s - 73.4s)
+            if (canvasState.roadmapOpacity > 0.01) {
+                ctx.save();
+                ctx.globalAlpha = canvasState.roadmapOpacity;
+
+                // Draw connecting bezier curves from maths to agents
+                ctx.strokeStyle = "rgba(0, 240, 255, 0.4)";
+                ctx.lineWidth = 5;
+                ctx.setLineDash([8, 8]);
+                ctx.beginPath();
+                ctx.moveTo(100, 300);
+                ctx.bezierCurveTo(300, 500, 780, 200, 980, 500);
+                ctx.stroke();
+                
+                // Draw dots scrolling along curve
+                ctx.setLineDash([]);
+                const progress = (Date.now() % 3000) / 3000;
+                const px = getBezierPoint(progress, {x: 100, y: 300}, {x: 300, y: 500}, {x: 780, y: 200}, {x: 980, y: 500});
+                
+                ctx.fillStyle = "#00FF66";
+                ctx.shadowColor = "#00FF66";
+                ctx.shadowBlur = 20;
+                ctx.beginPath();
+                ctx.arc(px.x, px.y, 14, 0, Math.PI * 2);
+                ctx.fill();
+
+                ctx.restore();
+            }
+
+            requestAnimationFrame(drawScene);
+        }
+
+        // Vector arrow drawing helper
+        function drawVectorArrow(fromx, fromy, tox, toy, color, label) {
+            const headlen = 16; // length of head in pixels
+            const dx = tox - fromx;
+            const dy = toy - fromy;
+            const angle = Math.atan2(dy, dx);
+
+            ctx.strokeStyle = color;
+            ctx.fillStyle = color;
+            ctx.lineWidth = 4;
+            
+            // Draw shaft
+            ctx.beginPath();
+            ctx.moveTo(fromx, fromy);
+            ctx.lineTo(tox, toy);
+            ctx.stroke();
+
+            // Draw head
+            ctx.beginPath();
+            ctx.moveTo(tox, toy);
+            ctx.lineTo(tox - headlen * Math.cos(angle - Math.PI / 6), toy - headlen * Math.sin(angle - Math.PI / 6));
+            ctx.lineTo(tox - headlen * Math.cos(angle + Math.PI / 6), toy - headlen * Math.sin(angle + Math.PI / 6));
+            ctx.fill();
+
+            // Draw text tag near arrow head
+            ctx.fillStyle = "#ffffff";
+            ctx.font = "bold 16px 'Fira Code', monospace";
+            ctx.fillText(label, tox + 12 * Math.cos(angle), toy + 12 * Math.sin(angle));
+        }
+
+        // Cubic bezier mathematics helper
+        function getBezierPoint(t, p0, p1, p2, p3) {
+            const cx = 3 * (p1.x - p0.x);
+            const bx = 3 * (p2.x - p1.x) - cx;
+            const ax = p3.x - p0.x - cx - bx;
+
+            const cy = 3 * (p1.y - p0.y);
+            const by = 3 * (p2.y - p1.y) - cy;
+            const ay = p3.y - p0.y - cy - by;
+
+            const xt = ax * Math.pow(t, 3) + bx * Math.pow(t, 2) + cx * t + p0.x;
+            const yt = ay * Math.pow(t, 3) + by * Math.pow(t, 2) + cy * t + p0.y;
+
+            return { x: xt, y: yt };
+        }
+
+        // Start loop
+        drawScene();
+
+    </script>
+</body>
+
+</html>

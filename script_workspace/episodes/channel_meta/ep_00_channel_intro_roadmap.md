@@ -44,7 +44,8 @@ Second: **Generative AI & Agentic AI** — where we will build smart AI agents t
 "Hey, Maya here. The plan looks good. But AI is changing very fast. New models come out every week. Will this channel teach us the latest things, or only old textbook theory?"
 
 **Presenter:**
-"Great question, Maya! We will not teach old theory. We will look at the latest research and write code together. We will build, test, and learn by doing.
+"Great question, Maya! We will not teach outdated theory. Instead, we will explore the latest research and understand the what, why, and how behind every concept. We will write code together, build real projects, test ideas, and learn by doing."
+ 
 
 Welcome to the channel. Please subscribe, and check the description for the link. Tell me, what AI topic do you want to learn first?"
 

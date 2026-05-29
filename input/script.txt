@@ -1,13 +1,12 @@
-AI doesn't see words. It sees arrows in space.
- 
-Every word, every sentence, even every pixel becomes a vector — an arrow with a specific direction and length in a high-dimensional meaning space.
- 
-Here's the critical part: If 'king' is here, and 'queen' is there, how does the AI know they're related? It measures the angle between them. Smaller the angle, stronger the semantic bond.
- 
-The tool is the dot product. Mathematically, it's a simple calculation. But geometrically? It's like a beam of light from one vector to another. A strong, bright beam means the arrows are aligned — pointing in the same direction.
+Stop watching boring AI videos. If you want to really learn AI, you should not just copy code or call APIs. You must understand how they work from the inside.
 
+This channel will make AI concepts simple and visual. We are starting two tracks:
 
-Good question, Maya. That's exactly the engineering challenge. Linear scanning an entire vector space is impractical. That's why we use Approximate Nearest Neighbour search. Algorithms like HNSW trade a small amount of accuracy for massive speed — letting us find relevant documents in milliseconds, not hours.
+First: Fundamental Maths for AI — where we will understand the basic math behind AI with simple animations.
+
+Second: Generative AI & Agentic AI — where we will build smart AI agents that can think, plan, and work together."
+
+Great question, Maya! We will not teach outdated theory. Instead, we will explore the latest research and understand the what, why, and how behind every concept. We will write code together, build real projects, test ideas, and learn by doing."
  
-So next time a chatbot seems to read your mind? Remember: it's not reading text. It's flying through a universe of vectors, shining a spotlight on the closest match. That's how AI understands the world.
- 
+
+Welcome to the channel. Please subscribe, and check the description for the link. Tell me, what AI topic do you want to learn first?"
