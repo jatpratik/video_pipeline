@@ -6,5 +6,13 @@
     "concept": "Visual AI & Math Education",
     "application": "Channel Trailer & Publishing Plan",
     "status": "Drafted"
+  },
+  {
+    "episode": 1,
+    "id": "ep_01_complete_ai_roadmap",
+    "title": "The Complete AI Engineer Roadmap",
+    "concept": "Core AI vs Generative AI Tracks",
+    "application": "Roadmap Video & Guide",
+    "status": "Drafted"
   }
 ]
