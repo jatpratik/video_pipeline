@@ -12,6 +12,8 @@ rendered_scenes/
 timestamps/
 logs/
 audio/
+older-reel-inputs/
+input/
 
 # Media files (large)
 *.mp4
