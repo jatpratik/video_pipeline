@@ -37,7 +37,7 @@ Our channel, **Easy AI with Pratik**, will pick topics from both of these roadma
 
 - **Target Duration**: 70-75 seconds
 - **Narrator Tone**: Friendly, helpful, and natural (using simple English).
-- **Maya's Timing**: 45.0s - 54.0s (9.0s duration).
+- **Tara's Timing**: 45.0s - 54.0s (9.0s duration).
 
 ### 1. Voiceover Narration Script
 
@@ -48,11 +48,11 @@ First, is **Core AI**. This path is perfect if you are a student or love math. Y
 
 Second, is **Generative AI**. This path is perfect for software engineers. You don't need heavy math. You start by using existing AI models. You learn how to write prompts, connect databases with RAG, and build autonomous agents that can think and use tools."
 
-**Maya (Overlay at 45.0s - 54.0s):**
+**Tara (Overlay at 45.0s - 54.0s):**
 "But wait, Pratik! For Generative AI, since we are only using existing models, isn't it just calling APIs? How is that real engineering?"
 
 **Presenter:**
-"Great question, Maya! GenAI is about system design. You must build agentic loops, manage memory, and create guardrails so agents don't fail in production.
+"Great question, Tara! GenAI is about system design. You must build agentic loops, manage memory, and create guardrails so agents don't fail in production.
 
 On this channel, we make visual videos on both paths to make them easy. Comment "ROADMAP" below, and I will send you this complete guide. And subscribe to learn AI with me!"
 
@@ -65,6 +65,6 @@ On this channel, we make visual videos on both paths to make them easy. Comment 
 | **0.0s - 12.0s** | **[Hook]** Show a student looking confused at a massive, complex mindmap of AI topics. The screen splits into two clear paths: "Core AI (Math & Models)" on the left, and "Generative AI (Software & Agents)" on the right. | Presenter: "Want to become an AI Engineer?..." |
 | **12.0s - 28.0s** | **[Track 1: Core AI]** Focus on the left path. Show a timeline moving from Math symbols (matrices, graphs) to Python code, to a neural network node map lighting up as it trains. | Presenter: "First, is Core AI. This path is perfect..." |
 | **28.0s - 45.0s** | **[Track 2: Generative AI]** Focus on the right path. Show an LLM card connecting to a document file (RAG) and then expanding into an Agent loop with tools like Google Search and a code editor. | Presenter: "Second, is Generative AI. This path is perfect..." |
-| **45.0s - 54.0s** | **[Maya Overlay (PiP)]** Maya's card slides in at $x: 140, y: 140$. Background animations pause and dim. Maya's face looks skeptical/curious. | Maya: "But wait, Pratik! For Generative AI..." |
-| **54.0s - 64.0s** | **[The Answer]** Maya's card fades. We zoom into a diagram showing an agent loop stuck in a cycle, and a guardrail block stopping it to show "system design" in action. | Presenter: "Great question, Maya! GenAI is about..." |
+| **45.0s - 54.0s** | **[Tara Overlay (PiP)]** Tara's card slides in at $x: 140, y: 140$. Background animations pause and dim. Tara's face looks skeptical/curious. | Tara: "But wait, Pratik! For Generative AI..." |
+| **54.0s - 64.0s** | **[The Answer]** Tara's card fades. We zoom into a diagram showing an agent loop stuck in a cycle, and a guardrail block stopping it to show "system design" in action. | Presenter: "Great question, Tara! GenAI is about..." |
 | **64.0s - 72.0s** | **[Outro]** The two paths merge into a logo of our channel (**Easy AI with Pratik**). A glowing "SUBSCRIBE" button pulses at the center. | Presenter: "On this channel, we make visual videos..." |
