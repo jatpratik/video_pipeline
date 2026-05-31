@@ -1,0 +1,1158 @@
+{
+  "segments": [
+    {
+      "text": "want to become an AI engineer, but all road maps look too hard and full of complex math.",
+      "start": 0.479,
+      "end": 7.041,
+      "words": [
+        {
+          "word": "want",
+          "start": 0.479,
+          "end": 0.679,
+          "score": 0.596
+        },
+        {
+          "word": "to",
+          "start": 0.719,
+          "end": 0.799,
+          "score": 0.753
+        },
+        {
+          "word": "become",
+          "start": 0.839,
+          "end": 1.099,
+          "score": 0.904
+        },
+        {
+          "word": "an",
+          "start": 1.159,
+          "end": 1.219,
+          "score": 0.708
+        },
+        {
+          "word": "AI",
+          "start": 1.279,
+          "end": 1.519,
+          "score": 0.698
+        },
+        {
+          "word": "engineer,",
+          "start": 1.579,
+          "end": 1.98,
+          "score": 0.924
+        },
+        {
+          "word": "but",
+          "start": 2.48,
+          "end": 2.66,
+          "score": 0.864
+        },
+        {
+          "word": "all",
+          "start": 2.86,
+          "end": 3.02,
+          "score": 0.858
+        },
+        {
+          "word": "road",
+          "start": 3.08,
+          "end": 3.32,
+          "score": 0.946
+        },
+        {
+          "word": "maps",
+          "start": 3.38,
+          "end": 3.68,
+          "score": 0.832
+        },
+        {
+          "word": "look",
+          "start": 4.14,
+          "end": 4.4,
+          "score": 0.938
+        },
+        {
+          "word": "too",
+          "start": 4.46,
+          "end": 4.641,
+          "score": 0.974
+        },
+        {
+          "word": "hard",
+          "start": 4.721,
+          "end": 5.021,
+          "score": 0.822
+        },
+        {
+          "word": "and",
+          "start": 5.701,
+          "end": 5.801,
+          "score": 0.916
+        },
+        {
+          "word": "full",
+          "start": 5.881,
+          "end": 6.081,
+          "score": 0.694
+        },
+        {
+          "word": "of",
+          "start": 6.121,
+          "end": 6.181,
+          "score": 0.892
+        },
+        {
+          "word": "complex",
+          "start": 6.281,
+          "end": 6.741,
+          "score": 0.981
+        },
+        {
+          "word": "math.",
+          "start": 6.801,
+          "end": 7.041,
+          "score": 0.92
+        }
+      ]
+    },
+    {
+      "text": "Don't worry.",
+      "start": 7.722,
+      "end": 8.242,
+      "words": [
+        {
+          "word": "Don't",
+          "start": 7.722,
+          "end": 7.942,
+          "score": 0.858
+        },
+        {
+          "word": "worry.",
+          "start": 7.962,
+          "end": 8.242,
+          "score": 0.882
+        }
+      ]
+    },
+    {
+      "text": "There are actually two simple paths you can take.",
+      "start": 8.622,
+      "end": 12.123,
+      "words": [
+        {
+          "word": "There",
+          "start": 8.622,
+          "end": 8.802,
+          "score": 0.853
+        },
+        {
+          "word": "are",
+          "start": 8.862,
+          "end": 8.962,
+          "score": 0.875
+        },
+        {
+          "word": "actually",
+          "start": 9.062,
+          "end": 9.562,
+          "score": 0.917
+        },
+        {
+          "word": "two",
+          "start": 10.023,
+          "end": 10.323,
+          "score": 0.959
+        },
+        {
+          "word": "simple",
+          "start": 10.883,
+          "end": 11.243,
+          "score": 0.93
+        },
+        {
+          "word": "paths",
+          "start": 11.303,
+          "end": 11.583,
+          "score": 0.79
+        },
+        {
+          "word": "you",
+          "start": 11.603,
+          "end": 11.723,
+          "score": 0.996
+        },
+        {
+          "word": "can",
+          "start": 11.763,
+          "end": 11.903,
+          "score": 0.818
+        },
+        {
+          "word": "take.",
+          "start": 11.943,
+          "end": 12.123,
+          "score": 0.814
+        }
+      ]
+    },
+    {
+      "text": "First is Core AI.",
+      "start": 12.824,
+      "end": 14.084,
+      "words": [
+        {
+          "word": "First",
+          "start": 12.824,
+          "end": 13.104,
+          "score": 0.914
+        },
+        {
+          "word": "is",
+          "start": 13.204,
+          "end": 13.284,
+          "score": 0.747
+        },
+        {
+          "word": "Core",
+          "start": 13.364,
+          "end": 13.824,
+          "score": 0.773
+        },
+        {
+          "word": "AI.",
+          "start": 13.924,
+          "end": 14.084,
+          "score": 0.648
+        }
+      ]
+    },
+    {
+      "text": "This path is perfect if you are a student or love math.",
+      "start": 14.824,
+      "end": 18.306,
+      "words": [
+        {
+          "word": "This",
+          "start": 14.824,
+          "end": 15.004,
+          "score": 0.666
+        },
+        {
+          "word": "path",
+          "start": 15.084,
+          "end": 15.365,
+          "score": 0.88
+        },
+        {
+          "word": "is",
+          "start": 15.565,
+          "end": 15.645,
+          "score": 0.542
+        },
+        {
+          "word": "perfect",
+          "start": 15.765,
+          "end": 16.245,
+          "score": 0.818
+        },
+        {
+          "word": "if",
+          "start": 16.545,
+          "end": 16.625,
+          "score": 0.913
+        },
+        {
+          "word": "you",
+          "start": 16.665,
+          "end": 16.785,
+          "score": 0.851
+        },
+        {
+          "word": "are",
+          "start": 16.845,
+          "end": 16.965,
+          "score": 0.619
+        },
+        {
+          "word": "a",
+          "start": 17.005,
+          "end": 17.025,
+          "score": 0.995
+        },
+        {
+          "word": "student",
+          "start": 17.065,
+          "end": 17.485,
+          "score": 0.83
+        },
+        {
+          "word": "or",
+          "start": 17.665,
+          "end": 17.725,
+          "score": 0.969
+        },
+        {
+          "word": "love",
+          "start": 17.785,
+          "end": 18.006,
+          "score": 0.91
+        },
+        {
+          "word": "math.",
+          "start": 18.046,
+          "end": 18.306,
+          "score": 0.954
+        }
+      ]
+    },
+    {
+      "text": "You will start with basic math like linear algebra and calculus.",
+      "start": 18.746,
+      "end": 23.087,
+      "words": [
+        {
+          "word": "You",
+          "start": 18.746,
+          "end": 18.886,
+          "score": 0.866
+        },
+        {
+          "word": "will",
+          "start": 18.906,
+          "end": 19.086,
+          "score": 0.919
+        },
+        {
+          "word": "start",
+          "start": 19.126,
+          "end": 19.426,
+          "score": 0.99
+        },
+        {
+          "word": "with",
+          "start": 19.486,
+          "end": 19.666,
+          "score": 0.614
+        },
+        {
+          "word": "basic",
+          "start": 19.726,
+          "end": 20.106,
+          "score": 0.94
+        },
+        {
+          "word": "math",
+          "start": 20.186,
+          "end": 20.486,
+          "score": 0.609
+        },
+        {
+          "word": "like",
+          "start": 20.987,
+          "end": 21.187,
+          "score": 0.838
+        },
+        {
+          "word": "linear",
+          "start": 21.267,
+          "end": 21.647,
+          "score": 0.9
+        },
+        {
+          "word": "algebra",
+          "start": 21.727,
+          "end": 22.187,
+          "score": 0.929
+        },
+        {
+          "word": "and",
+          "start": 22.287,
+          "end": 22.427,
+          "score": 0.667
+        },
+        {
+          "word": "calculus.",
+          "start": 22.507,
+          "end": 23.087,
+          "score": 0.83
+        }
+      ]
+    },
+    {
+      "text": "Learn Python",
+      "start": 23.748,
+      "end": 24.528,
+      "words": [
+        {
+          "word": "Learn",
+          "start": 23.748,
+          "end": 24.028,
+          "score": 0.895
+        },
+        {
+          "word": "Python",
+          "start": 24.108,
+          "end": 24.528,
+          "score": 0.815
+        }
+      ]
+    },
+    {
+      "text": "study machine learning models, and finally build neural networks from scratch.",
+      "start": 25.002,
+      "end": 30.225,
+      "words": [
+        {
+          "word": "study",
+          "start": 25.002,
+          "end": 25.382,
+          "score": 0.959
+        },
+        {
+          "word": "machine",
+          "start": 25.442,
+          "end": 25.862,
+          "score": 0.916
+        },
+        {
+          "word": "learning",
+          "start": 26.103,
+          "end": 26.503,
+          "score": 0.821
+        },
+        {
+          "word": "models,",
+          "start": 26.583,
+          "end": 27.023,
+          "score": 0.838
+        },
+        {
+          "word": "and",
+          "start": 27.603,
+          "end": 27.723,
+          "score": 0.627
+        },
+        {
+          "word": "finally",
+          "start": 27.844,
+          "end": 28.344,
+          "score": 0.88
+        },
+        {
+          "word": "build",
+          "start": 28.424,
+          "end": 28.624,
+          "score": 0.822
+        },
+        {
+          "word": "neural",
+          "start": 28.664,
+          "end": 28.904,
+          "score": 0.766
+        },
+        {
+          "word": "networks",
+          "start": 28.924,
+          "end": 29.364,
+          "score": 0.828
+        },
+        {
+          "word": "from",
+          "start": 29.584,
+          "end": 29.865,
+          "score": 0.909
+        },
+        {
+          "word": "scratch.",
+          "start": 29.885,
+          "end": 30.225,
+          "score": 0.84
+        }
+      ]
+    },
+    {
+      "text": "Second is Generative AI.",
+      "start": 30.865,
+      "end": 32.926,
+      "words": [
+        {
+          "word": "Second",
+          "start": 30.865,
+          "end": 31.225,
+          "score": 0.811
+        },
+        {
+          "word": "is",
+          "start": 31.766,
+          "end": 31.866,
+          "score": 0.708
+        },
+        {
+          "word": "Generative",
+          "start": 31.946,
+          "end": 32.506,
+          "score": 0.88
+        },
+        {
+          "word": "AI.",
+          "start": 32.606,
+          "end": 32.926,
+          "score": 0.924
+        }
+      ]
+    },
+    {
+      "text": "This path is perfect for software engineers.",
+      "start": 33.547,
+      "end": 36.068,
+      "words": [
+        {
+          "word": "This",
+          "start": 33.547,
+          "end": 33.727,
+          "score": 0.765
+        },
+        {
+          "word": "path",
+          "start": 33.807,
+          "end": 34.027,
+          "score": 0.847
+        },
+        {
+          "word": "is",
+          "start": 34.087,
+          "end": 34.167,
+          "score": 0.75
+        },
+        {
+          "word": "perfect",
+          "start": 34.267,
+          "end": 34.627,
+          "score": 0.924
+        },
+        {
+          "word": "for",
+          "start": 34.687,
+          "end": 34.867,
+          "score": 0.888
+        },
+        {
+          "word": "software",
+          "start": 34.947,
+          "end": 35.508,
+          "score": 0.882
+        },
+        {
+          "word": "engineers.",
+          "start": 35.588,
+          "end": 36.068,
+          "score": 0.827
+        }
+      ]
+    },
+    {
+      "text": "You don't need heavy math.",
+      "start": 36.568,
+      "end": 38.049,
+      "words": [
+        {
+          "word": "You",
+          "start": 36.568,
+          "end": 36.748,
+          "score": 0.929
+        },
+        {
+          "word": "don't",
+          "start": 36.808,
+          "end": 37.068,
+          "score": 0.765
+        },
+        {
+          "word": "need",
+          "start": 37.188,
+          "end": 37.409,
+          "score": 0.895
+        },
+        {
+          "word": "heavy",
+          "start": 37.469,
+          "end": 37.749,
+          "score": 0.935
+        },
+        {
+          "word": "math.",
+          "start": 37.789,
+          "end": 38.049,
+          "score": 0.839
+        }
+      ]
+    },
+    {
+      "text": "You start by using existing AI models.",
+      "start": 38.649,
+      "end": 41.051,
+      "words": [
+        {
+          "word": "You",
+          "start": 38.649,
+          "end": 38.849,
+          "score": 0.972
+        },
+        {
+          "word": "start",
+          "start": 38.889,
+          "end": 39.21,
+          "score": 0.892
+        },
+        {
+          "word": "by",
+          "start": 39.27,
+          "end": 39.39,
+          "score": 0.995
+        },
+        {
+          "word": "using",
+          "start": 39.55,
+          "end": 39.79,
+          "score": 0.845
+        },
+        {
+          "word": "existing",
+          "start": 39.89,
+          "end": 40.37,
+          "score": 0.93
+        },
+        {
+          "word": "AI",
+          "start": 40.47,
+          "end": 40.65,
+          "score": 0.854
+        },
+        {
+          "word": "models.",
+          "start": 40.71,
+          "end": 41.051,
+          "score": 0.933
+        }
+      ]
+    },
+    {
+      "text": "You learn how to write prompts.",
+      "start": 41.731,
+      "end": 43.412,
+      "words": [
+        {
+          "word": "You",
+          "start": 41.731,
+          "end": 41.951,
+          "score": 0.907
+        },
+        {
+          "word": "learn",
+          "start": 41.991,
+          "end": 42.271,
+          "score": 0.684
+        },
+        {
+          "word": "how",
+          "start": 42.331,
+          "end": 42.511,
+          "score": 0.912
+        },
+        {
+          "word": "to",
+          "start": 42.571,
+          "end": 42.671,
+          "score": 0.9
+        },
+        {
+          "word": "write",
+          "start": 42.731,
+          "end": 42.972,
+          "score": 0.824
+        },
+        {
+          "word": "prompts.",
+          "start": 43.052,
+          "end": 43.412,
+          "score": 0.766
+        }
+      ]
+    },
+    {
+      "text": "connect databases with RAGE and build autonomous agents that can think and use tools.",
+      "start": 44.032,
+      "end": 50.577,
+      "words": [
+        {
+          "word": "connect",
+          "start": 44.032,
+          "end": 44.372,
+          "score": 0.967
+        },
+        {
+          "word": "databases",
+          "start": 44.392,
+          "end": 45.053,
+          "score": 0.799
+        },
+        {
+          "word": "with",
+          "start": 45.333,
+          "end": 45.493,
+          "score": 0.992
+        },
+        {
+          "word": "RAGE",
+          "start": 45.573,
+          "end": 45.954,
+          "score": 0.824
+        },
+        {
+          "word": "and",
+          "start": 46.314,
+          "end": 46.434,
+          "score": 0.729
+        },
+        {
+          "word": "build",
+          "start": 46.514,
+          "end": 46.754,
+          "score": 0.8
+        },
+        {
+          "word": "autonomous",
+          "start": 46.834,
+          "end": 47.375,
+          "score": 0.835
+        },
+        {
+          "word": "agents",
+          "start": 47.455,
+          "end": 47.755,
+          "score": 0.948
+        },
+        {
+          "word": "that",
+          "start": 48.175,
+          "end": 48.376,
+          "score": 0.904
+        },
+        {
+          "word": "can",
+          "start": 48.536,
+          "end": 48.796,
+          "score": 0.888
+        },
+        {
+          "word": "think",
+          "start": 48.916,
+          "end": 49.176,
+          "score": 0.997
+        },
+        {
+          "word": "and",
+          "start": 49.677,
+          "end": 49.797,
+          "score": 0.75
+        },
+        {
+          "word": "use",
+          "start": 49.997,
+          "end": 50.177,
+          "score": 0.868
+        },
+        {
+          "word": "tools.",
+          "start": 50.237,
+          "end": 50.577,
+          "score": 0.85
+        }
+      ]
+    },
+    {
+      "text": "Great question, Tara.",
+      "start": 50.998,
+      "end": 52.319,
+      "words": [
+        {
+          "word": "Great",
+          "start": 50.998,
+          "end": 51.238,
+          "score": 0.922
+        },
+        {
+          "word": "question,",
+          "start": 51.298,
+          "end": 51.698,
+          "score": 0.917
+        },
+        {
+          "word": "Tara.",
+          "start": 51.958,
+          "end": 52.319,
+          "score": 0.815
+        }
+      ]
+    },
+    {
+      "text": "Gen AI is about system design.",
+      "start": 52.939,
+      "end": 54.821,
+      "words": [
+        {
+          "word": "Gen",
+          "start": 52.939,
+          "end": 53.159,
+          "score": 0.728
+        },
+        {
+          "word": "AI",
+          "start": 53.179,
+          "end": 53.54,
+          "score": 0.764
+        },
+        {
+          "word": "is",
+          "start": 53.66,
+          "end": 53.74,
+          "score": 0.916
+        },
+        {
+          "word": "about",
+          "start": 53.78,
+          "end": 54.0,
+          "score": 0.927
+        },
+        {
+          "word": "system",
+          "start": 54.04,
+          "end": 54.36,
+          "score": 0.886
+        },
+        {
+          "word": "design.",
+          "start": 54.4,
+          "end": 54.821,
+          "score": 0.864
+        }
+      ]
+    },
+    {
+      "text": "You must build a genetic loop's managed memory and create guardrails so agents don't fail in production.",
+      "start": 55.541,
+      "end": 63.067,
+      "words": [
+        {
+          "word": "You",
+          "start": 55.541,
+          "end": 55.741,
+          "score": 0.915
+        },
+        {
+          "word": "must",
+          "start": 55.841,
+          "end": 56.122,
+          "score": 0.845
+        },
+        {
+          "word": "build",
+          "start": 56.242,
+          "end": 56.462,
+          "score": 0.889
+        },
+        {
+          "word": "a",
+          "start": 56.522,
+          "end": 56.562,
+          "score": 0.68
+        },
+        {
+          "word": "genetic",
+          "start": 56.602,
+          "end": 57.042,
+          "score": 0.915
+        },
+        {
+          "word": "loop's",
+          "start": 57.162,
+          "end": 57.483,
+          "score": 0.736
+        },
+        {
+          "word": "managed",
+          "start": 57.783,
+          "end": 58.103,
+          "score": 0.793
+        },
+        {
+          "word": "memory",
+          "start": 58.143,
+          "end": 58.463,
+          "score": 0.814
+        },
+        {
+          "word": "and",
+          "start": 58.964,
+          "end": 59.064,
+          "score": 0.79
+        },
+        {
+          "word": "create",
+          "start": 59.144,
+          "end": 59.484,
+          "score": 0.866
+        },
+        {
+          "word": "guardrails",
+          "start": 59.524,
+          "end": 59.985,
+          "score": 0.64
+        },
+        {
+          "word": "so",
+          "start": 60.045,
+          "end": 60.345,
+          "score": 0.854
+        },
+        {
+          "word": "agents",
+          "start": 60.705,
+          "end": 61.026,
+          "score": 0.914
+        },
+        {
+          "word": "don't",
+          "start": 61.566,
+          "end": 61.846,
+          "score": 0.808
+        },
+        {
+          "word": "fail",
+          "start": 61.986,
+          "end": 62.266,
+          "score": 0.864
+        },
+        {
+          "word": "in",
+          "start": 62.487,
+          "end": 62.567,
+          "score": 0.994
+        },
+        {
+          "word": "production.",
+          "start": 62.627,
+          "end": 63.067,
+          "score": 0.847
+        }
+      ]
+    },
+    {
+      "text": "On this channel, we make visual videos on both paths to make them easy.",
+      "start": 63.748,
+      "end": 69.112,
+      "words": [
+        {
+          "word": "On",
+          "start": 63.748,
+          "end": 63.828,
+          "score": 0.927
+        },
+        {
+          "word": "this",
+          "start": 63.868,
+          "end": 64.028,
+          "score": 0.763
+        },
+        {
+          "word": "channel,",
+          "start": 64.068,
+          "end": 64.448,
+          "score": 0.802
+        },
+        {
+          "word": "we",
+          "start": 64.889,
+          "end": 65.069,
+          "score": 0.941
+        },
+        {
+          "word": "make",
+          "start": 65.129,
+          "end": 65.309,
+          "score": 0.973
+        },
+        {
+          "word": "visual",
+          "start": 65.369,
+          "end": 65.709,
+          "score": 0.8
+        },
+        {
+          "word": "videos",
+          "start": 65.729,
+          "end": 66.11,
+          "score": 0.706
+        },
+        {
+          "word": "on",
+          "start": 66.49,
+          "end": 66.59,
+          "score": 0.788
+        },
+        {
+          "word": "both",
+          "start": 67.05,
+          "end": 67.33,
+          "score": 0.922
+        },
+        {
+          "word": "paths",
+          "start": 67.451,
+          "end": 67.751,
+          "score": 0.656
+        },
+        {
+          "word": "to",
+          "start": 67.871,
+          "end": 67.991,
+          "score": 0.627
+        },
+        {
+          "word": "make",
+          "start": 68.051,
+          "end": 68.251,
+          "score": 0.98
+        },
+        {
+          "word": "them",
+          "start": 68.311,
+          "end": 68.491,
+          "score": 0.841
+        },
+        {
+          "word": "easy.",
+          "start": 68.832,
+          "end": 69.112,
+          "score": 0.948
+        }
+      ]
+    },
+    {
+      "text": "comment roadmap below and i will send you this complete guide and subscribe to learn ai with me",
+      "start": 69.903,
+      "end": 77.174,
+      "words": [
+        {
+          "word": "comment",
+          "start": 69.903,
+          "end": 70.325,
+          "score": 0.981
+        },
+        {
+          "word": "roadmap",
+          "start": 70.626,
+          "end": 71.108,
+          "score": 0.878
+        },
+        {
+          "word": "below",
+          "start": 71.47,
+          "end": 71.811,
+          "score": 0.934
+        },
+        {
+          "word": "and",
+          "start": 72.193,
+          "end": 72.314,
+          "score": 0.854
+        },
+        {
+          "word": "i",
+          "start": 72.394,
+          "end": 72.454,
+          "score": 0.674
+        },
+        {
+          "word": "will",
+          "start": 72.494,
+          "end": 72.715,
+          "score": 0.946
+        },
+        {
+          "word": "send",
+          "start": 72.776,
+          "end": 72.976,
+          "score": 0.999
+        },
+        {
+          "word": "you",
+          "start": 73.017,
+          "end": 73.137,
+          "score": 0.994
+        },
+        {
+          "word": "this",
+          "start": 73.197,
+          "end": 73.358,
+          "score": 0.724
+        },
+        {
+          "word": "complete",
+          "start": 73.459,
+          "end": 73.921,
+          "score": 0.928
+        },
+        {
+          "word": "guide",
+          "start": 74.001,
+          "end": 74.322,
+          "score": 0.884
+        },
+        {
+          "word": "and",
+          "start": 75.106,
+          "end": 75.226,
+          "score": 0.653
+        },
+        {
+          "word": "subscribe",
+          "start": 75.306,
+          "end": 75.949,
+          "score": 0.891
+        },
+        {
+          "word": "to",
+          "start": 75.989,
+          "end": 76.09,
+          "score": 0.999
+        },
+        {
+          "word": "learn",
+          "start": 76.15,
+          "end": 76.391,
+          "score": 0.913
+        },
+        {
+          "word": "ai",
+          "start": 76.451,
+          "end": 76.773,
+          "score": 0.712
+        },
+        {
+          "word": "with",
+          "start": 76.813,
+          "end": 76.994,
+          "score": 0.876
+        },
+        {
+          "word": "me",
+          "start": 77.074,
+          "end": 77.174,
+          "score": 1.0
+        }
+      ]
+    }
+  ],
+  "original_script": "Want to become an AI Engineer? But all roadmaps look too hard and full of complex math? Don't worry. There are actually two simple paths you can take.\n\n\nFirst, is Core AI. This path is perfect if you are a student or love math. You will start with basic math like linear algebra and calculus, learn Python, study machine learning models, and finally build neural networks from scratch.\n\n\n\nSecond, is Generative AI. This path is perfect for software engineers. You don't need heavy math. You start by using existing AI models. You learn how to write prompts, connect databases with RAG, and build autonomous agents that can think and use tools.\"\n\n\"Great question, Tara! GenAI is about system design. You must build agentic loops, manage memory, and create guardrails so agents don't fail in production.\n\nOn this channel, we make visual videos on both paths to make them easy. Comment \"ROADMAP\" below, and I will send you this complete guide. And subscribe to learn AI with me!\""
+}

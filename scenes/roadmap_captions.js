@@ -587,7 +587,7 @@ window.roadmap_captions = [
         "end": 45.493
       },
       {
-        "text": "RISE",
+        "text": "RAG",
         "start": 45.573,
         "end": 45.954
       },
@@ -644,450 +644,450 @@ window.roadmap_captions = [
     ]
   },
   {
-    "start": 50.577,
-    "end": 53.5,
+    "start": 51.077,
+    "end": 54.0,
     "words": [
       {
         "text": "But",
-        "start": 50.577,
-        "end": 50.8
+        "start": 51.077,
+        "end": 51.3
       },
       {
         "text": "wait,",
-        "start": 50.8,
-        "end": 51.1
-      },
-      {
-        "text": "Pratik!",
-        "start": 51.1,
+        "start": 51.3,
         "end": 51.6
       },
       {
-        "text": "For",
-        "start": 51.8,
+        "text": "Pratik!",
+        "start": 51.6,
         "end": 52.1
       },
       {
+        "text": "For",
+        "start": 52.3,
+        "end": 52.6
+      },
+      {
         "text": "Generative",
-        "start": 52.1,
-        "end": 52.7
+        "start": 52.6,
+        "end": 53.2
       },
       {
         "text": "AI,",
-        "start": 52.7,
-        "end": 53.0
+        "start": 53.2,
+        "end": 53.5
       },
       {
         "text": "since",
-        "start": 53.0,
-        "end": 53.3
+        "start": 53.5,
+        "end": 53.8
       },
       {
         "text": "we",
-        "start": 53.3,
-        "end": 53.5
+        "start": 53.8,
+        "end": 54.0
       }
     ]
   },
   {
-    "start": 53.5,
-    "end": 56.5,
+    "start": 54.0,
+    "end": 57.0,
     "words": [
       {
         "text": "are",
-        "start": 53.6,
-        "end": 53.8
+        "start": 54.1,
+        "end": 54.3
       },
       {
         "text": "only",
-        "start": 53.8,
-        "end": 54.1
+        "start": 54.3,
+        "end": 54.6
       },
       {
         "text": "using",
-        "start": 54.1,
-        "end": 54.4
-      },
-      {
-        "text": "existing",
-        "start": 54.4,
+        "start": 54.6,
         "end": 54.9
       },
       {
-        "text": "models,",
+        "text": "existing",
         "start": 54.9,
         "end": 55.4
       },
       {
-        "text": "isn't",
+        "text": "models,",
         "start": 55.4,
-        "end": 55.7
-      },
-      {
-        "text": "it",
-        "start": 55.7,
         "end": 55.9
       },
       {
-        "text": "just",
+        "text": "isn't",
         "start": 55.9,
-        "end": 56.1
+        "end": 56.2
+      },
+      {
+        "text": "it",
+        "start": 56.2,
+        "end": 56.4
+      },
+      {
+        "text": "just",
+        "start": 56.4,
+        "end": 56.6
       },
       {
         "text": "calling",
-        "start": 56.1,
-        "end": 56.5
+        "start": 56.6,
+        "end": 57.0
       }
     ]
   },
   {
-    "start": 56.5,
-    "end": 59.577,
+    "start": 57.0,
+    "end": 60.077,
     "words": [
       {
         "text": "APIs?",
-        "start": 56.6,
-        "end": 57.1
-      },
-      {
-        "text": "How",
-        "start": 57.3,
+        "start": 57.1,
         "end": 57.6
       },
       {
-        "text": "is",
-        "start": 57.6,
-        "end": 57.8
-      },
-      {
-        "text": "that",
+        "text": "How",
         "start": 57.8,
-        "end": 58.0
+        "end": 58.1
       },
       {
-        "text": "real",
-        "start": 58.0,
+        "text": "is",
+        "start": 58.1,
         "end": 58.3
       },
       {
-        "text": "engineering?",
+        "text": "that",
         "start": 58.3,
-        "end": 59.0
+        "end": 58.5
+      },
+      {
+        "text": "real",
+        "start": 58.5,
+        "end": 58.8
+      },
+      {
+        "text": "engineering?",
+        "start": 58.8,
+        "end": 59.5
       }
     ]
   },
   {
-    "start": 59.998,
-    "end": 61.539,
+    "start": 60.998,
+    "end": 62.539,
     "words": [
       {
         "text": "Great",
-        "start": 59.998,
-        "end": 60.238
+        "start": 60.998,
+        "end": 61.238
       },
       {
         "text": "question,",
-        "start": 60.278,
-        "end": 60.698
+        "start": 61.278,
+        "end": 61.698
       },
       {
         "text": "Tara.",
-        "start": 60.999,
-        "end": 61.539
+        "start": 61.999,
+        "end": 62.539
       }
     ]
   },
   {
-    "start": 62.24,
-    "end": 64.12100000000001,
+    "start": 63.24,
+    "end": 65.12100000000001,
     "words": [
       {
         "text": "Gen",
-        "start": 62.24,
-        "end": 62.46
+        "start": 63.24,
+        "end": 63.46
       },
       {
         "text": "AI",
-        "start": 62.48,
-        "end": 62.84
+        "start": 63.48,
+        "end": 63.84
       },
       {
         "text": "is",
-        "start": 62.96,
-        "end": 63.06
+        "start": 63.96,
+        "end": 64.06
       },
       {
         "text": "about",
-        "start": 63.1,
-        "end": 63.301
+        "start": 64.1,
+        "end": 64.301
       },
       {
         "text": "system",
-        "start": 63.341,
-        "end": 63.661
+        "start": 64.34100000000001,
+        "end": 64.661
       },
       {
         "text": "design.",
-        "start": 63.701,
-        "end": 64.12100000000001
+        "start": 64.701,
+        "end": 65.12100000000001
       }
     ]
   },
   {
-    "start": 64.862,
-    "end": 72.388,
+    "start": 65.862,
+    "end": 73.388,
     "words": [
       {
         "text": "You",
-        "start": 64.862,
-        "end": 65.042
+        "start": 65.862,
+        "end": 66.042
       },
       {
         "text": "must",
-        "start": 65.142,
-        "end": 65.422
+        "start": 66.142,
+        "end": 66.422
       },
       {
         "text": "build",
-        "start": 65.542,
-        "end": 65.763
+        "start": 66.542,
+        "end": 66.763
       },
       {
         "text": "genetic",
-        "start": 65.923,
-        "end": 66.343
+        "start": 66.923,
+        "end": 67.343
       },
       {
         "text": "loops,",
-        "start": 66.463,
-        "end": 66.803
+        "start": 67.463,
+        "end": 67.803
       },
       {
         "text": "manage",
-        "start": 67.104,
-        "end": 67.424
+        "start": 68.104,
+        "end": 68.424
       },
       {
         "text": "memory,",
-        "start": 67.464,
-        "end": 67.78399999999999
+        "start": 68.464,
+        "end": 68.78399999999999
       },
       {
         "text": "and",
-        "start": 68.265,
-        "end": 68.36500000000001
+        "start": 69.265,
+        "end": 69.36500000000001
       },
       {
         "text": "create",
-        "start": 68.445,
-        "end": 68.785
+        "start": 69.445,
+        "end": 69.785
       },
       {
         "text": "guardrails",
-        "start": 68.845,
-        "end": 69.285
+        "start": 69.845,
+        "end": 70.285
       },
       {
         "text": "so",
-        "start": 69.36500000000001,
-        "end": 69.646
+        "start": 70.36500000000001,
+        "end": 70.646
       },
       {
         "text": "agents",
-        "start": 70.02600000000001,
-        "end": 70.346
+        "start": 71.02600000000001,
+        "end": 71.346
       },
       {
         "text": "don't",
-        "start": 70.887,
-        "end": 71.14699999999999
+        "start": 71.887,
+        "end": 72.14699999999999
       },
       {
         "text": "fail",
-        "start": 71.287,
-        "end": 71.56700000000001
+        "start": 72.287,
+        "end": 72.56700000000001
       },
       {
         "text": "in",
-        "start": 71.807,
-        "end": 71.888
+        "start": 72.807,
+        "end": 72.888
       },
       {
         "text": "production.",
-        "start": 71.928,
-        "end": 72.388
+        "start": 72.928,
+        "end": 73.388
       }
     ]
   },
   {
-    "start": 73.069,
-    "end": 78.433,
+    "start": 74.069,
+    "end": 79.433,
     "words": [
       {
         "text": "On",
-        "start": 73.069,
-        "end": 73.149
+        "start": 74.069,
+        "end": 74.149
       },
       {
         "text": "this",
-        "start": 73.189,
-        "end": 73.329
+        "start": 74.189,
+        "end": 74.329
       },
       {
         "text": "channel,",
-        "start": 73.389,
-        "end": 73.749
+        "start": 74.389,
+        "end": 74.749
       },
       {
         "text": "we",
-        "start": 74.209,
-        "end": 74.39
+        "start": 75.209,
+        "end": 75.39
       },
       {
         "text": "make",
-        "start": 74.43,
-        "end": 74.63
+        "start": 75.43,
+        "end": 75.63
       },
       {
         "text": "visual",
-        "start": 74.69,
-        "end": 75.03
+        "start": 75.69,
+        "end": 76.03
       },
       {
         "text": "videos",
-        "start": 75.05,
-        "end": 75.43
+        "start": 76.05,
+        "end": 76.43
       },
       {
         "text": "on",
-        "start": 75.811,
-        "end": 75.891
+        "start": 76.811,
+        "end": 76.891
       },
       {
         "text": "both",
-        "start": 76.371,
-        "end": 76.631
+        "start": 77.371,
+        "end": 77.631
       },
       {
         "text": "paths",
-        "start": 76.752,
-        "end": 77.072
+        "start": 77.752,
+        "end": 78.072
       },
       {
         "text": "to",
-        "start": 77.172,
-        "end": 77.292
+        "start": 78.172,
+        "end": 78.292
       },
       {
         "text": "make",
-        "start": 77.372,
-        "end": 77.572
+        "start": 78.372,
+        "end": 78.572
       },
       {
         "text": "them",
-        "start": 77.632,
-        "end": 77.812
+        "start": 78.632,
+        "end": 78.812
       },
       {
         "text": "easy.",
-        "start": 78.133,
-        "end": 78.433
+        "start": 79.133,
+        "end": 79.433
       }
     ]
   },
   {
-    "start": 79.223,
-    "end": 86.485,
+    "start": 80.223,
+    "end": 87.485,
     "words": [
       {
         "text": "comment",
-        "start": 79.223,
-        "end": 79.624
+        "start": 80.223,
+        "end": 80.624
       },
       {
         "text": "roadmap",
-        "start": 79.945,
-        "end": 80.427
+        "start": 80.945,
+        "end": 81.427
       },
       {
         "text": "below",
-        "start": 80.768,
-        "end": 81.109
+        "start": 81.768,
+        "end": 82.109
       },
       {
         "text": "and",
-        "start": 81.49,
-        "end": 81.61
+        "start": 82.49,
+        "end": 82.61
       },
       {
         "text": "I",
-        "start": 81.69,
-        "end": 81.751
+        "start": 82.69,
+        "end": 82.751
       },
       {
         "text": "will",
-        "start": 81.811,
-        "end": 82.031
+        "start": 82.811,
+        "end": 83.031
       },
       {
         "text": "send",
-        "start": 82.072,
-        "end": 82.292
+        "start": 83.072,
+        "end": 83.292
       },
       {
         "text": "you",
-        "start": 82.312,
-        "end": 82.453
+        "start": 83.312,
+        "end": 83.453
       },
       {
         "text": "this",
-        "start": 82.493,
-        "end": 82.653
+        "start": 83.493,
+        "end": 83.653
       },
       {
         "text": "complete",
-        "start": 82.754,
-        "end": 83.235
+        "start": 83.754,
+        "end": 84.235
       },
       {
         "text": "guide",
-        "start": 83.315,
-        "end": 83.616
+        "start": 84.315,
+        "end": 84.616
       },
       {
         "text": "and",
-        "start": 84.419,
-        "end": 84.539
+        "start": 85.419,
+        "end": 85.539
       },
       {
         "text": "subscribe",
-        "start": 84.619,
-        "end": 85.241
+        "start": 85.619,
+        "end": 86.241
       },
       {
         "text": "to",
-        "start": 85.301,
-        "end": 85.401
+        "start": 86.301,
+        "end": 86.401
       },
       {
         "text": "learn",
-        "start": 85.442,
-        "end": 85.702
+        "start": 86.442,
+        "end": 86.702
       },
       {
         "text": "AI",
-        "start": 85.763,
-        "end": 86.063
+        "start": 86.763,
+        "end": 87.063
       },
       {
         "text": "with",
-        "start": 86.124,
-        "end": 86.304
+        "start": 87.124,
+        "end": 87.304
       },
       {
         "text": "me.",
-        "start": 86.364,
-        "end": 86.485
+        "start": 87.364,
+        "end": 87.485
       }
     ]
   }

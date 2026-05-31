@@ -1,20 +1,19 @@
 [
   {
     "scene_id": "roadmap",
-    "duration": 86.485,
+    "duration": 87.485,
     "overlays": [
       {
         "video": "student_speaking.mp4",
         "insert_time": 50.577,
-        "duration": 9.0,
-        "padding_start": 0.0,
+        "duration": 10.0,
+        "padding_start": 0.5,
         "position": {
           "x": 0,
           "y": 0,
           "w": 1080,
           "h": 1920
-        },
-        "crop": "720:1280:0:0"
+        }
       }
     ]
   }
