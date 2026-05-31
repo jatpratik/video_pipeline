@@ -1,12 +1,12 @@
 [
   {
-    "scene_id": "scene_05",
-    "duration": 73.464,
+    "scene_id": "roadmap",
+    "duration": 86.485,
     "overlays": [
       {
         "video": "student_speaking.mp4",
-        "insert_time": 35.354,
-        "duration": 10.0,
+        "insert_time": 50.577,
+        "duration": 9.0,
         "padding_start": 0.0,
         "position": {
           "x": 0,

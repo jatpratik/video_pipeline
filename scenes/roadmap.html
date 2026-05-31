@@ -1,0 +1,1390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, width=1080, height=1920">
+    <title>AI Engineer Roadmap Visuals</title>
+    <!-- Core JS Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600;700&family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-color: #00ff00; /* Chroma green screen background */
+            --neon-cyan: #00F0FF;
+            --neon-pink: #FF3366;
+            --neon-purple: #7B2CBF;
+            --neon-green: #00FF66;
+            --neon-yellow: #FFDD00;
+            --glass-bg: rgba(10, 10, 20, 0.92);
+            --glass-border: rgba(255, 255, 255, 0.15);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html, body {
+            background-color: var(--bg-color);
+            color: #ffffff;
+            font-family: 'Inter', sans-serif;
+            width: 1080px;
+            height: 1920px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* 3D Canvas Layer for Math rotating coordinate grid */
+        #three-canvas {
+            position: absolute;
+            top: 240px;
+            left: 550px; /* Shift to the right */
+            width: 440px;
+            height: 380px;
+            z-index: 25;
+            pointer-events: none;
+            background: rgba(5, 5, 10, 0.85); /* Match detail card */
+            border: 2.5px solid var(--glass-border); /* Match detail card */
+            border-radius: 24px;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
+            opacity: 0;
+            transform: scale(0.9);
+            overflow: hidden;
+        }
+
+        /* 2D Canvas Layer (Storm, classifications, neural net, cogs) */
+        #canvas-2d {
+            position: absolute;
+            top: 0; left: 0;
+            width: 1080px;
+            height: 1920px;
+            z-index: 5;
+            pointer-events: none;
+        }
+
+        /* Main container layout */
+        .scene-container {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: 10;
+            pointer-events: none;
+        }
+
+        /* Captions Container (Lower chest placement for full-screen presenter) */
+        #caption-container {
+            position: absolute;
+            left: 50%;
+            bottom: 120px;
+            transform: translateX(-50%);
+            width: 900px;
+            max-width: 900px;
+            min-height: 120px;
+            z-index: 90;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1.5px solid rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            padding: 16px 32px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+            backdrop-filter: blur(10px);
+        }
+
+        .sentence-block {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-content: center;
+            width: 100%;
+            gap: 10px 14px;
+            text-shadow: 0 4px 10px rgba(0, 0, 0, 0.95);
+        }
+
+        .cap-word {
+            display: inline-block;
+            font-size: 32px;
+            font-weight: 800;
+            color: rgba(255, 255, 255, 0.95);
+            transition: color 0.08s ease, transform 0.08s ease, text-shadow 0.08s ease;
+            transform-origin: center;
+            line-height: 1.5;
+        }
+
+        .cap-word.active {
+            color: var(--neon-cyan) !important;
+            text-shadow: 0 0 20px var(--neon-cyan), 0 0 10px var(--neon-cyan);
+            transform: scale(1.15);
+            font-weight: 900;
+        }
+
+        .cap-word.active-highlight {
+            color: var(--neon-yellow) !important;
+            text-shadow: 0 0 20px var(--neon-yellow), 0 0 10px var(--neon-yellow);
+            transform: scale(1.18) rotate(-1deg);
+            font-weight: 900;
+        }
+
+        .cap-word.active-tara {
+            color: var(--neon-pink) !important;
+            text-shadow: 0 0 20px var(--neon-pink), 0 0 10px var(--neon-pink);
+            transform: scale(1.15);
+            font-weight: 900;
+        }
+
+        .cap-word.past {
+            color: rgba(255, 255, 255, 0.35) !important;
+            text-shadow: none;
+            transform: scale(1.0);
+        }
+
+        /* Interactive HTML elements */
+        .fade-element {
+            opacity: 0;
+            transform: scale(0.9);
+            position: absolute;
+            z-index: 20;
+            width: 100%;
+            pointer-events: none;
+        }
+
+        /* State 1: Swarm/Pausing storm labels */
+        .storm-word {
+            position: absolute;
+            font-family: 'Fira Code', monospace;
+            font-size: 38px;
+            font-weight: 900;
+            color: rgba(255, 255, 255, 0.7);
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+            pointer-events: none;
+            z-index: 12;
+            transition: transform 0.2s, opacity 0.2s;
+        }
+
+        /* State 1.5: Track Lanes (8.6s - 30.2s) */
+        .tracks-container {
+            top: 140px;
+            width: 960px;
+            left: 60px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .track-card {
+            width: 440px;
+            height: 380px;
+            background: var(--glass-bg);
+            border: 3px solid var(--glass-border);
+            border-radius: 28px;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(15px);
+            position: relative;
+            transition: transform 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease, opacity 0.4s ease;
+        }
+
+        .track-card.active {
+            border-color: var(--neon-cyan);
+            box-shadow: 0 0 40px rgba(0, 240, 255, 0.4);
+            transform: scale(1.05);
+            opacity: 1;
+        }
+
+        .track-card.active-purple {
+            border-color: var(--neon-purple);
+            box-shadow: 0 0 40px rgba(123, 44, 191, 0.4);
+            transform: scale(1.05);
+            opacity: 1;
+        }
+
+        .track-card.dimmed {
+            opacity: 0.15;
+            transform: scale(0.92);
+        }
+
+        .track-icon {
+            font-size: 70px;
+            margin-bottom: 12px;
+            filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.2));
+        }
+
+        .track-card.active .track-icon {
+            filter: drop-shadow(0 0 20px var(--neon-cyan));
+        }
+
+        .track-card.active-purple .track-icon {
+            filter: drop-shadow(0 0 20px var(--neon-purple));
+        }
+
+        .track-num {
+            font-family: 'Fira Code', monospace;
+            font-size: 14px;
+            font-weight: 700;
+            color: #8888aa;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 8px;
+        }
+
+        .track-title {
+            font-size: 28px;
+            font-weight: 900;
+            text-align: center;
+            line-height: 1.25;
+            color: #ffffff;
+        }
+
+        /* Vertical roadmap nodes inside cards */
+        .roadmap-path {
+            position: absolute;
+            top: 240px;
+            width: 400px;
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+            z-index: 25;
+        }
+
+        .roadmap-node {
+            width: 380px;
+            height: 90px;
+            background: rgba(10, 10, 20, 0.85);
+            border: 2px solid var(--glass-border);
+            border-radius: 18px;
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            backdrop-filter: blur(10px);
+            opacity: 0;
+            transform: translateX(-30px);
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        .roadmap-node.active-cyan {
+            border-color: var(--neon-cyan);
+            box-shadow: 0 0 20px rgba(0, 240, 255, 0.25);
+        }
+
+        .roadmap-node.active-purple {
+            border-color: var(--neon-purple);
+            box-shadow: 0 0 20px rgba(123, 44, 191, 0.25);
+        }
+
+        .node-num {
+            font-family: 'Fira Code', monospace;
+            font-size: 24px;
+            font-weight: 900;
+            color: #555577;
+        }
+
+        .roadmap-node.active-cyan .node-num { color: var(--neon-cyan); }
+        .roadmap-node.active-purple .node-num { color: var(--neon-purple); }
+
+        .node-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .node-label {
+            font-size: 20px;
+            font-weight: 900;
+        }
+
+        .node-desc {
+            font-size: 13px;
+            color: #8888aa;
+        }
+
+        /* Floating detail cards */
+        .detail-card {
+            position: absolute;
+            top: 240px;
+            width: 440px;
+            height: 380px;
+            background: rgba(5, 5, 10, 0.85);
+            border: 2.5px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 24px;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
+            z-index: 25;
+            opacity: 0;
+            transform: scale(0.9);
+        }
+
+        .code-box {
+            font-family: 'Fira Code', monospace;
+            font-size: 16px;
+            line-height: 1.5;
+            color: #88c0d0;
+            background: #0b0b14;
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .code-keyword { color: #81a1c1; }
+        .code-string { color: #a3be8c; }
+        .code-comment { color: #4c566a; }
+
+        /* CSS Shake/Glitch */
+        .shake-active {
+            animation: shake 0.08s ease-in-out infinite;
+        }
+
+        .glitch-active {
+            animation: glitch 0.25s linear infinite;
+            text-shadow: 3px -2px var(--neon-pink), -3px 2px var(--neon-cyan);
+            color: var(--neon-pink);
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            25% { transform: translate(-5px, 4px) rotate(-1deg); }
+            50% { transform: translate(5px, -4px) rotate(1deg); }
+            75% { transform: translate(-3px, -2px) rotate(-0.5deg); }
+        }
+
+        @keyframes glitch {
+            0% { transform: skew(0.5deg); }
+            50% { transform: skew(-1deg); }
+            100% { transform: skew(0deg); }
+        }
+
+        /* Tara student card container */
+        #student-card {
+            position: absolute;
+            left: 136px;
+            top: 100px;
+            width: 808px;
+            height: 1212px;
+            opacity: 0;
+            transform: scale(0.85);
+            z-index: 150;
+            pointer-events: none;
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .tara-border {
+            width: 800px;
+            height: 1160px;
+            border: 4px solid var(--neon-cyan);
+            box-shadow: 0 0 50px rgba(0, 240, 255, 0.35);
+            background: rgba(10, 10, 15, 0.55);
+            backdrop-filter: blur(15px);
+            border-radius: 32px;
+            position: relative;
+        }
+
+        .tara-label {
+            font-family: 'Fira Code', monospace;
+            color: var(--neon-cyan);
+            font-size: 20px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            height: 24px;
+            margin-bottom: 12px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        /* Outro Subscribe */
+        .subscribe-card {
+            top: 250px;
+            width: 800px;
+            left: 140px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .subscribe-btn {
+            background: linear-gradient(135deg, var(--neon-pink), var(--neon-purple));
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 40px;
+            padding: 24px 60px;
+            font-size: 38px;
+            font-weight: 900;
+            color: #ffffff;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            box-shadow: 0 0 40px rgba(255, 51, 102, 0.4);
+            animation: pulse-subscribe 1.5s infinite alternate;
+            z-index: 100;
+            display: inline-block;
+        }
+
+        @keyframes pulse-subscribe {
+            0% { transform: scale(1.0); box-shadow: 0 0 30px rgba(255, 51, 102, 0.4); }
+            100% { transform: scale(1.08); box-shadow: 0 0 60px rgba(255, 51, 102, 0.75), 0 0 20px var(--neon-purple); }
+        }
+
+        .outro-tag {
+            font-family: 'Inter', sans-serif;
+            color: var(--neon-yellow);
+            font-size: 42px;
+            font-weight: 900;
+            letter-spacing: 2px;
+            text-shadow: 0 0 25px rgba(255, 221, 0, 0.7), 0 4px 15px rgba(0, 0, 0, 0.9);
+            margin-top: 35px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <!-- 3D Canvas Layer (Inside its card box) -->
+    <div id="three-canvas"></div>
+
+    <!-- 2D Canvas Layer (Storm, classifications, neural net, cogs) -->
+    <canvas id="canvas-2d" width="1080" height="1920"></canvas>
+
+    <div class="scene-container">
+        <!-- Caption display area -->
+        <div id="caption-container"></div>
+
+        <!-- Tara Student Card Overlay (FFmpeg video target) -->
+        <div id="student-card">
+            <div class="tara-label">CO-HOST TARA</div>
+            <div class="tara-border"></div>
+        </div>
+
+        <!-- ======= STATE 1: FLOATING SWARM WORDS ======= -->
+        <div id="storm-words-layer" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 12;">
+            <div class="storm-word" id="sw-1" style="left: 150px; top: 220px;">Linear Algebra</div>
+            <div class="storm-word" id="sw-2" style="left: 650px; top: 280px;">Calculus</div>
+            <div class="storm-word" id="sw-3" style="left: 200px; top: 480px;">Probability</div>
+            <div class="storm-word" id="sw-4" style="left: 600px; top: 540px;">Python</div>
+            <div class="storm-word" id="sw-5" style="left: 450px; top: 180px;">RAG</div>
+            <div class="storm-word" id="sw-6" style="left: 100px; top: 680px;">Docker</div>
+            <div class="storm-word" id="sw-7" style="left: 750px; top: 720px;">PyTorch</div>
+            <div class="storm-word" id="sw-8" style="left: 420px; top: 620px;">HNSW</div>
+            <div class="storm-word" id="sw-9" style="left: 380px; top: 380px;">Backprop</div>
+        </div>
+
+        <!-- ======= STATE 1.5: TWO TRACKS LANES (8.6s - 30.2s) ======= -->
+        <div class="fade-element tracks-container" id="state1-tracks">
+            <div class="track-card" id="track-core">
+                <div class="track-icon">📐</div>
+                <div class="track-num">Track 1</div>
+                <div class="track-title">Core AI<br>(Math & Models)</div>
+            </div>
+            <div class="track-card" id="track-genai">
+                <div class="track-icon">🤖</div>
+                <div class="track-num">Track 2</div>
+                <div class="track-title">Generative AI<br>(Software & Agents)</div>
+            </div>
+        </div>
+
+        <!-- ======= STATE 2: CORE AI PATH & DETAIL CARDS ======= -->
+        <!-- Left Lane Roadmap Nodes -->
+        <div class="roadmap-path" id="core-path" style="left: 90px;">
+            <div class="roadmap-node" id="cn-math">
+                <div class="node-num">01</div>
+                <div class="node-text">
+                    <span class="node-label">Mathematics</span>
+                    <span class="node-desc">Algebra, Calculus, Probability</span>
+                </div>
+            </div>
+            <div class="roadmap-node" id="cn-python">
+                <div class="node-num">02</div>
+                <div class="node-text">
+                    <span class="node-label">Python & Data</span>
+                    <span class="node-desc">NumPy, Pandas, Visualization</span>
+                </div>
+            </div>
+            <div class="roadmap-node" id="cn-ml">
+                <div class="node-num">03</div>
+                <div class="node-text">
+                    <span class="node-label">Machine Learning</span>
+                    <span class="node-desc">Supervised & Unsupervised</span>
+                </div>
+            </div>
+            <div class="roadmap-node" id="cn-dl">
+                <div class="node-num">04</div>
+                <div class="node-text">
+                    <span class="node-label">Deep Learning</span>
+                    <span class="node-desc">Neural Nets, PyTorch, Transformers</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Side Floating detail cards for Core AI -->
+        <div class="detail-card" id="cd-python" style="left: 550px;">
+            <div class="code-box">
+                <span class="code-comment"># Start with Python and PyTorch</span><br>
+                <span class="code-keyword">import</span> torch<br>
+                <span class="code-keyword">import</span> torch.nn <span class="code-keyword">as</span> nn<br><br>
+                x = torch.tensor([<span class="code-string">2.0</span>, <span class="code-string">1.0</span>])<br>
+                y = nn.Linear(<span class="code-string">2</span>, <span class="code-string">1</span>)(x)<br>
+                print(y.tolist())
+            </div>
+        </div>
+
+        <div class="detail-card" id="cd-ml" style="left: 550px;">
+            <div style="font-family: 'Fira Code', monospace; color: var(--neon-cyan); font-size: 16px; margin-bottom: 8px; letter-spacing: 2px;">ML_MODELS</div>
+            <div style="font-size: 24px; font-weight: 900; margin-bottom: 12px;">Scikit-Learn Algorithms</div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; font-size: 16px; color: #8888aa; font-family: 'Fira Code', monospace;">
+                <div style="border: 1px solid rgba(255,255,255,0.05); padding: 10px; border-radius: 8px;">Linear Regression</div>
+                <div style="border: 1px solid rgba(255,255,255,0.05); padding: 10px; border-radius: 8px;">Decision Trees</div>
+                <div style="border: 1px solid rgba(255,255,255,0.05); padding: 10px; border-radius: 8px;">Random Forests</div>
+                <div style="border: 1px solid rgba(255,255,255,0.05); padding: 10px; border-radius: 8px;">K-Means</div>
+            </div>
+        </div>
+
+        <!-- ======= STATE 3: GENERATIVE AI PATH & DETAIL CARDS ======= -->
+        <!-- Right Lane Roadmap Nodes -->
+        <div class="roadmap-path" id="genai-path" style="left: 590px;">
+            <div class="roadmap-node" id="gn-prompt">
+                <div class="node-num">01</div>
+                <div class="node-text">
+                    <span class="node-label">APIs & Prompts</span>
+                    <span class="node-desc">Prompt Design, Structured Output</span>
+                </div>
+            </div>
+            <div class="roadmap-node" id="gn-rag">
+                <div class="node-num">02</div>
+                <div class="node-text">
+                    <span class="node-label">Vector DB & RAG</span>
+                    <span class="node-desc">Context Retrieval, Vector Search</span>
+                </div>
+            </div>
+            <div class="roadmap-node" id="gn-agents">
+                <div class="node-num">03</div>
+                <div class="node-text">
+                    <span class="node-label">Autonomous Agents</span>
+                    <span class="node-desc">Tool calling, Reflection, Chains</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Left Side Floating detail cards for GenAI -->
+        <div class="detail-card" id="gd-prompt" style="left: 90px;">
+            <div class="code-box">
+                <span class="code-comment">// Structured JSON Outputs</span><br>
+                <span class="code-keyword">{</span><br>
+                &nbsp;&nbsp;<span class="code-keyword">"role":</span> <span class="code-string">"AI Engineer"</span>,<br>
+                &nbsp;&nbsp;<span class="code-keyword">"roadmap":</span> <span class="code-string">"Generative AI"</span>,<br>
+                &nbsp;&nbsp;<span class="code-keyword">"skills":</span> <span class="code-keyword">[</span><br>
+                &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-string">"Prompting"</span>, <span class="code-string">"RAG"</span>, <span class="code-string">"Agents"</span><br>
+                &nbsp;&nbsp;<span class="code-keyword">]</span><br>
+                <span class="code-keyword">}</span>
+            </div>
+        </div>
+
+        <!-- ======= STATE 6: OUTRO ======= -->
+        <div class="fade-element subscribe-card" id="outro-card">
+            <div class="subscribe-btn">SUBSCRIBE</div>
+            <div class="outro-tag">COMMENT 'ROADMAP' FOR THE GUIDE</div>
+        </div>
+    </div>
+
+    <!-- Include Shifted Captions File -->
+    <script src="roadmap_captions.js"></script>
+
+    <script>
+        console.log("Roadmap GSAP Master timeline started");
+        const tl = gsap.timeline({ paused: true });
+        window.tl = tl;
+        const time = (sec) => sec;
+
+        // Shared animation variables for Canvas drawing
+        const canvasState = {
+            stormPlay: 1.0,
+            stormSnap: 0.0, // 0 to 1 progress
+            stormOpacity: 1.0,
+            threeAxesOpacity: 0.0,
+            d3ChartOpacity: 0.0,
+            dlGraphOpacity: 0.0,
+            ragAnimOpacity: 0.0,
+            ragBeamProgress: 0.0,
+            agentLoopOpacity: 0.0,
+            agentActiveIdx: -1, // -1: none, 0: Perceive, 1: Reason, 2: Act
+            nnWeightsTrainingOpacity: 0.0,
+            nnWeightsGlow: 0.0,
+            spaceWarpOpacity: 0.0,
+            spaceWarpGrid: 0.0,
+            spaceWarpAlign: 0.0, // 0: mixed, 1: separated
+            state5Opacity: 0.0,
+            state5LoopProgress: 0.0,
+            outroCurvesOpacity: 0.0
+        };
+
+        // =====================================================
+        // CAPTIONS INTEGRATION
+        // =====================================================
+        const sentences = window.roadmap_captions;
+        const captionContainer = document.getElementById("caption-container");
+
+        sentences.forEach((sentence, sIdx) => {
+            const isTara = sentence.start >= 50.577 && sentence.end <= 59.577;
+            const sDiv = document.createElement("div");
+            sDiv.className = "sentence-block";
+            gsap.set(sDiv, { display: "none", opacity: 0 });
+
+            sentence.words.forEach((w) => {
+                const wSpan = document.createElement("span");
+                wSpan.className = "cap-word";
+                wSpan.innerText = w.text;
+                sDiv.appendChild(wSpan);
+                sDiv.appendChild(document.createTextNode(" "));
+
+                let activeClass = isTara ? "active-tara" : "active";
+                const cleanWord = w.text.toLowerCase().replace(/[.,\/#!$%\^&\*;:{}=\-_`~()?]/g, "");
+                if (!isTara && ["roadmap", "roadmaps", "core", "math", "calculus", "python", "learning", "neural", "scratch", "generative", "software", "prompts", "rag", "agents", "tools", "system", "design", "loops", "memory", "guardrails", "subscribe"].includes(cleanWord)) {
+                    activeClass = "active-highlight";
+                }
+
+                // Highlight active word
+                tl.to(wSpan, {
+                    onStart: () => {
+                        wSpan.classList.add(activeClass);
+                        wSpan.classList.remove("past");
+                    },
+                    onReverseComplete: () => {
+                        wSpan.classList.remove(activeClass);
+                        wSpan.classList.remove("past");
+                    },
+                    duration: 0.04
+                }, time(w.start));
+
+                // Faint word after spoken
+                tl.to(wSpan, {
+                    onStart: () => {
+                        wSpan.classList.remove(activeClass);
+                        wSpan.classList.add("past");
+                    },
+                    onReverseComplete: () => {
+                        wSpan.classList.add(activeClass);
+                        wSpan.classList.remove("past");
+                    },
+                    duration: 0.04
+                }, time(w.end));
+            });
+
+            captionContainer.appendChild(sDiv);
+
+            tl.set(sDiv, { display: "flex" }, time(sentence.start));
+            tl.to(sDiv, { opacity: 1, duration: 0.12 }, time(sentence.start));
+            tl.to(sDiv, { opacity: 0, duration: 0.12 }, time(sentence.end));
+            tl.set(sDiv, { display: "none" }, time(sentence.end + 0.12));
+        });
+
+        // =====================================================
+        // GSAP MASTER TIMELINE GRAPHICS STATES
+        // =====================================================
+
+        // -----------------------------------------------------
+        // STATE 1: Hook (0s - 12.1s)
+        // -----------------------------------------------------
+        // Swarm storm animates initially
+        // 7.7s ("Don't worry"): Swarm stops and snaps into columns
+        tl.to(canvasState, { stormSnap: 1.0, duration: 0.8, ease: "power2.out" }, time(7.722));
+        tl.to(".storm-word", { className: "+=shake-active", duration: 0.01 }, time(7.722));
+        tl.to(".storm-word", { className: "-=shake-active", duration: 0.01 }, time(8.2));
+        
+        // 8.6s: Clean sweep. Swarm words slide out and fade. Tracks slide in.
+        tl.to("#storm-words-layer", { opacity: 0, scale: 0.9, duration: 0.5 }, time(8.622));
+        tl.to(canvasState, { stormOpacity: 0.0, duration: 0.5 }, time(8.622));
+        
+        tl.to("#state1-tracks", { opacity: 1, scale: 1, duration: 0.6, ease: "back.out(1.2)" }, time(9.2));
+        tl.set("#track-core", { display: "flex", opacity: 1, scale: 1 }, time(9.2));
+        tl.set("#track-genai", { display: "flex", opacity: 1, scale: 1, x: 0 }, time(9.2));
+
+        // -----------------------------------------------------
+        // STATE 2: Core AI (12.8s - 30.2s)
+        // -----------------------------------------------------
+        // Slide left card active, hide right card, expand roadmap path
+        tl.to("#track-core", { className: "track-card active", scale: 1.05, duration: 0.4 }, time(12.824));
+        tl.to("#track-genai", { opacity: 0, scale: 0.92, display: "none", duration: 0.4 }, time(12.824));
+
+        // Nodes cascade in, hide track-core to prevent overlap
+        tl.to("#track-core", { opacity: 0, scale: 0.95, display: "none", duration: 0.4 }, time(13.2));
+        tl.to("#cn-math", { opacity: 1, x: 0, duration: 0.4 }, time(13.2));
+        tl.to("#cn-python", { opacity: 1, x: 0, duration: 0.4 }, time(13.6));
+        tl.to("#cn-ml", { opacity: 1, x: 0, duration: 0.4 }, time(14.0));
+        tl.to("#cn-dl", { opacity: 1, x: 0, duration: 0.4 }, time(14.4));
+
+        // Highlight Mathematics node & Fade in Three.js Canvas Card
+        tl.to("#cn-math", { className: "roadmap-node active-cyan", duration: 0.3 }, time(18.746));
+        tl.to("#three-canvas", { opacity: 1, scale: 1, duration: 0.5 }, time(18.746));
+        tl.to(canvasState, { threeAxesOpacity: 1.0, duration: 0.5 }, time(18.746));
+
+        // Highlight Python node & show Python Code Card, dim math
+        tl.to("#cn-math", { className: "roadmap-node", duration: 0.3 }, time(23.748));
+        tl.to("#three-canvas", { opacity: 0, scale: 0.9, duration: 0.4 }, time(23.748));
+        tl.to(canvasState, { threeAxesOpacity: 0.0, duration: 0.4 }, time(23.748));
+        
+        tl.to("#cn-python", { className: "roadmap-node active-cyan", duration: 0.3 }, time(23.748));
+        tl.to("#cd-python", { opacity: 1, scale: 1, duration: 0.5 }, time(23.748));
+
+        // Highlight ML node & show ML detail card & D3 chart, dim python
+        tl.to("#cn-python", { className: "roadmap-node", duration: 0.3 }, time(25.002));
+        tl.to("#cd-python", { opacity: 0, scale: 0.9, duration: 0.4 }, time(25.002));
+        
+        tl.to("#cn-ml", { className: "roadmap-node active-cyan", duration: 0.3 }, time(25.002));
+        tl.to("#cd-ml", { opacity: 1, scale: 1, duration: 0.5 }, time(25.002));
+        tl.to(canvasState, { d3ChartOpacity: 1.0, duration: 0.5 }, time(25.002));
+
+        // Highlight DL node & show Deep Net node graph on canvas, dim ML
+        tl.to("#cn-ml", { className: "roadmap-node", duration: 0.3 }, time(27.5));
+        tl.to("#cd-ml", { opacity: 0, scale: 0.9, duration: 0.4 }, time(27.5));
+        tl.to(canvasState, { d3ChartOpacity: 0.0, duration: 0.4 }, time(27.5));
+        
+        tl.to("#cn-dl", { className: "roadmap-node active-cyan", duration: 0.3 }, time(27.5));
+        tl.to(canvasState, { dlGraphOpacity: 1.0, duration: 0.6 }, time(27.5));
+
+        // Dim Core elements to prepare for GenAI
+        tl.to("#core-path", { opacity: 0, duration: 0.4 }, time(30.225));
+        tl.to(canvasState, { dlGraphOpacity: 0.0, duration: 0.4 }, time(30.225));
+        tl.to("#track-core", { opacity: 0, display: "none", duration: 0.4 }, time(30.225));
+
+        // -----------------------------------------------------
+        // STATE 3: Generative AI (30.8s - 50.5s)
+        // -----------------------------------------------------
+        // Make right card active, expand GenAI path
+        tl.set("#track-genai", { display: "flex" }, time(30.865));
+        tl.to("#track-genai", { className: "track-card active active-purple", opacity: 1, scale: 1.05, duration: 0.4 }, time(30.865));
+        tl.to("#track-genai", { x: -530, duration: 0.5 }, time(30.865)); // Translate to left side
+        tl.to("#track-core", { opacity: 0, display: "none", duration: 0.4 }, time(30.865));
+        
+        // Show path nodes cascading in
+        tl.to("#gn-prompt", { opacity: 1, x: 0, duration: 0.4 }, time(31.5));
+        tl.to("#gn-rag", { opacity: 1, x: 0, duration: 0.4 }, time(31.9));
+        tl.to("#gn-agents", { opacity: 1, x: 0, duration: 0.4 }, time(32.3));
+
+        // Highlight APIs & Prompts node, show Code block card, and hide track-genai
+        tl.to("#track-genai", { opacity: 0, display: "none", duration: 0.4 }, time(38.649));
+        tl.to("#gn-prompt", { className: "roadmap-node active-purple", duration: 0.3 }, time(38.649));
+        tl.to("#gd-prompt", { opacity: 1, scale: 1, duration: 0.5 }, time(38.649));
+
+        // Highlight RAG node & show RAG diagram on canvas, dim prompt
+        tl.to("#gn-prompt", { className: "roadmap-node", duration: 0.3 }, time(41.731));
+        tl.to("#gd-prompt", { opacity: 0, scale: 0.9, duration: 0.4 }, time(41.731));
+        
+        tl.to("#gn-rag", { className: "roadmap-node active-purple", duration: 0.3 }, time(41.731));
+        tl.to(canvasState, { ragAnimOpacity: 1.0, duration: 0.5 }, time(41.731));
+        tl.to(canvasState, { ragBeamProgress: 1.0, duration: 2.0 }, time(41.731));
+
+        // Highlight Agents node & show Agent Perception-Reason-Action loop, dim RAG
+        tl.to("#gn-rag", { className: "roadmap-node", duration: 0.3 }, time(44.032));
+        tl.to(canvasState, { ragAnimOpacity: 0.0, ragBeamProgress: 0.0, duration: 0.4 }, time(44.032));
+        
+        tl.to("#gn-agents", { className: "roadmap-node active-purple", duration: 0.3 }, time(44.032));
+        tl.to(canvasState, { agentLoopOpacity: 1.0, duration: 0.5 }, time(44.032));
+        
+        // Loop nodes highlight sequentially
+        tl.to(canvasState, { agentActiveIdx: 0, duration: 0.1 }, time(45.0)); // Perceive
+        tl.to(canvasState, { agentActiveIdx: 1, duration: 0.1 }, time(46.8)); // Reason
+        tl.to(canvasState, { agentActiveIdx: 2, duration: 0.1 }, time(48.8)); // Act
+
+        // Dim GenAI elements to prepare for Tara co-host overlay
+        tl.to("#genai-path", { opacity: 0, duration: 0.4 }, time(50.2));
+        tl.to("#track-genai", { opacity: 0, duration: 0.4 }, time(50.2));
+        tl.to(canvasState, { agentLoopOpacity: 0.0, duration: 0.4 }, time(50.2));
+
+        // -----------------------------------------------------
+        // STATE 4: Tara Overlay (50.577s - 59.577s)
+        // -----------------------------------------------------
+        tl.to("#student-card", { opacity: 1, scale: 1, duration: 0.5, ease: "back.out(1.2)" }, time(50.577));
+        tl.to("#student-card", { opacity: 0, scale: 0.85, duration: 0.4 }, time(59.1));
+
+        // -----------------------------------------------------
+        // STATE 5: Agent Loops, Memory & Guardrails (59.998s - 72.388s)
+        // -----------------------------------------------------
+        // Fade in new agent loop & guardrail visual cards
+        tl.to(canvasState, { state5Opacity: 1.0, duration: 0.6 }, time(59.998));
+        // Animate the loop iterations from 0.0 to 1.0
+        tl.to(canvasState, { state5LoopProgress: 1.0, duration: 10.0, ease: "none" }, time(60.5));
+
+        // Dim State 5
+        tl.to(canvasState, { state5Opacity: 0.0, duration: 0.5 }, time(72.388));
+
+        // -----------------------------------------------------
+        // STATE 6: Outro (73.069s - 86.485s)
+        // -----------------------------------------------------
+        tl.to("#outro-card", { opacity: 1, scale: 1, duration: 0.6, ease: "back.out(1.2)" }, time(73.069));
+        tl.to(canvasState, { outroCurvesOpacity: 1.0, duration: 0.8 }, time(73.5));
+
+        tl.to("#outro-card", { opacity: 0, scale: 0.9, duration: 0.5 }, time(85.5));
+        tl.to(canvasState, { outroCurvesOpacity: 0.0, duration: 0.5 }, time(85.5));
+
+
+        // =====================================================
+        // THREE.JS SETUP (3D rotating grid for math)
+        // =====================================================
+        const container = document.getElementById("three-canvas");
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(45, 440 / 380, 0.1, 100);
+        camera.position.set(0, 0, 6);
+
+        const renderer3D = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+        renderer3D.setClearColor(0x000000, 0);
+        renderer3D.setSize(440, 380);
+        container.appendChild(renderer3D.domElement);
+
+        // Add coordinate grid helper
+        const grid3D = new THREE.GridHelper(6, 12, 0x00F0FF, 0x333344);
+        grid3D.rotation.x = Math.PI / 2.5; // Tilt slightly
+        scene.add(grid3D);
+
+        // Add simple 3D vector arrows
+        const origin = new THREE.Vector3(0, 0, 0);
+        const v1 = new THREE.Vector3(1.5, 1.2, 0.5);
+        const arrow1 = new THREE.ArrowHelper(v1.clone().normalize(), origin, v1.length(), 0x00FF66, 0.3, 0.15);
+        scene.add(arrow1);
+
+        const v2 = new THREE.Vector3(-1.2, 1.8, -0.8);
+        const arrow2 = new THREE.ArrowHelper(v2.clone().normalize(), origin, v2.length(), 0xFF3366, 0.3, 0.15);
+        scene.add(arrow2);
+
+        // =====================================================
+        // CANVAS 2D DRAWING LOOP (HUD, lines, networks, graphs)
+        // =====================================================
+        const canvas = document.getElementById("canvas-2d");
+        const ctx = canvas.getContext("2d");
+
+        // State 1 swarm words data
+        const wordsList = [
+            "Linear Algebra", "Calculus", "Probability", "Python",
+            "RAG", "Docker", "PyTorch", "HNSW", "Backprop"
+        ];
+        const swarmData = [];
+        wordsList.forEach((w, idx) => {
+            swarmData.push({
+                x: 100 + Math.random() * 880,
+                y: 120 + Math.random() * 700,
+                vx: (Math.random() - 0.5) * 2,
+                vy: (Math.random() - 0.5) * 2,
+                angle: Math.random() * Math.PI * 2,
+                size: 26 + Math.random() * 8
+            });
+        });
+
+        // Cat & Dog icons classification positions
+        const items = [];
+        for (let i = 0; i < 20; i++) {
+            items.push({
+                emoji: i % 2 === 0 ? "🐱" : "🐶",
+                type: i % 2 === 0 ? "cat" : "dog",
+                // Random start mixed positions
+                start_x: 200 + Math.random() * 680,
+                start_y: 200 + Math.random() * 600,
+                // Target separated positions
+                target_x: i % 2 === 0 ? 300 + Math.random() * 150 : 630 + Math.random() * 150,
+                target_y: 250 + Math.random() * 400
+            });
+        }
+
+        function drawScene() {
+            ctx.clearRect(0, 0, 1080, 1920);
+            const timeVal = Date.now() * 0.001;
+
+            // 1. Render State 1 swarm lines
+            if (canvasState.stormOpacity > 0.01) {
+                ctx.save();
+                ctx.globalAlpha = canvasState.stormOpacity;
+                
+                // Draw simple connection lines between swarm words to show clutter
+                ctx.strokeStyle = "rgba(255, 255, 255, 0.04)";
+                ctx.lineWidth = 1.5;
+                for (let i = 0; i < swarmData.length; i++) {
+                    for (let j = i + 1; j < swarmData.length; j++) {
+                        const dist = Math.hypot(swarmData[i].x - swarmData[j].x, swarmData[i].y - swarmData[j].y);
+                        if (dist < 320) {
+                            ctx.beginPath();
+                            ctx.moveTo(swarmData[i].x, swarmData[i].y);
+                            ctx.lineTo(swarmData[j].x, swarmData[j].y);
+                            ctx.stroke();
+                        }
+                    }
+                }
+                ctx.restore();
+            }
+
+            // 2. Rotate Three.js 3D Grid
+            if (canvasState.threeAxesOpacity > 0.01) {
+                grid3D.rotation.z = timeVal * 0.2;
+                arrow1.rotation.y = timeVal * 0.4;
+                arrow2.rotation.y = -timeVal * 0.3;
+                renderer3D.render(scene, camera);
+            }
+
+            // 3. Draw ML Scatter Plot on Canvas (State 2, ML Node details)
+            if (canvasState.d3ChartOpacity > 0.01) {
+                ctx.save();
+                ctx.globalAlpha = canvasState.d3ChartOpacity;
+                ctx.translate(760, 480); // Center of scatter plot space
+
+                // Plot box
+                ctx.fillStyle = "rgba(10, 15, 25, 0.9)";
+                ctx.strokeStyle = "rgba(0, 255, 102, 0.35)";
+                ctx.lineWidth = 2.5;
+                ctx.beginPath();
+                ctx.roundRect(-200, -200, 400, 400, 24);
+                ctx.fill();
+                ctx.stroke();
+
+                // Axes
+                ctx.strokeStyle = "rgba(255, 255, 255, 0.15)";
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.moveTo(-170, 170); ctx.lineTo(170, 170); // X axis
+                ctx.moveTo(-170, 170); ctx.lineTo(-170, -170); // Y axis
+                ctx.stroke();
+
+                // Draw dots (Cluster A: blue/cyan, Cluster B: red/pink)
+                ctx.fillStyle = "rgba(0, 240, 255, 0.85)";
+                ctx.beginPath();
+                ctx.arc(-80, -60, 10, 0, Math.PI * 2);
+                ctx.arc(-110, -100, 10, 0, Math.PI * 2);
+                ctx.arc(-50, -120, 10, 0, Math.PI * 2);
+                ctx.arc(-120, -40, 10, 0, Math.PI * 2);
+                ctx.fill();
+
+                ctx.fillStyle = "rgba(255, 51, 102, 0.85)";
+                ctx.beginPath();
+                ctx.arc(80, 60, 10, 0, Math.PI * 2);
+                ctx.arc(110, 100, 10, 0, Math.PI * 2);
+                ctx.arc(50, 120, 10, 0, Math.PI * 2);
+                ctx.arc(120, 40, 10, 0, Math.PI * 2);
+                ctx.fill();
+
+                // Separating boundary line
+                ctx.strokeStyle = "#FFDD00";
+                ctx.lineWidth = 4.5;
+                ctx.shadowColor = "#FFDD00";
+                ctx.shadowBlur = 12;
+                ctx.beginPath();
+                ctx.moveTo(-150, 150);
+                ctx.lineTo(150, -150);
+                ctx.stroke();
+                ctx.shadowBlur = 0;
+
+                ctx.restore();
+            }
+
+            // 4. Draw DL Neural Net Node graph on canvas (State 2, DL Node details)
+            if (canvasState.dlGraphOpacity > 0.01) {
+                ctx.save();
+                ctx.globalAlpha = canvasState.dlGraphOpacity;
+                ctx.translate(760, 480); // Center of DL graph card
+
+                // Card Box
+                ctx.fillStyle = "rgba(10, 15, 25, 0.9)";
+                ctx.strokeStyle = "rgba(0, 240, 255, 0.35)";
+                ctx.lineWidth = 2.5;
+                ctx.beginPath();
+                ctx.roundRect(-200, -200, 400, 400, 24);
+                ctx.fill();
+                ctx.stroke();
+
+                // Node coordinates
+                const inputs = [-120, -40, 40, 120];
+                const hidden = [-80, 0, 80];
+                const output = [0];
+
+                // Connections (wires)
+                ctx.lineWidth = 1.5;
+                ctx.strokeStyle = "rgba(255, 255, 255, 0.08)";
+                inputs.forEach(iy => {
+                    hidden.forEach(hy => {
+                        ctx.beginPath();
+                        ctx.moveTo(-130, iy); ctx.lineTo(0, hy);
+                        ctx.stroke();
+                    });
+                });
+                hidden.forEach(hy => {
+                    output.forEach(oy => {
+                        ctx.beginPath();
+                        ctx.moveTo(0, hy); ctx.lineTo(130, oy);
+                        ctx.stroke();
+                    });
+                });
+
+                // Input nodes (cyan)
+                ctx.fillStyle = "rgba(0, 240, 255, 0.85)";
+                inputs.forEach(iy => {
+                    ctx.beginPath(); ctx.arc(-130, iy, 12, 0, Math.PI * 2); ctx.fill();
+                });
+
+                // Hidden nodes (purple)
+                ctx.fillStyle = "rgba(123, 44, 191, 0.85)";
+                hidden.forEach(hy => {
+                    ctx.beginPath(); ctx.arc(0, hy, 12, 0, Math.PI * 2); ctx.fill();
+                });
+
+                // Output node (pink)
+                ctx.fillStyle = "rgba(255, 51, 102, 0.9)";
+                output.forEach(oy => {
+                    ctx.beginPath(); ctx.arc(130, oy, 14, 0, Math.PI * 2); ctx.fill();
+                });
+
+                ctx.restore();
+            }
+
+            // 5. Draw RAG Query Beam (State 3, RAG Node details)
+            if (canvasState.ragAnimOpacity > 0.01) {
+                ctx.save();
+                ctx.globalAlpha = canvasState.ragAnimOpacity;
+                ctx.translate(280, 460); // Floating card on the left
+
+                // Card background
+                ctx.fillStyle = "rgba(10, 15, 25, 0.9)";
+                ctx.strokeStyle = "rgba(123, 44, 191, 0.35)";
+                ctx.lineWidth = 2.5;
+                ctx.beginPath();
+                ctx.roundRect(-200, -180, 400, 360, 24);
+                ctx.fill();
+                ctx.stroke();
+
+                // LLM Node & Database Node
+                const xLLM = -100, yLLM = -60;
+                const xDB = 100, yDB = 80;
+
+                ctx.fillStyle = "rgba(123, 44, 191, 0.85)";
+                ctx.beginPath(); ctx.arc(xLLM, yLLM, 28, 0, Math.PI * 2); ctx.fill();
+                ctx.fillStyle = "#ffffff";
+                ctx.font = "bold 13px 'Fira Code', monospace";
+                ctx.textAlign = "center";
+                ctx.fillText("LLM", xLLM, yLLM + 4);
+
+                ctx.fillStyle = "rgba(0, 240, 255, 0.85)";
+                ctx.beginPath(); ctx.roundRect(xDB - 40, yDB - 30, 80, 60, 10); ctx.fill();
+                ctx.fillStyle = "#000000";
+                ctx.fillText("DB", xDB, yDB + 4);
+
+                // Connecting beam
+                ctx.strokeStyle = "rgba(255, 255, 255, 0.1)";
+                ctx.lineWidth = 3;
+                ctx.beginPath(); ctx.moveTo(xLLM, yLLM); ctx.lineTo(xDB, yDB); ctx.stroke();
+
+                // Animated glowing beam pulse
+                if (canvasState.ragBeamProgress > 0.01) {
+                    ctx.strokeStyle = varColor("--neon-cyan");
+                    ctx.lineWidth = 4.5;
+                    ctx.shadowColor = "#00F0FF";
+                    ctx.shadowBlur = 10;
+                    ctx.beginPath();
+                    ctx.moveTo(xLLM, yLLM);
+                    const currX = xLLM + (xDB - xLLM) * canvasState.ragBeamProgress;
+                    const currY = yLLM + (yDB - yLLM) * canvasState.ragBeamProgress;
+                    ctx.lineTo(currX, currY);
+                    ctx.stroke();
+                    ctx.shadowBlur = 0;
+                }
+
+                ctx.restore();
+            }
+
+            // 6. Draw Agent Perception Loop (State 3, Agent Node details)
+            if (canvasState.agentLoopOpacity > 0.01) {
+                ctx.save();
+                ctx.globalAlpha = canvasState.agentLoopOpacity;
+                ctx.translate(280, 460); // Floating card on the left
+
+                // Card background
+                ctx.fillStyle = "rgba(10, 15, 25, 0.9)";
+                ctx.strokeStyle = "rgba(123, 44, 191, 0.35)";
+                ctx.lineWidth = 2.5;
+                ctx.beginPath();
+                ctx.roundRect(-200, -180, 400, 360, 24);
+                ctx.fill();
+                ctx.stroke();
+
+                // Nodes: Perceive, Reason, Act
+                const nodes = [
+                    { name: "PERCEIVE", x: 0, y: -90, color: "#00F0FF" },
+                    { name: "REASON", x: 100, y: 50, color: "#FF3366" },
+                    { name: "ACT", x: -100, y: 50, color: "#7B2CBF" }
+                ];
+
+                // Connecting loop lines
+                ctx.strokeStyle = "rgba(255, 255, 255, 0.1)";
+                ctx.lineWidth = 2.5;
+                ctx.beginPath();
+                ctx.moveTo(nodes[0].x, nodes[0].y);
+                ctx.lineTo(nodes[1].x, nodes[1].y);
+                ctx.lineTo(nodes[2].x, nodes[2].y);
+                ctx.lineTo(nodes[0].x, nodes[0].y);
+                ctx.stroke();
+
+                // Draw nodes
+                nodes.forEach((n, idx) => {
+                    const active = canvasState.agentActiveIdx === idx;
+                    ctx.fillStyle = active ? n.color : "rgba(20, 20, 30, 0.85)";
+                    ctx.strokeStyle = n.color;
+                    ctx.lineWidth = active ? 3.5 : 1.5;
+
+                    ctx.beginPath();
+                    ctx.roundRect(n.x - 55, n.y - 25, 110, 50, 10);
+                    ctx.fill();
+                    ctx.stroke();
+
+                    ctx.fillStyle = active ? "#000000" : "#ffffff";
+                    ctx.font = "bold 13px 'Fira Code', monospace";
+                    ctx.textAlign = "center";
+                    ctx.fillText(n.name, n.x, n.y + 4);
+                });
+
+                ctx.restore();
+            }
+
+            // 7. Draw State 5: Agent Loops, Memory & Guardrails
+            if (canvasState.state5Opacity > 0.01) {
+                ctx.save();
+                ctx.globalAlpha = canvasState.state5Opacity;
+
+                // 7a. LEFT CARD: Agentic Loop & Memory (Centered at x: 280, y: 460)
+                ctx.save();
+                ctx.translate(280, 460);
+
+                // Card background
+                ctx.fillStyle = "rgba(10, 15, 25, 0.9)";
+                ctx.strokeStyle = "rgba(0, 240, 255, 0.35)";
+                ctx.lineWidth = 2.5;
+                ctx.beginPath();
+                ctx.roundRect(-200, -200, 400, 400, 24);
+                ctx.fill();
+                ctx.stroke();
+
+                // Agent Node (Top)
+                const xAgent = 0, yAgent = -80;
+                ctx.fillStyle = "rgba(0, 240, 255, 0.85)";
+                ctx.beginPath();
+                ctx.arc(xAgent, yAgent, 32, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.fillStyle = "#000000";
+                ctx.font = "bold 13px 'Fira Code', monospace";
+                ctx.textAlign = "center";
+                ctx.fillText("AGENT", xAgent, yAgent + 4);
+
+                // Memory DB Card (Bottom)
+                const xMem = 0, yMem = 80;
+                ctx.fillStyle = "rgba(123, 44, 191, 0.85)";
+                ctx.beginPath();
+                ctx.roundRect(xMem - 60, yMem - 30, 120, 60, 10);
+                ctx.fill();
+                ctx.fillStyle = "#ffffff";
+                ctx.font = "bold 13px 'Fira Code', monospace";
+                ctx.fillText("MEMORY DB", xMem, yMem + 4);
+
+                // Loop Connection / orbital ring around the Agent
+                ctx.strokeStyle = "rgba(255, 255, 255, 0.1)";
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.arc(xAgent, yAgent, 50, 0, Math.PI * 2);
+                ctx.stroke();
+
+                // Traveling orbital particle flow representing loop
+                const angle = timeVal * 4;
+                const px = xAgent + Math.cos(angle) * 50;
+                const py = yAgent + Math.sin(angle) * 50;
+                ctx.fillStyle = varColor("--neon-cyan");
+                ctx.beginPath();
+                ctx.arc(px, py, 6, 0, Math.PI * 2);
+                ctx.fill();
+
+                // Dynamic query beam between Agent and Memory DB
+                ctx.strokeStyle = "rgba(255, 255, 255, 0.15)";
+                ctx.lineWidth = 3;
+                ctx.beginPath();
+                ctx.moveTo(xAgent, yAgent + 32);
+                ctx.lineTo(xMem, yMem - 30);
+                ctx.stroke();
+
+                // Animated glowing beam pulse
+                const pulseProg = (timeVal * 1.5) % 1.0;
+                const bx = xAgent + (xMem - xAgent) * pulseProg;
+                const by = (yAgent + 32) + ((yMem - 30) - (yAgent + 32)) * pulseProg;
+                ctx.strokeStyle = varColor("--neon-purple");
+                ctx.lineWidth = 4;
+                ctx.beginPath();
+                ctx.moveTo(bx, by);
+                ctx.lineTo(bx, by + 15);
+                ctx.stroke();
+
+                ctx.restore();
+
+                // 7b. RIGHT CARD: Guardrails & Safety (Centered at x: 800, y: 460)
+                ctx.save();
+                ctx.translate(800, 460);
+
+                // Check iteration progress mapping: goes from 1 to 6
+                const loopProgress = canvasState.state5LoopProgress;
+                const currentIteration = Math.min(6, Math.floor(loopProgress * 6) + 1);
+                const isHalted = currentIteration >= 6;
+
+                // Card background (flashes red when halted)
+                ctx.fillStyle = "rgba(10, 15, 25, 0.9)";
+                const isAlertFlash = isHalted && Math.floor(timeVal * 5) % 2 === 0;
+                ctx.strokeStyle = isAlertFlash ? "rgba(255, 51, 102, 0.85)" : "rgba(123, 44, 191, 0.35)";
+                ctx.lineWidth = 2.5;
+                ctx.beginPath();
+                ctx.roundRect(-200, -200, 400, 400, 24);
+                ctx.fill();
+                ctx.stroke();
+
+                // Card Title
+                ctx.fillStyle = isHalted ? varColor("--neon-pink") : varColor("--neon-yellow");
+                ctx.font = "bold 15px 'Fira Code', monospace";
+                ctx.textAlign = "center";
+                ctx.fillText("GUARDRAIL ENGINE", 0, -150);
+
+                // Shield Icon Visual
+                ctx.save();
+                ctx.translate(0, -40);
+                ctx.scale(1.2, 1.2);
+                ctx.beginPath();
+                // Draw shield shape
+                ctx.moveTo(0, -40);
+                ctx.quadraticCurveTo(30, -40, 35, -10);
+                ctx.quadraticCurveTo(35, 20, 0, 40);
+                ctx.quadraticCurveTo(-35, 20, -35, -10);
+                ctx.quadraticCurveTo(-30, -40, 0, -40);
+                ctx.closePath();
+
+                if (isHalted) {
+                    ctx.fillStyle = "rgba(255, 51, 102, 0.2)";
+                    ctx.strokeStyle = varColor("--neon-pink");
+                } else {
+                    ctx.fillStyle = "rgba(0, 255, 102, 0.15)";
+                    ctx.strokeStyle = varColor("--neon-green");
+                }
+                ctx.lineWidth = 3.5;
+                ctx.fill();
+                ctx.stroke();
+
+                // Draw X (halted) or Checkmark (safe) inside shield
+                ctx.beginPath();
+                if (isHalted) {
+                    // Draw X
+                    ctx.strokeStyle = varColor("--neon-pink");
+                    ctx.lineWidth = 4;
+                    ctx.moveTo(-10, -10); ctx.lineTo(10, 10);
+                    ctx.moveTo(10, -10); ctx.lineTo(-10, 10);
+                    ctx.stroke();
+                } else {
+                    // Draw checkmark
+                    ctx.strokeStyle = varColor("--neon-green");
+                    ctx.lineWidth = 4;
+                    ctx.moveTo(-12, 0); ctx.lineTo(-3, 10); ctx.lineTo(12, -8);
+                    ctx.stroke();
+                }
+                ctx.restore();
+
+                // Iteration Monitor text
+                ctx.fillStyle = "#ffffff";
+                ctx.font = "18px 'Inter', sans-serif";
+                ctx.fillText("LOOP ITERATION MONITOR", 0, 45);
+
+                ctx.font = "bold 26px 'Fira Code', monospace";
+                if (isHalted) {
+                    ctx.fillStyle = varColor("--neon-pink");
+                    ctx.fillText("6 / 5 (LIMIT EXCEEDED)", 0, 95);
+                } else {
+                    ctx.fillStyle = varColor("--neon-cyan");
+                    ctx.fillText(`${currentIteration} / 5`, 0, 95);
+                }
+
+                // Status Message Box at bottom of card
+                ctx.fillStyle = isHalted ? "rgba(255, 51, 102, 0.1)" : "rgba(0, 240, 255, 0.05)";
+                ctx.strokeStyle = isHalted ? "rgba(255, 51, 102, 0.3)" : "rgba(0, 240, 255, 0.15)";
+                ctx.lineWidth = 1.5;
+                ctx.beginPath();
+                ctx.roundRect(-160, 125, 320, 45, 8);
+                ctx.fill();
+                ctx.stroke();
+
+                ctx.font = "bold 13px 'Fira Code', monospace";
+                if (isHalted) {
+                    ctx.fillStyle = varColor("--neon-pink");
+                    ctx.fillText("[HALTED - EXECUTION PREVENTED]", 0, 152);
+                } else {
+                    ctx.fillStyle = varColor("--neon-green");
+                    ctx.fillText("STATUS: ACTIVE & SAFE", 0, 152);
+                }
+
+                ctx.restore();
+
+                ctx.restore();
+            }
+
+            // 8. Draw Outro Curves scrolling (73.5s - 86.5s)
+            if (canvasState.outroCurvesOpacity > 0.01) {
+                ctx.save();
+                ctx.globalAlpha = canvasState.outroCurvesOpacity;
+
+                // Draw connecting curves merging lanes
+                ctx.strokeStyle = "rgba(0, 240, 255, 0.3)";
+                ctx.lineWidth = 4.5;
+                ctx.setLineDash([8, 8]);
+                ctx.beginPath();
+                ctx.moveTo(140, 300);
+                ctx.bezierCurveTo(340, 500, 740, 200, 940, 500);
+                ctx.stroke();
+
+                ctx.restore();
+            }
+
+            requestAnimationFrame(drawScene);
+        }
+
+        // Color helper
+        function varColor(variableName) {
+            return getComputedStyle(document.documentElement).getPropertyValue(variableName).trim();
+        }
+
+        // Start animation loop
+        drawScene();
+
+        // Trigger storm movement
+        function animateStorm() {
+            if (canvasState.stormPlay > 0.1) {
+                swarmData.forEach((sd, idx) => {
+                    const el = document.getElementById(`sw-${idx + 1}`);
+                    if (!el) return;
+
+                    if (canvasState.stormSnap < 0.01) {
+                        // Float randomly
+                        sd.x += sd.vx;
+                        sd.y += sd.vy;
+                        sd.angle += 0.02;
+
+                        if (sd.x < 50 || sd.x > 1030) sd.vx *= -1;
+                        if (sd.y < 50 || sd.y > 850) sd.vy *= -1;
+
+                        el.style.transform = `translate3d(${sd.x}px, ${sd.y}px, 0) rotate(${Math.sin(sd.angle)*4}deg)`;
+                    } else {
+                        // Snap to two neat columns: left columns (0-4) and right columns (5-8)
+                        const targetX = idx % 2 === 0 ? 240 : 840;
+                        const targetY = 160 + Math.floor(idx / 2) * 140;
+
+                        const currX = sd.x + (targetX - sd.x) * canvasState.stormSnap;
+                        const currY = sd.y + (targetY - sd.y) * canvasState.stormSnap;
+                        el.style.transform = `translate3d(${currX}px, ${currY}px, 0) rotate(0deg)`;
+                        el.style.color = idx % 2 === 0 ? varColor("--neon-cyan") : varColor("--neon-purple");
+                    }
+                });
+            }
+            requestAnimationFrame(animateStorm);
+        }
+        animateStorm();
+
+    </script>
+</body>
+</html>

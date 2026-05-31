@@ -1,12 +1,12 @@
-Stop watching boring AI videos. If you want to really learn AI, you should not just copy code or call APIs. You must understand how they work from the inside.
+Want to become an AI Engineer? But all roadmaps look too hard and full of complex math? Don't worry. There are actually two simple paths you can take.
 
-This channel will make AI concepts simple and visual. We are starting two tracks:
 
-First: Fundamental Maths for AI — where we will understand the basic math behind AI with simple animations.
+First, is Core AI. This path is perfect if you are a student or love math. You will start with basic math like linear algebra and calculus, learn Python, study machine learning models, and finally build neural networks from scratch.
 
-Second: Generative AI & Agentic AI — where we will build smart AI agents that can think, plan, and work together."
 
-Great question, Maya! We will not teach outdated theory. Instead, we will explore the latest research and understand the what, why, and how behind every concept. We will write code together, build real projects, test ideas, and learn by doing."
- 
 
-Welcome to the channel. Please subscribe, and check the description for the link. Tell me, what AI topic do you want to learn first?"
+Second, is Generative AI. This path is perfect for software engineers. You don't need heavy math. You start by using existing AI models. You learn how to write prompts, connect databases with RAG, and build autonomous agents that can think and use tools."
+
+"Great question, Tara! GenAI is about system design. You must build agentic loops, manage memory, and create guardrails so agents don't fail in production.
+
+On this channel, we make visual videos on both paths to make them easy. Comment "ROADMAP" below, and I will send you this complete guide. And subscribe to learn AI with me!"
