@@ -9,7 +9,6 @@ __pycache__/
 # Generated outputs
 output/
 rendered_scenes/
-timestamps/
 logs/
 audio/
 
@@ -18,6 +17,7 @@ audio/
 *.mp3
 *.webm
 *.wav
+*.MOV
 
 # OS
 .DS_Store
