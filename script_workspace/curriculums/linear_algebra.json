@@ -17,6 +17,14 @@
   },
   {
     "episode": 3,
+    "id": "ep_03_space_folding",
+    "title": "Space Folding",
+    "concept": "Activation Functions (ReLU)",
+    "application": "Non-linear Classification",
+    "status": "Drafted"
+  },
+  {
+    "episode": 4,
     "id": "ep_03_dimensionality_projection",
     "title": "Dimensionality Projection",
     "concept": "Orthogonal Projections",
@@ -24,7 +32,7 @@
     "status": "Planned"
   },
   {
-    "episode": 4,
+    "episode": 5,
     "id": "ep_04_matrix_scaling",
     "title": "Matrix Scaling & Growth",
     "concept": "Determinants",
@@ -32,7 +40,7 @@
     "status": "Planned"
   },
   {
-    "episode": 5,
+    "episode": 6,
     "id": "ep_05_attention_transpose",
     "title": "Attention Transpose",
     "concept": "Matrix Transpose (Q K^T)",
@@ -40,7 +48,7 @@
     "status": "Planned"
   },
   {
-    "episode": 6,
+    "episode": 7,
     "id": "ep_06_gradient_stabilizer",
     "title": "The Gradient Stabilizer",
     "concept": "Softmax Vector Scaling (sqrt(d_k))",
@@ -48,7 +56,7 @@
     "status": "Planned"
   },
   {
-    "episode": 7,
+    "episode": 8,
     "id": "ep_07_space_invariants",
     "title": "Space Invariants",
     "concept": "Eigenvalues & Eigenvectors",
@@ -56,7 +64,7 @@
     "status": "Planned"
   },
   {
-    "episode": 8,
+    "episode": 9,
     "id": "ep_08_matrix_decomposition",
     "title": "Matrix Decomposition",
     "concept": "Singular Value Decomposition (SVD)",
@@ -64,7 +72,7 @@
     "status": "Planned"
   },
   {
-    "episode": 9,
+    "episode": 10,
     "id": "ep_09_factorizing_adaptation",
     "title": "Factorizing Adaptation",
     "concept": "Low-Rank Matrix Factorization",
@@ -72,7 +80,7 @@
     "status": "Planned"
   },
   {
-    "episode": 10,
+    "episode": 11,
     "id": "ep_10_projection_loss",
     "title": "Projection Loss",
     "concept": "Orthogonal Projection Error",

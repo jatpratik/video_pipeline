@@ -1,12 +1,13 @@
-Stop watching boring AI videos. If you want to really learn AI, you should not just copy code or call APIs. You must understand how they work from the inside.
+Have you ever wondered what actually happens inside a Neural Network? It is not magic. It is just matrix multiplication transforming space. But how does a grid of numbers do that? Let us look at the basics. In this video, you will see the exact geometry of matrix multiplication, and where this matrix lives inside a neural network.
 
-This channel will make AI concepts simple and visual. We are starting two tracks:
+Every point in this 2D space is measured using two fundamental arrows: i-hat, pointing one unit right, and j-hat, pointing one unit up. They are called the basis vectors.
 
-First: Fundamental Maths for AI — where we will understand the basic math behind AI with simple animations.
+When we multiply coordinates by a matrix, we warp the space. But here is the mind-blowing part: to know exactly where any point lands, we only need to track where i-hat and j-hat land!
 
-Second: Generative AI & Agentic AI — where we will build smart AI agents that can think, plan, and work together."
+If we apply a matrix, i-hat stretches to two-zero, and j-hat stretches to zero-three. The columns of our matrix are literally just the new coordinates of where i-hat and j-hat landed!
 
-Great question, Maya! We will not teach outdated theory. Instead, we will explore the latest research and understand the what, why, and how behind every concept. We will write code together, build real projects, test ideas, and learn by doing."
- 
+In a neural network, a single layer with two inputs and two outputs does this exact transformation. The weights of the network are the rows of this matrix, defining how the input space is stretched and turned. But what if our data is too complex to separate with just a linear stretch?
 
-Welcome to the channel. Please subscribe, and check the description for the link. Tell me, what AI topic do you want to learn first?"
+That is the magic of deep learning! A single matrix is linear. But in the next episode, we will see how adding activation functions like ReLU allows the network to bend and fold space like origami!
+
+Subscribe to learn AI math with me!

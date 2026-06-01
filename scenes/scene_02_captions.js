@@ -1,346 +1,1509 @@
 window.scene_02_captions = [
   {
-    "start": 0.791,
-    "end": 5.134,
+    "start": 0.451,
+    "end": 4.753,
     "words": [
-      { "text": "Want", "start": 0.791, "end": 1.092 },
-      { "text": "to", "start": 1.332, "end": 1.452 },
-      { "text": "know", "start": 1.532, "end": 1.752 },
-      { "text": "why", "start": 2.112, "end": 2.492 },
-      { "text": "most", "start": 2.933, "end": 3.173 },
-      { "text": "AI", "start": 3.253, "end": 3.453 },
-      { "text": "agents", "start": 3.513, "end": 3.853 },
-      { "text": "break", "start": 4.213, "end": 4.493 },
-      { "text": "in", "start": 4.553, "end": 4.613 },
-      { "text": "production?", "start": 4.673, "end": 5.134 }
+      {
+        "text": "Have",
+        "start": 0.451,
+        "end": 0.611
+      },
+      {
+        "text": "you",
+        "start": 0.631,
+        "end": 0.731
+      },
+      {
+        "text": "ever",
+        "start": 0.831,
+        "end": 1.012
+      },
+      {
+        "text": "wondered",
+        "start": 1.072,
+        "end": 1.472
+      },
+      {
+        "text": "what",
+        "start": 1.892,
+        "end": 2.052
+      },
+      {
+        "text": "actually",
+        "start": 2.172,
+        "end": 2.552
+      },
+      {
+        "text": "happens",
+        "start": 2.612,
+        "end": 3.033
+      },
+      {
+        "text": "inside",
+        "start": 3.253,
+        "end": 3.653
+      },
+      {
+        "text": "a",
+        "start": 3.673,
+        "end": 3.693
+      },
+      {
+        "text": "neural",
+        "start": 3.993,
+        "end": 4.293
+      },
+      {
+        "text": "network?",
+        "start": 4.353,
+        "end": 4.753
+      }
     ]
   },
   {
-    "start": 5.394,
-    "end": 7.055,
+    "start": 5.314,
+    "end": 6.214,
     "words": [
-      { "text": "Because", "start": 5.394, "end": 5.694 },
-      { "text": "they", "start": 5.754, "end": 5.934 },
-      { "text": "trust", "start": 6.014, "end": 6.354 },
-      { "text": "raw", "start": 6.494, "end": 6.694 },
-      { "text": "text.", "start": 6.755, "end": 7.055 }
+      {
+        "text": "It",
+        "start": 5.314,
+        "end": 5.374
+      },
+      {
+        "text": "is",
+        "start": 5.454,
+        "end": 5.534
+      },
+      {
+        "text": "not",
+        "start": 5.594,
+        "end": 5.774
+      },
+      {
+        "text": "magic.",
+        "start": 5.874,
+        "end": 6.214
+      }
     ]
   },
   {
-    "start": 7.435,
-    "end": 9.596,
+    "start": 6.674,
+    "end": 10.336,
     "words": [
-      { "text": "Here's", "start": 7.435, "end": 7.695 },
-      { "text": "the", "start": 7.755, "end": 7.855 },
-      { "text": "hidden", "start": 7.895, "end": 8.155 },
-      { "text": "problem", "start": 8.215, "end": 8.656 },
-      { "text": "with", "start": 8.716, "end": 8.876 },
-      { "text": "prompt", "start": 8.996, "end": 9.276 },
-      { "text": "chaining.", "start": 9.296, "end": 9.596 }
+      {
+        "text": "It",
+        "start": 6.674,
+        "end": 6.734
+      },
+      {
+        "text": "is",
+        "start": 6.814,
+        "end": 6.875
+      },
+      {
+        "text": "just",
+        "start": 6.955,
+        "end": 7.215
+      },
+      {
+        "text": "matrix",
+        "start": 7.795,
+        "end": 8.275
+      },
+      {
+        "text": "multiplication",
+        "start": 8.355,
+        "end": 9.176
+      },
+      {
+        "text": "transforming",
+        "start": 9.396,
+        "end": 9.976
+      },
+      {
+        "text": "space.",
+        "start": 10.016,
+        "end": 10.336
+      }
     ]
   },
   {
-    "start": 10.076,
-    "end": 14.979,
+    "start": 10.977,
+    "end": 13.178,
     "words": [
-      { "text": "Even", "start": 10.076, "end": 10.296 },
-      { "text": "if", "start": 10.476, "end": 10.556 },
-      { "text": "your", "start": 10.617, "end": 10.797 },
-      { "text": "prompts", "start": 10.857, "end": 11.177 },
-      { "text": "are", "start": 11.317, "end": 11.437 },
-      { "text": "good,", "start": 11.497, "end": 11.757 },
-      { "text": "the", "start": 12.157, "end": 12.277 },
-      { "text": "output", "start": 12.357, "end": 12.758 },
-      { "text": "between", "start": 12.998, "end": 13.358 },
-      { "text": "steps", "start": 13.378, "end": 13.698 },
-      { "text": "is", "start": 13.958, "end": 14.058 },
-      { "text": "usually", "start": 14.198, "end": 14.539 },
-      { "text": "messy.", "start": 14.619, "end": 14.979 }
+      {
+        "text": "But",
+        "start": 10.977,
+        "end": 11.137
+      },
+      {
+        "text": "how",
+        "start": 11.457,
+        "end": 11.597
+      },
+      {
+        "text": "does",
+        "start": 11.657,
+        "end": 11.797
+      },
+      {
+        "text": "a",
+        "start": 11.857,
+        "end": 11.897
+      },
+      {
+        "text": "grid",
+        "start": 11.937,
+        "end": 12.177
+      },
+      {
+        "text": "of",
+        "start": 12.197,
+        "end": 12.277
+      },
+      {
+        "text": "numbers",
+        "start": 12.397,
+        "end": 12.738
+      },
+      {
+        "text": "do",
+        "start": 12.798,
+        "end": 12.938
+      },
+      {
+        "text": "that?",
+        "start": 12.998,
+        "end": 13.178
+      }
     ]
   },
   {
-    "start": 15.459,
-    "end": 17.44,
+    "start": 14.053,
+    "end": 15.554,
     "words": [
-      { "text": "One", "start": 15.459, "end": 15.579 },
-      { "text": "model", "start": 15.639, "end": 15.939 },
-      { "text": "says,", "start": 15.959, "end": 16.179 },
-      { "text": "here", "start": 16.6, "end": 16.84 },
-      { "text": "are", "start": 16.9, "end": 17.0 },
-      { "text": "the", "start": 17.04, "end": 17.12 },
-      { "text": "trends.", "start": 17.16, "end": 17.44 }
+      {
+        "text": "Let",
+        "start": 14.053,
+        "end": 14.213
+      },
+      {
+        "text": "us",
+        "start": 14.293,
+        "end": 14.393
+      },
+      {
+        "text": "look",
+        "start": 14.694,
+        "end": 14.894
+      },
+      {
+        "text": "at",
+        "start": 14.934,
+        "end": 15.014
+      },
+      {
+        "text": "the",
+        "start": 15.034,
+        "end": 15.114
+      },
+      {
+        "text": "basics.",
+        "start": 15.154,
+        "end": 15.554
+      }
     ]
   },
   {
-    "start": 17.86,
-    "end": 20.802,
+    "start": 16.175,
+    "end": 24.983,
     "words": [
-      { "text": "Another", "start": 17.86, "end": 18.2 },
-      { "text": "says,", "start": 18.241, "end": 18.461 },
-      { "text": "I", "start": 18.961, "end": 19.101 },
-      { "text": "found", "start": 19.201, "end": 19.521 },
-      { "text": "three", "start": 19.621, "end": 19.821 },
-      { "text": "important", "start": 19.841, "end": 20.242 },
-      { "text": "insights.", "start": 20.302, "end": 20.802 }
+      {
+        "text": "In",
+        "start": 16.175,
+        "end": 16.255
+      },
+      {
+        "text": "this",
+        "start": 16.295,
+        "end": 16.455
+      },
+      {
+        "text": "video,",
+        "start": 16.535,
+        "end": 16.876
+      },
+      {
+        "text": "you",
+        "start": 17.316,
+        "end": 17.436
+      },
+      {
+        "text": "will",
+        "start": 17.456,
+        "end": 17.656
+      },
+      {
+        "text": "see",
+        "start": 17.696,
+        "end": 17.836
+      },
+      {
+        "text": "the",
+        "start": 17.877,
+        "end": 17.957
+      },
+      {
+        "text": "exact",
+        "start": 17.997,
+        "end": 18.297
+      },
+      {
+        "text": "geometry",
+        "start": 18.337,
+        "end": 18.998
+      },
+      {
+        "text": "of",
+        "start": 19.538,
+        "end": 19.618
+      },
+      {
+        "text": "matrix",
+        "start": 19.738,
+        "end": 20.159
+      },
+      {
+        "text": "multiplication",
+        "start": 20.279,
+        "end": 20.999
+      },
+      {
+        "text": "and",
+        "start": 21.36,
+        "end": 21.46
+      },
+      {
+        "text": "where",
+        "start": 21.56,
+        "end": 21.88
+      },
+      {
+        "text": "this",
+        "start": 22.18,
+        "end": 22.361
+      },
+      {
+        "text": "matrix",
+        "start": 22.461,
+        "end": 22.881
+      },
+      {
+        "text": "lives",
+        "start": 22.941,
+        "end": 23.221
+      },
+      {
+        "text": "inside",
+        "start": 23.482,
+        "end": 23.902
+      },
+      {
+        "text": "a",
+        "start": 23.922,
+        "end": 23.942
+      },
+      {
+        "text": "neural",
+        "start": 24.182,
+        "end": 24.502
+      },
+      {
+        "text": "network.",
+        "start": 24.543,
+        "end": 24.983
+      }
     ]
   },
   {
-    "start": 21.222,
-    "end": 23.483,
+    "start": 25.503,
+    "end": 35.973,
     "words": [
-      { "text": "Another", "start": 21.222, "end": 21.582 },
-      { "text": "changes", "start": 21.662, "end": 22.083 },
-      { "text": "the", "start": 22.143, "end": 22.243 },
-      { "text": "format", "start": 22.283, "end": 22.703 },
-      { "text": "completely.", "start": 22.923, "end": 23.483 }
+      {
+        "text": "Every",
+        "start": 25.503,
+        "end": 25.744
+      },
+      {
+        "text": "point",
+        "start": 25.804,
+        "end": 26.104
+      },
+      {
+        "text": "in",
+        "start": 26.184,
+        "end": 26.264
+      },
+      {
+        "text": "this",
+        "start": 26.304,
+        "end": 26.444
+      },
+      {
+        "text": "2D",
+        "start": 26.524,
+        "end": 26.885
+      },
+      {
+        "text": "space",
+        "start": 26.905,
+        "end": 27.265
+      },
+      {
+        "text": "is",
+        "start": 27.525,
+        "end": 27.605
+      },
+      {
+        "text": "measured",
+        "start": 27.745,
+        "end": 28.166
+      },
+      {
+        "text": "using",
+        "start": 28.566,
+        "end": 28.826
+      },
+      {
+        "text": "two",
+        "start": 29.087,
+        "end": 29.307
+      },
+      {
+        "text": "fundamental",
+        "start": 29.427,
+        "end": 30.128
+      },
+      {
+        "text": "arrows",
+        "start": 30.208,
+        "end": 30.528
+      },
+      {
+        "text": "i",
+        "start": 31.088,
+        "end": 31.188
+      },
+      {
+        "text": "hat",
+        "start": 31.309,
+        "end": 31.549
+      },
+      {
+        "text": "pointing",
+        "start": 31.949,
+        "end": 32.37
+      },
+      {
+        "text": "one",
+        "start": 32.51,
+        "end": 32.63
+      },
+      {
+        "text": "unit",
+        "start": 32.73,
+        "end": 32.97
+      },
+      {
+        "text": "right",
+        "start": 33.01,
+        "end": 33.27
+      },
+      {
+        "text": "and",
+        "start": 33.631,
+        "end": 33.751
+      },
+      {
+        "text": "j",
+        "start": 33.831,
+        "end": 34.071
+      },
+      {
+        "text": "hat",
+        "start": 34.371,
+        "end": 34.612
+      },
+      {
+        "text": "pointing",
+        "start": 34.852,
+        "end": 35.212
+      },
+      {
+        "text": "one",
+        "start": 35.332,
+        "end": 35.432
+      },
+      {
+        "text": "unit",
+        "start": 35.552,
+        "end": 35.813
+      },
+      {
+        "text": "up.",
+        "start": 35.873,
+        "end": 35.973
+      }
     ]
   },
   {
-    "start": 23.803,
-    "end": 26.625,
+    "start": 36.573,
+    "end": 38.315,
     "words": [
-      { "text": "And", "start": 23.803, "end": 23.903 },
-      { "text": "suddenly,", "start": 23.963, "end": 24.444 },
-      { "text": "your", "start": 24.864, "end": 25.144 },
-      { "text": "entire", "start": 25.244, "end": 25.684 },
-      { "text": "pipeline", "start": 25.764, "end": 26.265 },
-      { "text": "breaks.", "start": 26.325, "end": 26.625 }
+      {
+        "text": "They",
+        "start": 36.573,
+        "end": 36.733
+      },
+      {
+        "text": "are",
+        "start": 36.773,
+        "end": 36.874
+      },
+      {
+        "text": "called",
+        "start": 36.934,
+        "end": 37.234
+      },
+      {
+        "text": "the",
+        "start": 37.394,
+        "end": 37.494
+      },
+      {
+        "text": "basis",
+        "start": 37.534,
+        "end": 37.874
+      },
+      {
+        "text": "vectors.",
+        "start": 37.915,
+        "end": 38.315
+      }
     ]
   },
   {
-    "start": 27.005,
-    "end": 30.628,
+    "start": 38.87,
+    "end": 42.973,
     "words": [
-      { "text": "Because", "start": 27.005, "end": 27.285 },
-      { "text": "AI", "start": 27.305, "end": 27.345 },
-      { "text": "systems", "start": 27.946, "end": 28.446 },
-      { "text": "don't", "start": 28.867, "end": 29.067 },
-      { "text": "fail", "start": 29.147, "end": 29.387 },
-      { "text": "from", "start": 29.427, "end": 29.587 },
-      { "text": "intelligence", "start": 29.647, "end": 30.148 },
-      { "text": "problems.", "start": 30.188, "end": 30.628 }
+      {
+        "text": "When",
+        "start": 38.87,
+        "end": 39.07
+      },
+      {
+        "text": "we",
+        "start": 39.17,
+        "end": 39.31
+      },
+      {
+        "text": "multiply",
+        "start": 39.37,
+        "end": 39.951
+      },
+      {
+        "text": "coordinates",
+        "start": 39.991,
+        "end": 40.551
+      },
+      {
+        "text": "by",
+        "start": 40.611,
+        "end": 40.771
+      },
+      {
+        "text": "a",
+        "start": 40.791,
+        "end": 40.811
+      },
+      {
+        "text": "matrix,",
+        "start": 40.871,
+        "end": 41.332
+      },
+      {
+        "text": "we",
+        "start": 42.012,
+        "end": 42.192
+      },
+      {
+        "text": "warp",
+        "start": 42.232,
+        "end": 42.532
+      },
+      {
+        "text": "the",
+        "start": 42.572,
+        "end": 42.652
+      },
+      {
+        "text": "space.",
+        "start": 42.672,
+        "end": 42.973
+      }
     ]
   },
   {
-    "start": 31.088,
-    "end": 32.77,
+    "start": 43.593,
+    "end": 48.316,
     "words": [
-      { "text": "They", "start": 31.088, "end": 31.269 },
-      { "text": "fail", "start": 31.329, "end": 31.569 },
-      { "text": "from", "start": 31.609, "end": 31.769 },
-      { "text": "formatting", "start": 31.829, "end": 32.309 },
-      { "text": "problems.", "start": 32.349, "end": 32.77 }
+      {
+        "text": "But",
+        "start": 43.593,
+        "end": 43.733
+      },
+      {
+        "text": "here",
+        "start": 43.813,
+        "end": 44.013
+      },
+      {
+        "text": "is",
+        "start": 44.093,
+        "end": 44.173
+      },
+      {
+        "text": "the",
+        "start": 44.213,
+        "end": 44.313
+      },
+      {
+        "text": "mind",
+        "start": 44.353,
+        "end": 44.654
+      },
+      {
+        "text": "blowing",
+        "start": 44.874,
+        "end": 45.234
+      },
+      {
+        "text": "part",
+        "start": 45.334,
+        "end": 45.634
+      },
+      {
+        "text": "to",
+        "start": 46.175,
+        "end": 46.275
+      },
+      {
+        "text": "know",
+        "start": 46.335,
+        "end": 46.495
+      },
+      {
+        "text": "exactly",
+        "start": 46.575,
+        "end": 47.095
+      },
+      {
+        "text": "where",
+        "start": 47.175,
+        "end": 47.415
+      },
+      {
+        "text": "any",
+        "start": 47.475,
+        "end": 47.635
+      },
+      {
+        "text": "point",
+        "start": 47.696,
+        "end": 47.936
+      },
+      {
+        "text": "lands.",
+        "start": 47.996,
+        "end": 48.316
+      }
     ]
   },
   {
-    "start": 33.21,
-    "end": 36.553,
+    "start": 49.076,
+    "end": 59.343,
     "words": [
-      { "text": "That's", "start": 33.21, "end": 33.43 },
-      { "text": "why", "start": 33.47, "end": 33.63 },
-      { "text": "production", "start": 33.69, "end": 34.111 },
-      { "text": "AI", "start": 34.171, "end": 34.411 },
-      { "text": "systems", "start": 34.451, "end": 34.851 },
-      { "text": "use", "start": 35.472, "end": 35.592 },
-      { "text": "structured", "start": 35.632, "end": 36.092 },
-      { "text": "output.", "start": 36.172, "end": 36.553 }
+      {
+        "text": "We",
+        "start": 49.076,
+        "end": 49.256
+      },
+      {
+        "text": "only",
+        "start": 49.397,
+        "end": 49.657
+      },
+      {
+        "text": "need",
+        "start": 49.717,
+        "end": 49.917
+      },
+      {
+        "text": "to",
+        "start": 49.937,
+        "end": 50.037
+      },
+      {
+        "text": "track",
+        "start": 50.077,
+        "end": 50.337
+      },
+      {
+        "text": "where",
+        "start": 50.397,
+        "end": 50.597
+      },
+      {
+        "text": "i",
+        "start": 50.677,
+        "end": 50.737
+      },
+      {
+        "text": "hat",
+        "start": 50.797,
+        "end": 50.998
+      },
+      {
+        "text": "and",
+        "start": 51.478,
+        "end": 51.578
+      },
+      {
+        "text": "j",
+        "start": 51.678,
+        "end": 51.838
+      },
+      {
+        "text": "hat",
+        "start": 51.898,
+        "end": 52.058
+      },
+      {
+        "text": "land",
+        "start": 52.118,
+        "end": 52.398
+      },
+      {
+        "text": "if",
+        "start": 52.879,
+        "end": 52.959
+      },
+      {
+        "text": "we",
+        "start": 52.999,
+        "end": 53.119
+      },
+      {
+        "text": "apply",
+        "start": 53.179,
+        "end": 53.559
+      },
+      {
+        "text": "a",
+        "start": 53.639,
+        "end": 53.699
+      },
+      {
+        "text": "matrix",
+        "start": 53.739,
+        "end": 54.18
+      },
+      {
+        "text": "i",
+        "start": 54.86,
+        "end": 54.96
+      },
+      {
+        "text": "hat",
+        "start": 55.0,
+        "end": 55.18
+      },
+      {
+        "text": "stretches",
+        "start": 55.22,
+        "end": 55.68
+      },
+      {
+        "text": "to",
+        "start": 55.961,
+        "end": 56.161
+      },
+      {
+        "text": "2,",
+        "start": 56.381,
+        "end": 56.581
+      },
+      {
+        "text": "0",
+        "start": 56.681,
+        "end": 56.781
+      },
+      {
+        "text": "and",
+        "start": 57.201,
+        "end": 57.322
+      },
+      {
+        "text": "j",
+        "start": 57.422,
+        "end": 57.622
+      },
+      {
+        "text": "hat",
+        "start": 57.682,
+        "end": 57.822
+      },
+      {
+        "text": "stretches",
+        "start": 57.882,
+        "end": 58.342
+      },
+      {
+        "text": "to",
+        "start": 58.442,
+        "end": 58.562
+      },
+      {
+        "text": "0,",
+        "start": 58.622,
+        "end": 58.983
+      },
+      {
+        "text": "3.",
+        "start": 59.103,
+        "end": 59.343
+      }
     ]
   },
   {
-    "start": 36.973,
-    "end": 37.854,
+    "start": 59.683,
+    "end": 65.727,
     "words": [
-      { "text": "Usually", "start": 36.973, "end": 37.333 },
-      { "text": "JSON.", "start": 37.393, "end": 37.854 }
+      {
+        "text": "The",
+        "start": 59.683,
+        "end": 59.783
+      },
+      {
+        "text": "columns",
+        "start": 59.863,
+        "end": 60.223
+      },
+      {
+        "text": "of",
+        "start": 60.283,
+        "end": 60.343
+      },
+      {
+        "text": "our",
+        "start": 60.423,
+        "end": 60.503
+      },
+      {
+        "text": "matrix",
+        "start": 60.524,
+        "end": 60.944
+      },
+      {
+        "text": "are",
+        "start": 61.444,
+        "end": 61.564
+      },
+      {
+        "text": "literally",
+        "start": 61.604,
+        "end": 61.984
+      },
+      {
+        "text": "just",
+        "start": 62.044,
+        "end": 62.285
+      },
+      {
+        "text": "the",
+        "start": 62.745,
+        "end": 62.865
+      },
+      {
+        "text": "new",
+        "start": 62.945,
+        "end": 63.145
+      },
+      {
+        "text": "coordinates",
+        "start": 63.225,
+        "end": 63.766
+      },
+      {
+        "text": "of",
+        "start": 64.286,
+        "end": 64.346
+      },
+      {
+        "text": "where",
+        "start": 64.406,
+        "end": 64.606
+      },
+      {
+        "text": "i",
+        "start": 64.666,
+        "end": 64.726
+      },
+      {
+        "text": "hat",
+        "start": 64.786,
+        "end": 65.026
+      },
+      {
+        "text": "and",
+        "start": 65.447,
+        "end": 65.567
+      },
+      {
+        "text": "j",
+        "start": 65.707,
+        "end": 65.727
+      }
     ]
   },
   {
-    "start": 38.254,
-    "end": 43.018,
+    "start": 66.37,
+    "end": 76.057,
     "words": [
-      { "text": "Instead", "start": 38.254, "end": 38.594 },
-      { "text": "of", "start": 38.634, "end": 38.715 },
-      { "text": "vague", "start": 38.775, "end": 39.015 },
-      { "text": "paragraphs,", "start": 39.075, "end": 39.575 },
-      { "text": "the", "start": 39.875, "end": 39.976 },
-      { "text": "model", "start": 40.056, "end": 40.416 },
-      { "text": "returns", "start": 40.456, "end": 40.856 },
-      { "text": "clean", "start": 41.176, "end": 41.437 },
-      { "text": "machine,", "start": 41.477, "end": 41.817 },
-      { "text": "readable", "start": 42.217, "end": 42.638 },
-      { "text": "data.", "start": 42.698, "end": 43.018 }
+      {
+        "text": "Hat",
+        "start": 66.37,
+        "end": 66.59
+      },
+      {
+        "text": "landed",
+        "start": 66.65,
+        "end": 67.05
+      },
+      {
+        "text": "in",
+        "start": 67.811,
+        "end": 67.911
+      },
+      {
+        "text": "a",
+        "start": 67.951,
+        "end": 67.991
+      },
+      {
+        "text": "neural",
+        "start": 68.051,
+        "end": 68.311
+      },
+      {
+        "text": "network,",
+        "start": 68.371,
+        "end": 68.812
+      },
+      {
+        "text": "a",
+        "start": 69.392,
+        "end": 69.432
+      },
+      {
+        "text": "single",
+        "start": 69.532,
+        "end": 69.933
+      },
+      {
+        "text": "layer",
+        "start": 69.993,
+        "end": 70.293
+      },
+      {
+        "text": "with",
+        "start": 70.953,
+        "end": 71.133
+      },
+      {
+        "text": "two",
+        "start": 71.193,
+        "end": 71.394
+      },
+      {
+        "text": "inputs",
+        "start": 71.554,
+        "end": 71.974
+      },
+      {
+        "text": "and",
+        "start": 72.234,
+        "end": 72.334
+      },
+      {
+        "text": "two",
+        "start": 72.394,
+        "end": 72.554
+      },
+      {
+        "text": "outputs",
+        "start": 72.594,
+        "end": 73.015
+      },
+      {
+        "text": "does",
+        "start": 73.435,
+        "end": 73.675
+      },
+      {
+        "text": "this",
+        "start": 74.175,
+        "end": 74.436
+      },
+      {
+        "text": "exact",
+        "start": 74.936,
+        "end": 75.316
+      },
+      {
+        "text": "transformation.",
+        "start": 75.376,
+        "end": 76.057
+      }
     ]
   },
   {
-    "start": 43.198,
-    "end": 46.581,
+    "start": 76.717,
+    "end": 84.383,
     "words": [
-      { "text": "Like", "start": 43.198, "end": 43.378 },
-      { "text": "this,", "start": 43.418, "end": 43.618 },
-      { "text": "now", "start": 44.059, "end": 44.239 },
-      { "text": "the", "start": 44.259, "end": 44.379 },
-      { "text": "next", "start": 44.399, "end": 44.559 },
-      { "text": "step", "start": 44.579, "end": 44.779 },
-      { "text": "knows", "start": 44.819, "end": 45.02 },
-      { "text": "exactly", "start": 45.12, "end": 45.62 },
-      { "text": "where", "start": 45.7, "end": 45.9 },
-      { "text": "the", "start": 45.96, "end": 46.04 },
-      { "text": "data", "start": 46.08, "end": 46.381 },
-      { "text": "is.", "start": 46.481, "end": 46.581 }
+      {
+        "text": "The",
+        "start": 76.717,
+        "end": 76.817
+      },
+      {
+        "text": "weights",
+        "start": 76.877,
+        "end": 77.138
+      },
+      {
+        "text": "of",
+        "start": 77.198,
+        "end": 77.278
+      },
+      {
+        "text": "the",
+        "start": 77.318,
+        "end": 77.378
+      },
+      {
+        "text": "network",
+        "start": 77.438,
+        "end": 77.838
+      },
+      {
+        "text": "are",
+        "start": 78.238,
+        "end": 78.378
+      },
+      {
+        "text": "the",
+        "start": 78.418,
+        "end": 78.518
+      },
+      {
+        "text": "rows",
+        "start": 78.559,
+        "end": 78.799
+      },
+      {
+        "text": "of",
+        "start": 78.839,
+        "end": 78.919
+      },
+      {
+        "text": "this",
+        "start": 78.979,
+        "end": 79.139
+      },
+      {
+        "text": "matrix,",
+        "start": 79.179,
+        "end": 79.619
+      },
+      {
+        "text": "defining",
+        "start": 79.899,
+        "end": 80.46
+      },
+      {
+        "text": "how",
+        "start": 81.3,
+        "end": 81.521
+      },
+      {
+        "text": "the",
+        "start": 81.581,
+        "end": 81.781
+      },
+      {
+        "text": "input",
+        "start": 82.281,
+        "end": 82.601
+      },
+      {
+        "text": "space",
+        "start": 82.621,
+        "end": 82.962
+      },
+      {
+        "text": "is",
+        "start": 83.162,
+        "end": 83.242
+      },
+      {
+        "text": "stretched",
+        "start": 83.282,
+        "end": 83.762
+      },
+      {
+        "text": "and",
+        "start": 83.962,
+        "end": 84.042
+      },
+      {
+        "text": "turned.",
+        "start": 84.102,
+        "end": 84.383
+      }
     ]
   },
   {
-    "start": 46.921,
-    "end": 47.502,
+    "start": 85.143,
+    "end": 108.759,
     "words": [
-      { "text": "No", "start": 46.921, "end": 47.081 },
-      { "text": "guessing.", "start": 47.141, "end": 47.502 }
+      {
+        "text": "but",
+        "start": 85.143,
+        "end": 85.283
+      },
+      {
+        "text": "what",
+        "start": 85.344,
+        "end": 85.544
+      },
+      {
+        "text": "if",
+        "start": 85.684,
+        "end": 85.764
+      },
+      {
+        "text": "our",
+        "start": 85.824,
+        "end": 85.924
+      },
+      {
+        "text": "data",
+        "start": 85.965,
+        "end": 86.285
+      },
+      {
+        "text": "is",
+        "start": 86.485,
+        "end": 86.565
+      },
+      {
+        "text": "too",
+        "start": 86.605,
+        "end": 86.786
+      },
+      {
+        "text": "complex",
+        "start": 86.866,
+        "end": 87.427
+      },
+      {
+        "text": "to",
+        "start": 88.088,
+        "end": 88.228
+      },
+      {
+        "text": "separate",
+        "start": 88.288,
+        "end": 88.749
+      },
+      {
+        "text": "with",
+        "start": 88.849,
+        "end": 88.989
+      },
+      {
+        "text": "just",
+        "start": 89.049,
+        "end": 89.269
+      },
+      {
+        "text": "a",
+        "start": 89.31,
+        "end": 89.35
+      },
+      {
+        "text": "linear",
+        "start": 89.45,
+        "end": 89.81
+      },
+      {
+        "text": "stretch",
+        "start": 89.85,
+        "end": 90.171
+      },
+      {
+        "text": "that",
+        "start": 90.792,
+        "end": 90.992
+      },
+      {
+        "text": "is",
+        "start": 91.072,
+        "end": 91.152
+      },
+      {
+        "text": "the",
+        "start": 91.212,
+        "end": 91.313
+      },
+      {
+        "text": "magic",
+        "start": 91.353,
+        "end": 91.733
+      },
+      {
+        "text": "of",
+        "start": 91.793,
+        "end": 91.873
+      },
+      {
+        "text": "deep",
+        "start": 91.953,
+        "end": 92.194
+      },
+      {
+        "text": "learning",
+        "start": 92.254,
+        "end": 92.614
+      },
+      {
+        "text": "a",
+        "start": 93.336,
+        "end": 93.396
+      },
+      {
+        "text": "single",
+        "start": 93.436,
+        "end": 93.776
+      },
+      {
+        "text": "matrix",
+        "start": 93.836,
+        "end": 94.277
+      },
+      {
+        "text": "is",
+        "start": 94.377,
+        "end": 94.497
+      },
+      {
+        "text": "linear",
+        "start": 94.577,
+        "end": 94.938
+      },
+      {
+        "text": "but",
+        "start": 95.639,
+        "end": 95.799
+      },
+      {
+        "text": "in",
+        "start": 95.879,
+        "end": 95.939
+      },
+      {
+        "text": "the",
+        "start": 95.98,
+        "end": 96.04
+      },
+      {
+        "text": "next",
+        "start": 96.1,
+        "end": 96.3
+      },
+      {
+        "text": "episode",
+        "start": 96.38,
+        "end": 96.821
+      },
+      {
+        "text": "we",
+        "start": 97.442,
+        "end": 97.562
+      },
+      {
+        "text": "will",
+        "start": 97.602,
+        "end": 97.802
+      },
+      {
+        "text": "see",
+        "start": 97.862,
+        "end": 98.043
+      },
+      {
+        "text": "how",
+        "start": 98.123,
+        "end": 98.303
+      },
+      {
+        "text": "adding",
+        "start": 98.443,
+        "end": 98.684
+      },
+      {
+        "text": "activation",
+        "start": 98.764,
+        "end": 99.345
+      },
+      {
+        "text": "functions",
+        "start": 99.425,
+        "end": 99.865
+      },
+      {
+        "text": "like",
+        "start": 99.925,
+        "end": 100.146
+      },
+      {
+        "text": "real",
+        "start": 100.606,
+        "end": 100.887
+      },
+      {
+        "text": "u",
+        "start": 101.027,
+        "end": 101.107
+      },
+      {
+        "text": "allows",
+        "start": 101.588,
+        "end": 101.948
+      },
+      {
+        "text": "the",
+        "start": 101.989,
+        "end": 102.089
+      },
+      {
+        "text": "network",
+        "start": 102.129,
+        "end": 102.589
+      },
+      {
+        "text": "to",
+        "start": 102.89,
+        "end": 103.03
+      },
+      {
+        "text": "bend",
+        "start": 103.13,
+        "end": 103.431
+      },
+      {
+        "text": "and",
+        "start": 103.992,
+        "end": 104.092
+      },
+      {
+        "text": "fold",
+        "start": 104.192,
+        "end": 104.432
+      },
+      {
+        "text": "space",
+        "start": 104.492,
+        "end": 104.773
+      },
+      {
+        "text": "like",
+        "start": 104.813,
+        "end": 104.973
+      },
+      {
+        "text": "origami",
+        "start": 105.113,
+        "end": 105.634
+      },
+      {
+        "text": "subscribe",
+        "start": 106.215,
+        "end": 106.816
+      },
+      {
+        "text": "to",
+        "start": 106.876,
+        "end": 106.996
+      },
+      {
+        "text": "learn",
+        "start": 107.056,
+        "end": 107.297
+      },
+      {
+        "text": "ai",
+        "start": 107.317,
+        "end": 107.357
+      },
+      {
+        "text": "math",
+        "start": 107.998,
+        "end": 108.278
+      },
+      {
+        "text": "with",
+        "start": 108.358,
+        "end": 108.518
+      },
+      {
+        "text": "me",
+        "start": 108.639,
+        "end": 108.759
+      }
     ]
   },
   {
-    "start": 47.942,
-    "end": 48.943,
+    "start": 90.5,
+    "end": 94.1,
     "words": [
-      { "text": "No", "start": 47.942, "end": 48.122 },
-      { "text": "parsing", "start": 48.182, "end": 48.562 },
-      { "text": "chaos.", "start": 48.602, "end": 48.943 }
+      {
+        "text": "Wait,",
+        "start": 90.5,
+        "end": 90.9
+      },
+      {
+        "text": "Pratik!",
+        "start": 90.9,
+        "end": 91.4
+      },
+      {
+        "text": "If",
+        "start": 91.6,
+        "end": 91.8
+      },
+      {
+        "text": "a",
+        "start": 91.8,
+        "end": 91.9
+      },
+      {
+        "text": "matrix",
+        "start": 91.9,
+        "end": 92.4
+      },
+      {
+        "text": "can",
+        "start": 92.4,
+        "end": 92.6
+      },
+      {
+        "text": "only",
+        "start": 92.6,
+        "end": 92.9
+      },
+      {
+        "text": "stretch",
+        "start": 92.9,
+        "end": 93.4
+      },
+      {
+        "text": "and",
+        "start": 93.4,
+        "end": 93.6
+      },
+      {
+        "text": "rotate",
+        "start": 93.6,
+        "end": 94.1
+      }
     ]
   },
   {
-    "start": 49.503,
-    "end": 50.484,
+    "start": 94.1,
+    "end": 98.5,
     "words": [
-      { "text": "No", "start": 49.503, "end": 49.683 },
-      { "text": "broken", "start": 49.723, "end": 50.084 },
-      { "text": "chains.", "start": 50.144, "end": 50.484 }
-    ]
-  },
-  {
-    "start": 50.884,
-    "end": 54.227,
-    "words": [
-      { "text": "This", "start": 50.884, "end": 51.024 },
-      { "text": "is", "start": 51.084, "end": 51.165 },
-      { "text": "what", "start": 51.225, "end": 51.385 },
-      { "text": "turns", "start": 51.445, "end": 51.705 },
-      { "text": "prompt", "start": 51.965, "end": 52.265 },
-      { "text": "chaining", "start": 52.305, "end": 52.666 },
-      { "text": "into", "start": 53.106, "end": 53.346 },
-      { "text": "actual", "start": 53.446, "end": 53.727 },
-      { "text": "engineering.", "start": 53.767, "end": 54.227 }
-    ]
-  },
-  {
-    "start": 54.567,
-    "end": 58.85,
-    "words": [
-      { "text": "And", "start": 54.567, "end": 54.647 },
-      { "text": "honestly,", "start": 54.727, "end": 55.228 },
-      { "text": "most", "start": 55.728, "end": 55.988 },
-      { "text": "beginner", "start": 56.068, "end": 56.489 },
-      { "text": "AI", "start": 56.569, "end": 56.669 },
-      { "text": "apps", "start": 56.769, "end": 56.969 },
-      { "text": "completely", "start": 57.229, "end": 57.79 },
-      { "text": "ignore", "start": 57.85, "end": 58.31 },
-      { "text": "this", "start": 58.35, "end": 58.51 },
-      { "text": "layer.", "start": 58.57, "end": 58.85 }
-    ]
-  },
-  {
-    "start": 59.171,
-    "end": 60.792,
-    "words": [
-      { "text": "That", "start": 59.171, "end": 59.351 },
-      { "text": "happens", "start": 59.391, "end": 59.771 },
-      { "text": "all", "start": 60.252, "end": 60.372 },
-      { "text": "the", "start": 60.412, "end": 60.512 },
-      { "text": "time.", "start": 60.552, "end": 60.792 }
-    ]
-  },
-  {
-    "start": 61.212,
-    "end": 69.339,
-    "words": [
-      { "text": "That's", "start": 61.212, "end": 61.453 },
-      { "text": "why", "start": 61.533, "end": 61.753 },
-      { "text": "modern", "start": 61.893, "end": 62.213 },
-      { "text": "agent", "start": 62.273, "end": 62.533 },
-      { "text": "systems", "start": 62.754, "end": 63.254 },
-      { "text": "add", "start": 63.794, "end": 63.955 },
-      { "text": "validators,", "start": 64.155, "end": 64.875 },
-      { "text": "retries", "start": 65.276, "end": 65.756 },
-      { "text": "and", "start": 65.876, "end": 65.976 },
-      { "text": "schema", "start": 66.076, "end": 66.497 },
-      { "text": "enforcement", "start": 66.557, "end": 67.217 },
-      { "text": "before", "start": 67.638, "end": 67.918 },
-      { "text": "moving", "start": 67.998, "end": 68.338 },
-      { "text": "to", "start": 68.498, "end": 68.658 },
-      { "text": "the", "start": 68.678, "end": 68.758 },
-      { "text": "next", "start": 68.838, "end": 69.039 },
-      { "text": "step.", "start": 69.079, "end": 69.339 }
-    ]
-  },
-  {
-    "start": 69.579,
-    "end": 72.782,
-    "words": [
-      { "text": "Production", "start": 69.579, "end": 70.099 },
-      { "text": "agents", "start": 70.22, "end": 70.52 },
-      { "text": "don't", "start": 70.6, "end": 70.82 },
-      { "text": "just", "start": 70.88, "end": 71.16 },
-      { "text": "trust", "start": 71.641, "end": 71.921 },
-      { "text": "the", "start": 71.961, "end": 72.041 },
-      { "text": "model", "start": 72.061, "end": 72.321 },
-      { "text": "blindly.", "start": 72.361, "end": 72.782 }
-    ]
-  },
-  {
-    "start": 73.362,
-    "end": 74.423,
-    "words": [
-      { "text": "They", "start": 73.362, "end": 73.522 },
-      { "text": "verify", "start": 73.542, "end": 73.943 },
-      { "text": "everything.", "start": 74.023, "end": 74.423 }
-    ]
-  },
-  {
-    "start": 75.053,
-    "end": 85.327,
-    "words": [
-      { "text": "And", "start": 75.053, "end": 75.174 },
-      { "text": "once", "start": 75.334, "end": 75.515 },
-      { "text": "you", "start": 75.555, "end": 75.695 },
-      { "text": "can", "start": 75.715, "end": 75.896 },
-      { "text": "trust", "start": 75.936, "end": 76.217 },
-      { "text": "structured", "start": 76.257, "end": 76.739 },
-      { "text": "outputs,", "start": 76.839, "end": 77.26 },
-      { "text": "you", "start": 77.802, "end": 78.023 },
-      { "text": "unlock", "start": 78.123, "end": 78.525 },
-      { "text": "something", "start": 78.585, "end": 78.986 },
-      { "text": "way", "start": 79.046, "end": 79.267 },
-      { "text": "bigger,", "start": 79.327, "end": 79.628 },
-      { "text": "AI", "start": 80.17, "end": 80.451 },
-      { "text": "systems", "start": 80.491, "end": 80.912 },
-      { "text": "that", "start": 80.972, "end": 81.153 },
-      { "text": "can", "start": 81.193, "end": 81.374 },
-      { "text": "call", "start": 81.434, "end": 81.695 },
-      { "text": "tools,", "start": 81.755, "end": 82.116 },
-      { "text": "APIs,", "start": 82.698, "end": 83.26 },
-      { "text": "and", "start": 83.822, "end": 83.942 },
-      { "text": "databases", "start": 84.002, "end": 84.684 },
-      { "text": "reliably.", "start": 84.745, "end": 85.327 }
-    ]
-  },
-  {
-    "start": 85.828,
-    "end": 88.396,
-    "words": [
-      { "text": "That's", "start": 85.828, "end": 86.069 },
-      { "text": "where", "start": 86.129, "end": 86.33 },
-      { "text": "agents", "start": 86.45, "end": 86.831 },
-      { "text": "start", "start": 86.952, "end": 87.293 },
-      { "text": "becoming", "start": 87.333, "end": 87.774 },
-      { "text": "autonomous.", "start": 87.855, "end": 88.396 }
+      {
+        "text": "space",
+        "start": 94.1,
+        "end": 94.5
+      },
+      {
+        "text": "in",
+        "start": 94.5,
+        "end": 94.7
+      },
+      {
+        "text": "straight",
+        "start": 94.7,
+        "end": 95.1
+      },
+      {
+        "text": "lines,",
+        "start": 95.1,
+        "end": 95.6
+      },
+      {
+        "text": "how",
+        "start": 96.0,
+        "end": 96.2
+      },
+      {
+        "text": "do",
+        "start": 96.2,
+        "end": 96.4
+      },
+      {
+        "text": "neural",
+        "start": 96.4,
+        "end": 96.7
+      },
+      {
+        "text": "networks",
+        "start": 96.7,
+        "end": 97.1
+      },
+      {
+        "text": "separate",
+        "start": 97.1,
+        "end": 97.6
+      },
+      {
+        "text": "complex,",
+        "start": 97.6,
+        "end": 98.0
+      },
+      {
+        "text": "mixed-up",
+        "start": 98.0,
+        "end": 98.3
+      },
+      {
+        "text": "data?",
+        "start": 98.3,
+        "end": 98.5
+      }
     ]
   }
 ];

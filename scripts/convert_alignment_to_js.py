@@ -4,7 +4,7 @@ from pathlib import Path
 def convert():
     base_dir = Path(__file__).parent.parent
     alignment_path = base_dir / "timestamps" / "alignment.json"
-    js_output_path = base_dir / "scenes" / "scene_05_captions.js"
+    js_output_path = base_dir / "scenes" / "scene_02_captions.js"
     
     with open(alignment_path, "r", encoding="utf-8") as f:
         data = json.load(f)
@@ -28,7 +28,7 @@ def convert():
             "words": js_words
         })
         
-    js_content = f"window.scene_05_captions = {json.dumps(js_segments, indent=2)};"
+    js_content = f"window.scene_02_captions = {json.dumps(js_segments, indent=2)};"
     
     with open(js_output_path, "w", encoding="utf-8") as f:
         f.write(js_content)

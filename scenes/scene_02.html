@@ -1,1754 +1,1581 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, width=1080, height=1920">
-    <title>Why JSON Makes AI Agents 10x More Reliable</title>
+    <title>Space Transformations (Ep. 02) — Premium Visuals</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/tsparticles@2.12.0/tsparticles.bundle.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600;700&family=Inter:wght@400;700;900&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600;700&family=Inter:wght@400;700;900&family=Outfit:wght@400;700;900&display=swap" rel="stylesheet">
 
     <style>
         :root {
-            --bg-color: #0A0A0F;
-            --neon-cyan: #00F0FF;
-            --neon-pink: #FF3366;
-            --neon-purple: #7B2CBF;
-            --neon-green: #00FFAA;
-            --neon-red: #FF3366;
-            --glass-bg: rgba(255, 255, 255, 0.03);
-            --glass-border: rgba(255, 255, 255, 0.1);
+            --bg-color: #060816;
+            --neon-cyan: #00f0ff;
+            --neon-pink: #ff2a85;
+            --neon-purple: #7b2cbf;
+            --neon-yellow: #ffdd00;
+            --neon-orange: #ff6b35;
+            --glass-bg: rgba(12, 14, 28, 0.88);
+            --glass-border: rgba(255, 255, 255, 0.12);
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
 
-        body {
+        html, body {
             background-color: var(--bg-color);
             color: #ffffff;
-            font-family: 'Inter', sans-serif;
+            font-family: 'Outfit', 'Inter', sans-serif;
             width: 1080px;
             height: 1920px;
             overflow: hidden;
             position: relative;
         }
 
-        /* Background layers */
+        /* Deep space nebula background */
+        .nebula-layer {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background:
+                radial-gradient(ellipse at 25% 20%, rgba(123, 44, 191, 0.08) 0%, transparent 50%),
+                radial-gradient(ellipse at 75% 60%, rgba(0, 240, 255, 0.05) 0%, transparent 45%),
+                radial-gradient(ellipse at 50% 85%, rgba(255, 42, 133, 0.06) 0%, transparent 40%);
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        /* Subtle micro-grid overlay */
         .bg-grid {
             position: absolute;
             top: 0; left: 0;
             width: 100%; height: 100%;
             background-image:
-                linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+                linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
             background-size: 40px 40px;
-            z-index: 1;
+            z-index: 2;
             opacity: 0.5;
         }
 
+        /* Film-grain scanlines */
         .scanlines {
             position: absolute;
             top: 0; left: 0;
             width: 100%; height: 100%;
             background: repeating-linear-gradient(0deg,
-                rgba(0, 0, 0, 0.15),
-                rgba(0, 0, 0, 0.15) 1px,
+                rgba(0, 0, 0, 0.12),
+                rgba(0, 0, 0, 0.12) 1px,
                 transparent 1px,
                 transparent 3px);
             pointer-events: none;
-            z-index: 100;
-            opacity: 0.6;
+            z-index: 99;
+            opacity: 0.4;
         }
 
-        .ambient-glow {
+        /* 2D Visual Layer */
+        #canvas-2d {
             position: absolute;
-            width: 600px; height: 600px;
-            background: radial-gradient(circle, rgba(123, 44, 191, 0.2) 0%, rgba(0, 0, 0, 0) 70%);
-            top: 50%; left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 2;
-            filter: blur(50px);
+            top: 0; left: 0;
+            width: 1080px; height: 1920px;
+            z-index: 5;
+            pointer-events: none;
         }
 
-        /* Scene Container */
         .scene-container {
             position: absolute;
             top: 0; left: 0;
             width: 100%; height: 100%;
             z-index: 10;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            pointer-events: none;
         }
 
-        /* Core Scene */
-        #core-scene {
-            position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-end;
-            align-items: center;
-            z-index: 15;
-        }
-
-        /* Caption Container */
+        /* Captions Container — premium glassmorphism */
         #caption-container {
-            font-size: 48px;
-            font-weight: 900;
-            text-align: center;
-            min-height: 100px;
-            color: #fff;
-            width: 85%;
-            max-width: 950px;
-            text-shadow: 0 0 20px rgba(0, 240, 255, 0.3);
+            position: absolute;
+            left: 50%;
+            bottom: 540px;
+            transform: translateX(-50%);
+            width: 920px;
+            min-height: 110px;
+            z-index: 90;
             display: flex;
-            flex-direction: column;
             align-items: center;
-            z-index: 20;
-            margin-bottom: 540px;
+            justify-content: center;
+            background: rgba(8, 10, 20, 0.72);
+            border: 1.5px solid rgba(255, 255, 255, 0.08);
+            border-radius: 22px;
+            padding: 16px 28px;
+            box-shadow:
+                0 12px 50px rgba(0, 0, 0, 0.6),
+                inset 0 1px 0 rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(12px);
         }
 
         .sentence-block {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 18px;
+            align-content: center;
             width: 100%;
+            gap: 8px 12px;
+            text-shadow: 0 3px 10px rgba(0, 0, 0, 0.9);
         }
 
         .cap-word {
             display: inline-block;
-            transition: opacity 0.1s, transform 0.1s, color 0.1s;
-        }
-
-        /* Hook Captions (first ~7s) */
-        .hook-caption .cap-word {
-            font-size: 36px;
-            opacity: 0.15;
-            transform: scale(0.9);
-        }
-
-        .hook-caption .cap-word.active {
-            opacity: 1;
-            transform: scale(1.15);
-            color: #fff;
-            text-shadow: 0 0 25px rgba(255, 255, 255, 0.8);
-        }
-
-        .hook-caption .cap-word.active-break {
-            opacity: 1;
-            transform: scale(1.3) rotate(-3deg);
-            color: var(--neon-pink) !important;
-            text-shadow: 0 0 35px var(--neon-pink);
-            font-weight: 900;
-        }
-
-        .hook-caption .cap-word.active-raw {
-            opacity: 1;
-            transform: scale(1.3) rotate(3deg);
-            color: var(--neon-cyan) !important;
-            text-shadow: 0 0 35px var(--neon-cyan);
-            font-weight: 900;
-        }
-
-        /* Simple Captions */
-        .simple-caption .cap-word {
-            opacity: 0.35;
-            font-size: 34px;
+            font-size: 32px;
             font-weight: 800;
-            color: #ffffff;
-            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+            color: rgba(255, 255, 255, 0.92);
+            transition: color 0.12s ease, transform 0.12s ease, text-shadow 0.12s ease;
+            transform-origin: center;
+            line-height: 1.4;
         }
 
-        .simple-caption .cap-word.active {
-            opacity: 1;
-            color: var(--neon-cyan) !important;
-            text-shadow: 0 0 20px var(--neon-cyan);
+        .cap-word.active {
+            color: #00f0ff !important;
+            text-shadow: 0 0 22px #00f0ff, 0 0 8px #00f0ff;
+            transform: scale(1.15);
+            font-weight: 900;
         }
 
-        /* Face Overlay (Boundary Guide) */
-        .face-overlay {
+        .cap-word.active-highlight {
+            color: #ffdd00 !important;
+            text-shadow: 0 0 22px #ffdd00, 0 0 10px #ffdd00;
+            transform: scale(1.18);
+            font-weight: 900;
+        }
+
+        .cap-word.active-tara {
+            color: #ff2a85 !important;
+            text-shadow: 0 0 22px #ff2a85, 0 0 10px #ff2a85;
+            transform: scale(1.15);
+            font-weight: 900;
+        }
+
+        .cap-word.past {
+            color: rgba(255, 255, 255, 0.32) !important;
+            text-shadow: none;
+            transform: scale(1.0);
+        }
+
+        /* ========== GLASSMORPHIC UI CARDS ========== */
+        .glass-card {
             position: absolute;
-            left: 80px;
-            bottom: 80px;
-            z-index: 200;
-        }
-
-        .face-circle {
-            width: 400px;
-            height: 400px;
-            border-radius: 50%;
-            background: rgba(10, 10, 15, 0.4);
-            border: 2px solid rgba(255, 51, 102, 0.25);
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3), inset 0 0 20px rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(20px);
-            position: relative;
+            background: var(--glass-bg);
+            border: 2px solid var(--glass-border);
+            border-radius: 26px;
+            box-shadow:
+                0 24px 60px rgba(0, 0, 0, 0.65),
+                inset 0 1px 0 rgba(255, 255, 255, 0.06);
+            backdrop-filter: blur(16px);
+            opacity: 0;
+            transform: scale(0.9);
+            z-index: 20;
+            pointer-events: none;
             overflow: hidden;
         }
 
-        .face-circle video {
-            width: 100%; height: 100%;
-            object-fit: cover;
-        }
-
-        .face-overlay.speaking .face-circle {
-            border-color: rgba(255, 51, 102, 0.8);
-            box-shadow: 0 0 40px rgba(255, 51, 102, 0.5), inset 0 0 20px rgba(255, 255, 255, 0.05);
-        }
-
-        /* ============================================= */
-        /* PIPELINE NODES */
-        /* ============================================= */
-        .pipeline-horizontal {
+        /* Animated gradient border shimmer */
+        .glass-card::before {
+            content: '';
             position: absolute;
-            top: 320px;
-            width: 960px;
-            height: 180px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            opacity: 0;
-            z-index: 30;
+            top: -2px; left: -2px;
+            right: -2px; bottom: -2px;
+            border-radius: 28px;
+            background: conic-gradient(from 0deg, #00f0ff, #7b2cbf, #ff2a85, #ffdd00, #00f0ff);
+            opacity: 0.15;
+            z-index: -1;
+            animation: borderRotate 6s linear infinite;
         }
 
-        .pipe-node {
-            width: 240px;
-            height: 140px;
-            background: var(--glass-bg);
-            border: 2px solid var(--glass-border);
-            border-radius: 16px;
+        @keyframes borderRotate {
+            to { transform: rotate(360deg); }
+        }
+
+        /* ---- Matrix Card ---- */
+        #matrix-card {
+            top: 200px;
+            left: 540px;
+            transform: translateX(-50%) scale(0.9);
+            width: 460px;
+            height: 260px;
             display: flex;
-            flex-direction: column;
             justify-content: center;
             align-items: center;
-            backdrop-filter: blur(10px);
-            opacity: 0;
-            transform: translateY(30px);
-        }
-
-        .pipe-node .node-label {
+            padding: 24px;
             font-family: 'Fira Code', monospace;
-            color: var(--neon-cyan);
-            font-size: 14px;
-            margin-bottom: 8px;
-            letter-spacing: 1px;
+            font-weight: bold;
         }
 
-        .pipe-node .node-title {
-            font-size: 22px;
-            font-weight: 700;
-            text-align: center;
-        }
-
-        .pipe-arrow {
-            flex: 1;
-            height: 4px;
-            background: rgba(255, 255, 255, 0.1);
-            position: relative;
-            margin: 0 12px;
-            opacity: 0;
-        }
-
-        .pipe-arrow .arrow-glow {
-            position: absolute;
-            top: 0; left: 0;
-            height: 100%;
-            width: 0%;
-            background: var(--neon-cyan);
-            box-shadow: 0 0 15px var(--neon-cyan);
-        }
-
-        /* ============================================= */
-        /* TEXT BUBBLES (Messy outputs) */
-        /* ============================================= */
-        .text-bubbles-container {
-            position: absolute;
-            top: 340px;
-            width: 920px;
+        .matrix-inner {
             display: flex;
-            flex-direction: column;
-            gap: 24px;
             align-items: center;
-            opacity: 0;
-            z-index: 35;
+            gap: 8px;
         }
 
-        .text-bubble {
-            width: 780px;
-            padding: 28px 32px;
-            background: rgba(255, 255, 255, 0.04);
-            border: 2px solid rgba(255, 255, 255, 0.12);
-            border-radius: 16px;
-            font-family: 'Fira Code', monospace;
-            font-size: 20px;
-            color: #ccc;
-            position: relative;
-            backdrop-filter: blur(8px);
-            opacity: 0;
-            transform: scale(0.9);
-        }
-
-        .text-bubble .bubble-label {
-            font-size: 13px;
-            color: rgba(255, 255, 255, 0.4);
-            margin-bottom: 10px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-
-        .text-bubble .x-mark {
-            position: absolute;
-            top: 12px;
-            right: 16px;
-            font-size: 36px;
-            color: var(--neon-pink);
-            text-shadow: 0 0 15px var(--neon-pink);
-            opacity: 0;
-            font-weight: 900;
-        }
-
-        /* ============================================= */
-        /* BROKEN CHAIN ICON */
-        /* ============================================= */
-        .broken-chain-container {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -70%);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            opacity: 0;
-            z-index: 40;
-        }
-
-        .broken-chain-icon {
+        .matrix-brackets {
             font-size: 160px;
-            filter: drop-shadow(0 0 40px rgba(255, 51, 102, 0.6));
-        }
-
-        .pipeline-failure-text {
-            font-family: 'Fira Code', monospace;
-            font-size: 48px;
-            font-weight: 900;
-            color: var(--neon-pink);
-            text-shadow: 0 0 30px var(--neon-pink);
-            letter-spacing: 4px;
-            margin-top: 20px;
-            opacity: 0;
-        }
-
-        /* ============================================= */
-        /* GEAR + MAGNIFYING GLASS */
-        /* ============================================= */
-        .format-gear-container {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -60%);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            opacity: 0;
-            z-index: 40;
-        }
-
-        .format-gear {
-            font-size: 120px;
-            position: relative;
-        }
-
-        .gear-label {
-            font-family: 'Fira Code', monospace;
-            font-size: 20px;
-            color: var(--neon-cyan);
-            letter-spacing: 2px;
-            margin-top: 12px;
-        }
-
-        .magnifier {
-            position: absolute;
-            font-size: 80px;
-            top: -20px;
-            right: -60px;
-            opacity: 0;
-        }
-
-        /* ============================================= */
-        /* JSON CARD */
-        /* ============================================= */
-        .json-card-container {
-            position: absolute;
-            top: 280px;
-            width: 800px;
-            opacity: 0;
-            z-index: 45;
-            transform: translateX(100px);
-        }
-
-        .json-card {
-            background: #0D0D18;
-            border: 2px solid var(--neon-cyan);
-            border-radius: 16px;
-            padding: 36px 40px;
-            font-family: 'Fira Code', monospace;
-            font-size: 22px;
-            line-height: 1.8;
-            box-shadow: 0 0 40px rgba(0, 240, 255, 0.15);
-            position: relative;
-        }
-
-        .json-card .json-key { color: var(--neon-cyan); }
-        .json-card .json-val { color: #FF69B4; }
-        .json-card .json-brace { color: #888; }
-        .json-card .json-str { color: var(--neon-green); }
-
-        .json-check {
-            position: absolute;
-            top: -20px;
-            right: -20px;
-            width: 56px; height: 56px;
-            background: var(--neon-green);
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 30px;
-            color: #0A0A0F;
-            font-weight: 900;
-            box-shadow: 0 0 25px rgba(0, 255, 170, 0.5);
-            opacity: 0;
-            transform: scale(0);
-        }
-
-        /* ============================================= */
-        /* SPLIT COMPARISON */
-        /* ============================================= */
-        .split-compare {
-            position: absolute;
-            top: 280px;
-            width: 920px;
-            display: flex;
-            gap: 24px;
-            opacity: 0;
-            z-index: 45;
-        }
-
-        .split-side {
-            flex: 1;
-            padding: 28px;
-            border-radius: 16px;
-            font-family: 'Fira Code', monospace;
-            font-size: 17px;
-            line-height: 1.7;
-            backdrop-filter: blur(8px);
-            opacity: 0;
-            transform: translateY(30px);
-        }
-
-        .split-left {
-            background: rgba(255, 51, 102, 0.06);
-            border: 2px solid rgba(255, 51, 102, 0.35);
-        }
-
-        .split-right {
-            background: rgba(0, 255, 170, 0.04);
-            border: 2px solid rgba(0, 255, 170, 0.35);
-        }
-
-        .split-header {
-            font-weight: 800;
-            font-size: 18px;
-            letter-spacing: 2px;
-            margin-bottom: 16px;
-            text-transform: uppercase;
-        }
-
-        .split-left .split-header { color: var(--neon-pink); }
-        .split-right .split-header { color: var(--neon-green); }
-
-        .split-status {
-            margin-top: 16px;
-            padding: 8px 16px;
-            border-radius: 8px;
-            font-weight: 700;
-            font-size: 15px;
-            display: inline-block;
-        }
-
-        .status-error {
-            background: rgba(255, 51, 102, 0.15);
-            border: 1px solid var(--neon-pink);
-            color: var(--neon-pink);
-        }
-
-        .status-success {
-            background: rgba(0, 255, 170, 0.15);
-            border: 1px solid var(--neon-green);
-            color: var(--neon-green);
-        }
-
-        /* ============================================= */
-        /* CONVEYOR BELT / ENGINEERING */
-        /* ============================================= */
-        .conveyor-container {
-            position: absolute;
-            top: 310px;
-            width: 900px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            opacity: 0;
-            z-index: 42;
-        }
-
-        .conveyor-belt-bar {
-            width: 100%;
-            height: 80px;
-            background: linear-gradient(180deg, rgba(0, 240, 255, 0.08) 0%, rgba(0, 0, 0, 0) 100%);
-            border-top: 3px solid rgba(0, 240, 255, 0.3);
-            border-bottom: 3px solid rgba(0, 240, 255, 0.15);
-            display: flex;
-            align-items: center;
-            justify-content: space-around;
-            position: relative;
-        }
-
-        .belt-cog {
-            font-size: 28px;
-            color: rgba(0, 240, 255, 0.4);
-        }
-
-        .engineering-label {
-            font-family: 'Fira Code', monospace;
-            font-size: 28px;
-            font-weight: 900;
-            color: var(--neon-cyan);
-            letter-spacing: 6px;
-            text-shadow: 0 0 20px var(--neon-cyan);
-            margin-top: 20px;
-            opacity: 0;
-        }
-
-        .beginner-app-icon {
-            position: absolute;
-            top: 500px;
-            font-size: 60px;
-            opacity: 0;
-            z-index: 43;
-            display: flex;
-            align-items: center;
-            gap: 16px;
-        }
-
-        .beginner-app-icon .app-label {
-            font-family: 'Fira Code', monospace;
-            font-size: 18px;
-            color: rgba(255, 255, 255, 0.4);
-        }
-
-        .production-badge {
-            position: absolute;
-            top: 620px;
-            background: linear-gradient(135deg, rgba(0, 240, 255, 0.1), rgba(123, 44, 191, 0.1));
-            border: 2px solid var(--neon-cyan);
-            border-radius: 30px;
-            padding: 18px 40px;
-            font-family: 'Fira Code', monospace;
-            font-size: 22px;
-            font-weight: 900;
-            color: #fff;
-            letter-spacing: 2px;
-            box-shadow: 0 0 30px rgba(0, 240, 255, 0.2);
-            opacity: 0;
-            transform: translateY(30px);
-            z-index: 44;
-        }
-
-        .production-badge span { color: var(--neon-cyan); }
-
-        /* ============================================= */
-        /* STUDENT QUESTION VIDEO CARD */
-        /* ============================================= */
-        #student-card {
-            position: absolute;
-            left: 136px;
-            top: 100px;
-            width: 808px;
-            height: 1212px;
-            opacity: 0;
-            transform: scale(0.8);
-            z-index: 150;
-            pointer-events: none;
-        }
-
-        .student-card-header {
-            font-family: 'Fira Code', monospace;
-            color: var(--neon-cyan);
-            font-size: 20px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            height: 24px;
-            margin-bottom: 12px;
-            text-align: center;
-        }
-
-        .student-card-body {
-            width: 800px;
-            height: 1160px;
-            border: 4px solid var(--neon-cyan);
-            box-shadow: 0 0 50px rgba(0, 240, 255, 0.3);
-            background: rgba(10, 10, 15, 0.6);
-            backdrop-filter: blur(10px);
-        }
-
-        /* ============================================= */
-        /* VALIDATOR NODE */
-        /* ============================================= */
-        .validator-flow-container {
-            position: absolute;
-            top: 260px;
-            width: 900px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 30px;
-            opacity: 0;
-            z-index: 46;
-        }
-
-        .validator-row {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 20px;
-            width: 100%;
-        }
-
-        .val-node {
-            width: 220px;
-            height: 120px;
-            border-radius: 16px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            backdrop-filter: blur(10px);
-            opacity: 0;
-            transform: scale(0.8);
-        }
-
-        .val-model-node {
-            background: rgba(0, 240, 255, 0.05);
-            border: 2px solid rgba(0, 240, 255, 0.3);
-        }
-
-        .val-validator-node {
-            background: rgba(123, 44, 191, 0.08);
-            border: 2px solid rgba(123, 44, 191, 0.5);
-            box-shadow: 0 0 25px rgba(123, 44, 191, 0.2);
-        }
-
-        .val-next-node {
-            background: rgba(0, 255, 170, 0.05);
-            border: 2px solid rgba(0, 255, 170, 0.3);
-        }
-
-        .val-node .val-icon {
-            font-size: 36px;
-            margin-bottom: 8px;
-        }
-
-        .val-node .val-label {
-            font-family: 'Fira Code', monospace;
-            font-size: 14px;
-            letter-spacing: 1px;
-            font-weight: 700;
-        }
-
-        .val-arrow {
-            font-size: 28px;
-            color: var(--neon-cyan);
-            text-shadow: 0 0 10px var(--neon-cyan);
-            opacity: 0;
-        }
-
-        .val-json-card {
-            width: 600px;
-            padding: 24px 28px;
-            background: #0D0D18;
-            border: 2px solid var(--neon-cyan);
-            border-radius: 12px;
-            font-family: 'Fira Code', monospace;
-            font-size: 18px;
-            line-height: 1.7;
-            box-shadow: 0 0 30px rgba(0, 240, 255, 0.15);
-            opacity: 0;
-            transform: translateY(20px);
-        }
-
-        .val-status-badge {
-            padding: 10px 24px;
-            border-radius: 8px;
-            font-family: 'Fira Code', monospace;
-            font-size: 18px;
-            font-weight: 800;
-            opacity: 0;
-            transform: scale(0.8);
-        }
-
-        .val-invalid {
-            background: rgba(255, 51, 102, 0.15);
-            border: 2px solid var(--neon-pink);
-            color: var(--neon-pink);
-        }
-
-        .val-valid {
-            background: rgba(0, 255, 170, 0.15);
-            border: 2px solid var(--neon-green);
-            color: var(--neon-green);
-        }
-
-        .retry-arrow {
-            font-size: 48px;
-            color: var(--neon-pink);
-            opacity: 0;
-            text-shadow: 0 0 15px var(--neon-pink);
-        }
-
-        .shield-icon {
-            font-size: 80px;
-            opacity: 0;
-            filter: drop-shadow(0 0 20px rgba(0, 255, 170, 0.4));
-        }
-
-        .trust-verify-text {
-            font-family: 'Fira Code', monospace;
-            font-size: 36px;
-            font-weight: 900;
-            color: #fff;
-            letter-spacing: 4px;
-            text-shadow: 0 0 20px rgba(0, 240, 255, 0.4);
-            opacity: 0;
-        }
-
-        /* ============================================= */
-        /* AUTONOMOUS AGENT DIAGRAM */
-        /* ============================================= */
-        .agent-diagram {
-            position: absolute;
-            top: 220px;
-            width: 900px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 40px;
-            opacity: 0;
-            z-index: 47;
-        }
-
-        .agent-center-node {
-            width: 300px;
-            height: 160px;
-            background: linear-gradient(135deg, rgba(0, 240, 255, 0.08), rgba(123, 44, 191, 0.08));
-            border: 2px solid var(--neon-cyan);
-            border-radius: 20px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            box-shadow: 0 0 40px rgba(0, 240, 255, 0.15);
-            opacity: 0;
-            transform: scale(0.8);
-        }
-
-        .agent-center-node .agent-icon {
-            font-size: 48px;
-            margin-bottom: 8px;
-        }
-
-        .agent-center-node .agent-label {
-            font-family: 'Fira Code', monospace;
-            font-size: 18px;
-            font-weight: 800;
-            color: var(--neon-cyan);
-            letter-spacing: 2px;
-        }
-
-        .agent-tools-row {
-            display: flex;
-            gap: 40px;
-            justify-content: center;
-        }
-
-        .agent-tool {
-            width: 180px;
-            height: 140px;
-            background: var(--glass-bg);
-            border: 2px solid var(--glass-border);
-            border-radius: 16px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            backdrop-filter: blur(8px);
-            opacity: 0;
-            transform: translateY(30px);
-        }
-
-        .agent-tool .tool-icon {
-            font-size: 48px;
-            margin-bottom: 10px;
-        }
-
-        .agent-tool .tool-label {
-            font-family: 'Fira Code', monospace;
-            font-size: 14px;
             color: rgba(255, 255, 255, 0.7);
-            letter-spacing: 1px;
+            font-weight: 200;
+            line-height: 1;
         }
 
-        .agent-connector {
-            width: 3px;
-            height: 50px;
-            background: linear-gradient(to bottom, var(--neon-cyan), transparent);
-            opacity: 0;
-        }
-
-        .agent-connectors-row {
-            display: flex;
-            gap: 220px;
-            justify-content: center;
-        }
-
-        .final-text {
-            font-family: 'Fira Code', monospace;
-            font-size: 28px;
-            font-weight: 900;
-            color: #fff;
-            letter-spacing: 3px;
-            text-shadow: 0 0 20px rgba(0, 240, 255, 0.3);
-            opacity: 0;
+        .matrix-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 22px 44px;
+            font-size: 60px;
             text-align: center;
         }
 
-        .final-text span { color: var(--neon-cyan); }
+        .matrix-cell {
+            transition: color 0.3s ease, text-shadow 0.3s ease, transform 0.3s ease;
+        }
 
-        /* ============================================= */
-        /* NO GUESSING TEXT */
-        /* ============================================= */
-        .impact-text {
+        .matrix-cell.col-1 { color: #ff2a85; }
+        .matrix-cell.col-2 { color: #00f0ff; }
+
+        .matrix-cell.highlight {
+            text-shadow: 0 0 30px currentColor, 0 0 60px currentColor;
+            transform: scale(1.15);
+        }
+
+        .matrix-label {
             position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
+            bottom: 16px;
+            left: 0; right: 0;
+            text-align: center;
             font-family: 'Fira Code', monospace;
-            font-size: 56px;
-            font-weight: 900;
-            letter-spacing: 6px;
-            text-shadow: 0 0 30px rgba(0, 240, 255, 0.5);
-            color: var(--neon-cyan);
-            opacity: 0;
-            z-index: 50;
+            font-size: 16px;
+            color: rgba(255, 255, 255, 0.4);
+            letter-spacing: 2px;
+            text-transform: uppercase;
         }
 
-        /* ============================================= */
-        /* JSON BADGE BETWEEN PIPELINE NODES */
-        /* ============================================= */
-        .json-badge {
-            position: absolute;
-            top: -32px;
-            left: 50%;
-            transform: translateX(-50%) scale(0);
-            background: #0D0D18;
-            border: 1px solid var(--neon-green);
-            padding: 4px 12px;
-            border-radius: 6px;
-            font-family: 'Fira Code', monospace;
-            font-size: 12px;
-            color: var(--neon-green);
-            box-shadow: 0 0 12px rgba(0, 255, 170, 0.3);
-            white-space: nowrap;
-        }
-
-        /* ============================================= */
-        /* DATA STREAM LINES */
-        /* ============================================= */
-        .data-stream-canvas {
-            position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            z-index: 25;
-            pointer-events: none;
-        }
-
-        /* ============================================= */
-        /* GLITCH KEYFRAMES */
-        /* ============================================= */
-        @keyframes glitch-anim {
-            0% { transform: translate(0); }
-            20% { transform: translate(-4px, 4px); }
-            40% { transform: translate(4px, -4px); }
-            60% { transform: translate(-2px, -2px); }
-            80% { transform: translate(2px, 2px); }
-            100% { transform: translate(0); }
-        }
-
-        .glitch-effect {
-            animation: glitch-anim 0.15s ease-in-out 3;
-        }
-
-        @keyframes flash-red {
-            0%, 100% { opacity: 0; }
-            50% { opacity: 1; }
-        }
-
-        /* tsParticles container */
-        #tsparticles {
-            position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            z-index: 38;
-            pointer-events: none;
-        }
-
-        /* JSON mini card for "like this" moment */
-        .json-mini-card {
-            position: absolute;
+        /* ---- Origami Teaser Card ---- */
+        #teaser-card {
             top: 380px;
-            width: 500px;
-            padding: 28px 32px;
-            background: #0D0D18;
-            border: 2px solid var(--neon-green);
-            border-radius: 12px;
-            font-family: 'Fira Code', monospace;
-            font-size: 24px;
-            line-height: 1.8;
-            box-shadow: 0 0 30px rgba(0, 255, 170, 0.2);
-            opacity: 0;
-            z-index: 48;
-            transform: scale(0.8);
-        }
-
-        /* Pipeline with JSON badges (repaired) */
-        .repaired-pipeline {
-            position: absolute;
-            top: 320px;
-            width: 960px;
-            height: 180px;
+            left: 540px;
+            transform: translateX(-50%) scale(0.9);
+            width: 620px;
+            height: 500px;
             display: flex;
+            flex-direction: column;
+            justify-content: center;
             align-items: center;
-            justify-content: space-between;
+            padding: 40px;
+        }
+
+        .teaser-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 46px;
+            font-weight: 900;
+            background: linear-gradient(135deg, #ff2a85, #ff6b35);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .teaser-sub {
+            font-size: 22px;
+            color: rgba(136, 136, 170, 0.8);
+            margin-bottom: 40px;
+            font-weight: 400;
+            letter-spacing: 1px;
+        }
+
+        .subscribe-btn {
+            background: linear-gradient(135deg, #ff2a85, #7b2cbf);
+            border: 3px solid rgba(255, 255, 255, 0.2);
+            border-radius: 44px;
+            padding: 18px 52px;
+            font-size: 28px;
+            font-weight: 900;
+            color: #ffffff;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            box-shadow: 0 0 40px rgba(255, 42, 133, 0.35);
+            animation: pulse-btn 1.8s ease-in-out infinite alternate;
+        }
+
+        @keyframes pulse-btn {
+            0% { transform: scale(1.0); box-shadow: 0 0 30px rgba(255, 42, 133, 0.35); }
+            100% { transform: scale(1.05); box-shadow: 0 0 55px rgba(255, 42, 133, 0.6), 0 0 20px rgba(123, 44, 191, 0.3); }
+        }
+
+        /* Overlay dim/vignette for Tara */
+        #visual-dimmer {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background:
+                radial-gradient(ellipse at center, rgba(5, 6, 12, 0.55) 0%, rgba(5, 6, 12, 0.85) 100%);
+            z-index: 15;
             opacity: 0;
-            z-index: 35;
+            pointer-events: none;
         }
 
-        .repaired-pipeline .pipe-node {
-            border-color: var(--neon-green);
-            box-shadow: 0 0 20px rgba(0, 255, 170, 0.15);
-        }
-
-        .repaired-pipeline .pipe-arrow {
-            opacity: 1;
-        }
-
-        .repaired-pipeline .pipe-arrow .arrow-glow {
-            width: 100%;
-            background: var(--neon-green);
-            box-shadow: 0 0 15px var(--neon-green);
+        /* "EPISODE 02" top label */
+        #episode-label {
+            position: absolute;
+            top: 60px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: 'Fira Code', monospace;
+            font-size: 16px;
+            font-weight: 700;
+            color: rgba(0, 240, 255, 0.5);
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            z-index: 25;
+            opacity: 0;
         }
     </style>
 </head>
 
 <body>
+    <div class="nebula-layer"></div>
     <div class="bg-grid"></div>
-    <div class="ambient-glow"></div>
     <div class="scanlines"></div>
+    <div id="visual-dimmer"></div>
 
-    <!-- tsParticles for explosion effects -->
-    <div id="tsparticles"></div>
+    <canvas id="canvas-2d" width="1080" height="1920"></canvas>
 
     <div class="scene-container">
+        <div id="caption-container"></div>
 
-        <!-- Core Scene for captions -->
-        <div id="core-scene">
-            <div id="caption-container"></div>
-        </div>
+        <div id="episode-label">EPISODE 02 · SPACE TRANSFORMATIONS</div>
 
-        <!-- ======= SCENE 1: PIPELINE WITH MESSY TEXT (0s - 7s) ======= -->
-        <div class="pipeline-horizontal" id="pipeline-1">
-            <div class="pipe-node" id="pn-1">
-                <div class="node-label">PROMPT 1</div>
-                <div class="node-title">Summarize</div>
-            </div>
-            <div class="pipe-arrow" id="pa-1">
-                <div class="arrow-glow" id="ag-1"></div>
-                <div class="json-badge" id="jb-1">{JSON}</div>
-            </div>
-            <div class="pipe-node" id="pn-2">
-                <div class="node-label">PROMPT 2</div>
-                <div class="node-title">Analyze</div>
-            </div>
-            <div class="pipe-arrow" id="pa-2">
-                <div class="arrow-glow" id="ag-2"></div>
-                <div class="json-badge" id="jb-2">{JSON}</div>
-            </div>
-            <div class="pipe-node" id="pn-3">
-                <div class="node-label">PROMPT 3</div>
-                <div class="node-title">Extract</div>
-            </div>
-        </div>
-
-        <!-- ======= SCENE 2: TEXT BUBBLES (7s - 23s) ======= -->
-        <div class="text-bubbles-container" id="text-bubbles">
-            <div class="text-bubble" id="bubble-1">
-                <div class="bubble-label">Model A Output</div>
-                "Here are the trends: sales up, engagement down."
-                <div class="x-mark" id="x1">✕</div>
-            </div>
-            <div class="text-bubble" id="bubble-2">
-                <div class="bubble-label">Model B Output</div>
-                "I found three important insights – 1. AI growth …"
-                <div class="x-mark" id="x2">✕</div>
-            </div>
-            <div class="text-bubble" id="bubble-3">
-                <div class="bubble-label">Model C Output</div>
-                "trends: personalization"
-                <div class="x-mark" id="x3">✕</div>
-            </div>
-        </div>
-
-        <!-- ======= SCENE 3: BROKEN CHAIN (23s - 27s) ======= -->
-        <div class="broken-chain-container" id="broken-chain">
-            <div class="broken-chain-icon">⛓️‍💥</div>
-            <div class="pipeline-failure-text" id="pipeline-failure-text">PIPELINE FAILURE</div>
-        </div>
-
-        <!-- ======= SCENE 4: FORMAT GEAR (27s - 33s) ======= -->
-        <div class="format-gear-container" id="format-gear">
-            <div class="format-gear" id="gear-icon">⚙️
-                <div class="magnifier" id="magnifier">🔍</div>
-            </div>
-            <div class="gear-label">FORMAT</div>
-        </div>
-
-        <!-- ======= SCENE 5: JSON CARD (33s - 38s) ======= -->
-        <div class="json-card-container" id="json-card">
-            <div class="json-card">
-                <span class="json-brace">{</span><br>
-                &nbsp;&nbsp;<span class="json-key">"trend"</span>: <span class="json-str">"AI Personalization"</span>,<br>
-                &nbsp;&nbsp;<span class="json-key">"supporting_data"</span>: <span class="json-str">"73% of users prefer personalized experiences"</span><br>
-                <span class="json-brace">}</span>
-            </div>
-            <div class="json-check" id="json-check">✓</div>
-        </div>
-
-        <!-- ======= SCENE 6: "Like this" JSON mini ======= -->
-        <div class="json-mini-card" id="json-mini">
-            <span class="json-brace">{</span><br>
-            &nbsp;&nbsp;<span class="json-key">"title"</span>: <span class="json-str">"wow!"</span>,<br>
-            &nbsp;&nbsp;<span class="json-key">"status"</span>: <span class="json-str">"Ok"</span><br>
-            <span class="json-brace">}</span>
-        </div>
-
-        <!-- ======= SCENE 7: SPLIT COMPARISON ======= -->
-        <div class="split-compare" id="split-compare">
-            <div class="split-side split-left" id="split-left">
-                <div class="split-header">❌ RAW TEXT</div>
-                <div>"Here are the trends: sales up, engagement down. Also I found that personalization is key..."</div>
-                <div class="split-status status-error">⚠ PARSING ERROR</div>
-            </div>
-            <div class="split-side split-right" id="split-right">
-                <div class="split-header">✓ JSON</div>
-                <div>
-                    <span class="json-brace">{</span><br>
-                    &nbsp;&nbsp;<span class="json-key">"trend"</span>: <span class="json-str">"AI"</span>,<br>
-                    &nbsp;&nbsp;<span class="json-key">"data"</span>: <span class="json-str">"73%"</span><br>
-                    <span class="json-brace">}</span>
+        <!-- Floating 2x2 Matrix Card -->
+        <div id="matrix-card" class="glass-card">
+            <div class="matrix-inner">
+                <div class="matrix-brackets">[</div>
+                <div class="matrix-grid">
+                    <div class="matrix-cell col-1" id="m-11">2</div>
+                    <div class="matrix-cell col-2" id="m-12">0</div>
+                    <div class="matrix-cell col-1" id="m-21">0</div>
+                    <div class="matrix-cell col-2" id="m-22">3</div>
                 </div>
-                <div class="split-status status-success">✓ SUCCESS</div>
+                <div class="matrix-brackets">]</div>
             </div>
+            <div class="matrix-label">Transformation Matrix</div>
         </div>
 
-        <!-- NO GUESSING text -->
-        <div class="impact-text" id="no-guessing">NO GUESSING</div>
-
-        <!-- ======= SCENE 8: CONVEYOR / ENGINEERING ======= -->
-        <div class="conveyor-container" id="conveyor">
-            <div class="conveyor-belt-bar">
-                <div class="belt-cog" id="cog1">⚙️</div>
-                <div class="belt-cog" id="cog2">⚙️</div>
-                <div class="belt-cog" id="cog3">⚙️</div>
-                <div class="belt-cog" id="cog4">⚙️</div>
-                <div class="belt-cog" id="cog5">⚙️</div>
-            </div>
-            <div class="engineering-label" id="eng-label">ENGINEERING</div>
+        <!-- Origami Teaser Outro Card -->
+        <div id="teaser-card" class="glass-card">
+            <div class="teaser-title">Space Folding</div>
+            <div class="teaser-sub">Episode 03 · Activation Functions</div>
+            <div class="subscribe-btn">SUBSCRIBE</div>
         </div>
-
-        <div class="beginner-app-icon" id="beginner-app">
-            📱 <span class="app-label">BEGINNER APP</span>
-        </div>
-
-        <div class="production-badge" id="prod-badge">
-            STRUCTURED OUTPUTS <span>→</span> PRODUCTION GRADE
-        </div>
-
-        <!-- ======= SCENE 9: STUDENT QUESTION VIDEO CARD ======= -->
-        <div id="student-card">
-            <div class="student-card-header">QUESTION</div>
-            <div class="student-card-body"></div>
-        </div>
-
-        <!-- ======= SCENE 10: VALIDATOR FLOW ======= -->
-        <div class="validator-flow-container" id="validator-flow">
-            <div class="validator-row" id="val-row">
-                <div class="val-node val-model-node" id="val-model">
-                    <div class="val-icon">🤖</div>
-                    <div class="val-label" style="color: var(--neon-cyan);">MODEL</div>
-                </div>
-                <div class="val-arrow" id="val-arrow1">→</div>
-                <div class="val-node val-validator-node" id="val-validator">
-                    <div class="val-icon">🛡️</div>
-                    <div class="val-label" style="color: var(--neon-purple);">VALIDATOR</div>
-                </div>
-                <div class="val-arrow" id="val-arrow2">→</div>
-                <div class="val-node val-next-node" id="val-next">
-                    <div class="val-icon">▶️</div>
-                    <div class="val-label" style="color: var(--neon-green);">NEXT STEP</div>
-                </div>
-            </div>
-            <div class="val-json-card" id="val-json">
-                <span class="json-brace">{</span> <span class="json-key">"trend"</span>: <span class="json-str">"AI"</span>, <span class="json-key">"data"</span>: <span class="json-str" id="val-json-data">"73%"</span> <span class="json-brace">}</span>
-            </div>
-            <div class="val-status-badge val-invalid" id="val-badge-invalid">❌ INVALID JSON</div>
-            <div class="val-status-badge val-valid" id="val-badge-valid">✓ VALID JSON</div>
-            <div class="retry-arrow" id="retry-arrow">↩</div>
-            <div class="shield-icon" id="shield-icon">🛡️</div>
-            <div class="trust-verify-text" id="trust-verify">TRUST BUT VERIFY</div>
-        </div>
-
-        <!-- ======= SCENE 11: AUTONOMOUS AGENT DIAGRAM ======= -->
-        <div class="agent-diagram" id="agent-diagram">
-            <div class="agent-center-node" id="agent-center">
-                <div class="agent-icon">🧠</div>
-                <div class="agent-label">AI AGENT</div>
-            </div>
-            <div class="agent-connectors-row">
-                <div class="agent-connector" id="conn-1"></div>
-                <div class="agent-connector" id="conn-2"></div>
-                <div class="agent-connector" id="conn-3"></div>
-            </div>
-            <div class="agent-tools-row">
-                <div class="agent-tool" id="tool-1">
-                    <div class="tool-icon">🔧</div>
-                    <div class="tool-label">TOOLS</div>
-                </div>
-                <div class="agent-tool" id="tool-2">
-                    <div class="tool-icon">☁️</div>
-                    <div class="tool-label">APIs</div>
-                </div>
-                <div class="agent-tool" id="tool-3">
-                    <div class="tool-icon">🗄️</div>
-                    <div class="tool-label">DATABASE</div>
-                </div>
-            </div>
-            <div class="final-text" id="final-text">AUTONOMOUS AGENTS <span>→</span> NEXT EPISODE</div>
-        </div>
-
-        <!-- Repaired Pipeline (used mid-scene for JSON repair visual) -->
-        <div class="repaired-pipeline" id="repaired-pipeline">
-            <div class="pipe-node" id="rp-1" style="opacity:1;transform:none;border-color:var(--neon-green);box-shadow:0 0 20px rgba(0,255,170,0.15)">
-                <div class="node-label" style="color:var(--neon-green)">PROMPT 1</div>
-                <div class="node-title">Summarize</div>
-            </div>
-            <div class="pipe-arrow" style="opacity:1">
-                <div class="arrow-glow" style="width:100%;background:var(--neon-green);box-shadow:0 0 15px var(--neon-green)"></div>
-                <div class="json-badge" id="rp-jb1" style="transform:translateX(-50%) scale(1)">{JSON} ✓</div>
-            </div>
-            <div class="pipe-node" id="rp-2" style="opacity:1;transform:none;border-color:var(--neon-green);box-shadow:0 0 20px rgba(0,255,170,0.15)">
-                <div class="node-label" style="color:var(--neon-green)">PROMPT 2</div>
-                <div class="node-title">Analyze</div>
-            </div>
-            <div class="pipe-arrow" style="opacity:1">
-                <div class="arrow-glow" style="width:100%;background:var(--neon-green);box-shadow:0 0 15px var(--neon-green)"></div>
-                <div class="json-badge" id="rp-jb2" style="transform:translateX(-50%) scale(1)">{JSON} ✓</div>
-            </div>
-            <div class="pipe-node" id="rp-3" style="opacity:1;transform:none;border-color:var(--neon-green);box-shadow:0 0 20px rgba(0,255,170,0.15)">
-                <div class="node-label" style="color:var(--neon-green)">PROMPT 3</div>
-                <div class="node-title">Extract</div>
-            </div>
-        </div>
-
     </div>
 
-    <!-- Canvas for data stream lines -->
-    <canvas class="data-stream-canvas" id="stream-canvas" width="1080" height="1920"></canvas>
-
+    <!-- Captions Timestamps -->
     <script src="scene_02_captions.js"></script>
+
     <script>
-        // =====================================================
-        // MASTER TIMELINE
-        // =====================================================
-        const tl = gsap.timeline();
+        console.log("Premium GSAP Timeline — Ep.02 Space Transformations");
+        const tl = gsap.timeline({ paused: true });
+        window.tl = tl;
         const time = (sec) => sec;
 
         // =====================================================
-        // CAPTIONS SETUP
+        // CANVAS STATE — Rich Animation Properties
+        // =====================================================
+        const S = {
+            // State 1: Hook Neural Network
+            nnOpacity: 0.0,
+            nnZoom: 1.0,
+            nnHighlightLayer: -1,     // -1 = none, index of layer to highlight
+            nnDataFlowSpeed: 1.0,
+
+            // State 2: Grid & Basis Vectors
+            gridOpacity: 0.0,
+            gridRevealProgress: 0.0,  // 0 to 1 — lines draw from center
+            basisRevealI: 0.0,        // 0 to 1 — i-hat arrow grows
+            basisRevealJ: 0.0,        // 0 to 1 — j-hat arrow grows
+
+            // State 3: Warping
+            warpProgress: 0.0,        // 0 (identity) to 1 (target matrix)
+            warpGhostOpacity: 0.0,    // ghost trail of pre-warp positions
+            warpRipple: 0.0,          // ripple ring effect
+
+            // State 4: Matrix Columns
+            basisIFlash: 0.0,
+            basisJFlash: 0.0,
+            matrixBeamI: 0.0,         // connection beam col1 → i-hat
+            matrixBeamJ: 0.0,         // connection beam col2 → j-hat
+
+            // State 5: Split Screen NN
+            splitProgress: 0.0,       // 0 (centered) to 1 (split left)
+            nnMapOpacity: 0.0,
+            nnRowHighlight: -1,       // -1 none, 0 = row1, 1 = row2
+            nnDataPulse: 0.0,
+
+            // State 7: Origami Teaser
+            foldProgress: 0.0,
+            foldCreaseGlow: 0.0,
+
+            // Global Particles
+            ambientParticleOpacity: 0.0,
+            time: 0
+        };
+
+        // =====================================================
+        // PARTICLE SYSTEMS
+        // =====================================================
+
+        // Ambient floating particles
+        const ambientParticles = [];
+        for (let i = 0; i < 80; i++) {
+            ambientParticles.push({
+                x: Math.random() * 1080,
+                y: Math.random() * 1920,
+                vx: (Math.random() - 0.5) * 0.3,
+                vy: -0.2 - Math.random() * 0.4,
+                size: 1 + Math.random() * 2.5,
+                alpha: 0.1 + Math.random() * 0.3,
+                hue: Math.random() > 0.5 ? 186 : 320,  // cyan or pink
+                pulse: Math.random() * Math.PI * 2
+            });
+        }
+
+        // NN Data flow particles
+        const dataParticles = [];
+        function spawnDataParticle(x1, y1, x2, y2, color) {
+            dataParticles.push({
+                x1, y1, x2, y2,
+                progress: 0,
+                speed: 0.008 + Math.random() * 0.012,
+                color: color,
+                size: 3 + Math.random() * 3,
+                alpha: 0.6 + Math.random() * 0.4
+            });
+        }
+
+        // Warp trail particles
+        const trailParticles = [];
+        function spawnTrailParticle(x, y, color) {
+            trailParticles.push({
+                x, y,
+                vx: (Math.random() - 0.5) * 1.5,
+                vy: (Math.random() - 0.5) * 1.5,
+                life: 1.0,
+                decay: 0.015 + Math.random() * 0.02,
+                size: 2 + Math.random() * 3,
+                color: color
+            });
+        }
+
+        // =====================================================
+        // CAPTIONS SYNCHRONIZATION
         // =====================================================
         const sentences = window.scene_02_captions;
         const captionContainer = document.getElementById("caption-container");
 
-        sentences.forEach((sentence, sIdx) => {
+        sentences.forEach((sentence) => {
+            const isTara = sentence.start >= 90.4 && sentence.end <= 98.6;
             const sDiv = document.createElement("div");
             sDiv.className = "sentence-block";
-
-            if (sentence.start < 7.5) {
-                sDiv.classList.add("hook-caption");
-            } else {
-                sDiv.classList.add("simple-caption");
-            }
-
             gsap.set(sDiv, { display: "none", opacity: 0 });
 
-            sentence.words.forEach((w, wIdx) => {
+            sentence.words.forEach((w) => {
                 const wSpan = document.createElement("span");
                 wSpan.className = "cap-word";
                 wSpan.innerText = w.text;
                 sDiv.appendChild(wSpan);
-                sDiv.appendChild(document.createTextNode(" "));
 
-                if (sentence.start < 7.5) {
-                    let activeClass = "active";
-                    const cleanWord = w.text.toLowerCase().replace(/[.,\/#!$%\^&\*;:{}=\-_`~()?]/g, "");
-                    if (cleanWord === "break") activeClass = "active-break";
-                    if (cleanWord === "raw") activeClass = "active-raw";
+                let activeClass = isTara ? "active-tara" : "active";
+                const cleanWord = w.text.toLowerCase().replace(/[.,\/#!$%\^&\*;:{}=\-_`~()?]/g, "");
 
-                    tl.to(wSpan, {
-                        onStart: () => { wSpan.classList.add(activeClass); },
-                        onReverseComplete: () => { wSpan.classList.remove(activeClass); },
-                        duration: 0.05
-                    }, time(w.start));
-                } else {
-                    tl.to(wSpan, {
-                        color: "#00F0FF",
-                        opacity: 1,
-                        textShadow: "0 0 20px #00F0FF",
-                        duration: 0.05
-                    }, time(w.start));
-
-                    tl.to(wSpan, {
-                        color: "#ffffff",
-                        opacity: 0.35,
-                        textShadow: "0 2px 10px rgba(0, 0, 0, 0.5)",
-                        duration: 0.05
-                    }, time(w.end));
+                if (!isTara && ["neural", "network", "matrix", "multiplication", "space", "basis", "vectors",
+                    "warp", "columns", "coordinates", "rows", "weights", "i", "j", "hat", "stretch",
+                    "geometry", "transformation", "origami", "fold", "activation", "linear"].includes(cleanWord)) {
+                    activeClass = "active-highlight";
                 }
+
+                tl.to(wSpan, {
+                    onStart: () => { wSpan.classList.add(activeClass); wSpan.classList.remove("past"); },
+                    onReverseComplete: () => { wSpan.classList.remove(activeClass); wSpan.classList.remove("past"); },
+                    duration: 0.05
+                }, time(w.start));
+
+                tl.to(wSpan, {
+                    onStart: () => { wSpan.classList.remove(activeClass); wSpan.classList.add("past"); },
+                    onReverseComplete: () => { wSpan.classList.add(activeClass); wSpan.classList.remove("past"); },
+                    duration: 0.05
+                }, time(w.end));
             });
 
             captionContainer.appendChild(sDiv);
-
             tl.set(sDiv, { display: "flex" }, time(sentence.start));
-            tl.to(sDiv, { opacity: 1, duration: 0.2 }, time(sentence.start));
-            tl.to(sDiv, { opacity: 0, duration: 0.2 }, time(sentence.end));
-            tl.set(sDiv, { display: "none" }, time(sentence.end + 0.2));
+            tl.to(sDiv, { opacity: 1, duration: 0.12 }, time(sentence.start));
+            tl.to(sDiv, { opacity: 0, duration: 0.12 }, time(sentence.end));
+            tl.set(sDiv, { display: "none" }, time(sentence.end + 0.12));
         });
 
         // =====================================================
-        // SCENE 1: PIPELINE WITH GLOW (0.5s - 5s)
-        // "Want to know why most AI agents break in production?"
-        // =====================================================
-        tl.set("#core-scene", { opacity: 1 }, 0);
-
-        // Show pipeline
-        tl.to("#pipeline-1", { opacity: 1, duration: 0.5 }, time(0.5));
-        tl.to("#pn-1", { opacity: 1, y: 0, duration: 0.4, ease: "back.out(1.5)" }, time(0.7));
-        tl.to("#pa-1", { opacity: 1, duration: 0.3 }, time(1.0));
-        tl.to("#ag-1", { width: "100%", duration: 0.6, ease: "power1.inOut" }, time(1.0));
-        tl.to("#pn-2", { opacity: 1, y: 0, duration: 0.4, ease: "back.out(1.5)" }, time(1.3));
-        tl.to("#pa-2", { opacity: 1, duration: 0.3 }, time(1.6));
-        tl.to("#ag-2", { width: "100%", duration: 0.6, ease: "power1.inOut" }, time(1.6));
-        tl.to("#pn-3", { opacity: 1, y: 0, duration: 0.4, ease: "back.out(1.5)" }, time(1.9));
-
-        // Show messy text bubbles between nodes (small overlays)
-        // On "Because they trust raw text" (5.4s)
-        tl.to(".pipe-node", {
-            borderColor: "rgba(255, 51, 102, 0.4)",
-            duration: 0.3
-        }, time(4.2));
-
-        // Pipeline shakes on "break"
-        tl.to("#pipeline-1", {
-            x: () => gsap.utils.random(-8, 8),
-            y: () => gsap.utils.random(-5, 5),
-            duration: 0.06,
-            repeat: 12,
-            yoyo: true
-        }, time(4.2));
-
-        // Pipeline cracks - turn red
-        tl.to(".pipe-node", {
-            borderColor: "var(--neon-pink)",
-            boxShadow: "0 0 25px rgba(255, 51, 102, 0.3)",
-            duration: 0.4
-        }, time(5.4));
-        tl.to(".arrow-glow", {
-            background: "var(--neon-pink)",
-            boxShadow: "0 0 15px var(--neon-pink)",
-            duration: 0.4
-        }, time(5.4));
-
-        // Fade pipeline
-        tl.to("#pipeline-1", { opacity: 0, duration: 0.5 }, time(7.0));
-
-        // =====================================================
-        // SCENE 2: TEXT BUBBLES (7.4s - 23.5s)
-        // "Here's the hidden problem... messy outputs"
-        // =====================================================
-        tl.to("#text-bubbles", { opacity: 1, duration: 0.4 }, time(7.4));
-
-        // Show bubbles one by one synced to narration
-        // "Even if your prompts are good... messy" (10.0 - 15.0)
-        tl.to("#bubble-1", { opacity: 1, scale: 1, duration: 0.5, ease: "back.out(1.3)" }, time(10.0));
-        tl.to("#bubble-2", { opacity: 1, scale: 1, duration: 0.5, ease: "back.out(1.3)" }, time(12.0));
-        tl.to("#bubble-3", { opacity: 1, scale: 1, duration: 0.5, ease: "back.out(1.3)" }, time(14.0));
-
-        // "One model says... here are the trends" (15.4s)
-        tl.to("#bubble-1", { borderColor: "var(--neon-pink)", duration: 0.3 }, time(15.4));
-
-        // "Another says... three important insights" (17.8s)
-        tl.to("#bubble-2", { borderColor: "var(--neon-pink)", duration: 0.3 }, time(17.8));
-
-        // "Another changes format completely" (21.2s)
-        tl.to("#bubble-3", { borderColor: "var(--neon-pink)", duration: 0.3 }, time(21.2));
-
-        // Show X marks on each
-        tl.to("#x1", { opacity: 1, duration: 0.2, ease: "back.out(2)" }, time(16.1));
-        tl.to("#x2", { opacity: 1, duration: 0.2, ease: "back.out(2)" }, time(18.5));
-        tl.to("#x3", { opacity: 1, duration: 0.2, ease: "back.out(2)" }, time(22.0));
-
-        // Glitch effect on bubbles
-        tl.to(".text-bubble", {
-            x: () => gsap.utils.random(-6, 6),
-            y: () => gsap.utils.random(-3, 3),
-            duration: 0.05,
-            repeat: 6,
-            yoyo: true
-        }, time(22.5));
-
-        // =====================================================
-        // SCENE 3: EXPLOSION + BROKEN CHAIN (23.8s - 27s)
-        // "And suddenly your entire pipeline breaks"
+        // CHOREOGRAPHED SCENE ANIMATIONS
         // =====================================================
 
-        // Explode bubbles into particles
-        tl.to(".text-bubble", {
-            scale: 0,
-            opacity: 0,
-            rotation: () => gsap.utils.random(-30, 30),
-            duration: 0.4,
-            stagger: 0.05,
-            ease: "power4.in"
-        }, time(23.8));
+        // Episode label fade
+        tl.to("#episode-label", { opacity: 1, duration: 0.6 }, time(0.2));
+        tl.to("#episode-label", { opacity: 0, duration: 0.5 }, time(4.0));
 
-        tl.to("#text-bubbles", { opacity: 0, duration: 0.1 }, time(24.3));
+        // --- STATE 1: Neural Network Hook (0.4s - 15.0s) ---
+        // "Have you ever wondered what happens inside a neural network?"
+        tl.to(S, { nnOpacity: 1.0, duration: 1.2 }, time(0.4));
+        tl.to(S, { ambientParticleOpacity: 1.0, duration: 1.0 }, time(0.5));
+        tl.to(S, { nnZoom: 1.6, duration: 12.0, ease: "power1.out" }, time(1.0));
 
-        // Trigger tsParticles burst
-        tl.call(() => {
-            triggerParticleBurst();
-        }, null, time(24.0));
+        // At "matrix multiplication transforming space" (~7.8s), highlight the 2x2 sublayer
+        tl.set(S, { nnHighlightLayer: 4 }, time(7.5));
 
-        // Show broken chain
-        tl.to("#broken-chain", { opacity: 1, duration: 0.4, ease: "back.out(1.5)" }, time(24.2));
-        tl.to("#pipeline-failure-text", {
-            opacity: 1,
-            duration: 0.1,
-            repeat: 5,
-            yoyo: true
-        }, time(24.8));
-        tl.set("#pipeline-failure-text", { opacity: 1 }, time(25.5));
+        // Fade NN out as we transition
+        tl.to(S, { nnOpacity: 0.0, duration: 1.2 }, time(14.0));
+        tl.set(S, { nnHighlightLayer: -1 }, time(14.0));
 
-        // Screen shake
-        tl.to(".scene-container", {
-            x: () => gsap.utils.random(-10, 10),
-            y: () => gsap.utils.random(-10, 10),
-            duration: 0.06,
-            repeat: 10,
-            yoyo: true
-        }, time(24.0));
+        // --- STATE 2: Grid & Basis Vectors (16.0s - 38.0s) ---
+        // "In this video... basis vectors"
+        tl.to(S, { gridOpacity: 1.0, duration: 0.8 }, time(16.0));
+        tl.to(S, { gridRevealProgress: 1.0, duration: 3.5, ease: "power2.out" }, time(16.5));
 
-        // =====================================================
-        // SCENE 4: FORMAT GEAR (27s - 33s)
-        // "AI systems don't fail from intelligence... formatting"
-        // =====================================================
-        tl.to("#broken-chain", { opacity: 0, scale: 0.5, duration: 0.5, ease: "power2.in" }, time(26.8));
+        // Basis vector reveal at "i-hat" (~31.0s) and "j-hat" (~33.8s)
+        tl.to(S, { basisRevealI: 1.0, duration: 1.2, ease: "back.out(1.4)" }, time(30.5));
+        tl.to(S, { basisRevealJ: 1.0, duration: 1.2, ease: "back.out(1.4)" }, time(33.5));
 
-        // Morph into gear
-        tl.to("#format-gear", { opacity: 1, duration: 0.5, ease: "back.out(1.3)" }, time(27.0));
-        tl.to("#gear-icon", { rotation: 360, duration: 3, ease: "none" }, time(27.0));
+        // --- STATE 3: Warping Space (38.8s - 52.0s) ---
+        // "When we multiply coordinates by a matrix, we warp the space"
+        tl.to(S, { warpGhostOpacity: 0.4, duration: 0.5 }, time(38.8));
+        tl.to(S, { warpProgress: 1.0, duration: 8.0, ease: "power2.inOut" }, time(39.0));
+        tl.to(S, { warpRipple: 1.0, duration: 3.0, ease: "power2.out" }, time(39.0));
+        tl.to(S, { warpGhostOpacity: 0.0, duration: 2.0 }, time(46.0));
 
-        // Magnifier appears on "formatting problems" (31.8s)
-        tl.to("#magnifier", { opacity: 1, duration: 0.4, ease: "back.out(1.5)" }, time(31.0));
-        tl.to("#magnifier", {
-            x: -80,
-            duration: 1.5,
-            ease: "power1.inOut",
-            yoyo: true,
-            repeat: 1
-        }, time(31.2));
+        // --- STATE 4: Matrix Columns Revealed (52.0s - 67.0s) ---
+        // "If we apply a matrix, i-hat stretches to 2,0 and j-hat stretches to 0,3"
+        tl.to("#matrix-card", { opacity: 1, scale: 1, duration: 0.7, ease: "back.out(1.3)" }, time(52.5));
 
-        // Fade gear
-        tl.to("#format-gear", { opacity: 0, duration: 0.4 }, time(32.8));
+        // Flash Column 1 with i-hat at "i hat stretches" (~54.8s)
+        tl.to("#m-11, #m-21", { className: "matrix-cell col-1 highlight", duration: 0.2 }, time(54.5));
+        tl.to(S, { basisIFlash: 1.0, duration: 0.5, yoyo: true, repeat: 2 }, time(54.5));
+        tl.to(S, { matrixBeamI: 1.0, duration: 0.8 }, time(54.5));
+        tl.to("#m-11, #m-21", { className: "matrix-cell col-1", duration: 0.3 }, time(56.5));
 
-        // =====================================================
-        // SCENE 5: JSON CARD SLIDES IN (33.2s - 38s)
-        // "That's why production AI systems use structured output. Usually JSON."
-        // =====================================================
-        tl.to("#json-card", {
-            opacity: 1,
-            x: 0,
-            duration: 0.6,
-            ease: "back.out(1.3)"
-        }, time(33.2));
+        // Flash Column 2 with j-hat at "j hat stretches" (~57.4s)
+        tl.to("#m-12, #m-22", { className: "matrix-cell col-2 highlight", duration: 0.2 }, time(57.2));
+        tl.to(S, { basisJFlash: 1.0, duration: 0.5, yoyo: true, repeat: 2 }, time(57.2));
+        tl.to(S, { matrixBeamJ: 1.0, duration: 0.8 }, time(57.2));
+        tl.to("#m-12, #m-22", { className: "matrix-cell col-2", duration: 0.3 }, time(59.0));
 
-        // Green glow on "Usually JSON" (37.0s)
-        tl.to(".json-card", {
-            borderColor: "var(--neon-green)",
-            boxShadow: "0 0 50px rgba(0, 255, 170, 0.25)",
-            duration: 0.5
-        }, time(37.0));
+        // "The columns of our matrix are literally just the new coordinates" (~59.7s)
+        // Re-flash both columns simultaneously
+        tl.to("#m-11, #m-21", { className: "matrix-cell col-1 highlight", duration: 0.2 }, time(59.7));
+        tl.to("#m-12, #m-22", { className: "matrix-cell col-2 highlight", duration: 0.2 }, time(59.7));
+        tl.to("#m-11, #m-21", { className: "matrix-cell col-1", duration: 0.3 }, time(64.0));
+        tl.to("#m-12, #m-22", { className: "matrix-cell col-2", duration: 0.3 }, time(64.0));
 
-        // Checkmark appears
-        tl.to("#json-check", {
-            opacity: 1,
-            scale: 1,
-            duration: 0.4,
-            ease: "back.out(2)"
-        }, time(37.4));
+        // Fade matrix card
+        tl.to("#matrix-card", { opacity: 0, scale: 0.85, duration: 0.6 }, time(66.5));
+        tl.to(S, { matrixBeamI: 0, matrixBeamJ: 0, duration: 0.5 }, time(66.5));
 
-        // =====================================================
-        // SCENE 6: DATA STREAM + REPAIRED PIPELINE (38.2s - 43.6s)
-        // "Instead of vague paragraphs... clean machine readable data"
-        // =====================================================
+        // --- STATE 5: NN Mapping Split Screen (67.0s - 90.0s) ---
+        // "In a neural network, a single layer with two inputs..."
+        tl.to(S, { splitProgress: 1.0, duration: 1.5, ease: "power2.inOut" }, time(67.5));
+        tl.to(S, { nnMapOpacity: 1.0, duration: 1.0 }, time(68.5));
+        tl.to(S, { nnDataPulse: 1.0, duration: 0.5 }, time(69.0));
 
-        // Fade JSON card
-        tl.to("#json-card", { opacity: 0, y: -30, duration: 0.4 }, time(38.2));
+        // Highlight rows at "weights of the network are the rows" (~76.7s)
+        tl.set(S, { nnRowHighlight: 0 }, time(77.0));
+        tl.set(S, { nnRowHighlight: 1 }, time(79.5));
+        tl.set(S, { nnRowHighlight: -1 }, time(82.0));
 
-        // Show repaired pipeline
-        tl.to("#repaired-pipeline", { opacity: 1, duration: 0.5 }, time(38.5));
+        // --- STATE 6: Tara Student PiP Overlay (90.5s - 98.5s) ---
+        tl.to("#visual-dimmer", { opacity: 1.0, duration: 0.5 }, time(90.2));
+        tl.to("#visual-dimmer", { opacity: 0.0, duration: 0.5 }, time(98.5));
 
-        // Draw data stream lines on canvas
-        tl.call(() => {
-            drawDataStream();
-        }, null, time(39.0));
+        // --- STATE 7: Outro Origami Teaser (90.5s - 108.7s) ---
+        tl.to(S, { splitProgress: 0.0, duration: 1.2, ease: "power2.inOut" }, time(90.5));
+        tl.to(S, { nnMapOpacity: 0.0, nnDataPulse: 0.0, duration: 0.8 }, time(90.5));
 
-        // "Like this" (43.2s) - show mini JSON card
-        tl.to("#json-mini", {
-            opacity: 1,
-            scale: 1,
-            duration: 0.4,
-            ease: "back.out(1.5)"
-        }, time(43.2));
+        // Origami fold teaser
+        tl.to(S, { foldProgress: 1.0, duration: 5.0, ease: "power1.inOut" }, time(103.0));
+        tl.to(S, { foldCreaseGlow: 1.0, duration: 2.0 }, time(103.5));
+        tl.to("#teaser-card", { opacity: 1, scale: 1, duration: 0.9, ease: "back.out(1.3)" }, time(104.0));
 
-        tl.to("#json-mini", {
-            opacity: 0,
-            scale: 0.8,
-            duration: 0.3
-        }, time(44.5));
+        // Subscribe CTA glow at "subscribe" (~106.2s)
+        // Already has CSS animation
+
+        // Final Fade Out
+        tl.to("#teaser-card", { opacity: 0, scale: 0.85, duration: 1.2 }, time(108.0));
+        tl.to(S, { gridOpacity: 0.0, foldCreaseGlow: 0.0, duration: 1.0 }, time(108.0));
+        tl.to(S, { ambientParticleOpacity: 0.0, duration: 1.0 }, time(108.0));
 
         // =====================================================
-        // SCENE 7: SPLIT COMPARISON + NO GUESSING (44.5s - 50.5s)
-        // "No guessing. No parsing chaos. No broken chains."
+        // CANVAS 2D DRAWING & ANIMATION LOOP
         // =====================================================
-        tl.to("#repaired-pipeline", { opacity: 0, duration: 0.3 }, time(44.5));
+        const canvas = document.getElementById("canvas-2d");
+        const ctx = canvas.getContext("2d");
+        const W = 1080, H = 1920;
 
-        // Show split comparison
-        tl.to("#split-compare", { opacity: 1, duration: 0.3 }, time(44.8));
-        tl.to("#split-left", { opacity: 1, y: 0, duration: 0.4, ease: "back.out(1.3)" }, time(44.8));
-        tl.to("#split-right", { opacity: 1, y: 0, duration: 0.4, ease: "back.out(1.3)" }, time(45.2));
+        // Visual constants
+        const defaultOrigin = { x: 540, y: 700 };
+        const unit = 140;
+        const gridRange = 5;
 
-        // "NO GUESSING" impact text (46.9s)
-        tl.to("#split-compare", { opacity: 0, duration: 0.3 }, time(46.5));
-        tl.to("#no-guessing", { opacity: 1, scale: 1.2, duration: 0.3, ease: "back.out(2)" }, time(46.9));
-        tl.to("#no-guessing", { scale: 1, duration: 0.2 }, time(47.2));
-        tl.to("#no-guessing", { opacity: 0, duration: 0.3 }, time(48.5));
-
-        // =====================================================
-        // SCENE 8: ENGINEERING CONVEYOR (50.8s - 58.8s)
-        // "This is what turns prompt chaining into actual engineering"
-        // =====================================================
-        tl.to("#conveyor", { opacity: 1, duration: 0.5 }, time(50.5));
-        tl.to("#eng-label", { opacity: 1, duration: 0.4, ease: "back.out(1.5)" }, time(53.5));
-
-        // Spin cogs
-        tl.to(".belt-cog", {
-            rotation: 360,
-            duration: 4,
-            repeat: -1,
-            ease: "none"
-        }, time(50.5));
-
-        // "Most beginner AI apps completely ignore this layer" (54.5s)
-        tl.to("#beginner-app", { opacity: 1, duration: 0.4 }, time(55.5));
-        tl.to("#beginner-app", { opacity: 0, scale: 0.5, duration: 0.6, ease: "power2.in" }, time(57.0));
-
-        // Drop production badge
-        tl.to("#prod-badge", { opacity: 1, y: 0, duration: 0.5, ease: "back.out(1.5)" }, time(57.5));
-
-        // Fade conveyor + badge for next scene
-        tl.to("#conveyor", { opacity: 0, duration: 0.4 }, time(58.5));
-        tl.to("#prod-badge", { opacity: 0, duration: 0.3 }, time(58.5));
+        // Color constants (resolved from CSS vars for Canvas)
+        const COL = {
+            cyan:   "#00f0ff",
+            pink:   "#ff2a85",
+            purple: "#7b2cbf",
+            yellow: "#ffdd00",
+            orange: "#ff6b35",
+            white:  "#ffffff",
+            bg:     "#060816"
+        };
 
         // =====================================================
-        // SCENE 9: STUDENT QUESTION VIDEO CARD (58.8s - ~61s)
-        // Nova question about broken JSON mid-chain
+        // NEURAL NETWORK DATA
         // =====================================================
-        tl.to("#student-card", {
-            opacity: 1,
-            scale: 1.0,
-            duration: 0.5,
-            ease: "back.out(1.5)"
-        }, time(58.8));
+        const nnLayers = [3, 6, 8, 6, 4, 2];
+        const nnLayerX = [];
+        const nnNodeY = [];
+        const nnSpacing = 130;
+        const nnStartX = 540 - ((nnLayers.length - 1) * nnSpacing) / 2;
 
-        tl.to("#caption-container", { y: 150, duration: 0.5, ease: "power2.out" }, time(58.8));
-
-        // Close student card when response starts (59.1s) — keep it open until ~61s
-        tl.to("#student-card", { opacity: 0, scale: 0.8, duration: 0.5, ease: "power2.in" }, time(60.5));
-        tl.to("#caption-container", { y: 0, duration: 0.5, ease: "power2.inOut" }, time(60.5));
-
-        // =====================================================
-        // SCENE 10: VALIDATOR FLOW (61s - 74.5s)
-        // "That's why modern agent systems add validators, retries..."
-        // =====================================================
-        tl.to("#validator-flow", { opacity: 1, duration: 0.4 }, time(61.0));
-
-        // Show model node
-        tl.to("#val-model", { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(1.5)" }, time(61.5));
-        tl.to("#val-arrow1", { opacity: 1, duration: 0.3 }, time(62.0));
-
-        // Show validator on "validators" (64.1s)
-        tl.to("#val-validator", { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(1.5)" }, time(64.1));
-        tl.to("#val-arrow2", { opacity: 1, duration: 0.3 }, time(64.5));
-
-        // Show next step
-        tl.to("#val-next", { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(1.5)" }, time(65.0));
-
-        // Show JSON card that glitches red (66.5s)
-        tl.to("#val-json", { opacity: 1, y: 0, duration: 0.4 }, time(66.5));
-
-        // JSON turns red (invalid)
-        tl.to("#val-json", {
-            borderColor: "var(--neon-pink)",
-            boxShadow: "0 0 30px rgba(255, 51, 102, 0.3)",
-            duration: 0.3
-        }, time(67.5));
-
-        // Shake the JSON card
-        tl.to("#val-json", {
-            x: () => gsap.utils.random(-8, 8),
-            duration: 0.05,
-            repeat: 8,
-            yoyo: true
-        }, time(67.6));
-
-        // Show INVALID badge
-        tl.to("#val-badge-invalid", { opacity: 1, scale: 1, duration: 0.3, ease: "back.out(1.5)" }, time(68.0));
-
-        // Show retry arrow
-        tl.to("#retry-arrow", { opacity: 1, rotation: -360, duration: 0.6, ease: "back.out(1.5)" }, time(68.5));
-
-        // Retry - JSON becomes valid (69.5s)
-        tl.to("#val-badge-invalid", { opacity: 0, duration: 0.2 }, time(69.5));
-        tl.to("#retry-arrow", { opacity: 0, duration: 0.2 }, time(69.5));
-
-        tl.to("#val-json", {
-            borderColor: "var(--neon-green)",
-            boxShadow: "0 0 30px rgba(0, 255, 170, 0.3)",
-            x: 0,
-            duration: 0.4
-        }, time(69.8));
-
-        // Show VALID badge
-        tl.to("#val-badge-valid", { opacity: 1, scale: 1, duration: 0.3, ease: "back.out(1.5)" }, time(70.0));
-
-        // Shield icon for "Schema Enforcement" (70.5s)
-        tl.to("#shield-icon", { opacity: 1, duration: 0.4, ease: "back.out(1.5)" }, time(70.5));
-
-        // "TRUST BUT VERIFY" text (73.3s - "They verify everything")
-        tl.to("#trust-verify", { opacity: 1, duration: 0.5 }, time(73.3));
-
-        // Fade validator flow
-        tl.to("#validator-flow", { opacity: 0, duration: 0.5 }, time(74.5));
-
-        // =====================================================
-        // SCENE 11: AUTONOMOUS AGENT DIAGRAM (75s - 88.5s)
-        // "And once you can trust structured outputs... autonomous"
-        // =====================================================
-        tl.to("#agent-diagram", { opacity: 1, duration: 0.4 }, time(75.0));
-
-        // Center node
-        tl.to("#agent-center", { opacity: 1, scale: 1, duration: 0.5, ease: "back.out(1.5)" }, time(75.5));
-
-        // Connectors
-        tl.to(".agent-connector", { opacity: 1, duration: 0.3 }, time(77.0));
-
-        // Tools light up on narration
-        // "call tools" (81.4s)
-        tl.to("#tool-1", {
-            opacity: 1, y: 0,
-            borderColor: "var(--neon-cyan)",
-            boxShadow: "0 0 25px rgba(0, 240, 255, 0.2)",
-            duration: 0.5,
-            ease: "back.out(1.5)"
-        }, time(81.4));
-
-        // "APIs" (82.7s)
-        tl.to("#tool-2", {
-            opacity: 1, y: 0,
-            borderColor: "var(--neon-purple)",
-            boxShadow: "0 0 25px rgba(123, 44, 191, 0.2)",
-            duration: 0.5,
-            ease: "back.out(1.5)"
-        }, time(82.7));
-
-        // "databases" (84.0s)
-        tl.to("#tool-3", {
-            opacity: 1, y: 0,
-            borderColor: "var(--neon-green)",
-            boxShadow: "0 0 25px rgba(0, 255, 170, 0.2)",
-            duration: 0.5,
-            ease: "back.out(1.5)"
-        }, time(84.0));
-
-        // "autonomous" - final text (87.8s)
-        tl.to("#final-text", { opacity: 1, duration: 0.6 }, time(87.0));
-
-        // Subtle glitch on final text
-        tl.to("#final-text", {
-            x: () => gsap.utils.random(-4, 4),
-            duration: 0.05,
-            repeat: 4,
-            yoyo: true
-        }, time(87.8));
-
-        // Camera pull-back effect
-        tl.to("#agent-diagram", {
-            scale: 0.85,
-            duration: 2,
-            ease: "power2.inOut"
-        }, time(87.5));
-
-        // Fade to dark
-        tl.to("#agent-diagram", { opacity: 0, duration: 1.5 }, time(89.0));
-        tl.to(".bg-grid", { opacity: 0, duration: 1.5 }, time(89.0));
-        tl.to(".ambient-glow", { opacity: 0, duration: 1.5 }, time(89.0));
-
-        // =====================================================
-        // PARTICLE BURST FUNCTION
-        // =====================================================
-        async function triggerParticleBurst() {
-            try {
-                await tsParticles.load("tsparticles", {
-                    fullScreen: false,
-                    particles: {
-                        number: { value: 60 },
-                        color: { value: ["#FF3366", "#00F0FF", "#FF69B4", "#7B2CBF"] },
-                        shape: { type: ["circle", "square"] },
-                        size: { value: { min: 3, max: 10 } },
-                        opacity: {
-                            value: { min: 0.4, max: 1 },
-                            animation: { enable: true, speed: 1, minimumValue: 0, destroy: "min" }
-                        },
-                        move: {
-                            enable: true,
-                            speed: { min: 8, max: 25 },
-                            direction: "none",
-                            outModes: "destroy",
-                            gravity: { enable: true, acceleration: 5 }
-                        },
-                        life: {
-                            duration: { value: 1.5 },
-                            count: 1
-                        }
-                    },
-                    emitters: {
-                        position: { x: 50, y: 35 },
-                        rate: { quantity: 60, delay: 0 },
-                        life: { count: 1, duration: 0.3 }
-                    }
-                });
-            } catch (e) {
-                console.log("tsParticles burst triggered");
+        for (let l = 0; l < nnLayers.length; l++) {
+            nnLayerX.push(nnStartX + l * nnSpacing);
+            const nodes = [];
+            const count = nnLayers[l];
+            const totalH = (count - 1) * 90;
+            const startY = 700 - totalH / 2;
+            for (let n = 0; n < count; n++) {
+                nodes.push(startY + n * 90);
             }
+            nnNodeY.push(nodes);
         }
 
         // =====================================================
-        // DATA STREAM CANVAS ANIMATION
+        // MAIN DRAW FUNCTION
         // =====================================================
-        function drawDataStream() {
-            const canvas = document.getElementById("stream-canvas");
-            const ctx = canvas.getContext("2d");
-            let particles = [];
-            const startX = 400;
-            const startY = 400;
-            const endX = 680;
-            const endY = 400;
+        let frameCount = 0;
 
-            for (let i = 0; i < 20; i++) {
-                particles.push({
-                    x: startX,
-                    y: startY + gsap.utils.random(-20, 20),
-                    speed: gsap.utils.random(3, 6),
-                    size: gsap.utils.random(2, 5),
-                    alpha: gsap.utils.random(0.4, 1),
-                    life: 0
-                });
+        function drawScene() {
+            ctx.clearRect(0, 0, W, H);
+            frameCount++;
+            S.time = frameCount / 60;
+
+            // Draw ambient particles (always, if opacity > 0)
+            if (S.ambientParticleOpacity > 0.01) {
+                drawAmbientParticles();
             }
 
-            let frameCount = 0;
-            function animate() {
-                if (frameCount > 120) return; // Run for ~2 seconds
-                frameCount++;
+            // STATE 1: Neural Network Hook
+            if (S.nnOpacity > 0.01) {
+                drawNeuralNetworkHook();
+            }
 
-                ctx.clearRect(0, 0, 1080, 1920);
+            // STATE 2-5: Grid, Vectors, Warp, Matrix, NN Mapping
+            if (S.gridOpacity > 0.01) {
+                const ox = defaultOrigin.x - S.splitProgress * 260;
+                const origin = { x: ox, y: defaultOrigin.y };
 
-                particles.forEach(p => {
-                    p.x += p.speed;
-                    p.life++;
+                const p = S.warpProgress;
+                // Target matrix: [[2, 0], [0, 3]]
+                const m = {
+                    a: 1 + p * 1,  // 1 → 2
+                    b: 0,
+                    c: 0,
+                    d: 1 + p * 2   // 1 → 3
+                };
 
-                    const progress = (p.x - startX) / (endX - startX);
-                    if (progress > 1) {
-                        p.x = startX;
-                        p.y = startY + gsap.utils.random(-20, 20);
-                        p.life = 0;
+                ctx.save();
+                ctx.globalAlpha = S.gridOpacity;
+
+                // Draw ghost grid (pre-warp positions)
+                if (S.warpGhostOpacity > 0.01 && S.warpProgress > 0.01) {
+                    drawGrid(origin, { a: 1, b: 0, c: 0, d: 1 }, S.warpGhostOpacity * 0.35, true);
+                }
+
+                // Draw current grid
+                drawGrid(origin, m, 1.0, false);
+
+                // Draw warp ripple
+                if (S.warpRipple > 0.01 && S.warpRipple < 0.99) {
+                    drawWarpRipple(origin);
+                }
+
+                // Draw basis vectors
+                drawBasisVectors(origin, m);
+
+                // Draw matrix-to-vector connection beams
+                if (S.matrixBeamI > 0.01 || S.matrixBeamJ > 0.01) {
+                    drawMatrixBeams(origin, m);
+                }
+
+                // Draw NN mapping (right side)
+                if (S.nnMapOpacity > 0.01) {
+                    drawNNMapping();
+                }
+
+                // Draw Origami fold teaser
+                if (S.foldProgress > 0.01) {
+                    drawOrigamiFold(origin, m);
+                }
+
+                ctx.restore();
+            }
+
+            // Update particles
+            updateTrailParticles();
+            updateDataParticles();
+        }
+
+        // =====================================================
+        // AMBIENT PARTICLES
+        // =====================================================
+        function drawAmbientParticles() {
+            ctx.save();
+            ctx.globalAlpha = S.ambientParticleOpacity;
+
+            for (const p of ambientParticles) {
+                p.x += p.vx;
+                p.y += p.vy;
+                p.pulse += 0.02;
+
+                // Wrap
+                if (p.y < -10) { p.y = H + 10; p.x = Math.random() * W; }
+                if (p.x < -10) p.x = W + 10;
+                if (p.x > W + 10) p.x = -10;
+
+                const pulseAlpha = p.alpha * (0.5 + 0.5 * Math.sin(p.pulse));
+                const hsl = p.hue === 186 ? COL.cyan : COL.pink;
+
+                ctx.save();
+                ctx.globalAlpha *= pulseAlpha;
+                ctx.shadowBlur = 8;
+                ctx.shadowColor = hsl;
+                ctx.fillStyle = hsl;
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.restore();
+            }
+
+            ctx.restore();
+        }
+
+        // =====================================================
+        // STATE 1: NEURAL NETWORK HOOK
+        // =====================================================
+        function drawNeuralNetworkHook() {
+            ctx.save();
+            ctx.globalAlpha = S.nnOpacity;
+
+            // Camera zoom transform
+            ctx.translate(W / 2, 700);
+            ctx.scale(S.nnZoom, S.nnZoom);
+            ctx.translate(-W / 2, -700);
+
+            const t = S.time;
+
+            // Draw connections with animated data flow
+            for (let l = 0; l < nnLayers.length - 1; l++) {
+                for (let i = 0; i < nnLayers[l]; i++) {
+                    for (let j = 0; j < nnLayers[l + 1]; j++) {
+                        const x1 = nnLayerX[l];
+                        const y1 = nnNodeY[l][i];
+                        const x2 = nnLayerX[l + 1];
+                        const y2 = nnNodeY[l + 1][j];
+
+                        // Determine connection brightness
+                        const hlIdx = Math.round(S.nnHighlightLayer);
+                        const isHighlighted = (hlIdx >= 0 && (l === hlIdx - 1 || l === hlIdx));
+                        const baseAlpha = isHighlighted ? 0.35 : 0.08;
+
+                        // Animated gradient with traveling pulse
+                        const pulse = ((t * 0.4 + l * 0.15 + i * 0.08 + j * 0.05) % 1.0);
+                        const grad = ctx.createLinearGradient(x1, y1, x2, y2);
+                        const pulseA = isHighlighted ? 0.6 : 0.25;
+                        grad.addColorStop(Math.max(0, pulse - 0.15), `rgba(0, 240, 255, ${baseAlpha})`);
+                        grad.addColorStop(pulse, `rgba(0, 240, 255, ${pulseA})`);
+                        grad.addColorStop(Math.min(1, pulse + 0.15), `rgba(123, 44, 191, ${baseAlpha})`);
+
+                        ctx.strokeStyle = grad;
+                        ctx.lineWidth = isHighlighted ? 2.5 : 1.2;
+                        ctx.beginPath();
+                        ctx.moveTo(x1, y1);
+                        ctx.lineTo(x2, y2);
+                        ctx.stroke();
+                    }
+                }
+            }
+
+            // Draw glowing nodes
+            for (let l = 0; l < nnLayers.length; l++) {
+                const hlIdx2 = Math.round(S.nnHighlightLayer);
+                const isHL = (hlIdx2 >= 0 && l === hlIdx2);
+                const isInputHL = (hlIdx2 >= 0 && l === hlIdx2 - 1);
+
+                for (let i = 0; i < nnLayers[l]; i++) {
+                    const x = nnLayerX[l];
+                    const y = nnNodeY[l][i];
+
+                    // Node glow ring
+                    const ringPulse = 0.5 + 0.5 * Math.sin(t * 2 + l * 0.7 + i * 0.5);
+                    let nodeColor, glowAlpha;
+
+                    if (isHL) {
+                        nodeColor = COL.yellow;
+                        glowAlpha = 0.8;
+                    } else if (isInputHL) {
+                        nodeColor = COL.orange;
+                        glowAlpha = 0.6;
+                    } else if (l === 0) {
+                        nodeColor = COL.pink;
+                        glowAlpha = 0.4 + ringPulse * 0.2;
+                    } else if (l === nnLayers.length - 1) {
+                        nodeColor = COL.cyan;
+                        glowAlpha = 0.4 + ringPulse * 0.2;
+                    } else {
+                        nodeColor = COL.purple;
+                        glowAlpha = 0.25 + ringPulse * 0.15;
                     }
 
+                    const nodeSize = (isHL || isInputHL) ? 18 : 14;
+
+                    // Outer glow ring
+                    ctx.save();
+                    ctx.shadowBlur = isHL ? 35 : 18;
+                    ctx.shadowColor = nodeColor;
+                    ctx.globalAlpha *= glowAlpha;
+
+                    // Radial gradient node
+                    const rg = ctx.createRadialGradient(x, y, 0, x, y, nodeSize + 6);
+                    rg.addColorStop(0, COL.white);
+                    rg.addColorStop(0.35, nodeColor);
+                    rg.addColorStop(1, "transparent");
+                    ctx.fillStyle = rg;
                     ctx.beginPath();
-                    ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-                    ctx.fillStyle = `rgba(0, 255, 170, ${p.alpha * (1 - progress * 0.5)})`;
+                    ctx.arc(x, y, nodeSize + 6, 0, Math.PI * 2);
                     ctx.fill();
 
-                    // Trail
+                    // Core bright dot
+                    ctx.globalAlpha = S.nnOpacity;
+                    ctx.shadowBlur = 0;
+                    ctx.fillStyle = COL.white;
                     ctx.beginPath();
-                    ctx.moveTo(p.x, p.y);
-                    ctx.lineTo(p.x - p.speed * 3, p.y);
-                    ctx.strokeStyle = `rgba(0, 255, 170, ${p.alpha * 0.3})`;
-                    ctx.lineWidth = p.size * 0.6;
-                    ctx.stroke();
-                });
+                    ctx.arc(x, y, 4, 0, Math.PI * 2);
+                    ctx.fill();
 
-                requestAnimationFrame(animate);
+                    ctx.restore();
+                }
             }
-            animate();
+
+            // Highlighted sub-layer label
+            const hlL = Math.round(S.nnHighlightLayer);
+            if (hlL >= 0 && hlL < nnLayers.length && nnNodeY[hlL]) {
+                const hlX = nnLayerX[hlL];
+                const hlTop = nnNodeY[hlL][0] - 50;
+
+                ctx.save();
+                ctx.globalAlpha = 0.8;
+                ctx.font = "bold 16px 'Fira Code', monospace";
+                ctx.textAlign = "center";
+                ctx.fillStyle = COL.yellow;
+                ctx.shadowColor = COL.yellow;
+                ctx.shadowBlur = 10;
+                ctx.fillText("2×2 LAYER", hlX, hlTop);
+                ctx.restore();
+
+                // Bracket around highlighted layer
+                const boxPad = 28;
+                const topY = nnNodeY[hlL][0] - boxPad;
+                const botY = nnNodeY[hlL][nnLayers[hlL] - 1] + boxPad;
+
+                ctx.save();
+                ctx.strokeStyle = COL.yellow;
+                ctx.globalAlpha = 0.4;
+                ctx.lineWidth = 2;
+                ctx.setLineDash([6, 4]);
+                ctx.shadowColor = COL.yellow;
+                ctx.shadowBlur = 8;
+                ctx.beginPath();
+                ctx.roundRect(hlX - 30, topY, 60, botY - topY, 12);
+                ctx.stroke();
+                ctx.setLineDash([]);
+                ctx.restore();
+            }
+
+            // Layer labels at bottom
+            const layerLabels = ["Input", "H₁", "H₂", "H₃", "H₄", "Output"];
+            ctx.save();
+            ctx.globalAlpha = 0.3;
+            ctx.font = "600 13px 'Fira Code', monospace";
+            ctx.textAlign = "center";
+            ctx.fillStyle = COL.white;
+            for (let l = 0; l < nnLayers.length; l++) {
+                const botY = nnNodeY[l][nnLayers[l] - 1] + 50;
+                ctx.fillText(layerLabels[l], nnLayerX[l], botY);
+            }
+            ctx.restore();
+
+            ctx.restore();
         }
+
+        // =====================================================
+        // GRID DRAWING (with reveal animation)
+        // =====================================================
+        function drawGrid(origin, m, alpha, isGhost) {
+            ctx.save();
+            ctx.globalAlpha *= alpha;
+
+            const reveal = S.gridRevealProgress;
+            const maxDist = gridRange * reveal;
+
+            // Grid lines
+            for (let i = -gridRange; i <= gridRange; i++) {
+                if (Math.abs(i) > maxDist + 0.5) continue;
+                const lineFade = Math.max(0, Math.min(1, maxDist - Math.abs(i) + 0.5));
+
+                ctx.save();
+                ctx.globalAlpha *= lineFade * (isGhost ? 0.4 : 1.0);
+                ctx.strokeStyle = isGhost
+                    ? "rgba(255, 255, 255, 0.04)"
+                    : "rgba(255, 255, 255, 0.06)";
+                ctx.lineWidth = isGhost ? 1 : 1.5;
+
+                // Vertical lines (transform each endpoint)
+                ctx.beginPath();
+                for (let j = -gridRange; j <= gridRange; j++) {
+                    const tx = origin.x + (i * m.a + j * m.b) * unit;
+                    const ty = origin.y - (i * m.c + j * m.d) * unit;
+                    if (j === -gridRange) ctx.moveTo(tx, ty);
+                    else ctx.lineTo(tx, ty);
+                }
+                ctx.stroke();
+
+                // Horizontal lines
+                ctx.beginPath();
+                for (let j = -gridRange; j <= gridRange; j++) {
+                    const tx = origin.x + (j * m.a + i * m.b) * unit;
+                    const ty = origin.y - (j * m.c + i * m.d) * unit;
+                    if (j === -gridRange) ctx.moveTo(tx, ty);
+                    else ctx.lineTo(tx, ty);
+                }
+                ctx.stroke();
+
+                ctx.restore();
+            }
+
+            // Emphasized axes
+            if (!isGhost) {
+                ctx.save();
+                ctx.strokeStyle = "rgba(255, 255, 255, 0.18)";
+                ctx.lineWidth = 3;
+
+                // X axis (i varies, j=0)
+                ctx.beginPath();
+                for (let i = -gridRange; i <= gridRange; i++) {
+                    const tx = origin.x + i * m.a * unit;
+                    const ty = origin.y - i * m.c * unit;
+                    if (i === -gridRange) ctx.moveTo(tx, ty);
+                    else ctx.lineTo(tx, ty);
+                }
+                ctx.stroke();
+
+                // Y axis (j varies, i=0)
+                ctx.beginPath();
+                for (let j = -gridRange; j <= gridRange; j++) {
+                    const tx = origin.x + j * m.b * unit;
+                    const ty = origin.y - j * m.d * unit;
+                    if (j === -gridRange) ctx.moveTo(tx, ty);
+                    else ctx.lineTo(tx, ty);
+                }
+                ctx.stroke();
+                ctx.restore();
+
+                // Glowing intersection dots
+                for (let i = -gridRange; i <= gridRange; i++) {
+                    if (Math.abs(i) > maxDist) continue;
+                    for (let j = -gridRange; j <= gridRange; j++) {
+                        if (Math.abs(j) > maxDist) continue;
+                        const dist = Math.sqrt(i * i + j * j);
+                        if (dist > maxDist) continue;
+
+                        const tx = origin.x + (i * m.a + j * m.b) * unit;
+                        const ty = origin.y - (i * m.c + j * m.d) * unit;
+
+                        const dotAlpha = Math.max(0, 1 - dist / gridRange) * 0.25;
+                        const dotPulse = 0.5 + 0.5 * Math.sin(S.time * 1.5 + i * 0.5 + j * 0.7);
+
+                        ctx.save();
+                        ctx.globalAlpha *= dotAlpha * (0.5 + dotPulse * 0.5);
+                        ctx.fillStyle = COL.cyan;
+                        ctx.shadowColor = COL.cyan;
+                        ctx.shadowBlur = 6;
+                        ctx.beginPath();
+                        ctx.arc(tx, ty, 2.5, 0, Math.PI * 2);
+                        ctx.fill();
+                        ctx.restore();
+                    }
+                }
+            }
+
+            // Origin glow
+            if (!isGhost) {
+                ctx.save();
+                const ogr = ctx.createRadialGradient(origin.x, origin.y, 0, origin.x, origin.y, 30);
+                ogr.addColorStop(0, "rgba(255, 255, 255, 0.25)");
+                ogr.addColorStop(0.5, "rgba(0, 240, 255, 0.08)");
+                ogr.addColorStop(1, "transparent");
+                ctx.fillStyle = ogr;
+                ctx.beginPath();
+                ctx.arc(origin.x, origin.y, 30, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.restore();
+            }
+
+            ctx.restore();
+        }
+
+        // =====================================================
+        // WARP RIPPLE EFFECT
+        // =====================================================
+        function drawWarpRipple(origin) {
+            ctx.save();
+            const radius = S.warpRipple * gridRange * unit * 1.5;
+            const alpha = (1 - S.warpRipple) * 0.35;
+
+            ctx.globalAlpha *= alpha;
+            ctx.strokeStyle = COL.cyan;
+            ctx.lineWidth = 3;
+            ctx.shadowColor = COL.cyan;
+            ctx.shadowBlur = 15;
+            ctx.beginPath();
+            ctx.arc(origin.x, origin.y, radius, 0, Math.PI * 2);
+            ctx.stroke();
+
+            // Second ring
+            if (S.warpRipple > 0.15) {
+                const r2 = (S.warpRipple - 0.15) * gridRange * unit * 1.5;
+                ctx.globalAlpha = (1 - S.warpRipple) * 0.15;
+                ctx.strokeStyle = COL.pink;
+                ctx.shadowColor = COL.pink;
+                ctx.beginPath();
+                ctx.arc(origin.x, origin.y, r2, 0, Math.PI * 2);
+                ctx.stroke();
+            }
+
+            ctx.restore();
+        }
+
+        // =====================================================
+        // BASIS VECTORS
+        // =====================================================
+        function drawBasisVectors(origin, m) {
+            // i-hat (pink/magenta)
+            if (S.basisRevealI > 0.01) {
+                const iLen = S.basisRevealI;
+                const ix = origin.x + m.a * unit * iLen;
+                const iy = origin.y - m.c * unit * iLen;
+                const iGlow = 18 + S.basisIFlash * 30;
+                const iColor = S.basisIFlash > 0.01 ? COL.white : COL.pink;
+
+                drawPremiumArrow(origin.x, origin.y, ix, iy, iColor, COL.pink, "î", iGlow);
+
+                // Coordinate label
+                if (S.warpProgress > 0.5) {
+                    const coordX = (m.a).toFixed(0);
+                    const coordY = (m.c).toFixed(0);
+                    drawCoordLabel(ix + 15, iy + 35, `(${coordX}, ${coordY})`, COL.pink);
+                } else if (S.basisRevealI > 0.8) {
+                    drawCoordLabel(ix + 15, iy + 35, "(1, 0)", COL.pink);
+                }
+
+                // Trail particles during warp
+                if (S.warpProgress > 0.01 && S.warpProgress < 0.95 && frameCount % 4 === 0) {
+                    spawnTrailParticle(ix, iy, COL.pink);
+                }
+            }
+
+            // j-hat (cyan)
+            if (S.basisRevealJ > 0.01) {
+                const jLen = S.basisRevealJ;
+                const jx = origin.x + m.b * unit * jLen;
+                const jy = origin.y - m.d * unit * jLen;
+                const jGlow = 18 + S.basisJFlash * 30;
+                const jColor = S.basisJFlash > 0.01 ? COL.white : COL.cyan;
+
+                drawPremiumArrow(origin.x, origin.y, jx, jy, jColor, COL.cyan, "ĵ", jGlow);
+
+                // Coordinate label
+                if (S.warpProgress > 0.5) {
+                    const coordX = (m.b).toFixed(0);
+                    const coordY = (m.d).toFixed(0);
+                    drawCoordLabel(jx - 80, jy + 10, `(${coordX}, ${coordY})`, COL.cyan);
+                } else if (S.basisRevealJ > 0.8) {
+                    drawCoordLabel(jx - 80, jy + 10, "(0, 1)", COL.cyan);
+                }
+
+                // Trail particles during warp
+                if (S.warpProgress > 0.01 && S.warpProgress < 0.95 && frameCount % 4 === 0) {
+                    spawnTrailParticle(jx, jy, COL.cyan);
+                }
+            }
+        }
+
+        // =====================================================
+        // PREMIUM ARROW WITH GRADIENT & GLOW
+        // =====================================================
+        function drawPremiumArrow(fx, fy, tx, ty, color, baseColor, label, glow) {
+            const angle = Math.atan2(ty - fy, tx - fx);
+            const len = Math.sqrt((tx - fx) ** 2 + (ty - fy) ** 2);
+
+            ctx.save();
+
+            // Arrow shaft with gradient
+            const grad = ctx.createLinearGradient(fx, fy, tx, ty);
+            grad.addColorStop(0, "rgba(255, 255, 255, 0.1)");
+            grad.addColorStop(0.4, color);
+            grad.addColorStop(1, color);
+
+            ctx.strokeStyle = grad;
+            ctx.lineWidth = 6;
+            ctx.shadowColor = baseColor;
+            ctx.shadowBlur = glow;
+            ctx.lineCap = "round";
+
+            ctx.beginPath();
+            ctx.moveTo(fx, fy);
+            ctx.lineTo(tx, ty);
+            ctx.stroke();
+
+            // Arrow head
+            ctx.fillStyle = color;
+            ctx.shadowBlur = glow * 1.5;
+            ctx.beginPath();
+            ctx.moveTo(tx, ty);
+            ctx.lineTo(tx - 24 * Math.cos(angle - Math.PI / 6), ty - 24 * Math.sin(angle - Math.PI / 6));
+            ctx.lineTo(tx - 24 * Math.cos(angle + Math.PI / 6), ty - 24 * Math.sin(angle + Math.PI / 6));
+            ctx.closePath();
+            ctx.fill();
+
+            // Label with glow
+            ctx.shadowBlur = 8;
+            ctx.shadowColor = baseColor;
+            ctx.fillStyle = COL.white;
+            ctx.font = "bold 28px 'Fira Code', monospace";
+            const lx = tx + 30 * Math.cos(angle);
+            const ly = ty + 30 * Math.sin(angle) - 8;
+            ctx.fillText(label, lx, ly);
+
+            ctx.restore();
+        }
+
+        // =====================================================
+        // COORDINATE LABEL
+        // =====================================================
+        function drawCoordLabel(x, y, text, color) {
+            ctx.save();
+
+            // Glass pill background
+            ctx.fillStyle = "rgba(6, 8, 22, 0.7)";
+            ctx.strokeStyle = color;
+            ctx.globalAlpha *= 0.8;
+            ctx.lineWidth = 1.5;
+
+            const tw = ctx.measureText(text).width || 70;
+            const pw = tw + 20;
+            const ph = 32;
+
+            ctx.beginPath();
+            ctx.roundRect(x - 4, y - 20, pw, ph, 10);
+            ctx.fill();
+            ctx.globalAlpha *= 0.5;
+            ctx.stroke();
+
+            // Text
+            ctx.globalAlpha = S.gridOpacity * 0.9;
+            ctx.fillStyle = color;
+            ctx.shadowColor = color;
+            ctx.shadowBlur = 8;
+            ctx.font = "bold 20px 'Fira Code', monospace";
+            ctx.fillText(text, x + 6, y + 4);
+
+            ctx.restore();
+        }
+
+        // =====================================================
+        // MATRIX-TO-VECTOR CONNECTION BEAMS
+        // =====================================================
+        function drawMatrixBeams(origin, m) {
+            // Column 1 → i-hat position
+            if (S.matrixBeamI > 0.01) {
+                const cardX = 540;  // matrix card center X
+                const cardY = 330;  // matrix card center Y (bottom area)
+                const ix = origin.x + m.a * unit;
+                const iy = origin.y - m.c * unit;
+
+                drawBeam(cardX - 40, cardY, ix, iy, COL.pink, S.matrixBeamI);
+            }
+
+            // Column 2 → j-hat position
+            if (S.matrixBeamJ > 0.01) {
+                const cardX = 540;
+                const cardY = 330;
+                const jx = origin.x + m.b * unit;
+                const jy = origin.y - m.d * unit;
+
+                drawBeam(cardX + 40, cardY, jx, jy, COL.cyan, S.matrixBeamJ);
+            }
+        }
+
+        function drawBeam(x1, y1, x2, y2, color, progress) {
+            ctx.save();
+            ctx.globalAlpha *= 0.5 * progress;
+
+            // Dashed glowing beam
+            ctx.strokeStyle = color;
+            ctx.lineWidth = 2;
+            ctx.shadowColor = color;
+            ctx.shadowBlur = 12;
+            ctx.setLineDash([8, 6]);
+
+            const ex = x1 + (x2 - x1) * progress;
+            const ey = y1 + (y2 - y1) * progress;
+
+            ctx.beginPath();
+            ctx.moveTo(x1, y1);
+            ctx.lineTo(ex, ey);
+            ctx.stroke();
+            ctx.setLineDash([]);
+
+            // Endpoint dot
+            ctx.globalAlpha = progress;
+            ctx.fillStyle = color;
+            ctx.shadowBlur = 18;
+            ctx.beginPath();
+            ctx.arc(ex, ey, 5, 0, Math.PI * 2);
+            ctx.fill();
+
+            ctx.restore();
+        }
+
+        // =====================================================
+        // STATE 5: NN LAYER MAPPING (Right Side)
+        // =====================================================
+        function drawNNMapping() {
+            const rx = 820;
+            const ry = 700;
+            const cardW = 420;
+            const cardH = 560;
+
+            ctx.save();
+            ctx.globalAlpha = S.nnMapOpacity * S.gridOpacity;
+
+            // Card background
+            ctx.fillStyle = "rgba(8, 10, 22, 0.88)";
+            ctx.strokeStyle = "rgba(255, 255, 255, 0.1)";
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.roundRect(rx - cardW / 2, ry - cardH / 2, cardW, cardH, 26);
+            ctx.fill();
+            ctx.stroke();
+
+            // Animated border accent
+            ctx.save();
+            ctx.globalAlpha *= 0.15;
+            const borderGrad = ctx.createConicGradient(S.time * 0.5, rx, ry);
+            borderGrad.addColorStop(0, COL.cyan);
+            borderGrad.addColorStop(0.33, COL.purple);
+            borderGrad.addColorStop(0.66, COL.pink);
+            borderGrad.addColorStop(1, COL.cyan);
+            ctx.strokeStyle = borderGrad;
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            ctx.roundRect(rx - cardW / 2, ry - cardH / 2, cardW, cardH, 26);
+            ctx.stroke();
+            ctx.restore();
+
+            // Card title
+            ctx.fillStyle = COL.cyan;
+            ctx.shadowColor = COL.cyan;
+            ctx.shadowBlur = 10;
+            ctx.font = "900 20px 'Outfit', sans-serif";
+            ctx.textAlign = "center";
+            ctx.fillText("NEURAL LAYER (2×2)", rx, ry - cardH / 2 + 40);
+            ctx.shadowBlur = 0;
+
+            // Node positions
+            const inputX = rx - 130;
+            const outputX = rx + 130;
+            const inputNodes = [ry - 100, ry + 100];
+            const outputNodes = [ry - 100, ry + 100];
+            const nodeR = 28;
+
+            // Weight values
+            const weights = [
+                [2, 0],  // Row 1: w11=2, w12=0
+                [0, 3]   // Row 2: w21=0, w22=3
+            ];
+
+            // Draw connections with weight labels
+            for (let i = 0; i < 2; i++) {
+                for (let j = 0; j < 2; j++) {
+                    const w = weights[j][i]; // weights[output][input]
+                    const x1 = inputX;
+                    const y1 = inputNodes[i];
+                    const x2 = outputX;
+                    const y2 = outputNodes[j];
+
+                    // Connection line
+                    const isActive = w !== 0;
+                    const isRowHL = Math.round(S.nnRowHighlight) === j;
+
+                    ctx.save();
+                    if (isRowHL) {
+                        ctx.strokeStyle = j === 0 ? COL.pink : COL.cyan;
+                        ctx.lineWidth = 5;
+                        ctx.shadowColor = j === 0 ? COL.pink : COL.cyan;
+                        ctx.shadowBlur = 15;
+                    } else {
+                        ctx.strokeStyle = isActive
+                            ? (j === 0 ? "rgba(255, 42, 133, 0.6)" : "rgba(0, 240, 255, 0.6)")
+                            : "rgba(255, 255, 255, 0.08)";
+                        ctx.lineWidth = isActive ? 3.5 : 1.5;
+                    }
+
+                    ctx.beginPath();
+                    ctx.moveTo(x1, y1);
+                    ctx.lineTo(x2, y2);
+                    ctx.stroke();
+                    ctx.restore();
+
+                    // Weight label
+                    const midX = (x1 + x2) / 2;
+                    const midY = (y1 + y2) / 2;
+                    const offsetY = (i === j) ? -15 : 15;
+
+                    if (isActive) {
+                        ctx.save();
+                        // Pill background
+                        ctx.fillStyle = "rgba(6, 8, 22, 0.8)";
+                        ctx.beginPath();
+                        ctx.roundRect(midX - 18, midY + offsetY - 14, 36, 24, 8);
+                        ctx.fill();
+
+                        ctx.font = "bold 18px 'Fira Code', monospace";
+                        ctx.textAlign = "center";
+                        ctx.textBaseline = "middle";
+                        ctx.fillStyle = isRowHL ? COL.yellow : (j === 0 ? COL.pink : COL.cyan);
+                        if (isRowHL) {
+                            ctx.shadowColor = COL.yellow;
+                            ctx.shadowBlur = 10;
+                        }
+                        ctx.fillText(`w=${w}`, midX, midY + offsetY);
+                        ctx.restore();
+                    }
+
+                    // Data flow particles along active connections
+                    if (isActive && S.nnDataPulse > 0.5 && frameCount % 12 === 0) {
+                        spawnDataParticle(x1, y1, x2, y2, j === 0 ? COL.pink : COL.cyan);
+                    }
+                }
+            }
+
+            // Draw node circles
+            const labelsIn = ["x₁", "x₂"];
+            const labelsOut = ["y₁", "y₂"];
+
+            for (let i = 0; i < 2; i++) {
+                // Input nodes
+                drawNNNode(inputX, inputNodes[i], nodeR, labelsIn[i],
+                    "rgba(255, 255, 255, 0.5)", false);
+
+                // Output nodes
+                const outColor = i === 0 ? COL.pink : COL.cyan;
+                const outHL = Math.round(S.nnRowHighlight) === i;
+                drawNNNode(outputX, outputNodes[i], nodeR, labelsOut[i],
+                    outColor, outHL);
+            }
+
+            // "Input" and "Output" labels
+            ctx.save();
+            ctx.globalAlpha = 0.35;
+            ctx.font = "600 14px 'Fira Code', monospace";
+            ctx.textAlign = "center";
+            ctx.fillStyle = COL.white;
+            ctx.fillText("INPUT", inputX, ry + 160);
+            ctx.fillText("OUTPUT", outputX, ry + 160);
+            ctx.restore();
+
+            ctx.restore();
+        }
+
+        function drawNNNode(x, y, r, label, color, highlight) {
+            ctx.save();
+
+            // Background fill
+            ctx.fillStyle = "rgba(12, 14, 28, 0.9)";
+            ctx.strokeStyle = color;
+            ctx.lineWidth = highlight ? 3.5 : 2;
+
+            if (highlight) {
+                ctx.shadowColor = color;
+                ctx.shadowBlur = 20;
+            }
+
+            ctx.beginPath();
+            ctx.arc(x, y, r, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.stroke();
+
+            // Label
+            ctx.shadowBlur = 0;
+            ctx.fillStyle = highlight ? COL.yellow : COL.white;
+            ctx.font = "bold 22px 'Fira Code', monospace";
+            ctx.textAlign = "center";
+            ctx.textBaseline = "middle";
+            ctx.fillText(label, x, y + 1);
+
+            ctx.restore();
+        }
+
+        // =====================================================
+        // ORIGAMI FOLD TEASER
+        // =====================================================
+        function drawOrigamiFold(origin, m) {
+            const fold = S.foldProgress;
+            ctx.save();
+
+            // Fold crease line (glowing)
+            if (S.foldCreaseGlow > 0.01) {
+                ctx.save();
+                ctx.globalAlpha *= S.foldCreaseGlow * 0.8;
+                ctx.strokeStyle = COL.orange;
+                ctx.lineWidth = 4;
+                ctx.shadowColor = COL.orange;
+                ctx.shadowBlur = 25;
+
+                // Diagonal crease across the grid
+                const cx1 = origin.x - 350;
+                const cy1 = origin.y + 200 * fold;
+                const cx2 = origin.x + 350;
+                const cy2 = origin.y - 200 * fold;
+
+                ctx.beginPath();
+                ctx.moveTo(cx1, cy1);
+                ctx.lineTo(cx2, cy2);
+                ctx.stroke();
+
+                // Crease glow particles
+                if (frameCount % 3 === 0 && fold > 0.2) {
+                    const t = Math.random();
+                    const px = cx1 + (cx2 - cx1) * t;
+                    const py = cy1 + (cy2 - cy1) * t;
+                    spawnTrailParticle(px, py, COL.orange);
+                }
+
+                ctx.restore();
+            }
+
+            // Folded grid region (top half folds down)
+            ctx.save();
+            ctx.globalAlpha *= fold * 0.35;
+
+            // Upper fold region — shaded
+            ctx.fillStyle = "rgba(255, 42, 133, 0.08)";
+            ctx.strokeStyle = "rgba(255, 255, 255, 0.12)";
+            ctx.lineWidth = 1.5;
+
+            ctx.beginPath();
+            ctx.moveTo(origin.x - 300, origin.y - 280);
+            ctx.lineTo(origin.x + 300, origin.y - 280);
+            ctx.lineTo(origin.x + 300 * (1 - fold * 0.4), origin.y + 150 * fold);
+            ctx.lineTo(origin.x - 300, origin.y - 280 * (1 - fold * 0.6));
+            ctx.closePath();
+            ctx.fill();
+            ctx.stroke();
+
+            // Lower fold region — different shade
+            ctx.fillStyle = "rgba(0, 240, 255, 0.06)";
+            ctx.beginPath();
+            ctx.moveTo(origin.x - 300, origin.y + 280);
+            ctx.lineTo(origin.x + 300, origin.y + 280);
+            ctx.lineTo(origin.x + 300 * (1 - fold * 0.3), origin.y - 100 * fold);
+            ctx.lineTo(origin.x - 300, origin.y + 280 * (1 - fold * 0.4));
+            ctx.closePath();
+            ctx.fill();
+            ctx.stroke();
+
+            ctx.restore();
+
+            ctx.restore();
+        }
+
+        // =====================================================
+        // PARTICLE UPDATE FUNCTIONS
+        // =====================================================
+        function updateTrailParticles() {
+            for (let i = trailParticles.length - 1; i >= 0; i--) {
+                const p = trailParticles[i];
+                p.x += p.vx;
+                p.y += p.vy;
+                p.life -= p.decay;
+
+                if (p.life <= 0) {
+                    trailParticles.splice(i, 1);
+                    continue;
+                }
+
+                ctx.save();
+                ctx.globalAlpha = p.life * 0.7;
+                ctx.fillStyle = p.color;
+                ctx.shadowColor = p.color;
+                ctx.shadowBlur = 8;
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.size * p.life, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.restore();
+            }
+        }
+
+        function updateDataParticles() {
+            for (let i = dataParticles.length - 1; i >= 0; i--) {
+                const p = dataParticles[i];
+                p.progress += p.speed;
+
+                if (p.progress >= 1) {
+                    dataParticles.splice(i, 1);
+                    continue;
+                }
+
+                const x = p.x1 + (p.x2 - p.x1) * p.progress;
+                const y = p.y1 + (p.y2 - p.y1) * p.progress;
+
+                ctx.save();
+                ctx.globalAlpha = p.alpha * (1 - Math.abs(p.progress - 0.5) * 2) * 0.8;
+                ctx.fillStyle = p.color;
+                ctx.shadowColor = p.color;
+                ctx.shadowBlur = 10;
+                ctx.beginPath();
+                ctx.arc(x, y, p.size, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.restore();
+            }
+        }
+
+        // =====================================================
+        // ANIMATION LOOP
+        // =====================================================
+        function animate() {
+            drawScene();
+            requestAnimationFrame(animate);
+        }
+        requestAnimationFrame(animate);
 
     </script>
 </body>
-
 </html>

@@ -9,17 +9,16 @@ __pycache__/
 # Generated outputs
 output/
 rendered_scenes/
-timestamps/
 logs/
 audio/
 older-reel-inputs/
-input/
 
 # Media files (large)
 *.mp4
 *.mp3
 *.webm
 *.wav
+*.MOV
 
 # OS
 .DS_Store
