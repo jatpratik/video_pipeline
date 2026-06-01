@@ -1,0 +1,1880 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, width=1080, height=1920">
+    <title>Agentic AI — The Paradigm Shift (Ep.02)</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600;700&family=Inter:wght@400;700;900&family=Outfit:wght@400;700;900&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-color: #060610;
+            --neon-cyan: #00F0FF;
+            --neon-pink: #FF2D6A;
+            --neon-purple: #7B2CBF;
+            --neon-orange: #FF6B35;
+            --neon-green: #00FF88;
+            --neon-yellow: #FFDD00;
+            --glass-bg: rgba(10, 12, 24, 0.85);
+            --glass-border: rgba(255, 255, 255, 0.1);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        html, body {
+            background-color: var(--bg-color);
+            color: #ffffff;
+            font-family: 'Outfit', 'Inter', sans-serif;
+            width: 1080px;
+            height: 1920px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Deep nebula background */
+        .nebula-layer {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background:
+                radial-gradient(ellipse at 30% 25%, rgba(123, 44, 191, 0.1) 0%, transparent 50%),
+                radial-gradient(ellipse at 70% 55%, rgba(0, 240, 255, 0.06) 0%, transparent 45%),
+                radial-gradient(ellipse at 50% 80%, rgba(255, 45, 106, 0.07) 0%, transparent 40%);
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        /* Micro-grid */
+        .bg-grid {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background-image:
+                linear-gradient(rgba(255, 255, 255, 0.018) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.018) 1px, transparent 1px);
+            background-size: 40px 40px;
+            z-index: 2;
+            opacity: 0.5;
+        }
+
+        /* Scanlines */
+        .scanlines {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: repeating-linear-gradient(0deg,
+                rgba(0, 0, 0, 0.1),
+                rgba(0, 0, 0, 0.1) 1px,
+                transparent 1px,
+                transparent 3px);
+            pointer-events: none;
+            z-index: 99;
+            opacity: 0.35;
+        }
+
+        /* Canvas layer for animated backgrounds */
+        #canvas-bg {
+            position: absolute;
+            top: 0; left: 0;
+            width: 1080px; height: 1920px;
+            z-index: 5;
+            pointer-events: none;
+        }
+
+        .scene-container {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: 10;
+            pointer-events: none;
+        }
+
+        /* Visual dimmer for Riya overlay */
+        #visual-dimmer {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: radial-gradient(ellipse at center, rgba(5, 6, 12, 0.5) 0%, rgba(5, 6, 12, 0.85) 100%);
+            z-index: 55;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        /* ============================================== */
+        /* CAPTIONS — Glassmorphic Bottom Panel           */
+        /* ============================================== */
+        #caption-container {
+            position: absolute;
+            left: 50%;
+            bottom: 540px;
+            transform: translateX(-50%);
+            width: 920px;
+            min-height: 110px;
+            z-index: 90;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(8, 10, 20, 0.72);
+            border: 1.5px solid rgba(255, 255, 255, 0.08);
+            border-radius: 22px;
+            padding: 16px 28px;
+            box-shadow:
+                0 12px 50px rgba(0, 0, 0, 0.6),
+                inset 0 1px 0 rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(12px);
+        }
+
+        .sentence-block {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-content: center;
+            width: 100%;
+            gap: 8px 12px;
+            text-shadow: 0 3px 10px rgba(0, 0, 0, 0.9);
+        }
+
+        .cap-word {
+            display: inline-block;
+            font-size: 38px;
+            font-weight: 800;
+            color: rgba(255, 255, 255, 0.92);
+            transition: color 0.12s ease, transform 0.12s ease, text-shadow 0.12s ease;
+            transform-origin: center;
+            line-height: 1.4;
+        }
+
+        .cap-word.active {
+            color: #00F0FF !important;
+            text-shadow: 0 0 22px #00F0FF, 0 0 8px #00F0FF;
+            transform: scale(1.15);
+            font-weight: 900;
+        }
+
+        .cap-word.active-highlight {
+            color: #FFDD00 !important;
+            text-shadow: 0 0 22px #FFDD00, 0 0 10px #FFDD00;
+            transform: scale(1.18);
+            font-weight: 900;
+        }
+
+        .cap-word.active-riya {
+            color: var(--neon-orange) !important;
+            text-shadow: 0 0 22px var(--neon-orange), 0 0 10px var(--neon-orange);
+            transform: scale(1.15);
+            font-weight: 900;
+        }
+
+        .cap-word.past {
+            color: rgba(255, 255, 255, 0.32) !important;
+            text-shadow: none;
+            transform: scale(1.0);
+        }
+
+        /* ============================================== */
+        /* ACT 1: HOOK — Chatbot Shatter                 */
+        /* ============================================== */
+        #hook-chatbot {
+            position: absolute;
+            top: 300px;
+            left: 50%;
+            transform: translateX(-50%) scale(0.85);
+            width: 600px;
+            height: 400px;
+            background: var(--glass-bg);
+            border: 2px solid var(--glass-border);
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+            backdrop-filter: blur(16px);
+            opacity: 0;
+            z-index: 20;
+            overflow: hidden;
+        }
+
+        .chatbot-header {
+            height: 60px;
+            background: rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid var(--glass-border);
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            gap: 12px;
+        }
+
+        .chatbot-dot {
+            width: 16px; height: 16px;
+            border-radius: 50%;
+        }
+        .chatbot-dot.r { background: #ff5f57; }
+        .chatbot-dot.y { background: #ffbd2e; }
+        .chatbot-dot.g { background: #28c840; }
+
+        .chatbot-title {
+            font-family: 'Fira Code', monospace;
+            font-size: 20px;
+            color: rgba(255, 255, 255, 0.5);
+            margin-left: 10px;
+            letter-spacing: 1px;
+        }
+
+        .chatbot-body {
+            padding: 30px;
+        }
+
+        .chat-prompt {
+            font-family: 'Fira Code', monospace;
+            font-size: 28px;
+            color: var(--neon-cyan);
+            opacity: 0;
+        }
+
+        .chat-cursor {
+            display: inline-block;
+            width: 14px; height: 32px;
+            background: var(--neon-cyan);
+            animation: blink 0.8s infinite;
+            vertical-align: middle;
+            margin-left: 4px;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        /* STOP flash text */
+        #stop-flash {
+            position: absolute;
+            top: 250px;
+            left: 50%;
+            transform: translateX(-50%) scale(0);
+            font-size: 160px;
+            font-weight: 900;
+            color: var(--neon-pink);
+            text-shadow: 0 0 80px var(--neon-pink), 0 0 160px var(--neon-pink);
+            z-index: 30;
+            letter-spacing: 20px;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        /* ============================================== */
+        /* ACT 2: EVOLUTION TIMELINE                      */
+        /* ============================================== */
+        #evolution-container {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: 20;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        /* The evolution image card */
+        #evo-image-card {
+            position: absolute;
+            top: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 960px;
+            opacity: 0;
+            z-index: 22;
+        }
+
+        #evo-image-card img {
+            width: 100%;
+            border-radius: 20px;
+            box-shadow: 0 20px 80px rgba(0, 0, 0, 0.7);
+        }
+
+        /* Row highlight overlays — positioned relative to evo-image-card */
+        #evo-image-card {
+            position: relative;
+        }
+
+        .evo-row-highlight {
+            position: absolute;
+            left: 0;
+            width: 100%;
+            height: 24.5%;
+            border: 3px solid var(--neon-cyan);
+            border-radius: 16px;
+            box-shadow: 0 0 40px rgba(0, 240, 255, 0.3), inset 0 0 20px rgba(0, 240, 255, 0.1);
+            opacity: 0;
+            z-index: 23;
+            pointer-events: none;
+        }
+
+        #evo-row-1 { top: 0%; }
+        #evo-row-2 { top: 25%; border-color: var(--neon-green); box-shadow: 0 0 40px rgba(0, 255, 136, 0.3), inset 0 0 20px rgba(0, 255, 136, 0.1); }
+        #evo-row-3 { top: 50%; border-color: var(--neon-orange); box-shadow: 0 0 40px rgba(255, 107, 53, 0.3), inset 0 0 20px rgba(255, 107, 53, 0.1); }
+        #evo-row-4 { top: 75%; border-color: var(--neon-purple); box-shadow: 0 0 40px rgba(123, 44, 191, 0.3), inset 0 0 20px rgba(123, 44, 191, 0.1); }
+
+        /* Agentic AI title */
+        #agentic-title {
+            position: absolute;
+            top: 360px;
+            left: 50%;
+            transform: translateX(-50%) scale(0.7);
+            font-family: 'Outfit', sans-serif;
+            font-size: 88px;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--neon-cyan), var(--neon-purple), var(--neon-pink));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-transform: uppercase;
+            letter-spacing: 6px;
+            z-index: 25;
+            opacity: 0;
+            text-align: center;
+            line-height: 1.1;
+        }
+
+        /* ============================================== */
+        /* ACT 3: ECONOMICS                              */
+        /* ============================================== */
+        #economics-container {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: 20;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        /* 96% counter */
+        #stat-96 {
+            position: absolute;
+            top: 280px;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            opacity: 0;
+        }
+
+        #counter-96 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 200px;
+            font-weight: 900;
+            color: var(--neon-cyan);
+            text-shadow: 0 0 60px var(--neon-cyan), 0 0 120px rgba(0, 240, 255, 0.3);
+            line-height: 1;
+        }
+
+        #counter-96 .pct {
+            font-size: 80px;
+            color: var(--neon-cyan);
+        }
+
+        .stat-label {
+            font-family: 'Fira Code', monospace;
+            font-size: 28px;
+            color: rgba(255, 255, 255, 0.75);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-top: 130px;
+            line-height: 1.3;
+        }
+
+        /* Progress ring */
+        #progress-ring {
+            position: absolute;
+            top: 200px;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+        }
+
+        #progress-ring svg {
+            transform: rotate(-90deg);
+        }
+
+        .ring-bg {
+            fill: none;
+            stroke: rgba(255, 255, 255, 0.08);
+            stroke-width: 10;
+        }
+
+        .ring-progress {
+            fill: none;
+            stroke: var(--neon-cyan);
+            stroke-width: 10;
+            stroke-linecap: round;
+            stroke-dasharray: 1131;
+            stroke-dashoffset: 1131;
+            filter: drop-shadow(0 0 15px rgba(0, 240, 255, 0.5));
+            transition: stroke-dashoffset 2s ease-out;
+        }
+
+        /* Market chart card */
+        #market-chart-card {
+            position: absolute;
+            top: 180px;
+            left: 50%;
+            transform: translateX(-50%) scale(0.9);
+            width: 920px;
+            height: 680px;
+            background: var(--glass-bg);
+            border: 2px solid var(--glass-border);
+            border-radius: 26px;
+            box-shadow: 0 24px 60px rgba(0, 0, 0, 0.65), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+            backdrop-filter: blur(16px);
+            opacity: 0;
+            z-index: 22;
+            overflow: hidden;
+            padding: 40px;
+        }
+
+        .chart-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 36px;
+            font-weight: 900;
+            color: #fff;
+            margin-bottom: 8px;
+        }
+
+        .chart-subtitle {
+            font-family: 'Fira Code', monospace;
+            font-size: 20px;
+            color: rgba(255, 255, 255, 0.45);
+            letter-spacing: 2px;
+            margin-bottom: 30px;
+        }
+
+        #chart-canvas {
+            width: 840px;
+            height: 430px;
+        }
+
+        /* $2B raised badge */
+        #badge-2b {
+            position: absolute;
+            top: 580px;
+            left: 140px;
+            background: rgba(255, 45, 106, 0.12);
+            border: 2px solid var(--neon-pink);
+            border-radius: 14px;
+            padding: 16px 32px;
+            font-family: 'Fira Code', monospace;
+            font-size: 26px;
+            font-weight: 700;
+            color: var(--neon-pink);
+            text-shadow: 0 0 15px var(--neon-pink);
+            z-index: 24;
+            opacity: 0;
+            transform: scale(0.8);
+        }
+
+        /* $200B badge */
+        #badge-200b {
+            position: absolute;
+            top: 180px;
+            right: 120px;
+            background: rgba(0, 240, 255, 0.1);
+            border: 2px solid var(--neon-cyan);
+            border-radius: 14px;
+            padding: 18px 36px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 44px;
+            font-weight: 900;
+            color: var(--neon-cyan);
+            text-shadow: 0 0 20px var(--neon-cyan);
+            z-index: 24;
+            opacity: 0;
+            transform: scale(0.7);
+        }
+
+        /* ============================================== */
+        /* ACT 4: SINGLE → TEAM TRANSITION               */
+        /* ============================================== */
+        #transition-container {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: 20;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .model-icon {
+            position: absolute;
+            width: 260px; height: 260px;
+            background: var(--glass-bg);
+            border: 3px solid var(--glass-border);
+            border-radius: 30px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+            opacity: 0;
+        }
+
+        .model-icon .icon-emoji {
+            font-size: 80px;
+            margin-bottom: 12px;
+        }
+
+        .model-icon .icon-label {
+            font-family: 'Fira Code', monospace;
+            font-size: 24px;
+            font-weight: 700;
+            color: rgba(255, 255, 255, 0.7);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        #single-model {
+            top: 380px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        /* Team agents */
+        .team-agent {
+            position: absolute;
+            width: 220px; height: 220px;
+            background: var(--glass-bg);
+            border: 2px solid rgba(0, 240, 255, 0.3);
+            border-radius: 22px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+            opacity: 0;
+            transform: scale(0.7);
+        }
+
+        .team-agent .agent-emoji {
+            font-size: 64px;
+            margin-bottom: 8px;
+        }
+
+        .team-agent .agent-label {
+            font-family: 'Fira Code', monospace;
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--neon-cyan);
+            letter-spacing: 1px;
+        }
+
+        #agent-a { top: 250px; left: 400px; border-color: rgba(0, 240, 255, 0.4); }
+        #agent-b { top: 510px; left: 170px; border-color: rgba(123, 44, 191, 0.4); }
+        #agent-c { top: 510px; left: 610px; border-color: rgba(255, 45, 106, 0.4); }
+
+        /* Warning badges */
+        .warn-badge {
+            position: absolute;
+            background: rgba(255, 45, 106, 0.1);
+            border: 2px solid var(--neon-pink);
+            border-radius: 12px;
+            padding: 14px 26px;
+            font-family: 'Fira Code', monospace;
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--neon-pink);
+            text-shadow: 0 0 12px var(--neon-pink);
+            opacity: 0;
+            transform: scale(0.7);
+            z-index: 26;
+        }
+
+        #warn-1 { top: 170px; left: 140px; }
+        #warn-2 { top: 170px; right: 140px; }
+        #warn-3 { top: 760px; left: 50%; transform: translateX(-50%) scale(0.7); }
+
+        /* SVG connection lines between agents */
+        #agent-connections {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: 19;
+            pointer-events: none;
+            opacity: 0;
+        }
+
+        /* ============================================== */
+        /* ACT 5: RIYA OVERLAY CARD                      */
+        /* ============================================== */
+        #riya-card {
+            position: absolute;
+            left: 136px;
+            top: 88px;
+            width: 808px;
+            height: 1212px;
+            opacity: 0;
+            transform: scale(0.8);
+            z-index: 60;
+            pointer-events: none;
+        }
+
+        .riya-header {
+            font-family: 'Fira Code', monospace;
+            color: var(--neon-orange);
+            font-size: 28px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            height: 36px;
+            margin-bottom: 16px;
+            text-align: center;
+        }
+
+        .riya-frame {
+            width: 800px;
+            height: 1160px;
+            border: 4px solid var(--neon-orange);
+            box-shadow: 0 0 50px rgba(255, 107, 53, 0.3);
+            background: rgba(10, 10, 15, 0.6);
+            backdrop-filter: blur(10px);
+            border-radius: 8px;
+        }
+
+        /* ============================================== */
+        /* ACT 6: ANSWER — SINGLE vs. MULTI              */
+        /* ============================================== */
+        #answer-container {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: 20;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        /* Simple task OK box */
+        #simple-ok {
+            position: absolute;
+            top: 300px;
+            left: 50%;
+            transform: translateX(-50%) scale(0.8);
+            width: 500px;
+            height: 220px;
+            background: var(--glass-bg);
+            border: 3px solid rgba(0, 255, 136, 0.4);
+            border-radius: 22px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(12px);
+            opacity: 0;
+        }
+
+        .ok-emoji { font-size: 70px; margin-bottom: 12px; }
+        .ok-label {
+            font-family: 'Fira Code', monospace;
+            font-size: 30px;
+            color: var(--neon-green);
+            font-weight: 700;
+            letter-spacing: 2px;
+        }
+
+        /* Failed prompt box */
+        #failed-prompt {
+            position: absolute;
+            top: 250px;
+            left: 50%;
+            transform: translateX(-50%) scale(0.8);
+            width: 780px;
+            height: 480px;
+            background: var(--glass-bg);
+            border: 3px solid var(--neon-pink);
+            border-radius: 22px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 15px 50px rgba(255, 45, 106, 0.2);
+            backdrop-filter: blur(12px);
+            opacity: 0;
+            overflow: visible;
+        }
+
+        .fail-header {
+            font-family: 'Fira Code', monospace;
+            font-size: 24px;
+            color: var(--neon-pink);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 16px;
+        }
+
+        .fail-code {
+            font-family: 'Fira Code', monospace;
+            font-size: 24px;
+            color: rgba(255, 255, 255, 0.5);
+            line-height: 1.8;
+            max-width: 700px;
+            text-align: left;
+        }
+
+        .fail-error-tag {
+            position: absolute;
+            background: rgba(255, 45, 106, 0.12);
+            border: 1px solid var(--neon-pink);
+            color: var(--neon-pink);
+            font-family: 'Fira Code', monospace;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 24px;
+            font-weight: bold;
+            opacity: 0;
+            box-shadow: 0 0 20px rgba(255, 45, 106, 0.3);
+            text-transform: uppercase;
+        }
+
+        /* Multi-agent pipeline */
+        #multi-pipeline {
+            position: absolute;
+            top: 240px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 940px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            opacity: 0;
+        }
+
+        .pipeline-row {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            width: 100%;
+            justify-content: center;
+        }
+
+        .micro-agent {
+            width: 240px;
+            height: 180px;
+            background: var(--glass-bg);
+            border: 2px solid rgba(0, 240, 255, 0.3);
+            border-radius: 18px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(10px);
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .micro-agent .ma-emoji { font-size: 52px; margin-bottom: 6px; }
+        .micro-agent .ma-label {
+            font-family: 'Fira Code', monospace;
+            font-size: 20px;
+            color: var(--neon-cyan);
+            font-weight: 700;
+        }
+
+        .pipeline-arrow {
+            font-size: 36px;
+            color: var(--neon-cyan);
+            text-shadow: 0 0 15px var(--neon-cyan);
+            opacity: 0;
+        }
+
+        /* Check badges */
+        .check-row {
+            display: flex;
+            gap: 40px;
+            margin-top: 20px;
+        }
+
+        .check-badge {
+            background: rgba(0, 255, 136, 0.08);
+            border: 2px solid var(--neon-green);
+            border-radius: 14px;
+            padding: 16px 32px;
+            font-family: 'Fira Code', monospace;
+            font-size: 26px;
+            font-weight: 700;
+            color: var(--neon-green);
+            text-shadow: 0 0 12px var(--neon-green);
+            opacity: 0;
+            transform: scale(0.7);
+        }
+
+        /* ============================================== */
+        /* OUTRO — Level Cards + Subscribe                */
+        /* ============================================== */
+        #outro-container {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: 20;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        #complexity-question {
+            position: absolute;
+            top: 320px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: 'Outfit', sans-serif;
+            font-size: 64px;
+            font-weight: 900;
+            color: #fff;
+            text-align: center;
+            opacity: 0;
+            z-index: 22;
+        }
+
+        #complexity-question span {
+            color: var(--neon-cyan);
+            text-shadow: 0 0 30px var(--neon-cyan);
+        }
+
+        .level-cards {
+            position: absolute;
+            top: 240px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 20px;
+            z-index: 22;
+            opacity: 0;
+        }
+
+        .level-card {
+            width: 220px;
+            height: 320px;
+            background: var(--glass-bg);
+            border-radius: 22px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transform: translateY(40px);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .level-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 4px;
+        }
+
+        .level-card.l0 { border: 2px solid rgba(0, 255, 136, 0.3); }
+        .level-card.l0::before { background: var(--neon-green); }
+        .level-card.l1 { border: 2px solid rgba(0, 240, 255, 0.3); }
+        .level-card.l1::before { background: var(--neon-cyan); }
+        .level-card.l2 { border: 2px solid rgba(123, 44, 191, 0.3); }
+        .level-card.l2::before { background: var(--neon-purple); }
+        .level-card.l3 { border: 2px solid rgba(255, 45, 106, 0.3); }
+        .level-card.l3::before { background: var(--neon-pink); }
+
+        .level-num {
+            font-family: 'Outfit', sans-serif;
+            font-size: 64px;
+            font-weight: 900;
+            margin-bottom: 8px;
+        }
+
+        .l0 .level-num { color: var(--neon-green); }
+        .l1 .level-num { color: var(--neon-cyan); }
+        .l2 .level-num { color: var(--neon-purple); }
+        .l3 .level-num { color: var(--neon-pink); }
+
+        .level-name {
+            font-family: 'Fira Code', monospace;
+            font-size: 18px;
+            font-weight: 700;
+            color: rgba(255, 255, 255, 0.7);
+            text-align: center;
+            letter-spacing: 1px;
+            padding: 0 12px;
+        }
+
+        .level-icon { font-size: 52px; margin-bottom: 12px; }
+
+        /* Subscribe CTA */
+        #subscribe-cta {
+            position: absolute;
+            top: 620px;
+            left: 50%;
+            transform: translateX(-50%) scale(0.8);
+            opacity: 0;
+            z-index: 23;
+        }
+
+        .cta-text {
+            font-family: 'Outfit', sans-serif;
+            font-size: 34px;
+            font-weight: 900;
+            color: rgba(255, 255, 255, 0.6);
+            text-align: center;
+            letter-spacing: 3px;
+            margin-bottom: 20px;
+        }
+
+        .cta-text span {
+            color: var(--neon-cyan);
+        }
+
+        .subscribe-btn {
+            display: block;
+            margin: 0 auto;
+            background: linear-gradient(135deg, var(--neon-pink), var(--neon-purple));
+            border: 3px solid rgba(255, 255, 255, 0.2);
+            border-radius: 44px;
+            padding: 20px 70px;
+            font-size: 36px;
+            font-weight: 900;
+            color: #ffffff;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            box-shadow: 0 0 40px rgba(255, 45, 106, 0.35);
+            animation: pulse-btn 1.8s ease-in-out infinite alternate;
+        }
+
+        @keyframes pulse-btn {
+            0% { transform: scale(1.0); box-shadow: 0 0 30px rgba(255, 45, 106, 0.35); }
+            100% { transform: scale(1.05); box-shadow: 0 0 55px rgba(255, 45, 106, 0.6), 0 0 20px rgba(123, 44, 191, 0.3); }
+        }
+
+        /* Animated gradient border for glass cards */
+        .glass-card-glow {
+            position: relative;
+        }
+
+        .glass-card-glow::before {
+            content: '';
+            position: absolute;
+            top: -2px; left: -2px; right: -2px; bottom: -2px;
+            border-radius: 28px;
+            background: conic-gradient(from 0deg, var(--neon-cyan), var(--neon-purple), var(--neon-pink), var(--neon-yellow), var(--neon-cyan));
+            opacity: 0.15;
+            z-index: -1;
+            animation: borderRotate 6s linear infinite;
+        }
+
+        @keyframes borderRotate {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Glitch effect class */
+        @keyframes glitch {
+            0% { transform: translate(0); }
+            20% { transform: translate(-3px, 3px); }
+            40% { transform: translate(3px, -3px); }
+            60% { transform: translate(-2px, -2px); }
+            80% { transform: translate(2px, 2px); }
+            100% { transform: translate(0); }
+        }
+
+        .glitching {
+            animation: glitch 0.1s infinite;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="nebula-layer"></div>
+    <div class="bg-grid"></div>
+    <div class="scanlines"></div>
+    <div id="visual-dimmer"></div>
+
+    <canvas id="canvas-bg" width="1080" height="1920"></canvas>
+
+    <div class="scene-container">
+        <div id="caption-container"></div>
+
+        <!-- ======== ACT 1: HOOK ======== -->
+        <div id="hook-chatbot">
+            <div class="chatbot-header">
+                <div class="chatbot-dot r"></div>
+                <div class="chatbot-dot y"></div>
+                <div class="chatbot-dot g"></div>
+                <div class="chatbot-title">simple_wrapper_app.py</div>
+            </div>
+            <div class="chatbot-body">
+                <div class="chat-prompt" id="chat-line-1">> Hello AI, do everything for me...</div>
+                <div class="chat-prompt" id="chat-line-2">> Analyze, summarize, email, translate...</div>
+                <div class="chat-prompt" id="chat-line-3">> ERROR: Context overflow 💀</div>
+            </div>
+        </div>
+
+        <div id="stop-flash">STOP</div>
+
+        <!-- ======== ACT 2: EVOLUTION ======== -->
+        <div id="evolution-container">
+            <div id="evo-image-card">
+                <img src="../assets/llm-rag-agent.png" alt="LLM to Agentic AI Evolution">
+                <div class="evo-row-highlight" id="evo-row-1"></div>
+                <div class="evo-row-highlight" id="evo-row-2"></div>
+                <div class="evo-row-highlight" id="evo-row-3"></div>
+                <div class="evo-row-highlight" id="evo-row-4"></div>
+            </div>
+            <div id="agentic-title">AGENTIC<br>AI</div>
+        </div>
+
+        <!-- ======== ACT 3: ECONOMICS ======== -->
+        <div id="economics-container">
+            <div id="stat-96">
+                <div id="counter-96"><span id="counter-num">0</span><span class="pct">%</span></div>
+                <div class="stat-label">of Enterprise IT Adopting Agents</div>
+            </div>
+
+            <div id="progress-ring">
+                <svg width="380" height="380">
+                    <circle class="ring-bg" cx="190" cy="190" r="180"></circle>
+                    <circle class="ring-progress" id="ring-fill" cx="190" cy="190" r="180"></circle>
+                </svg>
+            </div>
+
+            <div id="market-chart-card" class="glass-card-glow">
+                <div class="chart-title">AI Agent Market Size</div>
+                <div class="chart-subtitle">PROJECTED GROWTH 2024 — 2034</div>
+                <canvas id="chart-canvas" width="840" height="460"></canvas>
+                <div id="badge-2b">🚀 $2B+ RAISED BY STARTUPS</div>
+                <div id="badge-200b">$200B</div>
+            </div>
+        </div>
+
+        <!-- ======== ACT 4: SINGLE → TEAM ======== -->
+        <div id="transition-container">
+            <div class="model-icon" id="single-model">
+                <div class="icon-emoji">🧠</div>
+                <div class="icon-label">SINGLE MODEL</div>
+            </div>
+
+            <svg id="agent-connections" viewBox="0 0 1080 1920">
+                <line x1="510" y1="360" x2="280" y2="620" stroke="rgba(0,240,255,0.4)" stroke-width="3" stroke-dasharray="8,6"/>
+                <line x1="510" y1="360" x2="720" y2="620" stroke="rgba(123,44,191,0.4)" stroke-width="3" stroke-dasharray="8,6"/>
+                <line x1="280" y1="620" x2="720" y2="620" stroke="rgba(255,45,106,0.3)" stroke-width="3" stroke-dasharray="8,6"/>
+            </svg>
+
+            <div class="team-agent" id="agent-a">
+                <div class="agent-emoji">🔬</div>
+                <div class="agent-label">RESEARCHER</div>
+            </div>
+            <div class="team-agent" id="agent-b">
+                <div class="agent-emoji">💻</div>
+                <div class="agent-label">CODER</div>
+            </div>
+            <div class="team-agent" id="agent-c">
+                <div class="agent-emoji">📋</div>
+                <div class="agent-label">REVIEWER</div>
+            </div>
+
+            <div class="warn-badge" id="warn-1">⚠️ COORDINATION?</div>
+            <div class="warn-badge" id="warn-2">⚠️ COST?</div>
+            <div class="warn-badge" id="warn-3">⚠️ LATENCY?</div>
+        </div>
+
+        <!-- ======== ACT 5: RIYA OVERLAY ======== -->
+        <div id="riya-card">
+            <div class="riya-header">QUESTION</div>
+            <div class="riya-frame"></div>
+        </div>
+
+        <!-- ======== ACT 6: ANSWER ======== -->
+        <div id="answer-container">
+            <!-- Simple task OK -->
+            <div id="simple-ok">
+                <div class="ok-emoji">✅</div>
+                <div class="ok-label">SIMPLE TASK → OK</div>
+            </div>
+
+            <!-- Failed prompt -->
+            <div id="failed-prompt">
+                <div class="fail-header">❌ COMPLEX WORKFLOW — SINGLE PROMPT</div>
+                <div class="fail-code">
+                    > analyze(report_500_pages)<br>
+                    > extract_trends(q1..q4)<br>
+                    > generate_insights(financial)<br>
+                    > write_email(c-suite, formal)<br>
+                    > translate(en→ja, de, fr)<br>
+                    <span style="color: var(--neon-pink)">ERROR: token_limit_exceeded</span><br>
+                    <span style="color: var(--neon-pink)">ERROR: context_lost</span>
+                </div>
+                <div class="fail-error-tag" style="top: -20px; right: 30px;" id="err-confused">CONFUSED</div>
+                <div class="fail-error-tag" style="bottom: -20px; left: 30px;" id="err-mistakes">MISTAKES</div>
+            </div>
+
+            <!-- Multi-agent pipeline -->
+            <div id="multi-pipeline">
+                <div class="pipeline-row">
+                    <div class="micro-agent" id="ma-1">
+                        <div class="ma-emoji">📊</div>
+                        <div class="ma-label">ANALYZER</div>
+                    </div>
+                    <div class="pipeline-arrow" id="pa-1">→</div>
+                    <div class="micro-agent" id="ma-2">
+                        <div class="ma-emoji">🔍</div>
+                        <div class="ma-label">EXTRACTOR</div>
+                    </div>
+                    <div class="pipeline-arrow" id="pa-2">→</div>
+                    <div class="micro-agent" id="ma-3">
+                        <div class="ma-emoji">✉️</div>
+                        <div class="ma-label">WRITER</div>
+                    </div>
+                </div>
+                <div class="check-row">
+                    <div class="check-badge" id="chk-test">TEST ✓</div>
+                    <div class="check-badge" id="chk-fix">FIX ✓</div>
+                    <div class="check-badge" id="chk-scale">SCALE ✓</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ======== OUTRO ======== -->
+        <div id="outro-container">
+            <div id="complexity-question">HOW <span>COMPLEX</span><br>CAN THEY GET?</div>
+
+            <div class="level-cards" id="level-cards">
+                <div class="level-card l0" id="lc-0">
+                    <div class="level-icon">🤖</div>
+                    <div class="level-num">L0</div>
+                    <div class="level-name">Simple Chatbot</div>
+                </div>
+                <div class="level-card l1" id="lc-1">
+                    <div class="level-icon">🔧</div>
+                    <div class="level-num">L1</div>
+                    <div class="level-name">Tool User</div>
+                </div>
+                <div class="level-card l2" id="lc-2">
+                    <div class="level-icon">🧩</div>
+                    <div class="level-num">L2</div>
+                    <div class="level-name">Autonomous</div>
+                </div>
+                <div class="level-card l3" id="lc-3">
+                    <div class="level-icon">🌐</div>
+                    <div class="level-num">L3</div>
+                    <div class="level-name">Multi-Agent</div>
+                </div>
+            </div>
+
+            <div id="subscribe-cta">
+                <div class="cta-text">NEXT: <span>The 4 Levels of AI Agents</span></div>
+                <div class="subscribe-btn">SUBSCRIBE</div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Captions Data -->
+    <script src="agent_scene_01_captions.js"></script>
+
+    <script>
+        // =====================================================================
+        // MASTER TIMELINE
+        // =====================================================================
+        const tl = gsap.timeline({ paused: true });
+        window.tl = tl;
+        const time = (sec) => sec;
+
+        // =====================================================================
+        // CANVAS STATE — For particle systems & chart drawing
+        // =====================================================================
+        const S = {
+            // Particles
+            ambientOpacity: 0.0,
+            particleBurst: 0.0,
+
+            // Network graph (hook)
+            networkOpacity: 0.0,
+            networkNodes: 12,
+            networkPulse: 0.0,
+
+            // Chart
+            chartProgress: 0.0,
+            chartDotX: 0.0,
+            chartDotY: 0.0,
+
+            // Counter
+            counterVal: 0,
+
+            time: 0
+        };
+
+        // =====================================================================
+        // CAPTIONS SYNC — Premium karaoke with word highlights
+        // =====================================================================
+        const sentences = window.agent_scene_01_captions;
+        const captionContainer = document.getElementById("caption-container");
+
+        // Define Riya's spoken range (she doesn't speak in this video — captions are all presenter + alignment)
+        const highlightWords = [
+            "stop", "ai", "agentic", "rag", "agents", "team", "specialized",
+            "96", "billion", "200", "2034", "complex", "challenges", "test",
+            "fix", "scale", "levels", "four"
+        ];
+
+        sentences.forEach((sentence) => {
+            const sDiv = document.createElement("div");
+            sDiv.className = "sentence-block";
+            gsap.set(sDiv, { display: "none", opacity: 0 });
+
+            sentence.words.forEach((w) => {
+                const wSpan = document.createElement("span");
+                wSpan.className = "cap-word";
+                wSpan.innerText = w.text;
+                sDiv.appendChild(wSpan);
+
+                const cleanWord = w.text.toLowerCase().replace(/[.,\/#!$%\^&\*;:{}=\-_`~()?%]/g, "");
+                let activeClass = "active";
+                if (highlightWords.includes(cleanWord)) {
+                    activeClass = "active-highlight";
+                }
+                if (cleanWord === "riya") {
+                    activeClass = "active-riya";
+                }
+
+                // Word appears
+                tl.to(wSpan, {
+                    onStart: () => { wSpan.classList.add(activeClass); wSpan.classList.remove("past"); },
+                    onReverseComplete: () => { wSpan.classList.remove(activeClass); wSpan.classList.remove("past"); },
+                    duration: 0.05
+                }, time(w.start));
+
+                // Word goes past
+                tl.to(wSpan, {
+                    onStart: () => { wSpan.classList.remove(activeClass); wSpan.classList.add("past"); },
+                    onReverseComplete: () => { wSpan.classList.add(activeClass); wSpan.classList.remove("past"); },
+                    duration: 0.05
+                }, time(w.end));
+            });
+
+            captionContainer.appendChild(sDiv);
+            tl.set(sDiv, { display: "flex" }, time(sentence.start));
+            tl.to(sDiv, { opacity: 1, duration: 0.12 }, time(sentence.start));
+            tl.to(sDiv, { opacity: 0, duration: 0.12 }, time(sentence.end));
+            tl.set(sDiv, { display: "none" }, time(sentence.end + 0.12));
+        });
+
+        // =====================================================================
+        // ACT 1: HOOK — "Stop building simple wrapper apps" (0.0s → 12.4s)
+        // =====================================================================
+
+        // Ambient particles fade in
+        tl.to(S, { ambientOpacity: 1.0, duration: 1.0 }, time(0.2));
+
+        // Chatbot window scales in
+        tl.to("#hook-chatbot", { opacity: 1, scale: 1, duration: 0.6, ease: "back.out(1.4)" }, time(0.3));
+        tl.to("#chat-line-1", { opacity: 1, duration: 0.4 }, time(0.5));
+        tl.to("#chat-line-2", { opacity: 0.7, duration: 0.4 }, time(0.9));
+
+        // On "Stop" — SMASH effect
+        tl.to("#stop-flash", { scale: 1.0, opacity: 1, duration: 0.15, ease: "power4.out" }, time(0.965));
+        tl.to(".scene-container", { x: () => gsap.utils.random(-10, 10), y: () => gsap.utils.random(-10, 10), duration: 0.05, repeat: 12, yoyo: true }, time(0.965));
+        tl.to("#stop-flash", { opacity: 0, scale: 1.5, duration: 0.5, ease: "power2.in" }, time(1.5));
+
+        // Chatbot shatters on "wrapper apps"
+        tl.to("#hook-chatbot", {
+            opacity: 0,
+            scale: 1.3,
+            rotation: 5,
+            filter: "blur(8px)",
+            duration: 0.4,
+            ease: "power3.in"
+        }, time(2.0));
+        tl.to("#chat-line-3", { opacity: 1, duration: 0.2 }, time(1.8));
+
+        // Network appears — "The way we build AI is changing"
+        tl.to(S, { networkOpacity: 1.0, duration: 1.2 }, time(3.2));
+        tl.to(S, { networkPulse: 1.0, duration: 8.0, ease: "none" }, time(3.5));
+
+        // Network fades for evolution — "In just 2 years..."
+        tl.to(S, { networkOpacity: 0.0, duration: 1.5 }, time(11.0));
+
+        // =====================================================================
+        // ACT 2: EVOLUTION TIMELINE (13.5s → 39.9s)
+        // =====================================================================
+
+        // Show evolution container + image
+        tl.to("#evolution-container", { opacity: 1, duration: 0.5 }, time(13.0));
+        tl.to("#evo-image-card", { opacity: 1, duration: 0.8, ease: "power2.out" }, time(13.2));
+
+        // "At first, we just wrote simple prompts" → highlight row 1 (LLM)
+        tl.to("#evo-row-1", { opacity: 1, duration: 0.5, ease: "power2.out" }, time(13.55));
+        tl.to("#evo-row-1", { opacity: 0, duration: 0.4 }, time(16.5));
+
+        // "Then, we used RAG..." → highlight row 2 (RAG)
+        tl.to("#evo-row-2", { opacity: 1, duration: 0.5, ease: "power2.out" }, time(17.2));
+        tl.to("#evo-row-2", { opacity: 0, duration: 0.4 }, time(22.5));
+
+        // "After that, single agents..." → highlight row 3 (AI Agent)
+        tl.to("#evo-row-3", { opacity: 1, duration: 0.5, ease: "power2.out" }, time(23.4));
+        tl.to("#evo-row-3", { opacity: 0, duration: 0.4 }, time(26.5));
+
+        // "Today, era of Agentic AI" → highlight row 4 (Agentic AI)
+        tl.to("#evo-row-4", { opacity: 1, duration: 0.5, ease: "power2.out" }, time(27.0));
+
+        // Scale up the row 4 highlight and pulse
+        tl.to("#evo-row-4", {
+            boxShadow: "0 0 60px rgba(123, 44, 191, 0.5), inset 0 0 30px rgba(123, 44, 191, 0.2)",
+            duration: 0.5,
+            yoyo: true,
+            repeat: 2
+        }, time(29.7));
+
+        // Fade the evolution image out and show AGENTIC AI title
+        tl.to("#evo-image-card", { opacity: 0, scale: 0.9, duration: 0.8 }, time(31.0));
+        tl.to("#evo-row-4", { opacity: 0, duration: 0.5 }, time(31.0));
+        tl.to("#agentic-title", { opacity: 1, scale: 1, duration: 0.8, ease: "back.out(1.3)" }, time(31.5));
+
+        // "...specialized agents work together to solve big, complex goals"
+        // Screen shake on "big"
+        tl.to(".scene-container", { x: () => gsap.utils.random(-5, 5), y: () => gsap.utils.random(-5, 5), duration: 0.05, repeat: 6, yoyo: true }, time(34.8));
+
+        // Fade agentic title for economics section
+        tl.to("#agentic-title", { opacity: 0, scale: 0.8, duration: 0.6 }, time(37.0));
+        tl.to("#evolution-container", { opacity: 0, duration: 0.3 }, time(37.5));
+
+        // =====================================================================
+        // ACT 3: ECONOMICS (37.3s → 59.8s)
+        // =====================================================================
+
+        // "And companies are adopting this very fast"
+        tl.to("#economics-container", { opacity: 1, duration: 0.5 }, time(37.3));
+
+        // "Studies show that 96%..." — Show the 96% counter
+        tl.to("#stat-96", { opacity: 1, duration: 0.5 }, time(40.4));
+        tl.to("#progress-ring", { opacity: 1, duration: 0.5 }, time(40.4));
+
+        // Animate counter 0 → 96
+        tl.to(S, {
+            counterVal: 96,
+            duration: 2.5,
+            ease: "power2.out",
+            onUpdate: () => {
+                document.getElementById("counter-num").textContent = Math.round(S.counterVal);
+            }
+        }, time(41.5));
+
+        // Animate ring fill (circumference = 2 * π * 180 = 1131)
+        tl.to("#ring-fill", {
+            strokeDashoffset: 1131 * (1 - 0.96),
+            duration: 2.5,
+            ease: "power2.out"
+        }, time(41.5));
+
+        // "In fact, AI agent startups..." — Transition to chart
+        tl.to("#stat-96", { opacity: 0, duration: 0.5 }, time(46.5));
+        tl.to("#progress-ring", { opacity: 0, duration: 0.5 }, time(46.5));
+
+        // Market chart card appears
+        tl.to("#market-chart-card", { opacity: 1, scale: 1, duration: 0.7, ease: "back.out(1.3)" }, time(47.6));
+
+        // Draw chart progressively
+        tl.to(S, { chartProgress: 1.0, duration: 8.0, ease: "power1.inOut" }, time(48.0));
+
+        // "$2B raised" badge pops
+        tl.to("#badge-2b", { opacity: 1, scale: 1, duration: 0.5, ease: "back.out(1.5)" }, time(52.0));
+
+        // "$200B" badge explodes in
+        tl.to("#badge-200b", { opacity: 1, scale: 1.0, duration: 0.5, ease: "back.out(2)" }, time(57.0));
+        tl.to(S, { particleBurst: 1.0, duration: 0.1 }, time(57.2));
+
+        // Screen shake on "$200 billion"
+        tl.to(".scene-container", { x: () => gsap.utils.random(-6, 6), y: () => gsap.utils.random(-6, 6), duration: 0.05, repeat: 8, yoyo: true }, time(57.5));
+
+        // Fade economics
+        tl.to("#economics-container", { opacity: 0, duration: 0.6 }, time(60.0));
+
+        // =====================================================================
+        // ACT 4: SINGLE → TEAM TRANSITION (61.0s → 68.5s)
+        // =====================================================================
+
+        // "We are moving from a single model..."
+        tl.to("#transition-container", { opacity: 1, duration: 0.5 }, time(61.0));
+        tl.to("#single-model", { opacity: 1, duration: 0.6, ease: "back.out(1.3)" }, time(61.0));
+
+        // "...to a team of agents" — Single model shrinks, team appears
+        tl.to("#single-model", {
+            scale: 0.5,
+            opacity: 0,
+            filter: "blur(4px)",
+            duration: 0.8,
+            ease: "power2.in"
+        }, time(63.5));
+
+        // Team agents cascade in
+        tl.to("#agent-a", { opacity: 1, scale: 1, duration: 0.5, ease: "back.out(1.5)" }, time(64.0));
+        tl.to("#agent-b", { opacity: 1, scale: 1, duration: 0.5, ease: "back.out(1.5)" }, time(64.3));
+        tl.to("#agent-c", { opacity: 1, scale: 1, duration: 0.5, ease: "back.out(1.5)" }, time(64.6));
+        tl.to("#agent-connections", { opacity: 1, duration: 0.5 }, time(64.8));
+
+        // "But working in a team has its own challenges"
+        tl.to("#warn-1", { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(1.7)" }, time(65.8));
+        tl.to("#warn-2", { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(1.7)" }, time(66.5));
+        tl.to("#warn-3", { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(1.7)" }, time(67.3));
+
+        // Glitch on agents
+        tl.to("#agent-connections line", {
+            attr: { stroke: "rgba(255,45,106,0.5)" },
+            duration: 0.3,
+            yoyo: true,
+            repeat: 3
+        }, time(67.5));
+
+        // Screen shake
+        tl.to(".scene-container", { x: () => gsap.utils.random(-4, 4), duration: 0.05, repeat: 6, yoyo: true }, time(67.9));
+
+        // =====================================================================
+        // ACT 5: RIYA OVERLAY (~68.0s → 69.2s)
+        // =====================================================================
+
+        // Dim background
+        tl.to("#visual-dimmer", { opacity: 1.0, duration: 0.5 }, time(67.8));
+
+        // Riya card slides in
+        tl.to("#riya-card", { opacity: 1, scale: 1.0, duration: 0.5, ease: "back.out(1.5)" }, time(68.0));
+        // Move captions up during overlay
+        tl.to("#caption-container", { y: 150, duration: 0.5, ease: "power2.out" }, time(68.0));
+
+        // Riya card fades out on "Good question, Riya" (69.2s)
+        tl.to("#riya-card", { opacity: 0, scale: 0.8, duration: 0.5, ease: "power2.in" }, time(69.5));
+        tl.to("#visual-dimmer", { opacity: 0, duration: 0.5 }, time(69.5));
+        tl.to("#caption-container", { y: 0, duration: 0.5, ease: "power2.inOut" }, time(69.5));
+
+        // Fade transition container
+        tl.to("#transition-container", { opacity: 0, duration: 0.5 }, time(69.5));
+
+        // =====================================================================
+        // ACT 6: ANSWER + OUTRO (69.2s → 98.3s)
+        // =====================================================================
+
+        tl.to("#answer-container", { opacity: 1, duration: 0.3 }, time(70.0));
+
+        // "For simple tasks, a team is too much" — Show OK box
+        tl.to("#simple-ok", { opacity: 1, scale: 1, duration: 0.5, ease: "back.out(1.3)" }, time(70.8));
+        tl.to("#simple-ok", { opacity: 0, scale: 0.8, duration: 0.4 }, time(73.5));
+
+        // "But for complex workflows..." — Show failed prompt
+        tl.to("#failed-prompt", { opacity: 1, scale: 1, duration: 0.5, ease: "back.out(1.3)" }, time(74.6));
+
+        // Error tags appear
+        tl.to("#err-confused", { opacity: 1, scale: 1, duration: 0.3, ease: "back.out(1.7)" }, time(78.2));
+        tl.to("#err-mistakes", { opacity: 1, scale: 1, duration: 0.3, ease: "back.out(1.7)" }, time(79.2));
+
+        // Shake the failed prompt
+        tl.to("#failed-prompt", {
+            x: () => gsap.utils.random(-6, 6),
+            y: () => gsap.utils.random(-6, 6),
+            duration: 0.05,
+            repeat: 15,
+            yoyo: true
+        }, time(78.5));
+
+        // Fade failed prompt
+        tl.to("#failed-prompt", { opacity: 0, scale: 1.3, filter: "blur(8px)", duration: 0.5 }, time(79.8));
+
+        // "Having multiple specialized agents..." — Multi-agent pipeline
+        tl.to("#multi-pipeline", { opacity: 1, duration: 0.3 }, time(80.4));
+        tl.to("#ma-1", { opacity: 1, y: 0, duration: 0.4, ease: "back.out(1.5)" }, time(80.5));
+        tl.to("#pa-1", { opacity: 1, duration: 0.3 }, time(81.0));
+        tl.to("#ma-2", { opacity: 1, y: 0, duration: 0.4, ease: "back.out(1.5)" }, time(81.3));
+        tl.to("#pa-2", { opacity: 1, duration: 0.3 }, time(81.8));
+        tl.to("#ma-3", { opacity: 1, y: 0, duration: 0.4, ease: "back.out(1.5)" }, time(82.2));
+
+        // Pulse agent borders green on connection
+        tl.to(".micro-agent", {
+            borderColor: "rgba(0, 255, 136, 0.5)",
+            boxShadow: "0 10px 30px rgba(0, 255, 136, 0.15)",
+            duration: 0.5,
+            stagger: 0.2
+        }, time(83.5));
+
+        // "...test, fix, and scale" — Check badges
+        tl.to("#chk-test", { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(2)" }, time(86.7));
+        tl.to("#chk-fix", { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(2)" }, time(87.7));
+        tl.to("#chk-scale", { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(2)" }, time(88.8));
+
+        // Fade answer section
+        tl.to("#answer-container", { opacity: 0, duration: 0.5 }, time(89.8));
+
+        // =====================================================================
+        // OUTRO — "So how complex..." + Level Cards (90.7s → 98.3s)
+        // =====================================================================
+
+        tl.to("#outro-container", { opacity: 1, duration: 0.3 }, time(90.5));
+
+        // "HOW COMPLEX CAN THEY GET?"
+        tl.to("#complexity-question", { opacity: 1, duration: 0.5, ease: "power2.out" }, time(90.7));
+        tl.to("#complexity-question", { opacity: 0, duration: 0.4 }, time(93.5));
+
+        // "In our next video... four levels of AI agents"
+        tl.to("#level-cards", { opacity: 1, duration: 0.3 }, time(94.0));
+
+        // Cascade level cards
+        tl.to("#lc-0", { opacity: 1, y: 0, duration: 0.4, ease: "back.out(1.5)" }, time(94.2));
+        tl.to("#lc-1", { opacity: 1, y: 0, duration: 0.4, ease: "back.out(1.5)" }, time(94.7));
+        tl.to("#lc-2", { opacity: 1, y: 0, duration: 0.4, ease: "back.out(1.5)" }, time(95.2));
+        tl.to("#lc-3", { opacity: 1, y: 0, duration: 0.4, ease: "back.out(1.5)" }, time(95.7));
+
+        // "four levels" — flash highlight on the word "four"
+        tl.to("#lc-0, #lc-1, #lc-2, #lc-3", {
+            boxShadow: "0 0 40px rgba(0, 240, 255, 0.3)",
+            duration: 0.3,
+            yoyo: true,
+            repeat: 1
+        }, time(96.5));
+
+        // Subscribe CTA
+        tl.to("#subscribe-cta", { opacity: 1, scale: 1, duration: 0.8, ease: "back.out(1.3)" }, time(96.0));
+
+        // =====================================================================
+        // CANVAS 2D — Particles & Chart Drawing
+        // =====================================================================
+        const canvas = document.getElementById("canvas-bg");
+        const ctx = canvas.getContext("2d");
+        const W = 1080, H = 1920;
+
+        // Ambient floating particles
+        const ambientParticles = [];
+        for (let i = 0; i < 100; i++) {
+            ambientParticles.push({
+                x: Math.random() * W,
+                y: Math.random() * H,
+                vx: (Math.random() - 0.5) * 0.4,
+                vy: -0.3 - Math.random() * 0.5,
+                size: 1 + Math.random() * 2.5,
+                alpha: 0.1 + Math.random() * 0.3,
+                hue: Math.random() > 0.5 ? 186 : 320,
+                pulse: Math.random() * Math.PI * 2
+            });
+        }
+
+        // Network nodes
+        const networkNodes = [];
+        for (let i = 0; i < 18; i++) {
+            networkNodes.push({
+                x: 200 + Math.random() * 680,
+                y: 280 + Math.random() * 600,
+                vx: (Math.random() - 0.5) * 0.5,
+                vy: (Math.random() - 0.5) * 0.5,
+                size: 5 + Math.random() * 8,
+                connections: []
+            });
+        }
+        // Create connections
+        for (let i = 0; i < networkNodes.length; i++) {
+            for (let j = i + 1; j < networkNodes.length; j++) {
+                const dx = networkNodes[i].x - networkNodes[j].x;
+                const dy = networkNodes[i].y - networkNodes[j].y;
+                const dist = Math.sqrt(dx * dx + dy * dy);
+                if (dist < 280) {
+                    networkNodes[i].connections.push(j);
+                }
+            }
+        }
+
+        // Burst particles
+        const burstParticles = [];
+
+        // Chart data points (market growth curve)
+        const chartData = [
+            { year: 2024, value: 5.2 },
+            { year: 2025, value: 12 },
+            { year: 2026, value: 22 },
+            { year: 2027, value: 38 },
+            { year: 2028, value: 58 },
+            { year: 2029, value: 80 },
+            { year: 2030, value: 105 },
+            { year: 2031, value: 130 },
+            { year: 2032, value: 155 },
+            { year: 2033, value: 178 },
+            { year: 2034, value: 200 }
+        ];
+
+        let frameCount = 0;
+
+        function drawFrame() {
+            ctx.clearRect(0, 0, W, H);
+            frameCount++;
+            S.time = frameCount / 60;
+
+            // Check for particle burst trigger
+            checkBurst();
+
+            // Ambient particles
+            if (S.ambientOpacity > 0.01) {
+                drawAmbientParticles();
+            }
+
+            // Network graph
+            if (S.networkOpacity > 0.01) {
+                drawNetworkGraph();
+            }
+
+            // Chart
+            if (S.chartProgress > 0.01) {
+                drawMarketChart();
+            }
+
+            // Burst particles
+            if (burstParticles.length > 0) {
+                drawBurstParticles();
+            }
+
+            requestAnimationFrame(drawFrame);
+        }
+
+        function drawAmbientParticles() {
+            ctx.save();
+            ctx.globalAlpha = S.ambientOpacity;
+
+            for (const p of ambientParticles) {
+                p.x += p.vx;
+                p.y += p.vy;
+                p.pulse += 0.02;
+
+                if (p.y < -10) { p.y = H + 10; p.x = Math.random() * W; }
+                if (p.x < -10) p.x = W + 10;
+                if (p.x > W + 10) p.x = -10;
+
+                const pulseAlpha = p.alpha * (0.5 + 0.5 * Math.sin(p.pulse));
+                const color = p.hue === 186 ? "#00F0FF" : "#FF2D6A";
+
+                ctx.save();
+                ctx.globalAlpha *= pulseAlpha;
+                ctx.shadowBlur = 10;
+                ctx.shadowColor = color;
+                ctx.fillStyle = color;
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.restore();
+            }
+            ctx.restore();
+        }
+
+        function drawNetworkGraph() {
+            ctx.save();
+            ctx.globalAlpha = S.networkOpacity;
+
+            const t = S.time;
+
+            // Update node positions (gentle drift)
+            for (const n of networkNodes) {
+                n.x += n.vx;
+                n.y += n.vy;
+                if (n.x < 150 || n.x > 930) n.vx *= -1;
+                if (n.y < 200 || n.y > 850) n.vy *= -1;
+            }
+
+            // Draw connections
+            for (let i = 0; i < networkNodes.length; i++) {
+                const node = networkNodes[i];
+                for (const j of node.connections) {
+                    const target = networkNodes[j];
+                    const dx = target.x - node.x;
+                    const dy = target.y - node.y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+
+                    const pulse = 0.15 + 0.1 * Math.sin(t * 2 + i * 0.5);
+
+                    ctx.strokeStyle = `rgba(0, 240, 255, ${pulse})`;
+                    ctx.lineWidth = 1.5;
+                    ctx.beginPath();
+                    ctx.moveTo(node.x, node.y);
+                    ctx.lineTo(target.x, target.y);
+                    ctx.stroke();
+
+                    // Data particle traveling along connection
+                    const p = (t * 0.3 + i * 0.1 + j * 0.05) % 1.0;
+                    const px = node.x + dx * p;
+                    const py = node.y + dy * p;
+                    ctx.fillStyle = "rgba(0, 240, 255, 0.7)";
+                    ctx.beginPath();
+                    ctx.arc(px, py, 3, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+            }
+
+            // Draw nodes
+            for (let i = 0; i < networkNodes.length; i++) {
+                const n = networkNodes[i];
+                const pulseSize = n.size + 2 * Math.sin(t * 1.5 + i);
+
+                // Glow
+                ctx.save();
+                ctx.shadowBlur = 20;
+                ctx.shadowColor = i % 3 === 0 ? "#7B2CBF" : "#00F0FF";
+                ctx.fillStyle = i % 3 === 0 ? "rgba(123, 44, 191, 0.9)" : "rgba(0, 240, 255, 0.9)";
+                ctx.beginPath();
+                ctx.arc(n.x, n.y, pulseSize, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.restore();
+            }
+
+            ctx.restore();
+        }
+
+        function drawMarketChart() {
+            const chartEl = document.getElementById("chart-canvas");
+            if (!chartEl) return;
+            const cctx = chartEl.getContext("2d");
+            const cw = 840, ch = 460;
+
+            cctx.clearRect(0, 0, cw, ch);
+
+            const padL = 90, padR = 30, padT = 20, padB = 65;
+            const plotW = cw - padL - padR;
+            const plotH = ch - padT - padB;
+            const maxVal = 220;
+
+            // Grid lines
+            cctx.strokeStyle = "rgba(255, 255, 255, 0.06)";
+            cctx.lineWidth = 1;
+            for (let v = 0; v <= 200; v += 50) {
+                const y = padT + plotH - (v / maxVal) * plotH;
+                cctx.beginPath();
+                cctx.moveTo(padL, y);
+                cctx.lineTo(padL + plotW, y);
+                cctx.stroke();
+
+                cctx.fillStyle = "rgba(255, 255, 255, 0.3)";
+                cctx.font = "22px 'Fira Code', monospace";
+                cctx.textAlign = "right";
+                cctx.fillText(`$${v}B`, padL - 15, y + 7);
+            }
+
+            // Year labels
+            cctx.fillStyle = "rgba(255, 255, 255, 0.4)";
+            cctx.font = "22px 'Fira Code', monospace";
+            cctx.textAlign = "center";
+            chartData.forEach((d, i) => {
+                const x = padL + (i / (chartData.length - 1)) * plotW;
+                cctx.fillText(d.year, x, ch - 15);
+            });
+
+            // Draw curve up to chartProgress
+            const totalPoints = chartData.length;
+            const visiblePoints = Math.floor(S.chartProgress * (totalPoints - 1)) + 1;
+            const partialProgress = (S.chartProgress * (totalPoints - 1)) % 1;
+
+            if (visiblePoints < 1) return;
+
+            // Area fill
+            cctx.beginPath();
+            const firstX = padL;
+            const firstY = padT + plotH - (chartData[0].value / maxVal) * plotH;
+            cctx.moveTo(firstX, padT + plotH);
+            cctx.lineTo(firstX, firstY);
+
+            let lastDrawnX = firstX, lastDrawnY = firstY;
+            for (let i = 1; i < visiblePoints && i < totalPoints; i++) {
+                const x = padL + (i / (totalPoints - 1)) * plotW;
+                const y = padT + plotH - (chartData[i].value / maxVal) * plotH;
+                cctx.lineTo(x, y);
+                lastDrawnX = x;
+                lastDrawnY = y;
+            }
+
+            // Partial segment
+            if (visiblePoints < totalPoints && partialProgress > 0) {
+                const i = visiblePoints;
+                const prevX = padL + ((i - 1) / (totalPoints - 1)) * plotW;
+                const prevY = padT + plotH - (chartData[i - 1].value / maxVal) * plotH;
+                const nextX = padL + (i / (totalPoints - 1)) * plotW;
+                const nextY = padT + plotH - (chartData[i].value / maxVal) * plotH;
+                lastDrawnX = prevX + (nextX - prevX) * partialProgress;
+                lastDrawnY = prevY + (nextY - prevY) * partialProgress;
+                cctx.lineTo(lastDrawnX, lastDrawnY);
+            }
+
+            cctx.lineTo(lastDrawnX, padT + plotH);
+            cctx.closePath();
+
+            const grad = cctx.createLinearGradient(0, padT, 0, padT + plotH);
+            grad.addColorStop(0, "rgba(0, 240, 255, 0.2)");
+            grad.addColorStop(1, "rgba(0, 240, 255, 0.0)");
+            cctx.fillStyle = grad;
+            cctx.fill();
+
+            // Line
+            cctx.beginPath();
+            cctx.moveTo(firstX, firstY);
+            for (let i = 1; i < visiblePoints && i < totalPoints; i++) {
+                const x = padL + (i / (totalPoints - 1)) * plotW;
+                const y = padT + plotH - (chartData[i].value / maxVal) * plotH;
+                cctx.lineTo(x, y);
+            }
+            if (visiblePoints < totalPoints && partialProgress > 0) {
+                cctx.lineTo(lastDrawnX, lastDrawnY);
+            }
+            cctx.strokeStyle = "#00F0FF";
+            cctx.lineWidth = 3;
+            cctx.shadowBlur = 15;
+            cctx.shadowColor = "#00F0FF";
+            cctx.stroke();
+            cctx.shadowBlur = 0;
+
+            // Glowing dot at tip
+            cctx.fillStyle = "#00F0FF";
+            cctx.shadowBlur = 20;
+            cctx.shadowColor = "#00F0FF";
+            cctx.beginPath();
+            cctx.arc(lastDrawnX, lastDrawnY, 6, 0, Math.PI * 2);
+            cctx.fill();
+            cctx.shadowBlur = 0;
+        }
+
+        function drawBurstParticles() {
+            ctx.save();
+            for (let i = burstParticles.length - 1; i >= 0; i--) {
+                const p = burstParticles[i];
+                p.x += p.vx;
+                p.y += p.vy;
+                p.life -= p.decay;
+                p.vy += 0.05; // gravity
+
+                if (p.life <= 0) {
+                    burstParticles.splice(i, 1);
+                    continue;
+                }
+
+                ctx.globalAlpha = p.life;
+                ctx.fillStyle = p.color;
+                ctx.shadowBlur = 8;
+                ctx.shadowColor = p.color;
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+            ctx.restore();
+        }
+
+        // Spawn burst particles on $200B
+        let burstSpawned = false;
+        function checkBurst() {
+            if (S.particleBurst > 0.5 && !burstSpawned) {
+                burstSpawned = true;
+                const colors = ["#00F0FF", "#7B2CBF", "#FF2D6A", "#FFDD00", "#00FF88"];
+                for (let i = 0; i < 80; i++) {
+                    const angle = Math.random() * Math.PI * 2;
+                    const speed = 2 + Math.random() * 6;
+                    burstParticles.push({
+                        x: 800,
+                        y: 300,
+                        vx: Math.cos(angle) * speed,
+                        vy: Math.sin(angle) * speed,
+                        size: 2 + Math.random() * 4,
+                        life: 1.0,
+                        decay: 0.01 + Math.random() * 0.02,
+                        color: colors[Math.floor(Math.random() * colors.length)]
+                    });
+                }
+            }
+        }
+
+        // Kick off the single animation loop (drawFrame self-schedules via rAF)
+        drawFrame();
+
+    </script>
+</body>
+</html>

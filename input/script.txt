@@ -1,13 +1,11 @@
-Have you ever wondered what actually happens inside a Neural Network? It is not magic. It is just matrix multiplication transforming space. But how does a grid of numbers do that? Let us look at the basics. In this video, you will see the exact geometry of matrix multiplication, and where this matrix lives inside a neural network.
+Stop building simple wrapper apps. The way we build AI is changing completely. In just two years, we went from simple chat prompts to smart systems that can work together.
 
-Every point in this 2D space is measured using two fundamental arrows: i-hat, pointing one unit right, and j-hat, pointing one unit up. They are called the basis vectors.
+At first, we just wrote simple prompts. Then, we used RAG to give the model real files and documents to read. After that, we made single agents that could use tools. Today, we are in the era of Agentic AI—where a team of specialized agents work together to solve big, complex goals.
 
-When we multiply coordinates by a matrix, we warp the space. But here is the mind-blowing part: to know exactly where any point lands, we only need to track where i-hat and j-hat land!
+And companies are adopting this very fast. Studies show that ninety-six percent of large I-T companies are starting to use agents. In fact, AI agent startups have already raised over two billion dollars, and the market is expected to reach nearly two hundred billion dollars by twenty thirty-four.
 
-If we apply a matrix, i-hat stretches to two-zero, and j-hat stretches to zero-three. The columns of our matrix are literally just the new coordinates of where i-hat and j-hat landed!
+We are moving from a single model to a team of agents. But working in a team has its own challenges.
 
-In a neural network, a single layer with two inputs and two outputs does this exact transformation. The weights of the network are the rows of this matrix, defining how the input space is stretched and turned. But what if our data is too complex to separate with just a linear stretch?
+Good question, Riya. For simple tasks, a team is too much. But for complex workflows, a single prompt gets confused and makes mistakes. Having multiple specialized agents lets us divide the work. This makes it much easier to test, fix, and scale the system.
 
-That is the magic of deep learning! A single matrix is linear. But in the next episode, we will see how adding activation functions like ReLU allows the network to bend and fold space like origami!
-
-Subscribe to learn AI math with me!
+So how complex can these agents actually get? In our next video, we will look at the four levels of AI agents.
