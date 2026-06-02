@@ -1228,7 +1228,7 @@
                 if (highlightWords.includes(cleanWord)) {
                     activeClass = "active-highlight";
                 }
-                if (cleanWord === "riya") {
+                if (cleanWord === "riya" || (w.start >= 68.8 && w.end <= 76.8)) {
                     activeClass = "active-riya";
                 }
 
@@ -1424,41 +1424,41 @@
         tl.to(".scene-container", { x: () => gsap.utils.random(-4, 4), duration: 0.05, repeat: 6, yoyo: true }, time(67.9));
 
         // =====================================================================
-        // ACT 5: RIYA OVERLAY (~68.0s → 69.2s)
+        // ACT 5: RIYA OVERLAY (~68.5s → 76.5s)
         // =====================================================================
 
-        // Dim background
-        tl.to("#visual-dimmer", { opacity: 1.0, duration: 0.5 }, time(67.8));
+        // Dim background (fades in 0.2s before overlay starts)
+        tl.to("#visual-dimmer", { opacity: 1.0, duration: 0.5 }, time(68.3));
 
-        // Riya card slides in
-        tl.to("#riya-card", { opacity: 1, scale: 1.0, duration: 0.5, ease: "back.out(1.5)" }, time(68.0));
+        // Riya card slides in (aligned to visual overlays insert time 68.8s)
+        tl.to("#riya-card", { opacity: 1, scale: 1.0, duration: 0.5, ease: "back.out(1.5)" }, time(68.8));
         // Move captions up during overlay
-        tl.to("#caption-container", { y: 150, duration: 0.5, ease: "power2.out" }, time(68.0));
+        tl.to("#caption-container", { y: 150, duration: 0.5, ease: "power2.out" }, time(68.8));
 
-        // Riya card fades out on "Good question, Riya" (69.2s)
-        tl.to("#riya-card", { opacity: 0, scale: 0.8, duration: 0.5, ease: "power2.in" }, time(69.5));
-        tl.to("#visual-dimmer", { opacity: 0, duration: 0.5 }, time(69.5));
-        tl.to("#caption-container", { y: 0, duration: 0.5, ease: "power2.inOut" }, time(69.5));
+        // Riya card fades out on "Good question, Riya" (76.8s)
+        tl.to("#riya-card", { opacity: 0, scale: 0.8, duration: 0.5, ease: "power2.in" }, time(76.8));
+        tl.to("#visual-dimmer", { opacity: 0, duration: 0.5 }, time(77.0));
+        tl.to("#caption-container", { y: 0, duration: 0.5, ease: "power2.inOut" }, time(77.0));
 
         // Fade transition container
-        tl.to("#transition-container", { opacity: 0, duration: 0.5 }, time(69.5));
+        tl.to("#transition-container", { opacity: 0, duration: 0.5 }, time(77.0));
 
         // =====================================================================
-        // ACT 6: ANSWER + OUTRO (69.2s → 98.3s)
+        // ACT 6: ANSWER + OUTRO (shifted by 8s overlay duration)
         // =====================================================================
 
-        tl.to("#answer-container", { opacity: 1, duration: 0.3 }, time(70.0));
+        tl.to("#answer-container", { opacity: 1, duration: 0.3 }, time(78.0));
 
         // "For simple tasks, a team is too much" — Show OK box
-        tl.to("#simple-ok", { opacity: 1, scale: 1, duration: 0.5, ease: "back.out(1.3)" }, time(70.8));
-        tl.to("#simple-ok", { opacity: 0, scale: 0.8, duration: 0.4 }, time(73.5));
+        tl.to("#simple-ok", { opacity: 1, scale: 1, duration: 0.5, ease: "back.out(1.3)" }, time(78.8));
+        tl.to("#simple-ok", { opacity: 0, scale: 0.8, duration: 0.4 }, time(81.5));
 
         // "But for complex workflows..." — Show failed prompt
-        tl.to("#failed-prompt", { opacity: 1, scale: 1, duration: 0.5, ease: "back.out(1.3)" }, time(74.6));
+        tl.to("#failed-prompt", { opacity: 1, scale: 1, duration: 0.5, ease: "back.out(1.3)" }, time(82.6));
 
         // Error tags appear
-        tl.to("#err-confused", { opacity: 1, scale: 1, duration: 0.3, ease: "back.out(1.7)" }, time(78.2));
-        tl.to("#err-mistakes", { opacity: 1, scale: 1, duration: 0.3, ease: "back.out(1.7)" }, time(79.2));
+        tl.to("#err-confused", { opacity: 1, scale: 1, duration: 0.3, ease: "back.out(1.7)" }, time(86.2));
+        tl.to("#err-mistakes", { opacity: 1, scale: 1, duration: 0.3, ease: "back.out(1.7)" }, time(87.2));
 
         // Shake the failed prompt
         tl.to("#failed-prompt", {
@@ -1467,18 +1467,18 @@
             duration: 0.05,
             repeat: 15,
             yoyo: true
-        }, time(78.5));
+        }, time(86.5));
 
         // Fade failed prompt
-        tl.to("#failed-prompt", { opacity: 0, scale: 1.3, filter: "blur(8px)", duration: 0.5 }, time(79.8));
+        tl.to("#failed-prompt", { opacity: 0, scale: 1.3, filter: "blur(8px)", duration: 0.5 }, time(87.8));
 
         // "Having multiple specialized agents..." — Multi-agent pipeline
-        tl.to("#multi-pipeline", { opacity: 1, duration: 0.3 }, time(80.4));
-        tl.to("#ma-1", { opacity: 1, y: 0, duration: 0.4, ease: "back.out(1.5)" }, time(80.5));
-        tl.to("#pa-1", { opacity: 1, duration: 0.3 }, time(81.0));
-        tl.to("#ma-2", { opacity: 1, y: 0, duration: 0.4, ease: "back.out(1.5)" }, time(81.3));
-        tl.to("#pa-2", { opacity: 1, duration: 0.3 }, time(81.8));
-        tl.to("#ma-3", { opacity: 1, y: 0, duration: 0.4, ease: "back.out(1.5)" }, time(82.2));
+        tl.to("#multi-pipeline", { opacity: 1, duration: 0.3 }, time(88.4));
+        tl.to("#ma-1", { opacity: 1, y: 0, duration: 0.4, ease: "back.out(1.5)" }, time(88.5));
+        tl.to("#pa-1", { opacity: 1, duration: 0.3 }, time(89.0));
+        tl.to("#ma-2", { opacity: 1, y: 0, duration: 0.4, ease: "back.out(1.5)" }, time(89.3));
+        tl.to("#pa-2", { opacity: 1, duration: 0.3 }, time(89.8));
+        tl.to("#ma-3", { opacity: 1, y: 0, duration: 0.4, ease: "back.out(1.5)" }, time(90.2));
 
         // Pulse agent borders green on connection
         tl.to(".micro-agent", {
@@ -1486,34 +1486,34 @@
             boxShadow: "0 10px 30px rgba(0, 255, 136, 0.15)",
             duration: 0.5,
             stagger: 0.2
-        }, time(83.5));
+        }, time(91.5));
 
         // "...test, fix, and scale" — Check badges
-        tl.to("#chk-test", { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(2)" }, time(86.7));
-        tl.to("#chk-fix", { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(2)" }, time(87.7));
-        tl.to("#chk-scale", { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(2)" }, time(88.8));
+        tl.to("#chk-test", { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(2)" }, time(94.7));
+        tl.to("#chk-fix", { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(2)" }, time(95.7));
+        tl.to("#chk-scale", { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(2)" }, time(96.8));
 
         // Fade answer section
-        tl.to("#answer-container", { opacity: 0, duration: 0.5 }, time(89.8));
+        tl.to("#answer-container", { opacity: 0, duration: 0.5 }, time(97.8));
 
         // =====================================================================
-        // OUTRO — "So how complex..." + Level Cards (90.7s → 98.3s)
+        // OUTRO — "So how complex..." + Level Cards
         // =====================================================================
 
-        tl.to("#outro-container", { opacity: 1, duration: 0.3 }, time(90.5));
+        tl.to("#outro-container", { opacity: 1, duration: 0.3 }, time(98.5));
 
         // "HOW COMPLEX CAN THEY GET?"
-        tl.to("#complexity-question", { opacity: 1, duration: 0.5, ease: "power2.out" }, time(90.7));
-        tl.to("#complexity-question", { opacity: 0, duration: 0.4 }, time(93.5));
+        tl.to("#complexity-question", { opacity: 1, duration: 0.5, ease: "power2.out" }, time(98.7));
+        tl.to("#complexity-question", { opacity: 0, duration: 0.4 }, time(101.5));
 
         // "In our next video... four levels of AI agents"
-        tl.to("#level-cards", { opacity: 1, duration: 0.3 }, time(94.0));
+        tl.to("#level-cards", { opacity: 1, duration: 0.3 }, time(102.0));
 
         // Cascade level cards
-        tl.to("#lc-0", { opacity: 1, y: 0, duration: 0.4, ease: "back.out(1.5)" }, time(94.2));
-        tl.to("#lc-1", { opacity: 1, y: 0, duration: 0.4, ease: "back.out(1.5)" }, time(94.7));
-        tl.to("#lc-2", { opacity: 1, y: 0, duration: 0.4, ease: "back.out(1.5)" }, time(95.2));
-        tl.to("#lc-3", { opacity: 1, y: 0, duration: 0.4, ease: "back.out(1.5)" }, time(95.7));
+        tl.to("#lc-0", { opacity: 1, y: 0, duration: 0.4, ease: "back.out(1.5)" }, time(102.2));
+        tl.to("#lc-1", { opacity: 1, y: 0, duration: 0.4, ease: "back.out(1.5)" }, time(102.7));
+        tl.to("#lc-2", { opacity: 1, y: 0, duration: 0.4, ease: "back.out(1.5)" }, time(103.2));
+        tl.to("#lc-3", { opacity: 1, y: 0, duration: 0.4, ease: "back.out(1.5)" }, time(103.7));
 
         // "four levels" — flash highlight on the word "four"
         tl.to("#lc-0, #lc-1, #lc-2, #lc-3", {
@@ -1521,10 +1521,10 @@
             duration: 0.3,
             yoyo: true,
             repeat: 1
-        }, time(96.5));
+        }, time(104.5));
 
         // Subscribe CTA
-        tl.to("#subscribe-cta", { opacity: 1, scale: 1, duration: 0.8, ease: "back.out(1.3)" }, time(96.0));
+        tl.to("#subscribe-cta", { opacity: 1, scale: 1, duration: 0.8, ease: "back.out(1.3)" }, time(104.0));
 
         // =====================================================================
         // CANVAS 2D — Particles & Chart Drawing

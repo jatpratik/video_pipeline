@@ -1,20 +1,19 @@
 [
   {
     "scene_id": "agent_scene_01",
-    "duration": 99.0,
+    "duration": 107.0,
     "overlays": [
       {
         "video": "student_speaking.mp4",
-        "insert_time": 66.0,
+        "insert_time": 68.8,
         "duration": 8.0,
         "padding_start": 0.0,
         "position": {
-          "x": 140,
-          "y": 140,
-          "w": 800,
-          "h": 1160
-        },
-        "crop": "1080:1566"
+          "x": 0,
+          "y": 0,
+          "w": 1080,
+          "h": 1920
+        }
       }
     ]
   }
