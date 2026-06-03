@@ -5,13 +5,14 @@ Combines all rendered scene clips with the narration audio into the
 final vertical video (1080 × 1920).
 
 Layout:
-  ┌──────────┐
-  │  Visuals  │  ← 1080 × 960  (scene clips)
-  │  (top)    │
-  ├──────────┤
-  │  Black    │  ← 1080 × 960  (empty for face recording)
-  │  (bottom) │
-  └──────────┘
+  ┌──────────────────┐
+  │                  │
+  │     Visuals      │  ← 1080 × 1920  (scene clips, full screen)
+  │   (full screen)  │
+  │                  │
+  ├──────┬───────────┤
+  │ Face │  Captions  │  ← Bottom area: face (rounded square, left), captions (right)
+  └──────┴───────────┘
 
 The narration audio is the MASTER timeline.  Scene clips are
 concatenated in order — if there is a timing gap between two scenes,
@@ -45,6 +46,44 @@ def resolve_overlay_path(video_name: str, audio_path: Path) -> Path | None:
     if p3.exists():
         return p3
     return None
+
+
+def get_video_rotation_and_resolution(video_path: Path) -> tuple[int, int, int]:
+    """Detect rotation and resolution of the video stream using ffprobe.
+    Returns (rotation_angle, width, height)"""
+    cmd = [
+        "ffprobe", "-v", "error",
+        "-select_streams", "v:0",
+        "-show_entries", "stream=width,height:stream_tags=rotate:stream_side_data_list",
+        "-of", "json",
+        str(video_path)
+    ]
+    try:
+        result = subprocess.run(cmd, capture_output=True, text=True, check=True)
+        data = json.loads(result.stdout)
+        streams = data.get("streams", [])
+        if not streams:
+            return 0, 0, 0
+        stream = streams[0]
+        width = int(stream.get("width", 0))
+        height = int(stream.get("height", 0))
+        
+        # Check rotate tag
+        rotate = stream.get("tags", {}).get("rotate")
+        if rotate is not None:
+            return int(float(rotate)), width, height
+            
+        # Check display matrix side data
+        for sd in stream.get("side_data_list", []):
+            if sd.get("side_data_type") == "Display Matrix":
+                rot = sd.get("rotation")
+                if rot is not None:
+                    return int(float(rot)), width, height
+                    
+        return 0, width, height
+    except Exception as e:
+        logger.warning(f"Could not probe rotation/resolution for {video_path}: {e}")
+    return 0, 0, 0
 
 
 def assemble_video(
@@ -201,13 +240,31 @@ def assemble_video(
         trim_start = config.FACE_VIDEO_TRIM_START_S
         delay_pts = config.FACE_VIDEO_DELAY_S
 
+        rot_angle, w, h = get_video_rotation_and_resolution(face_video_path)
+        logger.info(f"Presenter face video: {face_video_path.name}, rotation={rot_angle}, resolution={w}x{h}")
+
+        face_filters = []
+        actual_angle = rot_angle % 360
+        if actual_angle == 90:
+            face_filters.append("transpose=2")
+        elif actual_angle == 180:
+            face_filters.append("transpose=2,transpose=2")
+        elif actual_angle == 270:
+            face_filters.append("transpose=1")
+        elif w > h:
+            logger.info("Landscape presenter video without rotation tag. Auto-transposing 90 degrees clockwise.")
+            face_filters.append("transpose=1")
+
         # Build presenter video enhancement and full-screen scaling filters
-        face_filters = [
+        face_filters.extend([
             f"scale={video_width}:{video_height}:force_original_aspect_ratio=increase",
-            f"crop={video_width}:{video_height}",
-            "zscale=t=linear:npl=400,format=gbrpf32le,zscale=p=bt709",
-            "tonemap=tonemap=mobius:desat=0,zscale=t=bt709:m=bt709:r=tv"
-        ]
+            f"crop={video_width}:{video_height}"
+        ])
+        if getattr(config, "FACE_HDR_TONEMAP", False):
+            face_filters.extend([
+                "zscale=t=linear:npl=400,format=gbrpf32le,zscale=p=bt709",
+                "tonemap=tonemap=mobius:desat=0,zscale=t=bt709:m=bt709:r=tv"
+            ])
         if getattr(config, "FACE_BEAUTY_VIBRANCE", 0.0) > 0.0:
             face_filters.append(f"vibrance=intensity={config.FACE_BEAUTY_VIBRANCE}")
         if getattr(config, "FACE_BEAUTY_SHARPEN_DETAILS", False):
@@ -251,12 +308,30 @@ def assemble_video(
             trim_start = config.FACE_VIDEO_TRIM_START_S
             delay_pts = config.FACE_VIDEO_DELAY_S
 
-            # Build circle-cropped face video filters
-            face_filters = [
-                "crop=w='min(iw,ih)':h='min(iw,ih)',scale=400:400",
-                "zscale=t=linear:npl=400,format=gbrpf32le,zscale=p=bt709",
-                "tonemap=tonemap=mobius:desat=0,zscale=t=bt709:m=bt709:r=tv"
-            ]
+            rot_angle, w, h = get_video_rotation_and_resolution(face_video_path)
+            logger.info(f"Face video: {face_video_path.name}, rotation={rot_angle}, resolution={w}x{h}")
+
+            face_filters = []
+            actual_angle = rot_angle % 360
+            if actual_angle == 90:
+                face_filters.append("transpose=2")
+            elif actual_angle == 180:
+                face_filters.append("transpose=2,transpose=2")
+            elif actual_angle == 270:
+                face_filters.append("transpose=1")
+            elif w > h:
+                logger.info("Landscape face video without rotation tag. Auto-transposing 90 degrees clockwise.")
+                face_filters.append("transpose=1")
+
+            # Build rounded-square face video filters
+            face_filters.extend([
+                "crop=w='min(iw,ih)':h='min(iw,ih)':x='(iw-ow)/2':y='(ih-oh)/2+120',scale=400:400"
+            ])
+            if getattr(config, "FACE_HDR_TONEMAP", False):
+                face_filters.extend([
+                    "zscale=t=linear:npl=400,format=gbrpf32le,zscale=p=bt709",
+                    "tonemap=tonemap=mobius:desat=0,zscale=t=bt709:m=bt709:r=tv"
+                ])
             if getattr(config, "FACE_BEAUTY_VIBRANCE", 0.0) > 0.0:
                 face_filters.append(f"vibrance=intensity={config.FACE_BEAUTY_VIBRANCE}")
             if getattr(config, "FACE_BEAUTY_SHARPEN_DETAILS", False):
@@ -267,13 +342,27 @@ def assemble_video(
                 strg = config.FACE_BEAUTY_SMOOTH_STRENGTH
                 th = config.FACE_BEAUTY_SMOOTH_THRESHOLD
                 face_filters.append(f"smartblur={rad}:{strg}:{th}")
+            # Rounded-square mask with 30px corner radius
+            # The mask creates a 400x400 box with rounded corners:
+            # - Inner rect [30..370, 30..370]: always visible
+            # - Edge strips: visible if within straight edges
+            # - Corners: circle check with r=30
+            rr = 30  # corner radius
+            sz = 400  # face size
+            inner_max = sz - rr  # 370
+            # Corner distance formula: for each corner, check if pixel is within radius
+            # Simplified: alpha=255 if inside rounded rect, else 0
             face_filters.extend([
                 "format=rgba",
-                "geq=r='r(X,Y)':g='g(X,Y)':b='b(X,Y)':a='if(lte(pow(X-200,2)+pow(Y-200,2),40000),255,0)'"
+                f"geq="
+                f"r='r(X,Y)'"
+                f":g='g(X,Y)'"
+                f":b='b(X,Y)'"
+                f":a='255*(gte(X,{rr})*lte(X,{inner_max})+gte(Y,{rr})*lte(Y,{inner_max})+lte(hypot(X-{rr},Y-{rr}),{rr})*(lt(X,{rr}))*(lt(Y,{rr}))+lte(hypot(X-{inner_max},Y-{rr}),{rr})*(gt(X,{inner_max}))*(lt(Y,{rr}))+lte(hypot(X-{rr},Y-{inner_max}),{rr})*(lt(X,{rr}))*(gt(Y,{inner_max}))+lte(hypot(X-{inner_max},Y-{inner_max}),{rr})*(gt(X,{inner_max}))*(gt(Y,{inner_max})))*(between(X,0,{sz-1}))*(between(Y,0,{sz-1}))'"
             ])
             face_filter_str = ",".join(face_filters)
 
-            # Process the face video stream as a circular overlay
+            # Process the face video stream as a rounded-square overlay
             filter_parts.append(
                 f"[2:v]trim=start={trim_start},setpts=PTS-STARTPTS,{face_filter_str},setpts=PTS+{delay_pts}/TB[face_clean]"
             )
@@ -288,7 +377,7 @@ def assemble_video(
 
             next_bg = "bg_face_final" if M > 0 else "v"
             filter_parts.append(
-                f"[{bg_label}][face_clean]overlay=x=80:y=1440:enable='{enable_cond}':eof_action=pass[{next_bg}]"
+                f"[{bg_label}][face_clean]overlay=x=60:y=1220:enable='{enable_cond}':eof_action=pass[{next_bg}]"
             )
             bg_label = next_bg
 
@@ -378,6 +467,7 @@ def assemble_video(
         "-r", str(fps),
         "-shortest",
         "-movflags", "+faststart",
+        "-metadata:s:v:0", "rotate=0",
         str(output_path),
     ])
 

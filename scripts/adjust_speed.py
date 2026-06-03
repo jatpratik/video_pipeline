@@ -54,6 +54,34 @@ def get_video_metadata(video_path: Path) -> dict:
         sys.exit(1)
 
 
+def get_video_rotation(metadata: dict) -> int:
+    """Extracts rotation angle from probed metadata."""
+    # Check stream tags
+    for stream in metadata.get("streams", []):
+        if stream.get("codec_type") == "video":
+            tags = stream.get("tags", {})
+            if "rotate" in tags:
+                try:
+                    return int(float(tags["rotate"]))
+                except ValueError:
+                    pass
+            # Check side data list
+            side_data_list = stream.get("side_data_list", [])
+            for sd in side_data_list:
+                if sd.get("side_data_type") == "Display Matrix":
+                    rotation = sd.get("rotation")
+                    if rotation is not None:
+                        return int(float(rotation))
+    # Check format tags
+    tags = metadata.get("format", {}).get("tags", {})
+    if "rotate" in tags:
+        try:
+            return int(float(tags["rotate"]))
+        except ValueError:
+            pass
+    return 0
+
+
 def get_fps_and_duration(metadata: dict) -> tuple[float, float]:
     """Extracts FPS and duration from probed metadata."""
     fps = 30.0  # default fallback
@@ -103,6 +131,9 @@ def adjust_speed_transcode(input_path: Path, output_path: Path, speed: float, cr
     """Adjusts video speed by re-encoding with high-quality visually lossless settings."""
     logger.info(f"Method: Transcoding (CRF={crf}) to adjust speed to {speed}x...")
     
+    metadata = get_video_metadata(input_path)
+    rot = get_video_rotation(metadata)
+    
     video_pts_factor = 1.0 / speed
     audio_filter = get_atempo_filter(speed)
     
@@ -131,8 +162,10 @@ def adjust_speed_transcode(input_path: Path, output_path: Path, speed: float, cr
         "-c:a", "aac",
         "-b:a", "192k",
         "-movflags", "+faststart",
-        str(output_path)
     ])
+    if rot != 0:
+        cmd.extend(["-metadata:s:v:0", f"rotate={rot}"])
+    cmd.append(str(output_path))
     
     logger.info(f"Running FFmpeg: {' '.join(cmd)}")
     subprocess.run(cmd, check=True)
@@ -146,16 +179,37 @@ def adjust_speed_lossless(input_path: Path, output_path: Path, speed: float) -> 
     logger.info(f"Method: Lossless Video Copy to adjust speed to {speed}x...")
     
     metadata = get_video_metadata(input_path)
+    rot = get_video_rotation(metadata)
     orig_fps, orig_dur = get_fps_and_duration(metadata)
     target_fps = orig_fps * speed
     
+    # Identify video codec
+    codec = ""
+    for stream in metadata.get("streams", []):
+        if stream.get("codec_type") == "video":
+            codec = stream.get("codec_name", "").lower()
+            break
+            
+    if not codec:
+        raise ValueError("Could not find video stream codec in metadata.")
+        
+    if codec in ("h264", "hevc", "h265"):
+        bsf = "hevc_mp4toannexb" if codec in ("hevc", "h265") else "h264_mp4toannexb"
+        ext = "hevc" if codec in ("hevc", "h265") else "h264"
+    else:
+        raise ValueError(
+            f"Lossless method only supports H.264 and HEVC (H.265) codecs. "
+            f"Detected codec: {codec}. Please use the 'transcode' method instead."
+        )
+        
+    logger.info(f"Detected codec: {codec.upper()}. Using bitstream filter: {bsf}")
     logger.info(f"Original video: {orig_dur:.2f}s, {orig_fps:.2f} fps")
     logger.info(f"Target video:   {orig_dur / speed:.2f}s, {target_fps:.2f} fps")
     
     work_dir = output_path.parent / "_speed_work"
     work_dir.mkdir(exist_ok=True)
     
-    raw_h264 = work_dir / "temp_raw.h264"
+    raw_bitstream = work_dir / f"temp_raw.{ext}"
     temp_video = work_dir / "temp_video.mp4"
     temp_audio = work_dir / "temp_audio.aac"
     
@@ -167,8 +221,8 @@ def adjust_speed_lossless(input_path: Path, output_path: Path, speed: float) -> 
             "-i", str(input_path),
             "-c:v", "copy",
             "-an",
-            "-bsf:v", "h264_mp4toannexb",
-            str(raw_h264)
+            "-bsf:v", bsf,
+            str(raw_bitstream)
         ]
         subprocess.run(cmd_extract, check=True, capture_output=True)
         
@@ -178,7 +232,7 @@ def adjust_speed_lossless(input_path: Path, output_path: Path, speed: float) -> 
             "ffmpeg", "-y",
             "-fflags", "+genpts",
             "-r", f"{target_fps:.4f}",
-            "-i", str(raw_h264),
+            "-i", str(raw_bitstream),
             "-c:v", "copy",
             str(temp_video)
         ]
@@ -208,8 +262,10 @@ def adjust_speed_lossless(input_path: Path, output_path: Path, speed: float) -> 
                 "-c:v", "copy",
                 "-c:a", "copy",
                 "-movflags", "+faststart",
-                str(output_path)
             ]
+            if rot != 0:
+                cmd_merge.extend(["-metadata:s:v:0", f"rotate={rot}"])
+            cmd_merge.append(str(output_path))
         else:
             # No audio filter needed (speed=1.0) or audio-less
             logger.info("Step 3: Merging without audio adjustments...")
@@ -222,15 +278,17 @@ def adjust_speed_lossless(input_path: Path, output_path: Path, speed: float) -> 
                 "-c:v", "copy",
                 "-c:a", "copy",
                 "-movflags", "+faststart",
-                str(output_path)
             ]
+            if rot != 0:
+                cmd_merge.extend(["-metadata:s:v:0", f"rotate={rot}"])
+            cmd_merge.append(str(output_path))
             
         subprocess.run(cmd_merge, check=True, capture_output=True)
         logger.info("Speed adjustment complete!")
         
     finally:
         # Cleanup work directory
-        for f in [raw_h264, temp_video, temp_audio]:
+        for f in [raw_bitstream, temp_video, temp_audio]:
             if f.exists():
                 try:
                     f.unlink()

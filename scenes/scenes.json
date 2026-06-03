@@ -1,12 +1,12 @@
 [
   {
-    "scene_id": "agent_scene_01",
-    "duration": 107.0,
+    "scene_id": "agent_scene_02",
+    "duration": 115.0,
     "overlays": [
       {
         "video": "student_speaking.mp4",
-        "insert_time": 68.8,
-        "duration": 8.0,
+        "insert_time": 78.1,
+        "duration": 10.0,
         "padding_start": 0.0,
         "position": {
           "x": 0,
@@ -14,25 +14,6 @@
           "w": 1080,
           "h": 1920
         }
-      }
-    ]
-  },
-  {
-    "scene_id": "agent_scene_02",
-    "duration": 106.0,
-    "overlays": [
-      {
-        "video": "student_speaking.mp4",
-        "insert_time": 72.0,
-        "duration": 8.0,
-        "padding_start": 0.0,
-        "position": {
-          "x": 140,
-          "y": 140,
-          "w": 800,
-          "h": 1160
-        },
-        "crop": null
       }
     ]
   }

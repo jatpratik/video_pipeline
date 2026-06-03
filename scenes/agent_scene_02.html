@@ -103,27 +103,42 @@
         }
 
         /* ============================================== */
-        /* CAPTIONS                                       */
+        /* CAPTIONS — positioned right side (face on left)*/
         /* ============================================== */
         #caption-container {
             position: absolute;
-            left: 50%;
-            bottom: 540px;
-            transform: translateX(-50%);
-            width: 920px;
-            min-height: 110px;
+            right: 30px;
+            top: 1220px;
+            width: 550px;
+            height: 400px;
             z-index: 90;
             display: flex;
             align-items: center;
             justify-content: center;
-            background: rgba(8, 10, 20, 0.72);
+            background: rgba(8, 10, 20, 0.78);
             border: 1.5px solid rgba(255, 255, 255, 0.08);
             border-radius: 22px;
-            padding: 16px 28px;
+            padding: 16px 24px;
             box-shadow:
                 0 12px 50px rgba(0, 0, 0, 0.6),
                 inset 0 1px 0 rgba(255, 255, 255, 0.05);
             backdrop-filter: blur(12px);
+        }
+
+        /* Glowing border frame for face video */
+        #face-frame {
+            position: absolute;
+            left: 56px;
+            top: 1216px;
+            width: 408px;
+            height: 408px;
+            border: 4px solid var(--neon-cyan);
+            border-radius: 34px;
+            box-shadow: 0 0 25px rgba(0, 240, 255, 0.4), inset 0 0 15px rgba(0, 240, 255, 0.2);
+            z-index: 85;
+            background: rgba(8, 10, 20, 0.6);
+            pointer-events: none;
+            opacity: 1;
         }
 
         .sentence-block {
@@ -138,7 +153,7 @@
 
         .cap-word {
             display: inline-block;
-            font-size: 38px;
+            font-size: 30px;
             font-weight: 800;
             color: rgba(255, 255, 255, 0.92);
             transition: color 0.12s ease, transform 0.12s ease, text-shadow 0.12s ease;
@@ -174,7 +189,7 @@
         }
 
         /* ============================================== */
-        /* ACT 1: HOOK — The Ladder                      */
+        /* ACT 1: HOOK — Levels Image                    */
         /* ============================================== */
         #ladder-container {
             position: absolute;
@@ -185,60 +200,10 @@
             pointer-events: none;
         }
 
-        .ladder-spine {
-            position: absolute;
-            left: 50%;
-            top: 200px;
-            width: 8px;
-            height: 700px;
-            background: linear-gradient(180deg, rgba(0, 240, 255, 0.3), rgba(123, 44, 191, 0.3));
-            transform: translateX(-50%);
-            border-radius: 4px;
-        }
-
-        .ladder-rung {
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%) scale(0.8);
-            width: 560px;
-            height: 120px;
-            background: var(--glass-bg);
-            border-radius: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 20px;
-            backdrop-filter: blur(12px);
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
-            opacity: 0;
-        }
-
-        .rung-icon { font-size: 48px; }
-        .rung-label {
-            font-family: 'Outfit', sans-serif;
-            font-size: 36px;
-            font-weight: 900;
-            letter-spacing: 3px;
-        }
-        .rung-sublabel {
-            font-family: 'Fira Code', monospace;
-            font-size: 20px;
-            color: rgba(255, 255, 255, 0.5);
-        }
-
-        #rung-l0 { top: 680px; border: 2px solid rgba(0, 255, 136, 0.4); }
-        #rung-l0 .rung-label { color: var(--neon-green); }
-        #rung-l1 { top: 520px; border: 2px solid rgba(0, 240, 255, 0.4); }
-        #rung-l1 .rung-label { color: var(--neon-cyan); }
-        #rung-l2 { top: 360px; border: 2px solid rgba(123, 44, 191, 0.4); }
-        #rung-l2 .rung-label { color: var(--neon-purple); }
-        #rung-l3 { top: 200px; border: 2px solid rgba(255, 45, 106, 0.4); }
-        #rung-l3 .rung-label { color: var(--neon-pink); }
-
         /* Hook title */
         #hook-title {
             position: absolute;
-            top: 120px;
+            top: 80px;
             left: 50%;
             transform: translateX(-50%);
             font-family: 'Outfit', sans-serif;
@@ -251,6 +216,20 @@
             letter-spacing: 3px;
             opacity: 0;
             z-index: 22;
+        }
+
+        /* Levels pyramid image */
+        #hook-image {
+            position: absolute;
+            top: 260px;
+            left: 50%;
+            transform: translateX(-50%) scale(0.85);
+            width: 920px;
+            border-radius: 24px;
+            border: 3px solid rgba(0, 240, 255, 0.25);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5), 0 0 40px rgba(0, 240, 255, 0.1);
+            opacity: 0;
+            z-index: 21;
         }
 
         /* ============================================== */
@@ -267,24 +246,25 @@
 
         #level0-badge {
             position: absolute;
-            top: 100px;
+            top: 60px;
             left: 50%;
             transform: translateX(-50%);
             background: rgba(0, 255, 136, 0.08);
             border: 2px solid var(--neon-green);
             border-radius: 16px;
-            padding: 14px 40px;
+            padding: 12px 32px;
             font-family: 'Outfit', sans-serif;
-            font-size: 44px;
+            font-size: 36px;
             font-weight: 900;
             color: var(--neon-green);
             text-shadow: 0 0 20px var(--neon-green);
             opacity: 0;
+            white-space: nowrap;
         }
 
         #brain-bubble {
             position: absolute;
-            top: 220px;
+            top: 240px;
             left: 50%;
             transform: translateX(-50%);
             width: 360px;
@@ -316,13 +296,13 @@
             white-space: nowrap;
         }
 
-        #no-tools { top: 620px; }
-        #no-memory { top: 700px; }
-        #no-events { top: 780px; }
+        #no-tools { top: 680px; }
+        #no-memory { top: 780px; }
+        #no-events { top: 880px; }
 
         #training-label {
             position: absolute;
-            top: 880px;
+            top: 980px;
             left: 50%;
             transform: translateX(-50%);
             font-family: 'Fira Code', monospace;
@@ -347,24 +327,25 @@
 
         #level1-badge {
             position: absolute;
-            top: 100px;
+            top: 60px;
             left: 50%;
             transform: translateX(-50%);
             background: rgba(0, 240, 255, 0.08);
             border: 2px solid var(--neon-cyan);
             border-radius: 16px;
-            padding: 14px 40px;
+            padding: 12px 32px;
             font-family: 'Outfit', sans-serif;
-            font-size: 44px;
+            font-size: 36px;
             font-weight: 900;
             color: var(--neon-cyan);
             text-shadow: 0 0 20px var(--neon-cyan);
             opacity: 0;
+            white-space: nowrap;
         }
 
         #brain-connected {
             position: absolute;
-            top: 300px;
+            top: 240px;
             left: 50%;
             transform: translateX(-50%);
             width: 200px;
@@ -416,14 +397,14 @@
             color: var(--neon-cyan);
         }
 
-        #tool-search { top: 580px; left: 80px; }
-        #tool-db { top: 580px; left: 430px; }
-        #tool-api { top: 580px; right: 80px; }
+        #tool-search { top: 530px; left: 100px; }
+        #tool-db { top: 530px; left: 430px; }
+        #tool-api { top: 530px; right: 100px; }
 
         /* Live ticker */
         #live-ticker {
             position: absolute;
-            top: 820px;
+            top: 780px;
             left: 50%;
             transform: translateX(-50%) scale(0.8);
             background: rgba(0, 255, 136, 0.06);
@@ -453,25 +434,26 @@
 
         #level2-badge {
             position: absolute;
-            top: 100px;
+            top: 60px;
             left: 50%;
             transform: translateX(-50%);
             background: rgba(123, 44, 191, 0.08);
             border: 2px solid var(--neon-purple);
             border-radius: 16px;
-            padding: 14px 40px;
+            padding: 12px 32px;
             font-family: 'Outfit', sans-serif;
-            font-size: 44px;
+            font-size: 36px;
             font-weight: 900;
             color: var(--neon-purple);
             text-shadow: 0 0 20px var(--neon-purple);
             opacity: 0;
+            white-space: nowrap;
         }
 
-        /* Raw text chaos block */
+                /* Raw text chaos block */
         #raw-text-block {
             position: absolute;
-            top: 200px;
+            top: 240px;
             left: 50%;
             transform: translateX(-50%);
             width: 880px;
@@ -502,7 +484,7 @@
         /* Clean output card */
         #clean-output {
             position: absolute;
-            top: 760px;
+            top: 800px;
             left: 50%;
             transform: translateX(-50%) scale(0.8);
             width: 700px;
@@ -522,7 +504,7 @@
         /* Context engineering label */
         #context-eng-label {
             position: absolute;
-            top: 200px;
+            top: 420px;
             left: 50%;
             transform: translateX(-50%) scale(0.8);
             font-family: 'Outfit', sans-serif;
@@ -579,11 +561,11 @@
             opacity: 0;
         }
 
-        #step-1 { top: 350px; }
-        #step-arrow-1 { top: 455px; }
-        #step-2 { top: 500px; }
-        #step-arrow-2 { top: 605px; }
-        #step-3 { top: 650px; }
+        #step-1 { top: 240px; }
+        #step-arrow-1 { top: 350px; }
+        #step-2 { top: 400px; }
+        #step-arrow-2 { top: 510px; }
+        #step-3 { top: 560px; }
 
         /* ============================================== */
         /* ACT 5: LEVEL 3 — Team of Agents               */
@@ -599,25 +581,26 @@
 
         #level3-badge {
             position: absolute;
-            top: 100px;
+            top: 60px;
             left: 50%;
             transform: translateX(-50%);
             background: rgba(255, 45, 106, 0.08);
             border: 2px solid var(--neon-pink);
             border-radius: 16px;
-            padding: 14px 40px;
+            padding: 12px 32px;
             font-family: 'Outfit', sans-serif;
-            font-size: 44px;
+            font-size: 36px;
             font-weight: 900;
             color: var(--neon-pink);
             text-shadow: 0 0 20px var(--neon-pink);
             opacity: 0;
+            white-space: nowrap;
         }
 
         /* Manager node */
         #manager-node {
             position: absolute;
-            top: 220px;
+            top: 240px;
             left: 50%;
             transform: translateX(-50%) scale(0.7);
             width: 280px;
@@ -668,11 +651,11 @@
             letter-spacing: 1px;
         }
 
-        #team-research { top: 520px; left: 60px; border: 2px solid rgba(0, 240, 255, 0.4); }
+        #team-research { top: 530px; left: 60px; border: 2px solid rgba(0, 240, 255, 0.4); }
         #team-research .tc-label { color: var(--neon-cyan); }
-        #team-design { top: 520px; left: 410px; border: 2px solid rgba(123, 44, 191, 0.4); }
+        #team-design { top: 530px; left: 410px; border: 2px solid rgba(123, 44, 191, 0.4); }
         #team-design .tc-label { color: var(--neon-purple); }
-        #team-marketing { top: 520px; right: 60px; border: 2px solid rgba(0, 255, 136, 0.4); }
+        #team-marketing { top: 530px; right: 60px; border: 2px solid rgba(0, 255, 136, 0.4); }
         #team-marketing .tc-label { color: var(--neon-green); }
 
         /* SVG team connections */
@@ -688,7 +671,7 @@
         /* Project card */
         #project-card {
             position: absolute;
-            top: 780px;
+            top: 790px;
             left: 50%;
             transform: translateX(-50%) scale(0.7);
             width: 600px;
@@ -770,7 +753,7 @@
         /* Code editor card */
         #code-editor {
             position: absolute;
-            top: 140px;
+            top: 200px;
             left: 50%;
             transform: translateX(-50%) scale(0.9);
             width: 900px;
@@ -824,7 +807,7 @@
         /* Raw → Clean shrink visual */
         #shrink-raw {
             position: absolute;
-            top: 620px;
+            top: 700px;
             left: 50%;
             transform: translateX(-50%);
             width: 800px;
@@ -843,7 +826,7 @@
 
         #shrink-clean {
             position: absolute;
-            top: 620px;
+            top: 700px;
             left: 50%;
             transform: translateX(-50%) scale(0.8);
             width: 700px;
@@ -862,7 +845,7 @@
         /* Saves cost badge */
         #saves-badge {
             position: absolute;
-            top: 860px;
+            top: 920px;
             left: 50%;
             transform: translateX(-50%) scale(0.7);
             background: rgba(0, 255, 136, 0.08);
@@ -999,39 +982,12 @@
 
     <div class="scene-container">
         <div id="caption-container"></div>
+        <div id="face-frame"></div>
 
-        <!-- ======== ACT 1: HOOK — The Ladder ======== -->
+        <!-- ======== ACT 1: HOOK — Levels Image ======== -->
         <div id="ladder-container">
-            <div class="ladder-spine"></div>
             <div id="hook-title">4 LEVELS OF AI AGENTS</div>
-            <div class="ladder-rung" id="rung-l3">
-                <div class="rung-icon">🌐</div>
-                <div>
-                    <div class="rung-label">LEVEL 3</div>
-                    <div class="rung-sublabel">Team of Agents</div>
-                </div>
-            </div>
-            <div class="ladder-rung" id="rung-l2">
-                <div class="rung-icon">🧩</div>
-                <div>
-                    <div class="rung-label">LEVEL 2</div>
-                    <div class="rung-sublabel">Strategic Solver</div>
-                </div>
-            </div>
-            <div class="ladder-rung" id="rung-l1">
-                <div class="rung-icon">🔧</div>
-                <div>
-                    <div class="rung-label">LEVEL 1</div>
-                    <div class="rung-sublabel">Connected Solver</div>
-                </div>
-            </div>
-            <div class="ladder-rung" id="rung-l0">
-                <div class="rung-icon">🤖</div>
-                <div>
-                    <div class="rung-label">LEVEL 0</div>
-                    <div class="rung-sublabel">Raw LLM</div>
-                </div>
-            </div>
+            <img id="hook-image" src="../assets/levels_in_agents.png" alt="The 4 Levels of AI Agent Complexity" />
         </div>
 
         <!-- ======== ACT 2: LEVEL 0 ======== -->
@@ -1054,9 +1010,9 @@
             </div>
 
             <svg id="connection-wires" viewBox="0 0 1080 1920">
-                <line x1="540" y1="500" x2="190" y2="670" stroke="rgba(0,240,255,0.4)" stroke-width="3" stroke-dasharray="8,6"/>
-                <line x1="540" y1="500" x2="540" y2="670" stroke="rgba(0,240,255,0.4)" stroke-width="3" stroke-dasharray="8,6"/>
-                <line x1="540" y1="500" x2="890" y2="670" stroke="rgba(0,240,255,0.4)" stroke-width="3" stroke-dasharray="8,6"/>
+                <line x1="540" y1="440" x2="210" y2="530" stroke="rgba(0,240,255,0.4)" stroke-width="3" stroke-dasharray="8,6"/>
+                <line x1="540" y1="440" x2="540" y2="530" stroke="rgba(0,240,255,0.4)" stroke-width="3" stroke-dasharray="8,6"/>
+                <line x1="540" y1="440" x2="870" y2="530" stroke="rgba(0,240,255,0.4)" stroke-width="3" stroke-dasharray="8,6"/>
             </svg>
 
             <div class="tool-card" id="tool-search">
@@ -1113,9 +1069,9 @@
             </div>
 
             <svg id="team-connections" viewBox="0 0 1080 1920">
-                <line x1="540" y1="420" x2="180" y2="620" stroke="rgba(0,240,255,0.4)" stroke-width="3" stroke-dasharray="8,6"/>
-                <line x1="540" y1="420" x2="530" y2="620" stroke="rgba(123,44,191,0.4)" stroke-width="3" stroke-dasharray="8,6"/>
-                <line x1="540" y1="420" x2="900" y2="620" stroke="rgba(0,255,136,0.4)" stroke-width="3" stroke-dasharray="8,6"/>
+                <line x1="540" y1="440" x2="180" y2="530" stroke="rgba(0,240,255,0.4)" stroke-width="3" stroke-dasharray="8,6"/>
+                <line x1="540" y1="440" x2="530" y2="530" stroke="rgba(123,44,191,0.4)" stroke-width="3" stroke-dasharray="8,6"/>
+                <line x1="540" y1="440" x2="900" y2="530" stroke="rgba(0,255,136,0.4)" stroke-width="3" stroke-dasharray="8,6"/>
             </svg>
 
             <div class="team-card" id="team-research">
@@ -1244,7 +1200,7 @@
                 if (highlightWords.includes(cleanWord)) {
                     activeClass = "active-highlight";
                 }
-                if (cleanWord === "riya" || cleanWord === "riya!") {
+                if (cleanWord === "riya" || cleanWord === "riya!" || (w.start >= 78.1 && w.end <= 88.1)) {
                     activeClass = "active-riya";
                 }
 
@@ -1269,7 +1225,7 @@
         });
 
         // =====================================================================
-        // ACT 1: HOOK — The Ladder (0.5s → 8.5s)
+        // ACT 1: HOOK — Levels Image (0.5s → 8.5s)
         // =====================================================================
 
         tl.to(S, { ambientOpacity: 1.0, duration: 1.0 }, time(0.3));
@@ -1278,19 +1234,17 @@
         // Title fades in
         tl.to("#hook-title", { opacity: 1, duration: 0.6, ease: "power2.out" }, time(0.5));
 
-        // Rungs cascade from bottom
-        tl.to("#rung-l0", { opacity: 1, scale: 1, duration: 0.5, ease: "back.out(1.4)" }, time(1.0));
-        tl.to("#rung-l1", { opacity: 1, scale: 1, duration: 0.5, ease: "back.out(1.4)" }, time(1.5));
-        tl.to("#rung-l2", { opacity: 1, scale: 1, duration: 0.5, ease: "back.out(1.4)" }, time(2.0));
-        tl.to("#rung-l3", { opacity: 1, scale: 1, duration: 0.5, ease: "back.out(1.4)" }, time(2.5));
+        // Pyramid image scales in
+        tl.to("#hook-image", { opacity: 1, scale: 1, duration: 0.8, ease: "back.out(1.3)" }, time(1.0));
 
-        // On "four levels" — all rungs flash
-        tl.to(".ladder-rung", {
-            boxShadow: "0 0 40px rgba(0, 240, 255, 0.3)",
-            duration: 0.3, yoyo: true, repeat: 2
+        // On "four levels" — image border glows
+        tl.to("#hook-image", {
+            boxShadow: "0 20px 60px rgba(0, 0, 0, 0.5), 0 0 60px rgba(0, 240, 255, 0.35)",
+            borderColor: "rgba(0, 240, 255, 0.6)",
+            duration: 0.4, yoyo: true, repeat: 2
         }, time(6.175));
 
-        // Fade ladder out
+        // Fade image out
         tl.to("#ladder-container", { opacity: 0, duration: 0.6 }, time(8.0));
 
         // =====================================================================
@@ -1435,73 +1389,75 @@
         tl.to(".scene-container", { x: () => gsap.utils.random(-5, 5), duration: 0.05, repeat: 8, yoyo: true }, time(77.5));
 
         // =====================================================================
-        // ACT 6: RIYA OVERLAY (~74.0s → 78.5s)
+        // ACT 6: RIYA OVERLAY (~78.1s → 88.1s)
         // =====================================================================
 
-        // Dim background
-        tl.to("#visual-dimmer", { opacity: 1.0, duration: 0.5 }, time(74.0));
+        // Dim background (fades in 0.5s before overlay starts)
+        tl.to("#visual-dimmer", { opacity: 1.0, duration: 0.5 }, time(77.6));
+        tl.to("#face-frame", { opacity: 0, duration: 0.5 }, time(77.6));
 
-        // Riya card slides in
-        tl.to("#riya-card", { opacity: 1, scale: 1.0, duration: 0.5, ease: "back.out(1.5)" }, time(74.2));
-        tl.to("#caption-container", { y: 150, duration: 0.5, ease: "power2.out" }, time(74.2));
+        // Riya card slides in (aligned to visual overlays insert time 78.1s)
+        tl.to("#riya-card", { opacity: 1, scale: 1.0, duration: 0.5, ease: "back.out(1.5)" }, time(78.1));
+        tl.to("#caption-container", { scale: 0.9, duration: 0.5, ease: "power2.out" }, time(78.1));
 
-        // Riya card fades on "Great question, Riya"
-        tl.to("#riya-card", { opacity: 0, scale: 0.8, duration: 0.5, ease: "power2.in" }, time(78.27));
-        tl.to("#visual-dimmer", { opacity: 0, duration: 0.5 }, time(78.27));
-        tl.to("#caption-container", { y: 0, duration: 0.5, ease: "power2.inOut" }, time(78.27));
+        // Riya card fades on "Great question, Riya" (88.1s)
+        tl.to("#riya-card", { opacity: 0, scale: 0.8, duration: 0.5, ease: "power2.in" }, time(88.1));
+        tl.to("#visual-dimmer", { opacity: 0, duration: 0.5 }, time(88.3));
+        tl.to("#face-frame", { opacity: 1, duration: 0.5 }, time(88.3));
+        tl.to("#caption-container", { scale: 1, duration: 0.5, ease: "power2.inOut" }, time(88.3));
 
         // Fade Level 3
-        tl.to("#level3-container", { opacity: 0, duration: 0.5 }, time(78.27));
+        tl.to("#level3-container", { opacity: 0, duration: 0.5 }, time(88.3));
 
         // =====================================================================
-        // ACT 7: ANSWER + OUTRO (78.3s → 104.9s)
+        // ACT 7: ANSWER + OUTRO (shifted by 10s overlay duration)
         // =====================================================================
 
-        tl.to("#answer-container", { opacity: 1, duration: 0.3 }, time(79.5));
+        tl.to("#answer-container", { opacity: 1, duration: 0.3 }, time(89.5));
 
         // Code editor appears — "write code to filter"
-        tl.to("#code-editor", { opacity: 1, scale: 1, duration: 0.6, ease: "back.out(1.3)" }, time(80.0));
+        tl.to("#code-editor", { opacity: 1, scale: 1, duration: 0.6, ease: "back.out(1.3)" }, time(90.0));
 
         // Raw text block appears — "whole raw text"
-        tl.to("#shrink-raw", { opacity: 1, duration: 0.5 }, time(82.5));
+        tl.to("#shrink-raw", { opacity: 1, duration: 0.5 }, time(92.5));
 
         // Raw shrinks, clean appears — "extract only the key details"
-        tl.to("#shrink-raw", { maxHeight: 40, opacity: 0, duration: 1.5, ease: "power2.in" }, time(86.0));
-        tl.to("#shrink-clean", { opacity: 1, scale: 1, duration: 0.5, ease: "back.out(1.5)" }, time(87.5));
+        tl.to("#shrink-raw", { maxHeight: 40, opacity: 0, duration: 1.5, ease: "power2.in" }, time(96.0));
+        tl.to("#shrink-clean", { opacity: 1, scale: 1, duration: 0.5, ease: "back.out(1.5)" }, time(97.5));
 
         // "saves API costs" badge
-        tl.to("#saves-badge", { opacity: 1, scale: 1, duration: 0.5, ease: "back.out(1.7)" }, time(95.0));
+        tl.to("#saves-badge", { opacity: 1, scale: 1, duration: 0.5, ease: "back.out(1.7)" }, time(105.0));
 
         // Shake on "API costs"
-        tl.to(".scene-container", { x: () => gsap.utils.random(-4, 4), duration: 0.05, repeat: 6, yoyo: true }, time(96.6));
+        tl.to(".scene-container", { x: () => gsap.utils.random(-4, 4), duration: 0.05, repeat: 6, yoyo: true }, time(106.6));
 
         // Fade answer
-        tl.to("#answer-container", { opacity: 0, duration: 0.5 }, time(97.5));
+        tl.to("#answer-container", { opacity: 0, duration: 0.5 }, time(107.5));
 
         // =====================================================================
-        // OUTRO — Ladder + Subscribe (98.2s → 104.9s)
+        // OUTRO — Ladder + Subscribe
         // =====================================================================
 
-        tl.to("#outro-container", { opacity: 1, duration: 0.3 }, time(98.0));
-        tl.to("#outro-ladder", { opacity: 1, duration: 0.3 }, time(98.2));
+        tl.to("#outro-container", { opacity: 1, duration: 0.3 }, time(108.0));
+        tl.to("#outro-ladder", { opacity: 1, duration: 0.3 }, time(108.2));
 
         // Rungs glow in sequence
-        tl.to(".outro-rung.l0", { opacity: 1, duration: 0.3 }, time(98.5));
-        tl.to(".outro-rung.l1", { opacity: 1, duration: 0.3 }, time(99.0));
-        tl.to(".outro-rung.l2", { opacity: 1, duration: 0.3 }, time(99.5));
-        tl.to(".outro-rung.l3", { opacity: 1, duration: 0.3 }, time(100.0));
+        tl.to(".outro-rung.l0", { opacity: 1, duration: 0.3 }, time(108.5));
+        tl.to(".outro-rung.l1", { opacity: 1, duration: 0.3 }, time(109.0));
+        tl.to(".outro-rung.l2", { opacity: 1, duration: 0.3 }, time(109.5));
+        tl.to(".outro-rung.l3", { opacity: 1, duration: 0.3 }, time(110.0));
 
         // "future of AI agents" — next text
-        tl.to("#next-text", { opacity: 1, duration: 0.5, ease: "power2.out" }, time(100.9));
+        tl.to("#next-text", { opacity: 1, duration: 0.5, ease: "power2.out" }, time(110.9));
 
         // Subscribe CTA
-        tl.to("#subscribe-cta", { opacity: 1, scale: 1, duration: 0.8, ease: "back.out(1.3)" }, time(101.5));
+        tl.to("#subscribe-cta", { opacity: 1, scale: 1, duration: 0.8, ease: "back.out(1.3)" }, time(111.5));
 
         // Final flash on all outro rungs
         tl.to(".outro-rung", {
             boxShadow: "0 0 40px rgba(0, 240, 255, 0.3)",
             duration: 0.3, yoyo: true, repeat: 1
-        }, time(103.5));
+        }, time(113.5));
 
         // =====================================================================
         // CANVAS 2D — Ambient Particles
