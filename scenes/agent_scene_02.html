@@ -1,0 +1,1575 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, width=1080, height=1920">
+    <title>The 4 Levels of AI Agents (Ep.03)</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600;700&family=Inter:wght@400;700;900&family=Outfit:wght@400;700;900&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-color: #060610;
+            --neon-cyan: #00F0FF;
+            --neon-pink: #FF2D6A;
+            --neon-purple: #7B2CBF;
+            --neon-orange: #FF6B35;
+            --neon-green: #00FF88;
+            --neon-yellow: #FFDD00;
+            --neon-gold: #FFD700;
+            --glass-bg: rgba(10, 12, 24, 0.85);
+            --glass-border: rgba(255, 255, 255, 0.1);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        html, body {
+            background-color: var(--bg-color);
+            color: #ffffff;
+            font-family: 'Outfit', 'Inter', sans-serif;
+            width: 1080px;
+            height: 1920px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Deep nebula background */
+        .nebula-layer {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background:
+                radial-gradient(ellipse at 25% 20%, rgba(123, 44, 191, 0.12) 0%, transparent 50%),
+                radial-gradient(ellipse at 75% 50%, rgba(0, 240, 255, 0.07) 0%, transparent 45%),
+                radial-gradient(ellipse at 50% 85%, rgba(255, 45, 106, 0.08) 0%, transparent 40%);
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        /* Micro-grid */
+        .bg-grid {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background-image:
+                linear-gradient(rgba(255, 255, 255, 0.018) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.018) 1px, transparent 1px);
+            background-size: 40px 40px;
+            z-index: 2;
+            opacity: 0.5;
+        }
+
+        /* Scanlines */
+        .scanlines {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: repeating-linear-gradient(0deg,
+                rgba(0, 0, 0, 0.1),
+                rgba(0, 0, 0, 0.1) 1px,
+                transparent 1px,
+                transparent 3px);
+            pointer-events: none;
+            z-index: 99;
+            opacity: 0.3;
+        }
+
+        /* Canvas layer */
+        #canvas-bg {
+            position: absolute;
+            top: 0; left: 0;
+            width: 1080px; height: 1920px;
+            z-index: 5;
+            pointer-events: none;
+        }
+
+        .scene-container {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: 10;
+            pointer-events: none;
+        }
+
+        /* Visual dimmer for Riya overlay */
+        #visual-dimmer {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: radial-gradient(ellipse at center, rgba(5, 6, 12, 0.5) 0%, rgba(5, 6, 12, 0.85) 100%);
+            z-index: 55;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        /* ============================================== */
+        /* CAPTIONS                                       */
+        /* ============================================== */
+        #caption-container {
+            position: absolute;
+            left: 50%;
+            bottom: 540px;
+            transform: translateX(-50%);
+            width: 920px;
+            min-height: 110px;
+            z-index: 90;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(8, 10, 20, 0.72);
+            border: 1.5px solid rgba(255, 255, 255, 0.08);
+            border-radius: 22px;
+            padding: 16px 28px;
+            box-shadow:
+                0 12px 50px rgba(0, 0, 0, 0.6),
+                inset 0 1px 0 rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(12px);
+        }
+
+        .sentence-block {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-content: center;
+            width: 100%;
+            gap: 8px 12px;
+            text-shadow: 0 3px 10px rgba(0, 0, 0, 0.9);
+        }
+
+        .cap-word {
+            display: inline-block;
+            font-size: 38px;
+            font-weight: 800;
+            color: rgba(255, 255, 255, 0.92);
+            transition: color 0.12s ease, transform 0.12s ease, text-shadow 0.12s ease;
+            transform-origin: center;
+            line-height: 1.4;
+        }
+
+        .cap-word.active {
+            color: #00F0FF !important;
+            text-shadow: 0 0 22px #00F0FF, 0 0 8px #00F0FF;
+            transform: scale(1.15);
+            font-weight: 900;
+        }
+
+        .cap-word.active-highlight {
+            color: #FFDD00 !important;
+            text-shadow: 0 0 22px #FFDD00, 0 0 10px #FFDD00;
+            transform: scale(1.18);
+            font-weight: 900;
+        }
+
+        .cap-word.active-riya {
+            color: var(--neon-orange) !important;
+            text-shadow: 0 0 22px var(--neon-orange), 0 0 10px var(--neon-orange);
+            transform: scale(1.15);
+            font-weight: 900;
+        }
+
+        .cap-word.past {
+            color: rgba(255, 255, 255, 0.32) !important;
+            text-shadow: none;
+            transform: scale(1.0);
+        }
+
+        /* ============================================== */
+        /* ACT 1: HOOK — The Ladder                      */
+        /* ============================================== */
+        #ladder-container {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: 20;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .ladder-spine {
+            position: absolute;
+            left: 50%;
+            top: 200px;
+            width: 8px;
+            height: 700px;
+            background: linear-gradient(180deg, rgba(0, 240, 255, 0.3), rgba(123, 44, 191, 0.3));
+            transform: translateX(-50%);
+            border-radius: 4px;
+        }
+
+        .ladder-rung {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%) scale(0.8);
+            width: 560px;
+            height: 120px;
+            background: var(--glass-bg);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+            opacity: 0;
+        }
+
+        .rung-icon { font-size: 48px; }
+        .rung-label {
+            font-family: 'Outfit', sans-serif;
+            font-size: 36px;
+            font-weight: 900;
+            letter-spacing: 3px;
+        }
+        .rung-sublabel {
+            font-family: 'Fira Code', monospace;
+            font-size: 20px;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        #rung-l0 { top: 680px; border: 2px solid rgba(0, 255, 136, 0.4); }
+        #rung-l0 .rung-label { color: var(--neon-green); }
+        #rung-l1 { top: 520px; border: 2px solid rgba(0, 240, 255, 0.4); }
+        #rung-l1 .rung-label { color: var(--neon-cyan); }
+        #rung-l2 { top: 360px; border: 2px solid rgba(123, 44, 191, 0.4); }
+        #rung-l2 .rung-label { color: var(--neon-purple); }
+        #rung-l3 { top: 200px; border: 2px solid rgba(255, 45, 106, 0.4); }
+        #rung-l3 .rung-label { color: var(--neon-pink); }
+
+        /* Hook title */
+        #hook-title {
+            position: absolute;
+            top: 120px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: 'Outfit', sans-serif;
+            font-size: 52px;
+            font-weight: 900;
+            text-align: center;
+            background: linear-gradient(135deg, var(--neon-cyan), var(--neon-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 3px;
+            opacity: 0;
+            z-index: 22;
+        }
+
+        /* ============================================== */
+        /* ACT 2: LEVEL 0 — Brain in a Bubble            */
+        /* ============================================== */
+        #level0-container {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: 20;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        #level0-badge {
+            position: absolute;
+            top: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 255, 136, 0.08);
+            border: 2px solid var(--neon-green);
+            border-radius: 16px;
+            padding: 14px 40px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 44px;
+            font-weight: 900;
+            color: var(--neon-green);
+            text-shadow: 0 0 20px var(--neon-green);
+            opacity: 0;
+        }
+
+        #brain-bubble {
+            position: absolute;
+            top: 220px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 360px;
+            height: 360px;
+            border: 4px dashed rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+        }
+
+        #brain-bubble .brain-emoji { font-size: 140px; }
+
+        .no-badge {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%) scale(0.7);
+            background: rgba(255, 45, 106, 0.08);
+            border: 2px solid var(--neon-pink);
+            border-radius: 14px;
+            padding: 12px 28px;
+            font-family: 'Fira Code', monospace;
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--neon-pink);
+            text-shadow: 0 0 12px var(--neon-pink);
+            opacity: 0;
+            white-space: nowrap;
+        }
+
+        #no-tools { top: 620px; }
+        #no-memory { top: 700px; }
+        #no-events { top: 780px; }
+
+        #training-label {
+            position: absolute;
+            top: 880px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: 'Fira Code', monospace;
+            font-size: 22px;
+            color: rgba(255, 255, 255, 0.4);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            opacity: 0;
+        }
+
+        /* ============================================== */
+        /* ACT 3: LEVEL 1 — Connected Solver             */
+        /* ============================================== */
+        #level1-container {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: 20;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        #level1-badge {
+            position: absolute;
+            top: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 240, 255, 0.08);
+            border: 2px solid var(--neon-cyan);
+            border-radius: 16px;
+            padding: 14px 40px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 44px;
+            font-weight: 900;
+            color: var(--neon-cyan);
+            text-shadow: 0 0 20px var(--neon-cyan);
+            opacity: 0;
+        }
+
+        #brain-connected {
+            position: absolute;
+            top: 300px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 200px;
+            height: 200px;
+            background: var(--glass-bg);
+            border: 3px solid var(--neon-cyan);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 0 40px rgba(0, 240, 255, 0.2);
+            opacity: 0;
+        }
+
+        #brain-connected .brain-emoji { font-size: 80px; }
+
+        /* SVG wires */
+        #connection-wires {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: 19;
+            pointer-events: none;
+            opacity: 0;
+        }
+
+        .tool-card {
+            position: absolute;
+            width: 220px;
+            height: 180px;
+            background: var(--glass-bg);
+            border: 2px solid rgba(0, 240, 255, 0.3);
+            border-radius: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(10px);
+            opacity: 0;
+            transform: scale(0.7);
+        }
+
+        .tool-card .tool-emoji { font-size: 56px; margin-bottom: 8px; }
+        .tool-card .tool-label {
+            font-family: 'Fira Code', monospace;
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--neon-cyan);
+        }
+
+        #tool-search { top: 580px; left: 80px; }
+        #tool-db { top: 580px; left: 430px; }
+        #tool-api { top: 580px; right: 80px; }
+
+        /* Live ticker */
+        #live-ticker {
+            position: absolute;
+            top: 820px;
+            left: 50%;
+            transform: translateX(-50%) scale(0.8);
+            background: rgba(0, 255, 136, 0.06);
+            border: 2px solid var(--neon-green);
+            border-radius: 14px;
+            padding: 16px 36px;
+            font-family: 'Fira Code', monospace;
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--neon-green);
+            text-shadow: 0 0 15px var(--neon-green);
+            opacity: 0;
+            white-space: nowrap;
+        }
+
+        /* ============================================== */
+        /* ACT 4: LEVEL 2 — Strategic Solver             */
+        /* ============================================== */
+        #level2-container {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: 20;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        #level2-badge {
+            position: absolute;
+            top: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(123, 44, 191, 0.08);
+            border: 2px solid var(--neon-purple);
+            border-radius: 16px;
+            padding: 14px 40px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 44px;
+            font-weight: 900;
+            color: var(--neon-purple);
+            text-shadow: 0 0 20px var(--neon-purple);
+            opacity: 0;
+        }
+
+        /* Raw text chaos block */
+        #raw-text-block {
+            position: absolute;
+            top: 200px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 880px;
+            height: 400px;
+            background: rgba(10, 10, 18, 0.9);
+            border: 2px solid rgba(255, 45, 106, 0.3);
+            border-radius: 18px;
+            overflow: hidden;
+            padding: 20px 24px;
+            font-family: 'Fira Code', monospace;
+            font-size: 20px;
+            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.35);
+            opacity: 0;
+        }
+
+        /* Funnel icon */
+        #filter-funnel {
+            position: absolute;
+            top: 630px;
+            left: 50%;
+            transform: translateX(-50%) scale(0.7);
+            font-size: 100px;
+            opacity: 0;
+            filter: drop-shadow(0 0 20px var(--neon-purple));
+        }
+
+        /* Clean output card */
+        #clean-output {
+            position: absolute;
+            top: 760px;
+            left: 50%;
+            transform: translateX(-50%) scale(0.8);
+            width: 700px;
+            background: rgba(255, 215, 0, 0.06);
+            border: 3px solid var(--neon-gold);
+            border-radius: 18px;
+            padding: 24px 32px;
+            font-family: 'Fira Code', monospace;
+            font-size: 24px;
+            line-height: 1.8;
+            color: var(--neon-gold);
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+            opacity: 0;
+            box-shadow: 0 15px 40px rgba(255, 215, 0, 0.1);
+        }
+
+        /* Context engineering label */
+        #context-eng-label {
+            position: absolute;
+            top: 200px;
+            left: 50%;
+            transform: translateX(-50%) scale(0.8);
+            font-family: 'Outfit', sans-serif;
+            font-size: 52px;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--neon-purple), var(--neon-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            opacity: 0;
+            text-align: center;
+        }
+
+        /* Step plan cards */
+        .step-card {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%) scale(0.7);
+            width: 700px;
+            height: 100px;
+            background: var(--glass-bg);
+            border: 2px solid rgba(0, 240, 255, 0.3);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            padding: 0 30px;
+            gap: 20px;
+            backdrop-filter: blur(10px);
+            opacity: 0;
+        }
+
+        .step-num {
+            font-family: 'Outfit', sans-serif;
+            font-size: 36px;
+            font-weight: 900;
+            color: var(--neon-cyan);
+            min-width: 60px;
+        }
+
+        .step-text {
+            font-family: 'Fira Code', monospace;
+            font-size: 22px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .step-arrow {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 36px;
+            color: var(--neon-cyan);
+            text-shadow: 0 0 15px var(--neon-cyan);
+            opacity: 0;
+        }
+
+        #step-1 { top: 350px; }
+        #step-arrow-1 { top: 455px; }
+        #step-2 { top: 500px; }
+        #step-arrow-2 { top: 605px; }
+        #step-3 { top: 650px; }
+
+        /* ============================================== */
+        /* ACT 5: LEVEL 3 — Team of Agents               */
+        /* ============================================== */
+        #level3-container {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: 20;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        #level3-badge {
+            position: absolute;
+            top: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255, 45, 106, 0.08);
+            border: 2px solid var(--neon-pink);
+            border-radius: 16px;
+            padding: 14px 40px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 44px;
+            font-weight: 900;
+            color: var(--neon-pink);
+            text-shadow: 0 0 20px var(--neon-pink);
+            opacity: 0;
+        }
+
+        /* Manager node */
+        #manager-node {
+            position: absolute;
+            top: 220px;
+            left: 50%;
+            transform: translateX(-50%) scale(0.7);
+            width: 280px;
+            height: 200px;
+            background: var(--glass-bg);
+            border: 3px solid var(--neon-gold);
+            border-radius: 24px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 15px 50px rgba(255, 215, 0, 0.15);
+            backdrop-filter: blur(12px);
+            opacity: 0;
+        }
+
+        #manager-node .node-emoji { font-size: 72px; margin-bottom: 8px; }
+        #manager-node .node-label {
+            font-family: 'Fira Code', monospace;
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--neon-gold);
+            letter-spacing: 2px;
+        }
+
+        /* Team agent cards */
+        .team-card {
+            position: absolute;
+            width: 240px;
+            height: 200px;
+            background: var(--glass-bg);
+            border-radius: 22px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+            opacity: 0;
+            transform: scale(0.7);
+        }
+
+        .team-card .tc-emoji { font-size: 64px; margin-bottom: 8px; }
+        .team-card .tc-label {
+            font-family: 'Fira Code', monospace;
+            font-size: 20px;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        #team-research { top: 520px; left: 60px; border: 2px solid rgba(0, 240, 255, 0.4); }
+        #team-research .tc-label { color: var(--neon-cyan); }
+        #team-design { top: 520px; left: 410px; border: 2px solid rgba(123, 44, 191, 0.4); }
+        #team-design .tc-label { color: var(--neon-purple); }
+        #team-marketing { top: 520px; right: 60px; border: 2px solid rgba(0, 255, 136, 0.4); }
+        #team-marketing .tc-label { color: var(--neon-green); }
+
+        /* SVG team connections */
+        #team-connections {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: 19;
+            pointer-events: none;
+            opacity: 0;
+        }
+
+        /* Project card */
+        #project-card {
+            position: absolute;
+            top: 780px;
+            left: 50%;
+            transform: translateX(-50%) scale(0.7);
+            width: 600px;
+            background: var(--glass-bg);
+            border: 2px solid rgba(0, 255, 136, 0.3);
+            border-radius: 18px;
+            padding: 24px 30px;
+            opacity: 0;
+        }
+
+        .project-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 28px;
+            font-weight: 900;
+            color: #fff;
+            margin-bottom: 16px;
+        }
+
+        .project-check {
+            font-family: 'Fira Code', monospace;
+            font-size: 22px;
+            color: rgba(255, 255, 255, 0.5);
+            line-height: 2;
+            opacity: 0;
+        }
+
+        .project-check.done {
+            color: var(--neon-green);
+        }
+
+        /* ============================================== */
+        /* ACT 6: RIYA OVERLAY                           */
+        /* ============================================== */
+        #riya-card {
+            position: absolute;
+            left: 136px;
+            top: 100px;
+            width: 808px;
+            height: 1212px;
+            opacity: 0;
+            transform: scale(0.8);
+            z-index: 60;
+            pointer-events: none;
+        }
+
+        .riya-header {
+            font-family: 'Fira Code', monospace;
+            color: var(--neon-orange);
+            font-size: 28px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            height: 36px;
+            margin-bottom: 16px;
+            text-align: center;
+        }
+
+        .riya-frame {
+            width: 800px;
+            height: 1160px;
+            border: 4px solid var(--neon-orange);
+            box-shadow: 0 0 50px rgba(255, 107, 53, 0.3);
+            background: rgba(10, 10, 15, 0.6);
+            backdrop-filter: blur(10px);
+            border-radius: 8px;
+        }
+
+        /* ============================================== */
+        /* ACT 7: ANSWER — Code + Outro                  */
+        /* ============================================== */
+        #answer-container {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: 20;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        /* Code editor card */
+        #code-editor {
+            position: absolute;
+            top: 140px;
+            left: 50%;
+            transform: translateX(-50%) scale(0.9);
+            width: 900px;
+            background: rgba(10, 10, 18, 0.95);
+            border: 2px solid var(--glass-border);
+            border-radius: 22px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+            opacity: 0;
+        }
+
+        .editor-header {
+            height: 52px;
+            background: rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid var(--glass-border);
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            gap: 12px;
+        }
+
+        .editor-dot {
+            width: 14px; height: 14px;
+            border-radius: 50%;
+        }
+        .editor-dot.r { background: #ff5f57; }
+        .editor-dot.y { background: #ffbd2e; }
+        .editor-dot.g { background: #28c840; }
+
+        .editor-title {
+            font-family: 'Fira Code', monospace;
+            font-size: 20px;
+            color: rgba(255, 255, 255, 0.5);
+            margin-left: 10px;
+        }
+
+        .editor-body {
+            padding: 28px 30px;
+            font-family: 'Fira Code', monospace;
+            font-size: 22px;
+            line-height: 2.0;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .code-keyword { color: var(--neon-pink); }
+        .code-func { color: var(--neon-cyan); }
+        .code-string { color: var(--neon-green); }
+        .code-comment { color: rgba(255, 255, 255, 0.3); font-style: italic; }
+        .code-param { color: var(--neon-orange); }
+
+        /* Raw → Clean shrink visual */
+        #shrink-raw {
+            position: absolute;
+            top: 620px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 800px;
+            background: rgba(255, 45, 106, 0.05);
+            border: 2px solid rgba(255, 45, 106, 0.2);
+            border-radius: 14px;
+            padding: 20px;
+            font-family: 'Fira Code', monospace;
+            font-size: 20px;
+            color: rgba(255, 255, 255, 0.25);
+            line-height: 1.4;
+            opacity: 0;
+            overflow: hidden;
+            max-height: 200px;
+        }
+
+        #shrink-clean {
+            position: absolute;
+            top: 620px;
+            left: 50%;
+            transform: translateX(-50%) scale(0.8);
+            width: 700px;
+            background: rgba(0, 255, 136, 0.06);
+            border: 3px solid var(--neon-green);
+            border-radius: 14px;
+            padding: 20px 28px;
+            font-family: 'Fira Code', monospace;
+            font-size: 24px;
+            color: var(--neon-green);
+            line-height: 1.8;
+            text-shadow: 0 0 12px rgba(0, 255, 136, 0.3);
+            opacity: 0;
+        }
+
+        /* Saves cost badge */
+        #saves-badge {
+            position: absolute;
+            top: 860px;
+            left: 50%;
+            transform: translateX(-50%) scale(0.7);
+            background: rgba(0, 255, 136, 0.08);
+            border: 2px solid var(--neon-green);
+            border-radius: 14px;
+            padding: 16px 36px;
+            font-family: 'Fira Code', monospace;
+            font-size: 26px;
+            font-weight: 700;
+            color: var(--neon-green);
+            text-shadow: 0 0 15px var(--neon-green);
+            opacity: 0;
+        }
+
+        /* ============================================== */
+        /* OUTRO — Ladder + Subscribe                    */
+        /* ============================================== */
+        #outro-container {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: 20;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        #outro-ladder {
+            position: absolute;
+            top: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px;
+            opacity: 0;
+        }
+
+        .outro-rung {
+            width: 480px;
+            height: 90px;
+            background: var(--glass-bg);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            opacity: 0.3;
+        }
+
+        .outro-rung .or-icon { font-size: 36px; }
+        .outro-rung .or-label {
+            font-family: 'Outfit', sans-serif;
+            font-size: 28px;
+            font-weight: 900;
+        }
+
+        .outro-rung.l3 { border: 2px solid rgba(255, 45, 106, 0.4); }
+        .outro-rung.l3 .or-label { color: var(--neon-pink); }
+        .outro-rung.l2 { border: 2px solid rgba(123, 44, 191, 0.4); }
+        .outro-rung.l2 .or-label { color: var(--neon-purple); }
+        .outro-rung.l1 { border: 2px solid rgba(0, 240, 255, 0.4); }
+        .outro-rung.l1 .or-label { color: var(--neon-cyan); }
+        .outro-rung.l0 { border: 2px solid rgba(0, 255, 136, 0.4); }
+        .outro-rung.l0 .or-label { color: var(--neon-green); }
+
+        #next-text {
+            position: absolute;
+            top: 560px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: 'Outfit', sans-serif;
+            font-size: 38px;
+            font-weight: 900;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.6);
+            letter-spacing: 3px;
+            opacity: 0;
+        }
+
+        #next-text span { color: var(--neon-cyan); }
+
+        #subscribe-cta {
+            position: absolute;
+            top: 680px;
+            left: 50%;
+            transform: translateX(-50%) scale(0.8);
+            opacity: 0;
+        }
+
+        .subscribe-btn {
+            display: block;
+            margin: 0 auto;
+            background: linear-gradient(135deg, var(--neon-pink), var(--neon-purple));
+            border: 3px solid rgba(255, 255, 255, 0.2);
+            border-radius: 44px;
+            padding: 20px 70px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 36px;
+            font-weight: 900;
+            color: #ffffff;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            box-shadow: 0 0 40px rgba(255, 45, 106, 0.35);
+            animation: pulse-btn 1.8s ease-in-out infinite alternate;
+        }
+
+        @keyframes pulse-btn {
+            0% { transform: scale(1.0); box-shadow: 0 0 30px rgba(255, 45, 106, 0.35); }
+            100% { transform: scale(1.05); box-shadow: 0 0 55px rgba(255, 45, 106, 0.6), 0 0 20px rgba(123, 44, 191, 0.3); }
+        }
+
+        /* Glitch animation */
+        @keyframes glitch {
+            0% { transform: translate(0); }
+            20% { transform: translate(-3px, 3px); }
+            40% { transform: translate(3px, -3px); }
+            60% { transform: translate(-2px, -2px); }
+            80% { transform: translate(2px, 2px); }
+            100% { transform: translate(0); }
+        }
+
+        .glitching { animation: glitch 0.1s infinite; }
+    </style>
+</head>
+
+<body>
+    <div class="nebula-layer"></div>
+    <div class="bg-grid"></div>
+    <div class="scanlines"></div>
+    <div id="visual-dimmer"></div>
+
+    <canvas id="canvas-bg" width="1080" height="1920"></canvas>
+
+    <div class="scene-container">
+        <div id="caption-container"></div>
+
+        <!-- ======== ACT 1: HOOK — The Ladder ======== -->
+        <div id="ladder-container">
+            <div class="ladder-spine"></div>
+            <div id="hook-title">4 LEVELS OF AI AGENTS</div>
+            <div class="ladder-rung" id="rung-l3">
+                <div class="rung-icon">🌐</div>
+                <div>
+                    <div class="rung-label">LEVEL 3</div>
+                    <div class="rung-sublabel">Team of Agents</div>
+                </div>
+            </div>
+            <div class="ladder-rung" id="rung-l2">
+                <div class="rung-icon">🧩</div>
+                <div>
+                    <div class="rung-label">LEVEL 2</div>
+                    <div class="rung-sublabel">Strategic Solver</div>
+                </div>
+            </div>
+            <div class="ladder-rung" id="rung-l1">
+                <div class="rung-icon">🔧</div>
+                <div>
+                    <div class="rung-label">LEVEL 1</div>
+                    <div class="rung-sublabel">Connected Solver</div>
+                </div>
+            </div>
+            <div class="ladder-rung" id="rung-l0">
+                <div class="rung-icon">🤖</div>
+                <div>
+                    <div class="rung-label">LEVEL 0</div>
+                    <div class="rung-sublabel">Raw LLM</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ======== ACT 2: LEVEL 0 ======== -->
+        <div id="level0-container">
+            <div id="level0-badge">LEVEL 0 — RAW LLM</div>
+            <div id="brain-bubble">
+                <div class="brain-emoji">🧠</div>
+            </div>
+            <div class="no-badge" id="no-tools">🔧 NO TOOLS</div>
+            <div class="no-badge" id="no-memory">💾 NO MEMORY</div>
+            <div class="no-badge" id="no-events">📅 NO CURRENT EVENTS</div>
+            <div id="training-label">TRAINING DATA ONLY</div>
+        </div>
+
+        <!-- ======== ACT 3: LEVEL 1 ======== -->
+        <div id="level1-container">
+            <div id="level1-badge">LEVEL 1 — CONNECTED SOLVER</div>
+            <div id="brain-connected">
+                <div class="brain-emoji">🧠</div>
+            </div>
+
+            <svg id="connection-wires" viewBox="0 0 1080 1920">
+                <line x1="540" y1="500" x2="190" y2="670" stroke="rgba(0,240,255,0.4)" stroke-width="3" stroke-dasharray="8,6"/>
+                <line x1="540" y1="500" x2="540" y2="670" stroke="rgba(0,240,255,0.4)" stroke-width="3" stroke-dasharray="8,6"/>
+                <line x1="540" y1="500" x2="890" y2="670" stroke="rgba(0,240,255,0.4)" stroke-width="3" stroke-dasharray="8,6"/>
+            </svg>
+
+            <div class="tool-card" id="tool-search">
+                <div class="tool-emoji">🔍</div>
+                <div class="tool-label">SEARCH</div>
+            </div>
+            <div class="tool-card" id="tool-db">
+                <div class="tool-emoji">🗄️</div>
+                <div class="tool-label">DATABASE</div>
+            </div>
+            <div class="tool-card" id="tool-api">
+                <div class="tool-emoji">📈</div>
+                <div class="tool-label">STOCK API</div>
+            </div>
+            <div id="live-ticker">AAPL: $247.32 ▲ +2.1%</div>
+        </div>
+
+        <!-- ======== ACT 4: LEVEL 2 ======== -->
+        <div id="level2-container">
+            <div id="level2-badge">LEVEL 2 — STRATEGIC SOLVER</div>
+            <div id="raw-text-block">
+                {"response":{"status":200,"data":{"passengers":[{"id":1042,"name":"John Doe","seat":"14A","flight":"AA-102","gate":"B7","departure":"2026-06-03T08:45:00Z","arrival":"2026-06-03T11:20:00Z","status":"delayed","delay_minutes":45,"reason":"weather","baggage":["BG-3821","BG-3822"],"meal":"vegetarian","loyalty_tier":"gold","miles":48201,"contact":"+1-555-0142","email":"john@example.com","emergency_contact":{"name":"Jane Doe","phone":"+1-555-0199"}}],"metadata":{"api_version":"3.2.1","request_id":"req_8f7a2b","timestamp":"2026-06-03T07:30:00Z","rate_limit_remaining":847,"cache_hit":false}}}}
+            </div>
+            <div id="filter-funnel">🔽</div>
+            <div id="clean-output">
+                { "flight_id": "AA-102",<br>
+                &nbsp;&nbsp;"status": "delayed",<br>
+                &nbsp;&nbsp;"gate": "B7" }
+            </div>
+            <div id="context-eng-label">CONTEXT<br>ENGINEERING</div>
+
+            <div class="step-card" id="step-1">
+                <div class="step-num">01</div>
+                <div class="step-text">Parse raw API response</div>
+            </div>
+            <div class="step-arrow" id="step-arrow-1">↓</div>
+            <div class="step-card" id="step-2">
+                <div class="step-num">02</div>
+                <div class="step-text">Filter key information</div>
+            </div>
+            <div class="step-arrow" id="step-arrow-2">↓</div>
+            <div class="step-card" id="step-3">
+                <div class="step-num">03</div>
+                <div class="step-text">Send clean context to AI</div>
+            </div>
+        </div>
+
+        <!-- ======== ACT 5: LEVEL 3 ======== -->
+        <div id="level3-container">
+            <div id="level3-badge">LEVEL 3 — TEAM OF AGENTS</div>
+            <div id="manager-node">
+                <div class="node-emoji">👔</div>
+                <div class="node-label">MANAGER</div>
+            </div>
+
+            <svg id="team-connections" viewBox="0 0 1080 1920">
+                <line x1="540" y1="420" x2="180" y2="620" stroke="rgba(0,240,255,0.4)" stroke-width="3" stroke-dasharray="8,6"/>
+                <line x1="540" y1="420" x2="530" y2="620" stroke="rgba(123,44,191,0.4)" stroke-width="3" stroke-dasharray="8,6"/>
+                <line x1="540" y1="420" x2="900" y2="620" stroke="rgba(0,255,136,0.4)" stroke-width="3" stroke-dasharray="8,6"/>
+            </svg>
+
+            <div class="team-card" id="team-research">
+                <div class="tc-emoji">🔬</div>
+                <div class="tc-label">RESEARCHER</div>
+            </div>
+            <div class="team-card" id="team-design">
+                <div class="tc-emoji">🎨</div>
+                <div class="tc-label">DESIGNER</div>
+            </div>
+            <div class="team-card" id="team-marketing">
+                <div class="tc-emoji">📢</div>
+                <div class="tc-label">MARKETING</div>
+            </div>
+
+            <div id="project-card">
+                <div class="project-title">📋 Project Status</div>
+                <div class="project-check" id="chk-research">✅ Research complete</div>
+                <div class="project-check" id="chk-design">✅ Design finalized</div>
+                <div class="project-check" id="chk-launch">✅ Launch ready</div>
+            </div>
+        </div>
+
+        <!-- ======== ACT 6: RIYA OVERLAY ======== -->
+        <div id="riya-card">
+            <div class="riya-header">QUESTION</div>
+            <div class="riya-frame"></div>
+        </div>
+
+        <!-- ======== ACT 7: ANSWER ======== -->
+        <div id="answer-container">
+            <div id="code-editor">
+                <div class="editor-header">
+                    <div class="editor-dot r"></div>
+                    <div class="editor-dot y"></div>
+                    <div class="editor-dot g"></div>
+                    <div class="editor-title">context_filter.py</div>
+                </div>
+                <div class="editor-body">
+                    <span class="code-keyword">def</span> <span class="code-func">extract_context</span>(<span class="code-param">raw_response</span>):<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;payload = <span class="code-func">parse</span>(raw_response)<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-keyword">return</span> {<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="code-string">"flight_id"</span>: payload.id,<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="code-string">"status"</span>: payload.status,<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="code-string">"gate"</span>: payload.gate<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                    <span class="code-comment"># 50 lines → 3 key fields</span>
+                </div>
+            </div>
+
+            <div id="shrink-raw">
+                {"response":{"status":200,"data":{"passengers":[{"id":1042,"name":"John Doe","seat":"14A"... <span style="color:rgba(255,255,255,0.15)">+47 more lines</span>
+            </div>
+
+            <div id="shrink-clean">
+                ✅ flight_id: "AA-102"<br>
+                ✅ status: "delayed"<br>
+                ✅ gate: "B7"
+            </div>
+
+            <div id="saves-badge">💰 SAVES API COSTS</div>
+        </div>
+
+        <!-- ======== OUTRO ======== -->
+        <div id="outro-container">
+            <div id="outro-ladder">
+                <div class="outro-rung l3"><div class="or-icon">🌐</div><div class="or-label">L3 — TEAM</div></div>
+                <div class="outro-rung l2"><div class="or-icon">🧩</div><div class="or-label">L2 — STRATEGIC</div></div>
+                <div class="outro-rung l1"><div class="or-icon">🔧</div><div class="or-label">L1 — CONNECTED</div></div>
+                <div class="outro-rung l0"><div class="or-icon">🤖</div><div class="or-label">L0 — RAW LLM</div></div>
+            </div>
+            <div id="next-text">NEXT: <span>The Future of AI Agents</span></div>
+            <div id="subscribe-cta">
+                <div class="subscribe-btn">SUBSCRIBE</div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Captions Data -->
+    <script src="agent_scene_02_captions.js"></script>
+
+    <script>
+        // =====================================================================
+        // MASTER TIMELINE
+        // =====================================================================
+        const tl = gsap.timeline({ paused: true });
+        window.tl = tl;
+        const time = (sec) => sec;
+
+        // =====================================================================
+        // CANVAS STATE
+        // =====================================================================
+        const S = {
+            ambientOpacity: 0.0,
+            particleBurst: 0.0,
+            time: 0
+        };
+
+        // =====================================================================
+        // CAPTIONS SYNC
+        // =====================================================================
+        const sentences = window.agent_scene_02_captions;
+        const captionContainer = document.getElementById("caption-container");
+
+        const highlightWords = [
+            "levels", "four", "ai", "agents", "level", "0", "1", "2", "3",
+            "llm", "tools", "memory", "connected", "strategic", "context",
+            "engineering", "team", "filter", "api", "costs", "future",
+            "overloaded", "plan", "manager", "researcher", "designer"
+        ];
+
+        sentences.forEach((sentence) => {
+            const sDiv = document.createElement("div");
+            sDiv.className = "sentence-block";
+            gsap.set(sDiv, { display: "none", opacity: 0 });
+
+            sentence.words.forEach((w) => {
+                const wSpan = document.createElement("span");
+                wSpan.className = "cap-word";
+                wSpan.innerText = w.text;
+                sDiv.appendChild(wSpan);
+
+                const cleanWord = w.text.toLowerCase().replace(/[.,\/#!$%\^&\*;:{}=\-_`~()?%]/g, "");
+                let activeClass = "active";
+                if (highlightWords.includes(cleanWord)) {
+                    activeClass = "active-highlight";
+                }
+                if (cleanWord === "riya" || cleanWord === "riya!") {
+                    activeClass = "active-riya";
+                }
+
+                tl.to(wSpan, {
+                    onStart: () => { wSpan.classList.add(activeClass); wSpan.classList.remove("past"); },
+                    onReverseComplete: () => { wSpan.classList.remove(activeClass); wSpan.classList.remove("past"); },
+                    duration: 0.05
+                }, time(w.start));
+
+                tl.to(wSpan, {
+                    onStart: () => { wSpan.classList.remove(activeClass); wSpan.classList.add("past"); },
+                    onReverseComplete: () => { wSpan.classList.add(activeClass); wSpan.classList.remove("past"); },
+                    duration: 0.05
+                }, time(w.end));
+            });
+
+            captionContainer.appendChild(sDiv);
+            tl.set(sDiv, { display: "flex" }, time(sentence.start));
+            tl.to(sDiv, { opacity: 1, duration: 0.12 }, time(sentence.start));
+            tl.to(sDiv, { opacity: 0, duration: 0.12 }, time(sentence.end));
+            tl.set(sDiv, { display: "none" }, time(sentence.end + 0.12));
+        });
+
+        // =====================================================================
+        // ACT 1: HOOK — The Ladder (0.5s → 8.5s)
+        // =====================================================================
+
+        tl.to(S, { ambientOpacity: 1.0, duration: 1.0 }, time(0.3));
+        tl.to("#ladder-container", { opacity: 1, duration: 0.5 }, time(0.3));
+
+        // Title fades in
+        tl.to("#hook-title", { opacity: 1, duration: 0.6, ease: "power2.out" }, time(0.5));
+
+        // Rungs cascade from bottom
+        tl.to("#rung-l0", { opacity: 1, scale: 1, duration: 0.5, ease: "back.out(1.4)" }, time(1.0));
+        tl.to("#rung-l1", { opacity: 1, scale: 1, duration: 0.5, ease: "back.out(1.4)" }, time(1.5));
+        tl.to("#rung-l2", { opacity: 1, scale: 1, duration: 0.5, ease: "back.out(1.4)" }, time(2.0));
+        tl.to("#rung-l3", { opacity: 1, scale: 1, duration: 0.5, ease: "back.out(1.4)" }, time(2.5));
+
+        // On "four levels" — all rungs flash
+        tl.to(".ladder-rung", {
+            boxShadow: "0 0 40px rgba(0, 240, 255, 0.3)",
+            duration: 0.3, yoyo: true, repeat: 2
+        }, time(6.175));
+
+        // Fade ladder out
+        tl.to("#ladder-container", { opacity: 0, duration: 0.6 }, time(8.0));
+
+        // =====================================================================
+        // ACT 2: LEVEL 0 — Brain in a Bubble (8.8s → 20.9s)
+        // =====================================================================
+
+        tl.to("#level0-container", { opacity: 1, duration: 0.3 }, time(8.5));
+        tl.to("#level0-badge", { opacity: 1, duration: 0.5, ease: "back.out(1.3)" }, time(8.8));
+        tl.to("#brain-bubble", { opacity: 1, duration: 0.6, ease: "power2.out" }, time(9.0));
+
+        // "cannot use tools" → NO TOOLS badge
+        tl.to("#no-tools", { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(1.5)" }, time(12.0));
+        // "no memory" → NO MEMORY badge
+        tl.to("#no-memory", { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(1.5)" }, time(13.7));
+        // "current events" → NO CURRENT EVENTS badge
+        tl.to("#no-events", { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(1.5)" }, time(15.8));
+
+        // "training" label
+        tl.to("#training-label", { opacity: 1, duration: 0.4 }, time(18.5));
+
+        // Shake on "training"
+        tl.to(".scene-container", { x: () => gsap.utils.random(-4, 4), duration: 0.05, repeat: 6, yoyo: true }, time(20.5));
+
+        // Fade Level 0
+        tl.to("#level0-container", { opacity: 0, duration: 0.5 }, time(21.0));
+
+        // =====================================================================
+        // ACT 3: LEVEL 1 — Connected Solver (21.8s → 36.1s)
+        // =====================================================================
+
+        tl.to("#level1-container", { opacity: 1, duration: 0.3 }, time(21.5));
+        tl.to("#level1-badge", { opacity: 1, duration: 0.5, ease: "back.out(1.3)" }, time(21.8));
+        tl.to("#brain-connected", { opacity: 1, duration: 0.5, ease: "power2.out" }, time(22.0));
+
+        // "connect the LLM to tools" — wires appear
+        tl.to("#connection-wires", { opacity: 1, duration: 0.5 }, time(25.3));
+
+        // Tool cards cascade
+        tl.to("#tool-search", { opacity: 1, scale: 1, duration: 0.5, ease: "back.out(1.5)" }, time(27.5));
+        tl.to("#tool-db", { opacity: 1, scale: 1, duration: 0.5, ease: "back.out(1.5)" }, time(28.3));
+        tl.to("#tool-api", { opacity: 1, scale: 1, duration: 0.5, ease: "back.out(1.5)" }, time(29.8));
+
+        // Data pulse on wires
+        tl.to("#connection-wires line", {
+            attr: { stroke: "rgba(0,240,255,0.8)" },
+            duration: 0.3, yoyo: true, repeat: 3
+        }, time(31.5));
+
+        // "live information" — stock ticker
+        tl.to("#live-ticker", { opacity: 1, scale: 1, duration: 0.5, ease: "back.out(1.7)" }, time(33.3));
+
+        // Fade Level 1
+        tl.to("#level1-container", { opacity: 0, duration: 0.5 }, time(36.0));
+
+        // =====================================================================
+        // ACT 4: LEVEL 2 — Strategic Solver (36.7s → 57.1s)
+        // =====================================================================
+
+        tl.to("#level2-container", { opacity: 1, duration: 0.3 }, time(36.5));
+        tl.to("#level2-badge", { opacity: 1, duration: 0.5, ease: "back.out(1.3)" }, time(36.7));
+
+        // "plan steps ahead" — Step cards cascade
+        tl.to("#step-1", { opacity: 1, scale: 1, duration: 0.5, ease: "back.out(1.5)" }, time(40.0));
+        tl.to("#step-arrow-1", { opacity: 1, duration: 0.3 }, time(40.6));
+        tl.to("#step-2", { opacity: 1, scale: 1, duration: 0.5, ease: "back.out(1.5)" }, time(41.0));
+        tl.to("#step-arrow-2", { opacity: 1, duration: 0.3 }, time(41.5));
+        tl.to("#step-3", { opacity: 1, scale: 1, duration: 0.5, ease: "back.out(1.5)" }, time(42.0));
+
+        // "context engineering" — label appears
+        tl.to("#step-1, #step-2, #step-3, #step-arrow-1, #step-arrow-2", { opacity: 0, duration: 0.4 }, time(44.5));
+        tl.to("#context-eng-label", { opacity: 1, scale: 1, duration: 0.6, ease: "back.out(1.3)" }, time(44.8));
+
+        // Screen shake on "context engineering"
+        tl.to(".scene-container", { x: () => gsap.utils.random(-5, 5), y: () => gsap.utils.random(-5, 5), duration: 0.05, repeat: 8, yoyo: true }, time(45.0));
+
+        // "clean up the information" — show raw text block
+        tl.to("#context-eng-label", { opacity: 0, duration: 0.3 }, time(46.2));
+        tl.to("#raw-text-block", { opacity: 1, duration: 0.5 }, time(46.5));
+
+        // Funnel appears on "give the AI only"
+        tl.to("#filter-funnel", { opacity: 1, scale: 1, duration: 0.5, ease: "back.out(1.5)" }, time(49.5));
+
+        // Raw text shrinks into funnel
+        tl.to("#raw-text-block", { scaleY: 0.1, opacity: 0, duration: 1.5, ease: "power2.in" }, time(51.0));
+
+        // Clean output appears — "most important details"
+        tl.to("#clean-output", { opacity: 1, scale: 1, duration: 0.6, ease: "back.out(1.5)" }, time(52.5));
+
+        // "memory does not get overloaded" — pulse clean output
+        tl.to("#clean-output", {
+            boxShadow: "0 0 50px rgba(255, 215, 0, 0.4)",
+            duration: 0.4, yoyo: true, repeat: 2
+        }, time(55.0));
+
+        // Fade Level 2
+        tl.to("#level2-container", { opacity: 0, duration: 0.5 }, time(57.5));
+
+        // =====================================================================
+        // ACT 5: LEVEL 3 — Team of Agents (58.1s → 73.5s)
+        // =====================================================================
+
+        tl.to("#level3-container", { opacity: 1, duration: 0.3 }, time(57.8));
+        tl.to("#level3-badge", { opacity: 1, duration: 0.5, ease: "back.out(1.3)" }, time(58.1));
+
+        // Manager node
+        tl.to("#manager-node", { opacity: 1, scale: 1, duration: 0.5, ease: "back.out(1.5)" }, time(58.5));
+
+        // "different agents have different jobs" — team cards cascade
+        tl.to("#team-connections", { opacity: 1, duration: 0.5 }, time(62.5));
+        tl.to("#team-research", { opacity: 1, scale: 1, duration: 0.5, ease: "back.out(1.5)" }, time(63.0));
+        tl.to("#team-design", { opacity: 1, scale: 1, duration: 0.5, ease: "back.out(1.5)" }, time(63.5));
+        tl.to("#team-marketing", { opacity: 1, scale: 1, duration: 0.5, ease: "back.out(1.5)" }, time(64.0));
+
+        // "researcher, designer, manager" — highlight each
+        tl.to("#team-research", {
+            boxShadow: "0 0 40px rgba(0, 240, 255, 0.4)",
+            duration: 0.3, yoyo: true, repeat: 1
+        }, time(65.9));
+        tl.to("#team-design", {
+            boxShadow: "0 0 40px rgba(123, 44, 191, 0.4)",
+            duration: 0.3, yoyo: true, repeat: 1
+        }, time(66.9));
+        tl.to("#manager-node", {
+            boxShadow: "0 0 40px rgba(255, 215, 0, 0.4)",
+            duration: 0.3, yoyo: true, repeat: 1
+        }, time(68.3));
+
+        // "work together" — all pulse green
+        tl.to(".team-card, #manager-node", {
+            borderColor: "rgba(0, 255, 136, 0.5)",
+            boxShadow: "0 10px 30px rgba(0, 255, 136, 0.15)",
+            duration: 0.5
+        }, time(69.7));
+
+        // "big project" — project card appears
+        tl.to("#project-card", { opacity: 1, scale: 1, duration: 0.5, ease: "back.out(1.5)" }, time(71.3));
+        tl.to("#chk-research", { opacity: 1, duration: 0.3, onStart: () => document.getElementById("chk-research").classList.add("done") }, time(71.8));
+        tl.to("#chk-design", { opacity: 1, duration: 0.3, onStart: () => document.getElementById("chk-design").classList.add("done") }, time(72.3));
+        tl.to("#chk-launch", { opacity: 1, duration: 0.3, onStart: () => document.getElementById("chk-launch").classList.add("done") }, time(72.8));
+
+        // "not easy" — shake
+        tl.to(".scene-container", { x: () => gsap.utils.random(-5, 5), duration: 0.05, repeat: 8, yoyo: true }, time(77.5));
+
+        // =====================================================================
+        // ACT 6: RIYA OVERLAY (~74.0s → 78.5s)
+        // =====================================================================
+
+        // Dim background
+        tl.to("#visual-dimmer", { opacity: 1.0, duration: 0.5 }, time(74.0));
+
+        // Riya card slides in
+        tl.to("#riya-card", { opacity: 1, scale: 1.0, duration: 0.5, ease: "back.out(1.5)" }, time(74.2));
+        tl.to("#caption-container", { y: 150, duration: 0.5, ease: "power2.out" }, time(74.2));
+
+        // Riya card fades on "Great question, Riya"
+        tl.to("#riya-card", { opacity: 0, scale: 0.8, duration: 0.5, ease: "power2.in" }, time(78.27));
+        tl.to("#visual-dimmer", { opacity: 0, duration: 0.5 }, time(78.27));
+        tl.to("#caption-container", { y: 0, duration: 0.5, ease: "power2.inOut" }, time(78.27));
+
+        // Fade Level 3
+        tl.to("#level3-container", { opacity: 0, duration: 0.5 }, time(78.27));
+
+        // =====================================================================
+        // ACT 7: ANSWER + OUTRO (78.3s → 104.9s)
+        // =====================================================================
+
+        tl.to("#answer-container", { opacity: 1, duration: 0.3 }, time(79.5));
+
+        // Code editor appears — "write code to filter"
+        tl.to("#code-editor", { opacity: 1, scale: 1, duration: 0.6, ease: "back.out(1.3)" }, time(80.0));
+
+        // Raw text block appears — "whole raw text"
+        tl.to("#shrink-raw", { opacity: 1, duration: 0.5 }, time(82.5));
+
+        // Raw shrinks, clean appears — "extract only the key details"
+        tl.to("#shrink-raw", { maxHeight: 40, opacity: 0, duration: 1.5, ease: "power2.in" }, time(86.0));
+        tl.to("#shrink-clean", { opacity: 1, scale: 1, duration: 0.5, ease: "back.out(1.5)" }, time(87.5));
+
+        // "saves API costs" badge
+        tl.to("#saves-badge", { opacity: 1, scale: 1, duration: 0.5, ease: "back.out(1.7)" }, time(95.0));
+
+        // Shake on "API costs"
+        tl.to(".scene-container", { x: () => gsap.utils.random(-4, 4), duration: 0.05, repeat: 6, yoyo: true }, time(96.6));
+
+        // Fade answer
+        tl.to("#answer-container", { opacity: 0, duration: 0.5 }, time(97.5));
+
+        // =====================================================================
+        // OUTRO — Ladder + Subscribe (98.2s → 104.9s)
+        // =====================================================================
+
+        tl.to("#outro-container", { opacity: 1, duration: 0.3 }, time(98.0));
+        tl.to("#outro-ladder", { opacity: 1, duration: 0.3 }, time(98.2));
+
+        // Rungs glow in sequence
+        tl.to(".outro-rung.l0", { opacity: 1, duration: 0.3 }, time(98.5));
+        tl.to(".outro-rung.l1", { opacity: 1, duration: 0.3 }, time(99.0));
+        tl.to(".outro-rung.l2", { opacity: 1, duration: 0.3 }, time(99.5));
+        tl.to(".outro-rung.l3", { opacity: 1, duration: 0.3 }, time(100.0));
+
+        // "future of AI agents" — next text
+        tl.to("#next-text", { opacity: 1, duration: 0.5, ease: "power2.out" }, time(100.9));
+
+        // Subscribe CTA
+        tl.to("#subscribe-cta", { opacity: 1, scale: 1, duration: 0.8, ease: "back.out(1.3)" }, time(101.5));
+
+        // Final flash on all outro rungs
+        tl.to(".outro-rung", {
+            boxShadow: "0 0 40px rgba(0, 240, 255, 0.3)",
+            duration: 0.3, yoyo: true, repeat: 1
+        }, time(103.5));
+
+        // =====================================================================
+        // CANVAS 2D — Ambient Particles
+        // =====================================================================
+        const canvas = document.getElementById("canvas-bg");
+        const ctx = canvas.getContext("2d");
+        const W = 1080, H = 1920;
+
+        const ambientParticles = [];
+        for (let i = 0; i < 100; i++) {
+            ambientParticles.push({
+                x: Math.random() * W,
+                y: Math.random() * H,
+                vx: (Math.random() - 0.5) * 0.4,
+                vy: -0.3 - Math.random() * 0.5,
+                size: 1 + Math.random() * 2.5,
+                alpha: 0.1 + Math.random() * 0.3,
+                hue: Math.random() > 0.5 ? 186 : 320,
+                pulse: Math.random() * Math.PI * 2
+            });
+        }
+
+        let frameCount = 0;
+
+        function drawFrame() {
+            ctx.clearRect(0, 0, W, H);
+            frameCount++;
+            S.time = frameCount / 60;
+
+            if (S.ambientOpacity > 0.01) {
+                drawAmbientParticles();
+            }
+
+            requestAnimationFrame(drawFrame);
+        }
+
+        function drawAmbientParticles() {
+            ctx.save();
+            ctx.globalAlpha = S.ambientOpacity;
+
+            for (const p of ambientParticles) {
+                p.x += p.vx;
+                p.y += p.vy;
+                p.pulse += 0.02;
+
+                if (p.y < -10) { p.y = H + 10; p.x = Math.random() * W; }
+                if (p.x < -10) p.x = W + 10;
+                if (p.x > W + 10) p.x = -10;
+
+                const pulseAlpha = p.alpha * (0.5 + 0.5 * Math.sin(p.pulse));
+                const color = p.hue === 186 ? "#00F0FF" : "#FF2D6A";
+
+                ctx.save();
+                ctx.globalAlpha *= pulseAlpha;
+                ctx.shadowBlur = 10;
+                ctx.shadowColor = color;
+                ctx.fillStyle = color;
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.restore();
+            }
+            ctx.restore();
+        }
+
+        // Kick off animation loop
+        drawFrame();
+
+    </script>
+</body>
+</html>

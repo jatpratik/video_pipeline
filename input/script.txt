@@ -1,11 +1,15 @@
-Stop building simple wrapper apps. The way we build AI is changing completely. In just two years, we went from simple chat prompts to smart systems that can work together.
+Did you know that A-I agents have different levels of capability? Let's break down the four levels of A-I agents.
 
-At first, we just wrote simple prompts. Then, we used RAG to give the model real files and documents to read. After that, we made single agents that could use tools. Today, we are in the era of Agentic AI—where a team of specialized agents work together to solve big, complex goals.
+Level zero is just the L-L-M itself. It cannot use tools, it has no memory, and it does not know about current events. It only answers using what it learned during its training.
 
-And companies are adopting this very fast. Studies show that ninety-six percent of large I-T companies are starting to use agents. In fact, AI agent startups have already raised over two billion dollars, and the market is expected to reach nearly two hundred billion dollars by twenty thirty-four.
+Level one is the Connected Solver. Here, we connect the L-L-M to tools like Google search, databases, and A-P-Is. Now, the L-L-M can find live information, like today's stock prices.
 
-We are moving from a single model to a team of agents. But working in a team has its own challenges.
+Level two is the Strategic Solver. This agent can plan steps ahead. It also uses something called context engineering. This means we clean up the information and give the A-I only the most important details at each step, so its memory does not get overloaded.
 
-Good question, Riya. For simple tasks, a team is too much. But for complex workflows, a single prompt gets confused and makes mistakes. Having multiple specialized agents lets us divide the work. This makes it much easier to test, fix, and scale the system.
+Level three is a Team of Agents. Just like a real company, different agents have different jobs—like a researcher, a designer, and a manager. They work together to finish a big project from start to end.
 
-So how complex can these agents actually get? In our next video, we will look at the four levels of AI agents.
+But building these levels in real life is not easy.
+
+Great question, Riya! Instead of giving the A-I the whole raw text, we write code to filter it. We extract only the key details, like a flight number or an error message, and ignore the rest. This keeps the A-I focused and saves a lot of A-P-I costs.
+
+So where is all this going? In our next video, we will talk about the future of A-I agents.
