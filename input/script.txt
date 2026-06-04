@@ -1,15 +1,15 @@
-Did you know that A-I agents have different levels of capability? Let's break down the four levels of A-I agents.
+Here are five predictions for what is next.
 
-Level zero is just the L-L-M itself. It cannot use tools, it has no memory, and it does not know about current events. It only answers using what it learned during its training.
+Prediction one: Generalist Agents. Instead of doing only one small task, these agents will manage big projects over weeks—like planning a company trip. Or, we will connect many small, cheap models like Lego blocks to do the same job.
 
-Level one is the Connected Solver. Here, we connect the L-L-M to tools like Google search, databases, and A-P-Is. Now, the L-L-M can find live information, like today's stock prices.
+Prediction two: Proactive Partners. These agents will learn your habits and goals. They won't wait for your command; they will suggest ideas and start tasks on their own.
 
-Level two is the Strategic Solver. This agent can plan steps ahead. It also uses something called context engineering. This means we clean up the information and give the A-I only the most important details at each step, so its memory does not get overloaded.
+Prediction three: Robotic Agents. A-I agents will leave computers and enter the physical world. By connecting A-I with robots, a home agent can use cameras to see a leaky tap and fix it.
 
-Level three is a Team of Agents. Just like a real company, different agents have different jobs—like a researcher, a designer, and a manager. They work together to finish a big project from start to end.
+Prediction four: The Agent Economy. Agents will buy and sell things on their own. For example, an agent can run an online shop, find trending products, change prices, and talk to supplier systems without human help.
 
-But building these levels in real life is not easy.
+And prediction five: Self-Changing Systems. You just tell the system your goal, like start a coffee business. The A-I will decide how many agents it needs, write its own code, and even change its own structure as it works. It is a machine that improves itself. But this brings a big safety risk.
 
-Great question, Riya! Instead of giving the A-I the whole raw text, we write code to filter it. We extract only the key details, like a flight number or an error message, and ignore the rest. This keeps the A-I focused and saves a lot of A-P-I costs.
+That is a major challenge, Maya. In practice, we must set hard limits. We run the self-modifying code in a secure sandbox, use automatic testing, and build guardrails that the A-I cannot touch or rewrite. If the code breaks any safety rules, the system shuts it down immediately.
 
-So where is all this going? In our next video, we will talk about the future of A-I agents.
+In our next video, we will start learning the actual design patterns: Chapter 1: Prompt Chaining. Subscribe to build the future of A-I with me!
