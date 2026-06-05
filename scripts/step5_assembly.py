@@ -174,6 +174,7 @@ def assemble_video(
                     "global_insert_visual_time": scene_start_visual + ov["insert_time"],
                     "duration": ov["duration"],
                     "padding_start": ov.get("padding_start", 0.0),
+                    "padding_end": ov.get("padding_end", 0.0),
                     "position": ov["position"],
                     "crop": ov.get("crop"),
                     "fade_in": ov.get("fade_in", 0.5),
@@ -188,7 +189,7 @@ def assemble_video(
     cumulative_shift = 0.0
     for ov in overlays_meta:
         ov["global_insert_narrator_time"] = ov["global_insert_visual_time"] - cumulative_shift
-        ov["shift"] = ov["duration"] + ov["padding_start"]
+        ov["shift"] = ov["duration"] + ov["padding_start"] + ov["padding_end"]
         cumulative_shift += ov["shift"]
 
     # ------------------------------------------------------------------
@@ -371,7 +372,7 @@ def assemble_video(
             enable_conds = [f"gt(t,{delay_pts})"]
             for ov in overlays_meta:
                 ov_start = ov["global_insert_visual_time"]
-                ov_end = ov_start + ov["duration"] + ov["padding_start"]
+                ov_end = ov_start + ov["shift"]
                 enable_conds.append(f"not(between(t,{ov_start},{ov_end}))")
             enable_cond = "*".join(enable_conds)
 
@@ -385,6 +386,7 @@ def assemble_video(
     for idx, ov in enumerate(overlays_meta):
         ov_idx = first_overlay_index + idx
         padding_start = ov["padding_start"]
+        padding_end = ov["padding_end"]
         duration = ov["duration"]
         fade_in = ov["fade_in"]
         fade_out = ov["fade_out"]
@@ -395,17 +397,33 @@ def assemble_video(
 
         crop_filter = f"crop={crop_param}," if crop_param else ""
 
+        tpad_filter = f"tpad=start_duration={padding_start}:start_mode=clone"
+        if padding_end > 0.0:
+            tpad_filter += f":stop_duration={padding_end}:stop_mode=clone"
+            fade_out_start = max(0.0, duration - fade_out)
+            video_filters = (
+                f"{crop_filter}scale={w}:{h},"
+                f"fade=t=in:st=0:d={fade_in},"
+                f"fade=t=out:st={fade_out_start}:d={fade_out},"
+                f"{tpad_filter}"
+            )
+        else:
+            video_filters = (
+                f"{tpad_filter},"
+                f"{crop_filter}scale={w}:{h},"
+                f"fade=t=in:st=0:d={fade_in},"
+                f"fade=t=out:st={duration}:d={fade_out}"
+            )
+
         filter_parts.append(
-            f"[{ov_idx}:v]tpad=start_duration={padding_start}:start_mode=clone,"
-            f"{crop_filter}scale={w}:{h},fade=t=in:st=0:d={fade_in},"
-            f"fade=t=out:st={duration}:d={fade_out},setpts=PTS-STARTPTS+{global_insert_visual}/TB[ov_{idx}_v]"
+            f"[{ov_idx}:v]{video_filters},setpts=PTS-STARTPTS+{global_insert_visual}/TB[ov_{idx}_v]"
         )
 
     # Chain overlay videos onto background
     if M > 0:
         for idx, ov in enumerate(overlays_meta):
             ov_start = ov["global_insert_visual_time"]
-            ov_end = ov_start + ov["duration"] + ov["padding_start"]
+            ov_end = ov_start + ov["shift"]
             x = ov["position"]["x"]
             y = ov["position"]["y"]
             enable_cond = f"between(t,{ov_start},{ov_end})"
@@ -434,11 +452,18 @@ def assemble_video(
         ov_idx = first_overlay_index + idx
         duration = ov["duration"]
         padding_start = ov["padding_start"]
+        padding_end = ov["padding_end"]
         delay_ms = int(padding_start * 1000)
         delay_filter = f",adelay={delay_ms}|{delay_ms}" if delay_ms > 0 else ""
 
+        if padding_end > 0.0:
+            duration_with_pad_end = duration + padding_end
+            audio_trim_pad = f"atrim=end={duration},apad,atrim=end={duration_with_pad_end}"
+        else:
+            audio_trim_pad = f"atrim=end={duration}"
+
         filter_parts.append(
-            f"[{ov_idx}:a]atrim=end={duration},asetpts=PTS-STARTPTS{delay_filter},"
+            f"[{ov_idx}:a]{audio_trim_pad},asetpts=PTS-STARTPTS{delay_filter},"
             f"aformat=sample_rates=44100:channel_layouts=stereo[ov_{idx}_a]"
         )
 

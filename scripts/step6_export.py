@@ -87,7 +87,7 @@ def validate_export(
     if scenes is not None:
         for scene in scenes:
             for ov in scene.get("overlays", []):
-                overlay_shift += ov["duration"] + ov.get("padding_start", 0.0)
+                overlay_shift += ov["duration"] + ov.get("padding_start", 0.0) + ov.get("padding_end", 0.0)
     else:
         # Fallback to the old hardcoded logic if scenes is not passed
         student_video_path = audio_path.parent / "student_speaking.mp4"

@@ -1291,7 +1291,16 @@
         // =====================================================================
         const tl = gsap.timeline({ paused: true });
         window.tl = tl;
-        const time = (sec) => sec;
+        const time = (sec) => {
+            let shifted = sec;
+            if (sec >= 0.0) {
+                shifted += 9.5;
+            }
+            if (sec >= 91.615) {
+                shifted += 10.0;
+            }
+            return shifted;
+        };
 
         // =====================================================================
         // CANVAS STATE
