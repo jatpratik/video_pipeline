@@ -245,16 +245,17 @@ def assemble_video(
         logger.info(f"Presenter face video: {face_video_path.name}, rotation={rot_angle}, resolution={w}x{h}")
 
         face_filters = []
-        actual_angle = rot_angle % 360
-        if actual_angle == 90:
-            face_filters.append("transpose=2")
-        elif actual_angle == 180:
-            face_filters.append("transpose=2,transpose=2")
-        elif actual_angle == 270:
-            face_filters.append("transpose=1")
-        elif w > h:
-            logger.info("Landscape presenter video without rotation tag. Auto-transposing 90 degrees clockwise.")
-            face_filters.append("transpose=1")
+        if getattr(config, "MANUAL_ROTATE_FACE_VIDEO", False):
+            actual_angle = rot_angle % 360
+            if actual_angle == 90:
+                face_filters.append("transpose=2")
+            elif actual_angle == 180:
+                face_filters.append("transpose=2,transpose=2")
+            elif actual_angle == 270:
+                face_filters.append("transpose=1")
+            elif w > h:
+                logger.info("Landscape presenter video without rotation tag. Auto-transposing 90 degrees clockwise.")
+                face_filters.append("transpose=1")
 
         # Build presenter video enhancement and full-screen scaling filters
         face_filters.extend([
@@ -313,16 +314,17 @@ def assemble_video(
             logger.info(f"Face video: {face_video_path.name}, rotation={rot_angle}, resolution={w}x{h}")
 
             face_filters = []
-            actual_angle = rot_angle % 360
-            if actual_angle == 90:
-                face_filters.append("transpose=2")
-            elif actual_angle == 180:
-                face_filters.append("transpose=2,transpose=2")
-            elif actual_angle == 270:
-                face_filters.append("transpose=1")
-            elif w > h:
-                logger.info("Landscape face video without rotation tag. Auto-transposing 90 degrees clockwise.")
-                face_filters.append("transpose=1")
+            if getattr(config, "MANUAL_ROTATE_FACE_VIDEO", False):
+                actual_angle = rot_angle % 360
+                if actual_angle == 90:
+                    face_filters.append("transpose=2")
+                elif actual_angle == 180:
+                    face_filters.append("transpose=2,transpose=2")
+                elif actual_angle == 270:
+                    face_filters.append("transpose=1")
+                elif w > h:
+                    logger.info("Landscape face video without rotation tag. Auto-transposing 90 degrees clockwise.")
+                    face_filters.append("transpose=1")
 
             # Build rounded-square face video filters
             face_filters.extend([
@@ -378,7 +380,7 @@ def assemble_video(
 
             next_bg = "bg_face_final" if M > 0 else "v"
             filter_parts.append(
-                f"[{bg_label}][face_clean]overlay=x=60:y=1220:enable='{enable_cond}':eof_action=pass[{next_bg}]"
+                f"[{bg_label}][face_clean]overlay=x=60:y=1320:enable='{enable_cond}':eof_action=pass[{next_bg}]"
             )
             bg_label = next_bg
 

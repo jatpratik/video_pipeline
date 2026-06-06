@@ -127,8 +127,9 @@ FFMPEG_AUDIO_BITRATE: str = "192k"
 FULL_SCREEN_PRESENTER: bool = False   # Enable presenter full-screen background with keyed visuals
 
 FACE_VIDEO_DELAY_S: float = 0.0      # Delay in seconds before face video starts overlaying
-FACE_VIDEO_TRIM_START_S: float = 29.0  # Skip first N seconds of the face video source
+FACE_VIDEO_TRIM_START_S: float = 1.0  # Skip first N seconds of the face video source
 FACE_HDR_TONEMAP: bool = False       # Disable/Enable HDR to SDR tonemapping for face video
+MANUAL_ROTATE_FACE_VIDEO: bool = False # Whether to manually apply transpose rotation filters (FFmpeg usually auto-rotates metadata streams)
 
 # Face Beauty / Enhancement Settings
 FACE_BEAUTY_SMOOTH_SKIN: bool = True         # Enable edge-preserving skin smoothing (smartblur)
