@@ -1,0 +1,180 @@
+{
+  "segments": [
+    {
+      "text": "Wait, if a system can write its own code and change its own structure, how do we keep it under control?",
+      "start": 0.372,
+      "end": 5.817,
+      "words": [
+        {
+          "word": "Wait,",
+          "start": 0.372,
+          "end": 0.612,
+          "score": 0.699
+        },
+        {
+          "word": "if",
+          "start": 0.993,
+          "end": 1.093,
+          "score": 0.676
+        },
+        {
+          "word": "a",
+          "start": 1.133,
+          "end": 1.153,
+          "score": 0.999
+        },
+        {
+          "word": "system",
+          "start": 1.233,
+          "end": 1.573,
+          "score": 0.814
+        },
+        {
+          "word": "can",
+          "start": 1.613,
+          "end": 1.753,
+          "score": 0.895
+        },
+        {
+          "word": "write",
+          "start": 1.793,
+          "end": 1.973,
+          "score": 0.801
+        },
+        {
+          "word": "its",
+          "start": 2.014,
+          "end": 2.114,
+          "score": 0.667
+        },
+        {
+          "word": "own",
+          "start": 2.194,
+          "end": 2.294,
+          "score": 0.956
+        },
+        {
+          "word": "code",
+          "start": 2.374,
+          "end": 2.694,
+          "score": 0.641
+        },
+        {
+          "word": "and",
+          "start": 2.774,
+          "end": 2.854,
+          "score": 0.856
+        },
+        {
+          "word": "change",
+          "start": 2.894,
+          "end": 3.135,
+          "score": 0.679
+        },
+        {
+          "word": "its",
+          "start": 3.175,
+          "end": 3.255,
+          "score": 0.937
+        },
+        {
+          "word": "own",
+          "start": 3.315,
+          "end": 3.435,
+          "score": 0.699
+        },
+        {
+          "word": "structure,",
+          "start": 3.495,
+          "end": 3.955,
+          "score": 0.785
+        },
+        {
+          "word": "how",
+          "start": 4.556,
+          "end": 4.656,
+          "score": 0.837
+        },
+        {
+          "word": "do",
+          "start": 4.676,
+          "end": 4.756,
+          "score": 0.998
+        },
+        {
+          "word": "we",
+          "start": 4.796,
+          "end": 4.856,
+          "score": 0.998
+        },
+        {
+          "word": "keep",
+          "start": 4.896,
+          "end": 5.056,
+          "score": 0.75
+        },
+        {
+          "word": "it",
+          "start": 5.096,
+          "end": 5.136,
+          "score": 0.999
+        },
+        {
+          "word": "under",
+          "start": 5.176,
+          "end": 5.337,
+          "score": 0.799
+        },
+        {
+          "word": "control?",
+          "start": 5.377,
+          "end": 5.817,
+          "score": 0.727
+        }
+      ]
+    },
+    {
+      "text": "What if it does something dangerous?",
+      "start": 6.237,
+      "end": 7.519,
+      "words": [
+        {
+          "word": "What",
+          "start": 6.237,
+          "end": 6.358,
+          "score": 0.833
+        },
+        {
+          "word": "if",
+          "start": 6.378,
+          "end": 6.458,
+          "score": 0.506
+        },
+        {
+          "word": "it",
+          "start": 6.498,
+          "end": 6.538,
+          "score": 1.0
+        },
+        {
+          "word": "does",
+          "start": 6.578,
+          "end": 6.718,
+          "score": 0.728
+        },
+        {
+          "word": "something",
+          "start": 6.738,
+          "end": 6.998,
+          "score": 0.98
+        },
+        {
+          "word": "dangerous?",
+          "start": 7.038,
+          "end": 7.519,
+          "score": 0.761
+        }
+      ]
+    }
+  ]
+}

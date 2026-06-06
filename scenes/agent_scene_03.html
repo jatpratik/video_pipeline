@@ -1077,6 +1077,17 @@
         <div id="caption-container"></div>
         <div id="face-frame"></div>
 
+        <!-- Student Card Overlay (FFmpeg video target) -->
+        <div id="student-card"
+            style="position: absolute; left: 136px; top: 104px; width: 808px; height: 1212px; opacity: 0; transform: scale(0.8); z-index: 150; pointer-events: none;">
+            <div
+                style="font-family: 'Fira Code', monospace; color: var(--neon-cyan); font-size: 20px; text-transform: uppercase; letter-spacing: 2px; height: 24px; margin-bottom: 12px; text-align: center;">
+                QUESTION</div>
+            <div
+                style="width: 800px; height: 1160px; border: 4px solid var(--neon-cyan); box-shadow: 0 0 50px rgba(0, 240, 255, 0.3); background: rgba(10, 10, 15, 0.6); backdrop-filter: blur(10px);">
+            </div>
+        </div>
+
         <!-- ======== ACT 1: HOOK — "5 PREDICTIONS" ======== -->
         <div id="hook-container">
             <div id="hook-title">5 predictions for the future</div>
@@ -1296,7 +1307,7 @@
             if (sec >= 0.0) {
                 shifted += 9.5;
             }
-            if (sec >= 91.615) {
+            if (sec > 91.615) {
                 shifted += 10.0;
             }
             return shifted;
@@ -1356,20 +1367,20 @@
                     onStart: () => { wSpan.classList.add(activeClass); wSpan.classList.remove("past"); },
                     onReverseComplete: () => { wSpan.classList.remove(activeClass); wSpan.classList.remove("past"); },
                     duration: 0.05
-                }, time(w.start));
+                }, w.start);
 
                 tl.to(wSpan, {
                     onStart: () => { wSpan.classList.remove(activeClass); wSpan.classList.add("past"); },
                     onReverseComplete: () => { wSpan.classList.add(activeClass); wSpan.classList.remove("past"); },
                     duration: 0.05
-                }, time(w.end));
+                }, w.end);
             });
 
             captionContainer.appendChild(sDiv);
-            tl.set(sDiv, { display: "flex" }, time(sentence.start));
-            tl.to(sDiv, { opacity: 1, duration: 0.12 }, time(sentence.start));
-            tl.to(sDiv, { opacity: 0, duration: 0.12 }, time(sentence.end));
-            tl.set(sDiv, { display: "none" }, time(sentence.end + 0.12));
+            tl.set(sDiv, { display: "flex" }, sentence.start);
+            tl.to(sDiv, { opacity: 1, duration: 0.12 }, sentence.start);
+            tl.to(sDiv, { opacity: 0, duration: 0.12 }, sentence.end);
+            tl.set(sDiv, { display: "none" }, sentence.end + 0.12);
         });
 
         // =====================================================================
@@ -1594,10 +1605,12 @@
         }, time(90.5));
 
         // Fade prediction 5
-        tl.to("#pred5-container", { opacity: 0, duration: 0.5 }, time(92.0));
+        tl.to("#pred5-container", { opacity: 0, duration: 0.5 }, time(91.615));
+
+        // Student Question Overlay (101.115s - 111.115s visual time)
 
         // =====================================================================
-        // ACT 7: SAFETY — Sandbox + Guardrails (92.0s → 115.0s)
+        // ACT 7: SAFETY — Sandbox + Guardrails (92.0s → 115.0s unshifted)
         // =====================================================================
 
         tl.to("#safety-container", { opacity: 1, duration: 0.3 }, time(92.0));
@@ -1644,7 +1657,7 @@
         tl.to("#safety-container", { opacity: 0, duration: 0.5 }, time(115.0));
 
         // =====================================================================
-        // OUTRO — 5 Predictions Recap + Subscribe (115.0s → 126.0s)
+        // OUTRO — 5 Predictions Recap + Subscribe (115.0s → 126.0s unshifted)
         // =====================================================================
 
         tl.to("#outro-container", { opacity: 1, duration: 0.3 }, time(115.0));
@@ -1748,8 +1761,8 @@
             if (e.key === "4") tl.seek(49.0);
             if (e.key === "5") tl.seek(60.0);
             if (e.key === "6") tl.seek(80.0);
-            if (e.key === "7") tl.seek(100.0);
-            if (e.key === "8") tl.seek(120.0);
+            if (e.key === "7") tl.seek(111.5);
+            if (e.key === "8") tl.seek(134.5);
         });
 
     </script>

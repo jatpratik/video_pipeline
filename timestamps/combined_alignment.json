@@ -1,0 +1,1821 @@
+{
+  "segments": [
+    {
+      "text": "In this video, we will learn how AI agents are changing and why it is important to know where they are going.",
+      "start": 0.452,
+      "end": 7.351,
+      "words": [
+        {
+          "word": "In",
+          "start": 0.452,
+          "end": 0.512
+        },
+        {
+          "word": "this",
+          "start": 0.572,
+          "end": 0.733
+        },
+        {
+          "word": "video,",
+          "start": 0.793,
+          "end": 1.214
+        },
+        {
+          "word": "we",
+          "start": 1.455,
+          "end": 1.555
+        },
+        {
+          "word": "will",
+          "start": 1.575,
+          "end": 1.736
+        },
+        {
+          "word": "learn",
+          "start": 1.776,
+          "end": 2.036
+        },
+        {
+          "word": "how",
+          "start": 2.117,
+          "end": 2.317
+        },
+        {
+          "word": "AI",
+          "start": 2.518,
+          "end": 2.798
+        },
+        {
+          "word": "agents",
+          "start": 2.939,
+          "end": 3.26
+        },
+        {
+          "word": "are",
+          "start": 3.36,
+          "end": 3.48
+        },
+        {
+          "word": "changing",
+          "start": 3.54,
+          "end": 4.022
+        },
+        {
+          "word": "and",
+          "start": 4.643,
+          "end": 4.744
+        },
+        {
+          "word": "why",
+          "start": 4.824,
+          "end": 5.044
+        },
+        {
+          "word": "it",
+          "start": 5.105,
+          "end": 5.165
+        },
+        {
+          "word": "is",
+          "start": 5.225,
+          "end": 5.285
+        },
+        {
+          "word": "important",
+          "start": 5.345,
+          "end": 5.826
+        },
+        {
+          "word": "to",
+          "start": 5.907,
+          "end": 5.987
+        },
+        {
+          "word": "know",
+          "start": 6.047,
+          "end": 6.268
+        },
+        {
+          "word": "where",
+          "start": 6.528,
+          "end": 6.729
+        },
+        {
+          "word": "they",
+          "start": 6.769,
+          "end": 6.889
+        },
+        {
+          "word": "are",
+          "start": 6.929,
+          "end": 7.03
+        },
+        {
+          "word": "going.",
+          "start": 7.05,
+          "end": 7.351
+        }
+      ]
+    },
+    {
+      "text": "Here are 5 predictions for what is next.",
+      "start": 10.195,
+      "end": 12.536,
+      "words": [
+        {
+          "word": "Here",
+          "start": 10.195,
+          "end": 10.395
+        },
+        {
+          "word": "are",
+          "start": 10.475,
+          "end": 10.575
+        },
+        {
+          "word": "5",
+          "start": 10.655,
+          "end": 10.915
+        },
+        {
+          "word": "predictions",
+          "start": 10.975,
+          "end": 11.496
+        },
+        {
+          "word": "for",
+          "start": 11.576,
+          "end": 11.736
+        },
+        {
+          "word": "what",
+          "start": 11.796,
+          "end": 11.976
+        },
+        {
+          "word": "is",
+          "start": 12.036,
+          "end": 12.136
+        },
+        {
+          "word": "next.",
+          "start": 12.236,
+          "end": 12.536
+        }
+      ]
+    },
+    {
+      "text": "Prediction 1.",
+      "start": 13.617,
+      "end": 14.437,
+      "words": [
+        {
+          "word": "Prediction",
+          "start": 13.617,
+          "end": 14.137
+        },
+        {
+          "word": "1.",
+          "start": 14.297,
+          "end": 14.437
+        }
+      ]
+    },
+    {
+      "text": "Generalist agents.",
+      "start": 14.817,
+      "end": 15.838,
+      "words": [
+        {
+          "word": "Generalist",
+          "start": 14.817,
+          "end": 15.378
+        },
+        {
+          "word": "agents.",
+          "start": 15.518,
+          "end": 15.838
+        }
+      ]
+    },
+    {
+      "text": "Instead of doing only one small task, these agents will manage big projects over weeks like planning a company trip.",
+      "start": 16.398,
+      "end": 25.163,
+      "words": [
+        {
+          "word": "Instead",
+          "start": 16.398,
+          "end": 16.758
+        },
+        {
+          "word": "of",
+          "start": 16.799,
+          "end": 16.879
+        },
+        {
+          "word": "doing",
+          "start": 16.959,
+          "end": 17.239
+        },
+        {
+          "word": "only",
+          "start": 17.419,
+          "end": 17.699
+        },
+        {
+          "word": "one",
+          "start": 17.999,
+          "end": 18.159
+        },
+        {
+          "word": "small",
+          "start": 18.219,
+          "end": 18.519
+        },
+        {
+          "word": "task,",
+          "start": 18.579,
+          "end": 18.9
+        },
+        {
+          "word": "these",
+          "start": 19.86,
+          "end": 20.08
+        },
+        {
+          "word": "agents",
+          "start": 20.2,
+          "end": 20.5
+        },
+        {
+          "word": "will",
+          "start": 20.56,
+          "end": 20.761
+        },
+        {
+          "word": "manage",
+          "start": 20.801,
+          "end": 21.101
+        },
+        {
+          "word": "big",
+          "start": 21.141,
+          "end": 21.301
+        },
+        {
+          "word": "projects",
+          "start": 21.341,
+          "end": 21.761
+        },
+        {
+          "word": "over",
+          "start": 21.941,
+          "end": 22.161
+        },
+        {
+          "word": "weeks",
+          "start": 22.201,
+          "end": 22.461
+        },
+        {
+          "word": "like",
+          "start": 23.782,
+          "end": 23.962
+        },
+        {
+          "word": "planning",
+          "start": 24.042,
+          "end": 24.383
+        },
+        {
+          "word": "a",
+          "start": 24.443,
+          "end": 24.463
+        },
+        {
+          "word": "company",
+          "start": 24.523,
+          "end": 24.903
+        },
+        {
+          "word": "trip.",
+          "start": 24.943,
+          "end": 25.163
+        }
+      ]
+    },
+    {
+      "text": "Or we will connect many small, cheap models like lego blocks to do the same job.",
+      "start": 25.963,
+      "end": 31.586,
+      "words": [
+        {
+          "word": "Or",
+          "start": 25.963,
+          "end": 26.063
+        },
+        {
+          "word": "we",
+          "start": 26.284,
+          "end": 26.404
+        },
+        {
+          "word": "will",
+          "start": 26.424,
+          "end": 26.584
+        },
+        {
+          "word": "connect",
+          "start": 26.604,
+          "end": 26.884
+        },
+        {
+          "word": "many",
+          "start": 26.924,
+          "end": 27.124
+        },
+        {
+          "word": "small,",
+          "start": 27.184,
+          "end": 27.464
+        },
+        {
+          "word": "cheap",
+          "start": 27.964,
+          "end": 28.205
+        },
+        {
+          "word": "models",
+          "start": 28.265,
+          "end": 28.625
+        },
+        {
+          "word": "like",
+          "start": 29.025,
+          "end": 29.265
+        },
+        {
+          "word": "lego",
+          "start": 29.565,
+          "end": 29.865
+        },
+        {
+          "word": "blocks",
+          "start": 29.905,
+          "end": 30.206
+        },
+        {
+          "word": "to",
+          "start": 30.326,
+          "end": 30.486
+        },
+        {
+          "word": "do",
+          "start": 30.746,
+          "end": 30.906
+        },
+        {
+          "word": "the",
+          "start": 30.946,
+          "end": 31.046
+        },
+        {
+          "word": "same",
+          "start": 31.066,
+          "end": 31.266
+        },
+        {
+          "word": "job.",
+          "start": 31.306,
+          "end": 31.586
+        }
+      ]
+    },
+    {
+      "text": "Prediction 2 proactive partners.",
+      "start": 33.007,
+      "end": 34.708,
+      "words": [
+        {
+          "word": "Prediction",
+          "start": 33.007,
+          "end": 33.527
+        },
+        {
+          "word": "2",
+          "start": 33.707,
+          "end": 33.767
+        },
+        {
+          "word": "proactive",
+          "start": 33.807,
+          "end": 34.248
+        },
+        {
+          "word": "partners.",
+          "start": 34.288,
+          "end": 34.708
+        }
+      ]
+    },
+    {
+      "text": "These agents will learn your habits and goals.",
+      "start": 35.208,
+      "end": 38.11,
+      "words": [
+        {
+          "word": "These",
+          "start": 35.208,
+          "end": 35.388
+        },
+        {
+          "word": "agents",
+          "start": 35.488,
+          "end": 35.789
+        },
+        {
+          "word": "will",
+          "start": 36.049,
+          "end": 36.229
+        },
+        {
+          "word": "learn",
+          "start": 36.269,
+          "end": 36.449
+        },
+        {
+          "word": "your",
+          "start": 36.469,
+          "end": 36.649
+        },
+        {
+          "word": "habits",
+          "start": 36.729,
+          "end": 37.149
+        },
+        {
+          "word": "and",
+          "start": 37.629,
+          "end": 37.73
+        },
+        {
+          "word": "goals.",
+          "start": 37.81,
+          "end": 38.11
+        }
+      ]
+    },
+    {
+      "text": "They won't wait for your command.",
+      "start": 38.977,
+      "end": 40.458,
+      "words": [
+        {
+          "word": "They",
+          "start": 38.977,
+          "end": 39.137
+        },
+        {
+          "word": "won't",
+          "start": 39.197,
+          "end": 39.417
+        },
+        {
+          "word": "wait",
+          "start": 39.477,
+          "end": 39.677
+        },
+        {
+          "word": "for",
+          "start": 39.717,
+          "end": 39.838
+        },
+        {
+          "word": "your",
+          "start": 39.858,
+          "end": 39.998
+        },
+        {
+          "word": "command.",
+          "start": 40.058,
+          "end": 40.458
+        }
+      ]
+    },
+    {
+      "text": "They will suggest ideas and start tasks on their own.",
+      "start": 41.018,
+      "end": 44.1,
+      "words": [
+        {
+          "word": "They",
+          "start": 41.018,
+          "end": 41.138
+        },
+        {
+          "word": "will",
+          "start": 41.158,
+          "end": 41.318
+        },
+        {
+          "word": "suggest",
+          "start": 41.338,
+          "end": 41.678
+        },
+        {
+          "word": "ideas",
+          "start": 41.779,
+          "end": 42.179
+        },
+        {
+          "word": "and",
+          "start": 42.479,
+          "end": 42.579
+        },
+        {
+          "word": "start",
+          "start": 42.659,
+          "end": 42.979
+        },
+        {
+          "word": "tasks",
+          "start": 43.059,
+          "end": 43.419
+        },
+        {
+          "word": "on",
+          "start": 43.559,
+          "end": 43.619
+        },
+        {
+          "word": "their",
+          "start": 43.66,
+          "end": 43.84
+        },
+        {
+          "word": "own.",
+          "start": 43.96,
+          "end": 44.1
+        }
+      ]
+    },
+    {
+      "text": "Prediction 3.",
+      "start": 45.5,
+      "end": 46.361,
+      "words": [
+        {
+          "word": "Prediction",
+          "start": 45.5,
+          "end": 46.001
+        },
+        {
+          "word": "3.",
+          "start": 46.081,
+          "end": 46.361
+        }
+      ]
+    },
+    {
+      "text": "Robotic agents.",
+      "start": 47.001,
+      "end": 47.942,
+      "words": [
+        {
+          "word": "Robotic",
+          "start": 47.001,
+          "end": 47.522
+        },
+        {
+          "word": "agents.",
+          "start": 47.622,
+          "end": 47.942
+        }
+      ]
+    },
+    {
+      "text": "AI agents will leave computers and enter the physical world.",
+      "start": 48.302,
+      "end": 52.244,
+      "words": [
+        {
+          "word": "AI",
+          "start": 48.302,
+          "end": 48.562
+        },
+        {
+          "word": "agents",
+          "start": 48.622,
+          "end": 48.882
+        },
+        {
+          "word": "will",
+          "start": 48.942,
+          "end": 49.102
+        },
+        {
+          "word": "leave",
+          "start": 49.142,
+          "end": 49.322
+        },
+        {
+          "word": "computers",
+          "start": 49.363,
+          "end": 49.923
+        },
+        {
+          "word": "and",
+          "start": 50.383,
+          "end": 50.503
+        },
+        {
+          "word": "enter",
+          "start": 50.603,
+          "end": 50.903
+        },
+        {
+          "word": "the",
+          "start": 50.943,
+          "end": 51.083
+        },
+        {
+          "word": "physical",
+          "start": 51.484,
+          "end": 51.884
+        },
+        {
+          "word": "world.",
+          "start": 51.964,
+          "end": 52.244
+        }
+      ]
+    },
+    {
+      "text": "By connecting AI with robots, a home agent can use cameras to see a leaky tap and fix it.",
+      "start": 52.964,
+      "end": 60.548,
+      "words": [
+        {
+          "word": "By",
+          "start": 52.964,
+          "end": 53.144
+        },
+        {
+          "word": "connecting",
+          "start": 53.225,
+          "end": 53.745
+        },
+        {
+          "word": "AI",
+          "start": 54.205,
+          "end": 54.505
+        },
+        {
+          "word": "with",
+          "start": 54.565,
+          "end": 54.725
+        },
+        {
+          "word": "robots,",
+          "start": 54.785,
+          "end": 55.286
+        },
+        {
+          "word": "a",
+          "start": 56.046,
+          "end": 56.106
+        },
+        {
+          "word": "home",
+          "start": 56.146,
+          "end": 56.386
+        },
+        {
+          "word": "agent",
+          "start": 56.506,
+          "end": 56.826
+        },
+        {
+          "word": "can",
+          "start": 57.367,
+          "end": 57.567
+        },
+        {
+          "word": "use",
+          "start": 57.767,
+          "end": 57.907
+        },
+        {
+          "word": "cameras",
+          "start": 57.987,
+          "end": 58.447
+        },
+        {
+          "word": "to",
+          "start": 58.807,
+          "end": 58.908
+        },
+        {
+          "word": "see",
+          "start": 58.948,
+          "end": 59.128
+        },
+        {
+          "word": "a",
+          "start": 59.168,
+          "end": 59.208
+        },
+        {
+          "word": "leaky",
+          "start": 59.268,
+          "end": 59.548
+        },
+        {
+          "word": "tap",
+          "start": 59.608,
+          "end": 59.848
+        },
+        {
+          "word": "and",
+          "start": 60.048,
+          "end": 60.148
+        },
+        {
+          "word": "fix",
+          "start": 60.208,
+          "end": 60.408
+        },
+        {
+          "word": "it.",
+          "start": 60.468,
+          "end": 60.548
+        }
+      ]
+    },
+    {
+      "text": "Prediction 4.",
+      "start": 61.089,
+      "end": 61.869,
+      "words": [
+        {
+          "word": "Prediction",
+          "start": 61.089,
+          "end": 61.529
+        },
+        {
+          "word": "4.",
+          "start": 61.609,
+          "end": 61.869
+        }
+      ]
+    },
+    {
+      "text": "The agent economy.",
+      "start": 62.329,
+      "end": 63.71,
+      "words": [
+        {
+          "word": "The",
+          "start": 62.329,
+          "end": 62.549
+        },
+        {
+          "word": "agent",
+          "start": 62.81,
+          "end": 63.11
+        },
+        {
+          "word": "economy.",
+          "start": 63.19,
+          "end": 63.71
+        }
+      ]
+    },
+    {
+      "text": "Agents will buy and sell things on their own.",
+      "start": 64.671,
+      "end": 66.932,
+      "words": [
+        {
+          "word": "Agents",
+          "start": 64.671,
+          "end": 65.031
+        },
+        {
+          "word": "will",
+          "start": 65.131,
+          "end": 65.331
+        },
+        {
+          "word": "buy",
+          "start": 65.391,
+          "end": 65.671
+        },
+        {
+          "word": "and",
+          "start": 65.711,
+          "end": 65.811
+        },
+        {
+          "word": "sell",
+          "start": 65.871,
+          "end": 66.091
+        },
+        {
+          "word": "things",
+          "start": 66.131,
+          "end": 66.371
+        },
+        {
+          "word": "on",
+          "start": 66.472,
+          "end": 66.552
+        },
+        {
+          "word": "their",
+          "start": 66.592,
+          "end": 66.752
+        },
+        {
+          "word": "own.",
+          "start": 66.812,
+          "end": 66.932
+        }
+      ]
+    },
+    {
+      "text": "For example, an agent can run an online shop, find trending products, change prices, and talk to supplier systems without human help.",
+      "start": 67.685,
+      "end": 77.753,
+      "words": [
+        {
+          "word": "For",
+          "start": 67.685,
+          "end": 67.845
+        },
+        {
+          "word": "example,",
+          "start": 67.905,
+          "end": 68.366
+        },
+        {
+          "word": "an",
+          "start": 68.746,
+          "end": 68.846
+        },
+        {
+          "word": "agent",
+          "start": 68.966,
+          "end": 69.246
+        },
+        {
+          "word": "can",
+          "start": 69.346,
+          "end": 69.526
+        },
+        {
+          "word": "run",
+          "start": 69.607,
+          "end": 69.807
+        },
+        {
+          "word": "an",
+          "start": 69.947,
+          "end": 70.007
+        },
+        {
+          "word": "online",
+          "start": 70.227,
+          "end": 70.647
+        },
+        {
+          "word": "shop,",
+          "start": 70.707,
+          "end": 70.948
+        },
+        {
+          "word": "find",
+          "start": 71.608,
+          "end": 71.908
+        },
+        {
+          "word": "trending",
+          "start": 71.948,
+          "end": 72.309
+        },
+        {
+          "word": "products,",
+          "start": 72.389,
+          "end": 72.829
+        },
+        {
+          "word": "change",
+          "start": 73.189,
+          "end": 73.49
+        },
+        {
+          "word": "prices,",
+          "start": 73.55,
+          "end": 73.97
+        },
+        {
+          "word": "and",
+          "start": 74.65,
+          "end": 74.751
+        },
+        {
+          "word": "talk",
+          "start": 74.811,
+          "end": 75.051
+        },
+        {
+          "word": "to",
+          "start": 75.091,
+          "end": 75.211
+        },
+        {
+          "word": "supplier",
+          "start": 75.251,
+          "end": 75.671
+        },
+        {
+          "word": "systems",
+          "start": 75.731,
+          "end": 76.112
+        },
+        {
+          "word": "without",
+          "start": 76.752,
+          "end": 77.112
+        },
+        {
+          "word": "human",
+          "start": 77.213,
+          "end": 77.493
+        },
+        {
+          "word": "help.",
+          "start": 77.553,
+          "end": 77.753
+        }
+      ]
+    },
+    {
+      "text": "And prediction 5 self, changing systems.",
+      "start": 79.294,
+      "end": 82.176,
+      "words": [
+        {
+          "word": "And",
+          "start": 79.294,
+          "end": 79.414
+        },
+        {
+          "word": "prediction",
+          "start": 79.494,
+          "end": 79.915
+        },
+        {
+          "word": "5",
+          "start": 79.975,
+          "end": 80.215
+        },
+        {
+          "word": "self,",
+          "start": 80.255,
+          "end": 80.515
+        },
+        {
+          "word": "changing",
+          "start": 81.196,
+          "end": 81.636
+        },
+        {
+          "word": "systems.",
+          "start": 81.716,
+          "end": 82.176
+        }
+      ]
+    },
+    {
+      "text": "You just tell the system your goal, like start a coffee business.",
+      "start": 82.597,
+      "end": 86.56,
+      "words": [
+        {
+          "word": "You",
+          "start": 82.597,
+          "end": 82.777
+        },
+        {
+          "word": "just",
+          "start": 82.817,
+          "end": 83.017
+        },
+        {
+          "word": "tell",
+          "start": 83.217,
+          "end": 83.397
+        },
+        {
+          "word": "the",
+          "start": 83.437,
+          "end": 83.558
+        },
+        {
+          "word": "system",
+          "start": 83.598,
+          "end": 83.998
+        },
+        {
+          "word": "your",
+          "start": 84.058,
+          "end": 84.278
+        },
+        {
+          "word": "goal,",
+          "start": 84.318,
+          "end": 84.578
+        },
+        {
+          "word": "like",
+          "start": 85.139,
+          "end": 85.339
+        },
+        {
+          "word": "start",
+          "start": 85.399,
+          "end": 85.719
+        },
+        {
+          "word": "a",
+          "start": 85.759,
+          "end": 85.819
+        },
+        {
+          "word": "coffee",
+          "start": 85.859,
+          "end": 86.16
+        },
+        {
+          "word": "business.",
+          "start": 86.22,
+          "end": 86.56
+        }
+      ]
+    },
+    {
+      "text": "The AI will decide how many agents it needs, write its own code, and even change its own structure as it works.",
+      "start": 87.581,
+      "end": 95.547,
+      "words": [
+        {
+          "word": "The",
+          "start": 87.581,
+          "end": 87.861
+        },
+        {
+          "word": "AI",
+          "start": 87.981,
+          "end": 88.121
+        },
+        {
+          "word": "will",
+          "start": 88.621,
+          "end": 88.802
+        },
+        {
+          "word": "decide",
+          "start": 88.842,
+          "end": 89.202
+        },
+        {
+          "word": "how",
+          "start": 89.382,
+          "end": 89.542
+        },
+        {
+          "word": "many",
+          "start": 89.582,
+          "end": 89.802
+        },
+        {
+          "word": "agents",
+          "start": 89.923,
+          "end": 90.223
+        },
+        {
+          "word": "it",
+          "start": 90.323,
+          "end": 90.403
+        },
+        {
+          "word": "needs,",
+          "start": 90.483,
+          "end": 90.763
+        },
+        {
+          "word": "write",
+          "start": 91.404,
+          "end": 91.644
+        },
+        {
+          "word": "its",
+          "start": 91.704,
+          "end": 91.804
+        },
+        {
+          "word": "own",
+          "start": 91.924,
+          "end": 92.044
+        },
+        {
+          "word": "code,",
+          "start": 92.124,
+          "end": 92.384
+        },
+        {
+          "word": "and",
+          "start": 92.805,
+          "end": 92.925
+        },
+        {
+          "word": "even",
+          "start": 93.045,
+          "end": 93.285
+        },
+        {
+          "word": "change",
+          "start": 93.385,
+          "end": 93.705
+        },
+        {
+          "word": "its",
+          "start": 93.766,
+          "end": 93.866
+        },
+        {
+          "word": "own",
+          "start": 93.986,
+          "end": 94.126
+        },
+        {
+          "word": "structure",
+          "start": 94.206,
+          "end": 94.666
+        },
+        {
+          "word": "as",
+          "start": 94.966,
+          "end": 95.047
+        },
+        {
+          "word": "it",
+          "start": 95.127,
+          "end": 95.187
+        },
+        {
+          "word": "works.",
+          "start": 95.247,
+          "end": 95.547
+        }
+      ]
+    },
+    {
+      "text": "It is a machine that improves itself.",
+      "start": 96.233,
+      "end": 98.194,
+      "words": [
+        {
+          "word": "It",
+          "start": 96.233,
+          "end": 96.313
+        },
+        {
+          "word": "is",
+          "start": 96.393,
+          "end": 96.493
+        },
+        {
+          "word": "a",
+          "start": 96.553,
+          "end": 96.593
+        },
+        {
+          "word": "machine",
+          "start": 96.653,
+          "end": 97.013
+        },
+        {
+          "word": "that",
+          "start": 97.073,
+          "end": 97.233
+        },
+        {
+          "word": "improves",
+          "start": 97.333,
+          "end": 97.774
+        },
+        {
+          "word": "itself.",
+          "start": 97.834,
+          "end": 98.194
+        }
+      ]
+    },
+    {
+      "text": "But this brings a big safety risk.",
+      "start": 99.234,
+      "end": 101.115,
+      "words": [
+        {
+          "word": "But",
+          "start": 99.234,
+          "end": 99.374
+        },
+        {
+          "word": "this",
+          "start": 99.434,
+          "end": 99.614
+        },
+        {
+          "word": "brings",
+          "start": 99.714,
+          "end": 99.995
+        },
+        {
+          "word": "a",
+          "start": 100.015,
+          "end": 100.035
+        },
+        {
+          "word": "big",
+          "start": 100.215,
+          "end": 100.395
+        },
+        {
+          "word": "safety",
+          "start": 100.435,
+          "end": 100.795
+        },
+        {
+          "word": "risk.",
+          "start": 100.855,
+          "end": 101.115
+        }
+      ]
+    },
+    {
+      "text": "Wait, if a system can write its own code and change its own structure, how do we keep it under control?",
+      "start": 102.487,
+      "end": 107.932,
+      "words": [
+        {
+          "word": "Wait,",
+          "start": 102.487,
+          "end": 102.727
+        },
+        {
+          "word": "if",
+          "start": 103.108,
+          "end": 103.208
+        },
+        {
+          "word": "a",
+          "start": 103.248,
+          "end": 103.268
+        },
+        {
+          "word": "system",
+          "start": 103.348,
+          "end": 103.688
+        },
+        {
+          "word": "can",
+          "start": 103.728,
+          "end": 103.868
+        },
+        {
+          "word": "write",
+          "start": 103.908,
+          "end": 104.088
+        },
+        {
+          "word": "its",
+          "start": 104.129,
+          "end": 104.229
+        },
+        {
+          "word": "own",
+          "start": 104.309,
+          "end": 104.409
+        },
+        {
+          "word": "code",
+          "start": 104.489,
+          "end": 104.809
+        },
+        {
+          "word": "and",
+          "start": 104.889,
+          "end": 104.969
+        },
+        {
+          "word": "change",
+          "start": 105.009,
+          "end": 105.25
+        },
+        {
+          "word": "its",
+          "start": 105.29,
+          "end": 105.37
+        },
+        {
+          "word": "own",
+          "start": 105.43,
+          "end": 105.55
+        },
+        {
+          "word": "structure,",
+          "start": 105.61,
+          "end": 106.07
+        },
+        {
+          "word": "how",
+          "start": 106.671,
+          "end": 106.771
+        },
+        {
+          "word": "do",
+          "start": 106.791,
+          "end": 106.871
+        },
+        {
+          "word": "we",
+          "start": 106.911,
+          "end": 106.971
+        },
+        {
+          "word": "keep",
+          "start": 107.011,
+          "end": 107.171
+        },
+        {
+          "word": "it",
+          "start": 107.211,
+          "end": 107.251
+        },
+        {
+          "word": "under",
+          "start": 107.291,
+          "end": 107.452
+        },
+        {
+          "word": "control?",
+          "start": 107.492,
+          "end": 107.932
+        }
+      ]
+    },
+    {
+      "text": "What if it does something dangerous?",
+      "start": 108.352,
+      "end": 109.634,
+      "words": [
+        {
+          "word": "What",
+          "start": 108.352,
+          "end": 108.473
+        },
+        {
+          "word": "if",
+          "start": 108.493,
+          "end": 108.573
+        },
+        {
+          "word": "it",
+          "start": 108.613,
+          "end": 108.653
+        },
+        {
+          "word": "does",
+          "start": 108.693,
+          "end": 108.833
+        },
+        {
+          "word": "something",
+          "start": 108.853,
+          "end": 109.113
+        },
+        {
+          "word": "dangerous?",
+          "start": 109.153,
+          "end": 109.634
+        }
+      ]
+    },
+    {
+      "text": "That is a major challenge Maya.",
+      "start": 112.035,
+      "end": 113.736,
+      "words": [
+        {
+          "word": "That",
+          "start": 112.035,
+          "end": 112.255
+        },
+        {
+          "word": "is",
+          "start": 112.355,
+          "end": 112.435
+        },
+        {
+          "word": "a",
+          "start": 112.495,
+          "end": 112.536
+        },
+        {
+          "word": "major",
+          "start": 112.576,
+          "end": 112.896
+        },
+        {
+          "word": "challenge",
+          "start": 112.936,
+          "end": 113.356
+        },
+        {
+          "word": "Maya.",
+          "start": 113.416,
+          "end": 113.736
+        }
+      ]
+    },
+    {
+      "text": "In practice, we must set hard limits.",
+      "start": 114.416,
+      "end": 116.877,
+      "words": [
+        {
+          "word": "In",
+          "start": 114.416,
+          "end": 114.496
+        },
+        {
+          "word": "practice,",
+          "start": 114.576,
+          "end": 115.076
+        },
+        {
+          "word": "we",
+          "start": 115.557,
+          "end": 115.717
+        },
+        {
+          "word": "must",
+          "start": 115.797,
+          "end": 116.017
+        },
+        {
+          "word": "set",
+          "start": 116.077,
+          "end": 116.277
+        },
+        {
+          "word": "hard",
+          "start": 116.317,
+          "end": 116.517
+        },
+        {
+          "word": "limits.",
+          "start": 116.557,
+          "end": 116.877
+        }
+      ]
+    },
+    {
+      "text": "We run the self-modifying code in a secure sandbox, use automatic testing, and build guardrails that the AI cannot touch or rewrite.",
+      "start": 117.477,
+      "end": 128.042,
+      "words": [
+        {
+          "word": "We",
+          "start": 117.477,
+          "end": 117.637
+        },
+        {
+          "word": "run",
+          "start": 117.678,
+          "end": 117.838
+        },
+        {
+          "word": "the",
+          "start": 117.878,
+          "end": 117.978
+        },
+        {
+          "word": "self-modifying",
+          "start": 118.018,
+          "end": 119.418
+        },
+        {
+          "word": "code",
+          "start": 119.498,
+          "end": 119.718
+        },
+        {
+          "word": "in",
+          "start": 119.878,
+          "end": 119.958
+        },
+        {
+          "word": "a",
+          "start": 119.978,
+          "end": 120.018
+        },
+        {
+          "word": "secure",
+          "start": 120.058,
+          "end": 120.399
+        },
+        {
+          "word": "sandbox,",
+          "start": 120.439,
+          "end": 120.959
+        },
+        {
+          "word": "use",
+          "start": 121.679,
+          "end": 121.859
+        },
+        {
+          "word": "automatic",
+          "start": 122.279,
+          "end": 122.76
+        },
+        {
+          "word": "testing,",
+          "start": 122.8,
+          "end": 123.16
+        },
+        {
+          "word": "and",
+          "start": 123.72,
+          "end": 123.84
+        },
+        {
+          "word": "build",
+          "start": 123.94,
+          "end": 124.18
+        },
+        {
+          "word": "guardrails",
+          "start": 124.22,
+          "end": 124.72
+        },
+        {
+          "word": "that",
+          "start": 125.501,
+          "end": 125.641
+        },
+        {
+          "word": "the",
+          "start": 125.681,
+          "end": 125.801
+        },
+        {
+          "word": "AI",
+          "start": 125.901,
+          "end": 126.161
+        },
+        {
+          "word": "cannot",
+          "start": 126.221,
+          "end": 126.541
+        },
+        {
+          "word": "touch",
+          "start": 126.621,
+          "end": 126.881
+        },
+        {
+          "word": "or",
+          "start": 127.461,
+          "end": 127.581
+        },
+        {
+          "word": "rewrite.",
+          "start": 127.621,
+          "end": 128.042
+        }
+      ]
+    },
+    {
+      "text": "If the code breaks any safety rules, the system shuts it down immediately.",
+      "start": 129.202,
+      "end": 133.944,
+      "words": [
+        {
+          "word": "If",
+          "start": 129.202,
+          "end": 129.282
+        },
+        {
+          "word": "the",
+          "start": 129.342,
+          "end": 129.442
+        },
+        {
+          "word": "code",
+          "start": 129.522,
+          "end": 129.782
+        },
+        {
+          "word": "breaks",
+          "start": 129.902,
+          "end": 130.202
+        },
+        {
+          "word": "any",
+          "start": 130.402,
+          "end": 130.563
+        },
+        {
+          "word": "safety",
+          "start": 130.623,
+          "end": 130.963
+        },
+        {
+          "word": "rules,",
+          "start": 131.023,
+          "end": 131.303
+        },
+        {
+          "word": "the",
+          "start": 131.883,
+          "end": 132.003
+        },
+        {
+          "word": "system",
+          "start": 132.043,
+          "end": 132.443
+        },
+        {
+          "word": "shuts",
+          "start": 132.523,
+          "end": 132.783
+        },
+        {
+          "word": "it",
+          "start": 132.843,
+          "end": 132.903
+        },
+        {
+          "word": "down",
+          "start": 132.943,
+          "end": 133.144
+        },
+        {
+          "word": "immediately.",
+          "start": 133.364,
+          "end": 133.944
+        }
+      ]
+    },
+    {
+      "text": "In our next video, we will start learning the actual design patterns, chapter prompt chaining.",
+      "start": 135.036,
+      "end": 141.153,
+      "words": [
+        {
+          "word": "In",
+          "start": 135.036,
+          "end": 135.116
+        },
+        {
+          "word": "our",
+          "start": 135.237,
+          "end": 135.357
+        },
+        {
+          "word": "next",
+          "start": 135.397,
+          "end": 135.618
+        },
+        {
+          "word": "video,",
+          "start": 135.678,
+          "end": 136.019
+        },
+        {
+          "word": "we",
+          "start": 136.601,
+          "end": 136.761
+        },
+        {
+          "word": "will",
+          "start": 136.801,
+          "end": 137.002
+        },
+        {
+          "word": "start",
+          "start": 137.042,
+          "end": 137.343
+        },
+        {
+          "word": "learning",
+          "start": 137.383,
+          "end": 137.704
+        },
+        {
+          "word": "the",
+          "start": 137.944,
+          "end": 138.065
+        },
+        {
+          "word": "actual",
+          "start": 138.125,
+          "end": 138.426
+        },
+        {
+          "word": "design",
+          "start": 138.466,
+          "end": 138.787
+        },
+        {
+          "word": "patterns,",
+          "start": 138.827,
+          "end": 139.248
+        },
+        {
+          "word": "chapter",
+          "start": 140.03,
+          "end": 140.351
+        },
+        {
+          "word": "prompt",
+          "start": 140.471,
+          "end": 140.752
+        },
+        {
+          "word": "chaining.",
+          "start": 140.772,
+          "end": 141.153
+        }
+      ]
+    },
+    {
+      "text": "Subscribe to build the future of AI with me.",
+      "start": 141.675,
+      "end": 144.623,
+      "words": [
+        {
+          "word": "Subscribe",
+          "start": 141.675,
+          "end": 142.236
+        },
+        {
+          "word": "to",
+          "start": 142.296,
+          "end": 142.397
+        },
+        {
+          "word": "build",
+          "start": 142.497,
+          "end": 142.798
+        },
+        {
+          "word": "the",
+          "start": 142.838,
+          "end": 142.938
+        },
+        {
+          "word": "future",
+          "start": 142.998,
+          "end": 143.399
+        },
+        {
+          "word": "of",
+          "start": 143.459,
+          "end": 143.5
+        },
+        {
+          "word": "AI",
+          "start": 143.52,
+          "end": 143.56
+        },
+        {
+          "word": "with",
+          "start": 144.161,
+          "end": 144.362
+        },
+        {
+          "word": "me.",
+          "start": 144.462,
+          "end": 144.623
+        }
+      ]
+    }
+  ]
+}
