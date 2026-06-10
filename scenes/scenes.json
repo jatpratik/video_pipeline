@@ -30,5 +30,37 @@
         }
       }
     ]
+  },
+  {
+    "scene_id": "ep_04_scene",
+    "duration": 144.623,
+    "overlays": [
+      {
+        "video": "start_hook.mp4",
+        "insert_time": 0.0,
+        "duration": 7.351,
+        "padding_start": 0.0,
+        "padding_end": 0.3,
+        "position": {
+          "x": 0,
+          "y": 0,
+          "w": 1080,
+          "h": 1920
+        }
+      },
+      {
+        "video": "student_speaking.mp4",
+        "insert_time": 102.487,
+        "duration": 7.147,
+        "padding_start": 0.2,
+        "padding_end": 0.3,
+        "position": {
+          "x": 0,
+          "y": 0,
+          "w": 1080,
+          "h": 1920
+        }
+      }
+    ]
   }
 ]

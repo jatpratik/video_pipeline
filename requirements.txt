@@ -19,3 +19,12 @@ tqdm>=4.60.0
 
 # Environment variable loading
 python-dotenv>=1.0.0
+
+# LangGraph multi-agent framework
+langgraph>=0.4.0
+langchain-anthropic>=0.3.0
+langchain-core>=0.3.0
+
+# Rich terminal output for HITL
+rich>=13.0.0
+

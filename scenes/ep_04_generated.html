@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EP04 – 5 Predictions for AI Agents</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Inter:wght@400;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--cyan:#00F5FF;--orange:#FF6B00;--purple:#7B2FFF;--green:#00FF88;--red:#FF2D55}
+body{width:1080px;height:1920px;overflow:hidden;position:relative;background:#060610;font-family:Inter,sans-serif}
+canvas#canvas-bg{position:absolute;top:0;left:0;z-index:0;pointer-events:none}
+.scene-container{position:absolute;top:0;left:0;width:1080px;height:1920px;z-index:1}
+.abs{position:absolute}
+.hidden{opacity:0;pointer-events:none}
+
+/* Face frame */
+#face-frame{position:absolute;left:56px;top:1316px;width:408px;height:408px;border:4px solid var(--cyan);border-radius:34px;box-shadow:0 0 25px rgba(0,240,255,.4),inset 0 0 15px rgba(0,240,255,.2);z-index:85;background:rgba(8,10,20,.6);pointer-events:none}
+
+/* Caption container */
+#caption-container{position:absolute;right:30px;top:1320px;width:550px;height:400px;z-index:90;display:flex;align-items:center;justify-content:center;background:rgba(8,10,20,.78);border:1.5px solid rgba(255,255,255,.08);border-radius:22px;backdrop-filter:blur(12px);box-shadow:0 8px 32px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,255,255,.05)}
+.sentence-block{display:flex;flex-wrap:wrap;justify-content:center;align-content:center;width:100%;gap:8px 12px;text-shadow:0 3px 10px rgba(0,0,0,.9)}
+.cap-word{display:inline-block;font-size:30px;font-weight:800;color:rgba(255,255,255,.92);transition:color .15s}
+.cap-word.active{color:#fff}
+.cap-word.active-highlight{color:var(--cyan);text-shadow:0 0 12px var(--cyan)}
+.cap-word.active-danger{color:var(--red);text-shadow:0 0 12px var(--red)}
+.cap-word.past{color:rgba(255,255,255,.4)}
+
+/* Student card */
+#student-card{position:absolute;left:136px;top:104px;width:808px;height:1212px;opacity:0;transform:scale(.8);z-index:150;pointer-events:none}
+
+/* Scene area */
+#scene-area{position:absolute;top:50px;left:0;width:1080px;height:1006px;overflow:hidden}
+
+/* Reusable card styles */
+.card-base{position:absolute;border-radius:24px;backdrop-filter:blur(12px);padding:40px;font-family:Inter;font-size:36px;color:#fff;line-height:1.9;opacity:0}
+.card-cyan{background:rgba(0,245,255,.07);border:1px solid var(--cyan);box-shadow:0 0 40px rgba(0,245,255,.13)}
+.card-orange{background:rgba(255,107,0,.08);border:1px solid var(--orange);box-shadow:0 0 40px rgba(255,107,0,.2)}
+.card-purple{background:rgba(123,47,255,.08);border:1px solid var(--purple);box-shadow:0 0 40px rgba(123,47,255,.13)}
+.card-green{background:rgba(0,255,136,.07);border:1px solid var(--green);box-shadow:0 0 40px rgba(0,255,136,.13)}
+.card-red{background:rgba(255,45,85,.08);border:1px solid var(--red);box-shadow:0 0 40px rgba(255,45,85,.2)}
+.card-red-big{background:rgba(255,45,85,.1);border:2px solid var(--red);border-radius:32px;box-shadow:0 0 60px rgba(255,45,85,.27),inset 0 0 40px rgba(255,45,85,.07)}
+.card-outro{background:linear-gradient(135deg,rgba(0,245,255,.1),rgba(123,47,255,.1));border:2px solid var(--cyan);border-radius:32px;box-shadow:0 0 80px rgba(0,245,255,.27)}
+
+.hdr{font-family:Orbitron;font-weight:900;letter-spacing:2px;margin-bottom:16px}
+.hdr-orange{color:var(--orange);text-shadow:0 0 25px var(--orange)}
+.hdr-cyan{color:var(--cyan);text-shadow:0 0 20px var(--cyan)}
+.hdr-purple{color:var(--purple);text-shadow:0 0 20px var(--purple)}
+.hdr-green{color:var(--green);text-shadow:0 0 20px var(--green)}
+.hdr-red{color:var(--red);text-shadow:0 0 20px var(--red)}
+
+/* Globe */
+#globe_container{position:absolute;top:130px;left:190px;width:700px;height:700px;border-radius:50%;background:radial-gradient(circle,#0a0a2e,#060610);border:2px solid var(--cyan);box-shadow:0 0 60px rgba(0,245,255,.33);display:flex;align-items:center;justify-content:center;opacity:0}
+#globe_container svg{position:absolute;top:0;left:0;width:100%;height:100%}
+.orbit-icon{font-size:52px;position:absolute}
+#five_predictions_label{position:absolute;top:870px;left:80px;width:920px;font-family:Orbitron;font-size:36px;color:var(--cyan);text-align:center;text-shadow:0 0 20px var(--cyan);letter-spacing:4px;opacity:0}
+</style>
+</head>
+<body>
+<canvas id="canvas-bg" width="1080" height="1920"></canvas>
+<div class="scene-container">
+  <div id="face-frame"></div>
+  <div id="caption-container"></div>
+
+  <div id="student-card">
+    <div style="font-family:Orbitron;color:var(--cyan);font-size:20px;text-transform:uppercase;letter-spacing:2px;height:24px;margin-bottom:12px;text-align:center">QUESTION</div>
+    <div style="width:800px;height:1160px;border:4px solid var(--cyan);box-shadow:0 0 50px rgba(0,240,255,.3);background:rgba(10,10,15,.6);backdrop-filter:blur(10px)"></div>
+  </div>
+
+  <div id="scene-area">
+    <!-- ACT 1: GLOBE -->
+    <div id="globe_container">
+      <svg viewBox="0 0 700 700"><circle cx="350" cy="350" r="340" fill="none" stroke="rgba(0,245,255,0.15)" stroke-width="1"/><ellipse cx="350" cy="350" rx="340" ry="120" fill="none" stroke="rgba(0,245,255,0.1)" stroke-width="1"/><line x1="10" y1="350" x2="690" y2="350" stroke="rgba(0,245,255,0.1)" stroke-width="1"/><line x1="350" y1="10" x2="350" y2="690" stroke="rgba(0,245,255,0.1)" stroke-width="1"/></svg>
+      <div id="orbit-ring" style="position:absolute;width:600px;height:600px;border-radius:50%;border:1px dashed rgba(0,245,255,0.3)">
+        <span class="orbit-icon" id="oi1" style="top:-30px;left:270px">🤖</span>
+        <span class="orbit-icon" id="oi2" style="top:270px;right:-30px">🧠</span>
+        <span class="orbit-icon" id="oi3" style="bottom:-30px;left:270px">⚡</span>
+        <span class="orbit-icon" id="oi4" style="top:270px;left:-30px">🔗</span>
+        <span class="orbit-icon" id="oi5" style="top:80px;right:60px">🌐</span>
+      </div>
+      <div style="font-family:Orbitron;font-size:48px;color:var(--cyan);text-shadow:0 0 30px var(--cyan);text-align:center;z-index:2">AI<br>AGENTS</div>
+    </div>
+    <div id="five_predictions_label">5 PREDICTIONS FOR AI AGENTS</div>
+
+    <!-- ACT 2: GENERALIST -->
+    <div id="pred1_header" class="abs hdr hdr-orange" style="top:120px;left:60px;width:960px;font-size:38px;text-align:center;opacity:0">PREDICTION 1: GENERALIST AGENTS</div>
+    <div id="checklist_card" class="abs card-base card-orange" style="top:220px;left:100px;width:880px;height:720px;font-size:40px;line-height:2.2">
+      <div>✅ Verify flight</div>
+      <div>✅ Select venue</div>
+      <div>✅ Approve budget</div>
+      <div>🔗 Lego-block models</div>
+      <div style="margin-top:20px;font-size:32px;color:rgba(255,107,0,.8)">One agent. Every task.</div>
+    </div>
+
+    <!-- ACT 3: PROACTIVE + ROBOTIC -->
+    <div id="pred2_card" class="abs card-base card-cyan" style="top:80px;left:60px;width:960px;height:400px">
+      <div class="hdr hdr-cyan" style="font-size:30px">PREDICTION 2: PROACTIVE PARTNERS</div>
+      <div>🧠 Learns your habits &amp; goals</div>
+      <div>💡 Suggests ideas automatically</div>
+      <div>⚡ Starts tasks on its own</div>
+    </div>
+    <div id="pred3_card" class="abs card-base card-purple" style="top:510px;left:60px;width:960px;height:440px">
+      <div class="hdr hdr-purple" style="font-size:30px">PREDICTION 3: ROBOTIC AGENTS</div>
+      <div>🤖 AI enters the physical world</div>
+      <div>📷 Camera detects leaky tap</div>
+      <div>🔧 Robot arm fixes it</div>
+    </div>
+
+    <!-- ACT 4: ECONOMY + METAMORPHIC -->
+    <div id="pred4_dashboard" class="abs card-base card-green" style="top:60px;left:60px;width:960px;height:400px">
+      <div class="hdr hdr-green" style="font-size:30px">PREDICTION 4: AGENT ECONOMY</div>
+      <div>📈 Sales rising autonomously</div>
+      <div>🔄 Prices auto-adjusted</div>
+      <div>🤝 Supplier APIs connected</div>
+    </div>
+    <div id="pred5_metamorphic" class="abs card-base card-red" style="top:60px;left:60px;width:960px;height:880px">
+      <div class="hdr hdr-red" style="font-size:30px">PREDICTION 5: SELF-CHANGING SYSTEMS</div>
+      <div>🎯 Goal: 'Start a coffee business'</div>
+      <div>🧬 AI writes its own code</div>
+      <div>♻️ Restructures itself live</div>
+      <div style="margin-top:20px;color:var(--red);font-weight:800">⚠️ BIG SAFETY RISK</div>
+    </div>
+
+    <!-- ACT 5: SAFETY -->
+    <div id="safety_shield" class="abs card-base card-red-big" style="top:100px;left:80px;width:920px;height:840px;padding:50px;font-family:Orbitron;font-size:36px;line-height:2.0;text-align:center;backdrop-filter:blur(14px)">
+      <div style="font-size:44px;margin-bottom:20px">🛡️ SAFETY GUARDRAIL</div>
+      <div>🔒 Secure Sandbox</div>
+      <div>🧪 Automatic Testing</div>
+      <div>🚫 Code Rejected</div>
+      <div>✅ System Shutdown Triggered</div>
+    </div>
+
+    <!-- ACT 6: OUTRO -->
+    <div id="outro_cta" class="abs card-base card-outro" style="top:180px;left:80px;width:920px;height:760px;padding:60px;font-family:Orbitron;font-size:44px;line-height:2.0;text-align:center">
+      <div style="color:var(--cyan);text-shadow:0 0 20px var(--cyan)">NEXT: CHAPTER 1</div>
+      <div style="color:#fff;font-size:38px">PROMPT CHAINING</div>
+      <div style="margin-top:30px;font-size:52px">🔔 SUBSCRIBE</div>
+      <div style="color:rgba(255,255,255,.7);font-size:32px;margin-top:10px">Build the Future of AI</div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script src="ep_04_scene_captions.js"></script>
+<script>
+// =====================================================================
+// MASTER TIMELINE
+// =====================================================================
+const tl = gsap.timeline({ paused: true });
+window.tl = tl;
+
+const time = (sec) => {
+    let shifted = sec;
+    if (sec >= 0.0) shifted += 9.5;
+    if (sec > 91.615) shifted += 10.0;
+    return shifted;
+};
+
+// =====================================================================
+// CANVAS AMBIENT PARTICLES
+// =====================================================================
+const canvas = document.getElementById('canvas-bg');
+const ctx = canvas.getContext('2d');
+const particles = Array.from({length:80},()=>({
+    x:Math.random()*1080, y:Math.random()*1920,
+    r:Math.random()*2+0.5,
+    vx:(Math.random()-.5)*.4, vy:(Math.random()-.5)*.4,
+    a:Math.random()*.5+.1,
+    c:`hsl(${[180,200,270,300][Math.floor(Math.random()*4)]},100%,70%)`
+}));
+const S = { ambientOpacity:0.6, time:0 };
+function drawBg(){
+    ctx.clearRect(0,0,1080,1920);
+    particles.forEach(p=>{
+        p.x+=p.vx; p.y+=p.vy;
+        if(p.x<0)p.x=1080; if(p.x>1080)p.x=0;
+        if(p.y<0)p.y=1920; if(p.y>1920)p.y=0;
+        ctx.beginPath();
+        ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+        ctx.fillStyle=p.c;
+        ctx.globalAlpha=p.a*S.ambientOpacity;
+        ctx.fill();
+    });
+    ctx.globalAlpha=1;
+    requestAnimationFrame(drawBg);
+}
+drawBg();
+
+// =====================================================================
+// CAPTIONS SYNC
+// =====================================================================
+const sentences = window.ep_04_scene_captions || [];
+const captionContainer = document.getElementById('caption-container');
+const highlightWords = ['generalist','proactive','robotic','economy','self-changing','predictions','agents','sandbox','guardrails','prompt','chaining','subscribe','autonomous','physical','self-modifying','prediction','partners','systems','coffee','business','testing','habits','goals'];
+const dangerWords = ['safety','risk','dangerous','breaks','shuts','cannot','touch','rewrite','control','shutdown'];
+
+sentences.forEach(sentence=>{
+    const sDiv = document.createElement('div');
+    sDiv.className = 'sentence-block';
+    gsap.set(sDiv,{display:'none',opacity:0});
+    sentence.words.forEach(w=>{
+        const wSpan = document.createElement('span');
+        wSpan.className = 'cap-word';
+        wSpan.innerText = w.text;
+        sDiv.appendChild(wSpan);
+        const clean = w.text.toLowerCase().replace(/[.,\/#!$%\^&\*;:{}=\-_`~()?%]/g,'');
+        let ac = 'active';
+        if(highlightWords.includes(clean)) ac='active-highlight';
+        if(dangerWords.includes(clean)) ac='active-danger';
+        tl.to(wSpan,{onStart:()=>{wSpan.classList.add(ac);wSpan.classList.remove('past')},onReverseComplete:()=>{wSpan.classList.remove(ac);wSpan.classList.remove('past')},duration:0.05},w.start);
+        if(w.end) tl.to(wSpan,{onStart:()=>{wSpan.classList.remove(ac);wSpan.classList.add('past')},duration:0.05},w.end);
+    });
+    captionContainer.appendChild(sDiv);
+    tl.to(sDiv,{display:'flex',opacity:1,duration:0.2},sentence.start)
+      .to(sDiv,{opacity:0,duration:0.2,onComplete:()=>gsap.set(sDiv,{display:'none'})},sentence.end-0.2);
+});
+
+// =====================================================================
+// SCENE ANIMATIONS
+// =====================================================================
+
+// --- ACT 1: GLOBE ---
+tl.to('#globe_container',{opacity:1,scale:1,duration:1.0,ease:'power2.out'},time(7.5));
+tl.to('#orbit-ring',{rotation:360,duration:8,ease:'none',repeat:-1,transformOrigin:'50% 50%'},time(8.5));
+tl.to('#five_predictions_label',{opacity:1,y:0,duration:0.8,ease:'power3.out'},time(10.195));
+// Exit act1
+tl.to(['#globe_container','#five_predictions_label'],{opacity:0,duration:0.5},time(13.2));
+
+// --- ACT 2: GENERALIST ---
+tl.fromTo('#pred1_header',{opacity:0},{opacity:1,duration:0.6,ease:'power2.out'},time(13.617));
+tl.fromTo('#checklist_card',{opacity:0,scale:0.85},{opacity:1,scale:1,duration:0.7,ease:'back.out(1.7)'},time(14.0));
+// Exit act2
+tl.to(['#pred1_header','#checklist_card'],{opacity:0,duration:0.6},time(32.5));
+
+// --- ACT 3: PROACTIVE + ROBOTIC ---
+tl.fromTo('#pred2_card',{opacity:0,y:60},{opacity:1,y:0,duration:0.7,ease:'power3.out'},time(33.007));
+tl.to('#pred2_card',{opacity:0,duration:0.5,ease:'power2.in'},time(44.5));
+tl.fromTo('#pred3_card',{opacity:0,y:60},{opacity:1,y:0,duration:0.7,ease:'power3.out'},time(45.5));
+tl.to('#pred3_card',{opacity:0,duration:0.5,ease:'power2.in'},time(60.5));
+
+// --- ACT 4: ECONOMY + METAMORPHIC ---
+tl.fromTo('#pred4_dashboard',{opacity:0},{opacity:1,duration:0.7,ease:'power2.out'},time(61.089));
+tl.to('#pred4_dashboard',{opacity:0,duration:0.5,ease:'power2.in'},time(78.5));
+tl.fromTo('#pred5_metamorphic',{opacity:0},{opacity:1,duration:0.7,ease:'power2.out'},time(79.294));
+// pulse warning
+tl.to('#pred5_metamorphic',{boxShadow:'0 0 80px rgba(255,45,85,0.6)',duration:0.75,yoyo:true,repeat:3},time(99.234));
+tl.to('#pred5_metamorphic',{opacity:0,duration:0.5},time(102.0));
+
+// --- ACT 5: SAFETY ---
+tl.fromTo('#safety_shield',{opacity:0,scale:0.85},{opacity:1,scale:1,duration:0.8,ease:'back.out(1.4)'},time(110.0));
+tl.to('#safety_shield',{boxShadow:'0 0 100px rgba(255,45,85,0.7)',duration:1,yoyo:true,repeat:1},time(117.477));
+tl.to('#safety_shield',{scale:1.03,duration:0.5,ease:'elastic.out(1,0.5)',yoyo:true,repeat:1},time(129.202));
+tl.to('#safety_shield',{opacity:0,duration:0.6},time(134.5));
+
+// --- ACT 6: OUTRO ---
+tl.fromTo('#outro_cta',{opacity:0},{opacity:1,duration:1.0,ease:'power2.out'},time(135.036));
+tl.to('#outro_cta',{scale:1.04,duration:0.6,ease:'elastic.out(1,0.6)',yoyo:true,repeat:1},time(141.675));
+tl.to('#outro_cta',{opacity:0,duration:0.4},time(144.3));
+
+// =====================================================================
+// STUDENT CARD OVERLAY
+// =====================================================================
+tl.to('#student-card',{opacity:1,scale:1,duration:0.4},time(102.487)-0.2);
+tl.to('#student-card',{opacity:0,scale:0.9,duration:0.3},time(109.634));
+
+// =====================================================================
+// KEYBOARD CONTROLS
+// =====================================================================
+const actTimes = [7.351,13.617,33.007,61.089,79.294,109.634,135.036,141.675];
+document.addEventListener('keydown',e=>{
+    if(e.code==='Space'){e.preventDefault();tl.paused()?tl.play():tl.pause();}
+    const n=parseInt(e.key);
+    if(n>=1&&n<=8) tl.seek(time(actTimes[n-1]));
+});
+
+tl.play();
+</script>
+</body>
+</html>

@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>EP04 – Five Predictions</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@400;600;800&display=swap" rel="stylesheet"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{--cyan:#00F5FF;--orange:#FF6B00;--purple:#7B2FFF;--green:#00FF88;--red:#FF2D55;}
+body{width:1080px;height:1920px;overflow:hidden;position:relative;background:#060610;font-family:'Inter',sans-serif;}
+canvas#canvas-bg{position:absolute;top:0;left:0;z-index:0;pointer-events:none;}
+.scene-container{position:absolute;top:0;left:0;width:1080px;height:1920px;z-index:1;}
+.abs{position:absolute;}
+.flex-center{display:flex;align-items:center;justify-content:center;}
+.pre{white-space:pre-line;}
+.glow-cyan{text-shadow:0 0 20px var(--cyan);}
+.glow-orange{text-shadow:0 0 24px var(--orange);}
+.glow-green{text-shadow:0 0 20px var(--green);}
+.glow-red{text-shadow:0 0 20px var(--red);}
+.card-cyan{background:rgba(0,245,255,0.07);border:1px solid rgba(0,245,255,0.27);border-radius:20px;padding:36px;backdrop-filter:blur(10px);}
+.card-orange{background:rgba(255,107,0,0.08);border:1px solid rgba(255,107,0,0.33);border-radius:24px;padding:40px;backdrop-filter:blur(12px);}
+.card-green{background:rgba(0,255,136,0.07);border:1px solid rgba(0,255,136,0.27);border-radius:20px;padding:36px;backdrop-filter:blur(10px);}
+.card-purple{background:rgba(123,47,255,0.10);border:1px solid rgba(123,47,255,0.33);border-radius:20px;padding:36px;backdrop-filter:blur(10px);}
+.card-red{background:rgba(255,45,85,0.07);border:1px solid rgba(255,45,85,0.27);border-radius:20px;padding:36px;backdrop-filter:blur(10px);}
+
+/* ---- ACT WRAPPERS ---- */
+.act{position:absolute;top:50px;left:0;width:1080px;height:960px;pointer-events:none;opacity:0;}
+
+/* ---- GLOBE ---- */
+#globe_container{position:absolute;top:130px;left:190px;width:700px;height:700px;border-radius:50%;background:radial-gradient(circle,#0a0a2e,#060610);border:2px solid var(--cyan);box-shadow:0 0 60px rgba(0,245,255,.33);display:flex;align-items:center;justify-content:center;opacity:0;}
+#globe_label{font-family:'Orbitron',sans-serif;color:var(--cyan);font-size:28px;letter-spacing:4px;text-shadow:0 0 20px var(--cyan);opacity:0;transform:scale(0.5);}
+.orbit-ring{position:absolute;border-radius:50%;border:1px dashed rgba(0,245,255,.35);}
+.sat-icon{position:absolute;font-size:32px;opacity:0;}
+
+/* ---- CHECKLIST ---- */
+#pred1_label{position:absolute;top:60px;left:60px;width:960px;font-family:'Orbitron',sans-serif;color:var(--orange);font-size:30px;font-weight:700;text-align:center;letter-spacing:3px;text-shadow:0 0 24px var(--orange);opacity:0;transform:translateY(30px);}
+#checklist_panel{position:absolute;top:180px;left:120px;width:840px;font-family:'Inter',sans-serif;color:#E0E0FF;font-size:34px;line-height:2.2;opacity:0;}
+.check-item{display:block;opacity:0;transform:translateX(-20px);}
+
+/* ---- PRED 2/3 ---- */
+#pred2_card{position:absolute;top:60px;left:40px;width:1000px;font-family:'Inter',sans-serif;color:var(--green);font-size:26px;line-height:1.7;opacity:0;transform:translateY(30px);}
+#pred3_card{position:absolute;top:60px;left:40px;width:1000px;font-family:'Inter',sans-serif;color:var(--cyan);font-size:26px;line-height:1.7;opacity:0;}
+.robot-vis{display:flex;align-items:center;justify-content:center;margin-top:20px;gap:20px;}
+.robot-arm{width:80px;height:120px;background:linear-gradient(180deg,#1a1a3e,#0a0a2e);border:2px solid var(--cyan);border-radius:12px;position:relative;box-shadow:0 0 20px rgba(0,245,255,.4);}
+.robot-joint{width:20px;height:20px;border-radius:50%;background:var(--cyan);box-shadow:0 0 12px var(--cyan);position:absolute;left:50%;transform:translateX(-50%);}
+.pipe-vis{width:200px;height:40px;background:linear-gradient(90deg,#2a2a4e,#1a1a3e);border:2px solid #7B2FFF;border-radius:8px;box-shadow:0 0 15px rgba(123,47,255,.4);}
+
+/* ---- PRED 4/5 ---- */
+#pred4_dashboard{position:absolute;top:60px;left:40px;width:1000px;font-family:'Orbitron',sans-serif;color:var(--green);font-size:24px;line-height:2.0;opacity:0;transform:translateY(30px);}
+.metric-bar{height:12px;border-radius:6px;background:linear-gradient(90deg,var(--green),var(--cyan));margin:4px 0;box-shadow:0 0 10px var(--green);}
+#pred5_tree{position:absolute;top:60px;left:40px;width:1000px;font-family:'Courier New',monospace;color:var(--red);font-size:24px;line-height:1.9;opacity:0;}
+.tree-node{display:block;opacity:0;transform:translateX(-15px);}
+.warn-flash{animation:warnPulse 1s infinite;}
+@keyframes warnPulse{0%,100%{color:var(--red);}50%{color:#fff;text-shadow:0 0 20px var(--red);}}
+
+/* ---- SAFETY ---- */
+#safety_shield{position:absolute;top:80px;left:80px;width:920px;font-family:'Orbitron',sans-serif;color:var(--green);font-size:26px;line-height:2.0;border:3px solid var(--red);border-radius:24px;padding:48px;backdrop-filter:blur(14px);box-shadow:0 0 60px rgba(255,45,85,.27),inset 0 0 40px rgba(255,45,85,.07);text-align:center;opacity:0;transform:scale(0.8);background:rgba(255,45,85,.06);}
+.shield-pulse{animation:shieldPulse 1.5s infinite;}
+@keyframes shieldPulse{0%,100%{box-shadow:0 0 60px rgba(255,45,85,.27),inset 0 0 40px rgba(255,45,85,.07);}50%{box-shadow:0 0 100px rgba(255,45,85,.6),inset 0 0 60px rgba(255,45,85,.2);}}
+
+/* ---- OUTRO ---- */
+#outro_cta{position:absolute;top:160px;left:80px;width:920px;font-family:'Orbitron',sans-serif;color:var(--orange);font-size:36px;font-weight:700;line-height:1.8;text-align:center;text-shadow:0 0 30px var(--orange);border:2px solid var(--orange);border-radius:24px;padding:60px;backdrop-filter:blur(12px);box-shadow:0 0 80px rgba(255,107,0,.2);background:rgba(255,107,0,.08);opacity:0;transform:scale(0.8);}
+.cta-pulse{animation:ctaPulse 2s infinite;}
+@keyframes ctaPulse{0%,100%{box-shadow:0 0 80px rgba(255,107,0,.2);}50%{box-shadow:0 0 140px rgba(255,107,0,.5);}}
+
+/* ---- FACE / CAPTIONS ---- */
+#face-frame{position:absolute;left:56px;top:1316px;width:408px;height:408px;border:4px solid var(--cyan);border-radius:34px;box-shadow:0 0 25px rgba(0,245,255,.4),inset 0 0 15px rgba(0,245,255,.2);z-index:85;background:rgba(8,10,20,.6);pointer-events:none;}
+#caption-container{position:absolute;right:30px;top:1320px;width:550px;height:400px;z-index:90;display:flex;align-items:center;justify-content:center;background:rgba(8,10,20,.78);border:1.5px solid rgba(255,255,255,.08);border-radius:22px;backdrop-filter:blur(12px);box-shadow:0 8px 32px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,255,255,.05);flex-direction:column;padding:20px;overflow:hidden;}
+.sentence-block{display:flex;flex-wrap:wrap;justify-content:center;align-content:center;width:100%;gap:8px 12px;text-shadow:0 3px 10px rgba(0,0,0,.9);}
+.cap-word{display:inline-block;font-size:28px;font-weight:800;color:rgba(255,255,255,.92);font-family:'Inter',sans-serif;transition:color .1s;}
+.cap-word.active{color:#fff;}
+.cap-word.active-highlight{color:var(--cyan);text-shadow:0 0 12px var(--cyan);}
+.cap-word.active-danger{color:var(--red);text-shadow:0 0 12px var(--red);}
+.cap-word.past{color:rgba(255,255,255,.4);}
+
+/* ---- STUDENT CARD ---- */
+#student-card{position:absolute;left:136px;top:104px;width:808px;height:1212px;opacity:0;transform:scale(0.8);z-index:150;pointer-events:none;}
+</style>
+</head>
+<body>
+<canvas id="canvas-bg" width="1080" height="1920"></canvas>
+<div class="scene-container">
+  <div id="caption-container"></div>
+  <div id="face-frame"></div>
+
+  <!-- Student Card -->
+  <div id="student-card">
+    <div style="font-family:'Orbitron',sans-serif;color:var(--cyan);font-size:20px;text-transform:uppercase;letter-spacing:2px;height:24px;margin-bottom:12px;text-align:center;">QUESTION</div>
+    <div style="width:800px;height:1160px;border:4px solid var(--cyan);box-shadow:0 0 50px rgba(0,245,255,.3);background:rgba(10,10,15,.6);backdrop-filter:blur(10px);"></div>
+  </div>
+
+  <!-- ACT 1: HOOK GLOBE -->
+  <div id="act1" class="act" style="opacity:1;">
+    <div id="globe_container">
+      <div class="orbit-ring" style="width:300px;height:300px;top:200px;left:200px;"></div>
+      <div class="orbit-ring" style="width:500px;height:500px;top:100px;left:100px;"></div>
+      <div class="orbit-ring" style="width:650px;height:650px;top:25px;left:25px;"></div>
+      <div id="sat1" class="sat-icon" style="top:60px;left:310px;">🤖</div>
+      <div id="sat2" class="sat-icon" style="top:200px;left:620px;">🌐</div>
+      <div id="sat3" class="sat-icon" style="top:500px;left:580px;">⚡</div>
+      <div id="sat4" class="sat-icon" style="top:560px;left:200px;">🛡️</div>
+      <div id="sat5" class="sat-icon" style="top:280px;left:30px;">📈</div>
+      <div id="globe_label">5 PREDICTIONS</div>
+    </div>
+  </div>
+
+  <!-- ACT 2: GENERALIST -->
+  <div id="act2" class="act">
+    <div id="pred1_label">PREDICTION 1: GENERALIST AGENTS</div>
+    <div id="checklist_panel" class="card-orange pre">
+      <span class="check-item">✅ Verify flight</span>
+      <span class="check-item">✅ Select venue</span>
+      <span class="check-item">✅ Approve budget</span>
+      <span class="check-item">🔗 Lego-block models</span>
+    </div>
+  </div>
+
+  <!-- ACT 3: PROACTIVE + ROBOTIC -->
+  <div id="act3" class="act">
+    <div id="pred2_card" class="card-cyan pre">PREDICTION 2
+🤖 PROACTIVE PARTNER
+
+'Detected sustainable energy goal.
+Summarized 3 papers &amp; drafted registration.'</div>
+    <div id="pred3_card" class="card-purple pre">PREDICTION 3
+🦾 ROBOTIC AGENTS
+
+AI + Robot → sees leaky tap → fixes it autonomously
+      <div class="robot-vis">
+        <div class="robot-arm"><div class="robot-joint" style="top:10px;"></div><div class="robot-joint" style="top:55px;"></div><div class="robot-joint" style="top:95px;"></div></div>
+        <svg width="60" height="40"><line x1="0" y1="20" x2="60" y2="20" stroke="#00F5FF" stroke-width="3"/><circle cx="30" cy="20" r="8" fill="none" stroke="#7B2FFF" stroke-width="2"/></svg>
+        <div class="pipe-vis"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ACT 4: ECONOMY + METAMORPHIC -->
+  <div id="act4" class="act">
+    <div id="pred4_dashboard" class="card-green pre">PREDICTION 4: AGENT ECONOMY
+📈 Sales +340%
+<div class="metric-bar" style="width:80%;"></div>
+🔄 Auto-pricing active
+🤝 Supplier API: CONNECTED</div>
+    <div id="pred5_tree" class="card-red">
+      <span class="tree-node">PREDICTION 5: SELF-CHANGING SYSTEMS</span>
+      <span class="tree-node" style="margin-top:16px;">[GOAL: Start Coffee Business]</span>
+      <span class="tree-node">  ├─ Agent A: Market Research</span>
+      <span class="tree-node">  ├─ Agent B: Code Writer</span>
+      <span class="tree-node warn-flash">  └─ Agent C: ⚠️ SAFETY RISK</span>
+    </div>
+  </div>
+
+  <!-- ACT 5: SAFETY -->
+  <div id="act5" class="act">
+    <div id="safety_shield" class="pre">🛡️ SAFETY GUARDRAIL
+
+[SANDBOX ACTIVE]
+Self-modifying code → BLOCKED
+✅ Auto-test: PASS
+🚫 Boundary breach: REJECTED</div>
+  </div>
+
+  <!-- ACT 6: OUTRO -->
+  <div id="act6" class="act">
+    <div id="outro_cta" class="pre">NEXT: CHAPTER 1
+PROMPT CHAINING
+
+⭐ SUBSCRIBE ⭐
+Build the Future of AI</div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script src="ep_04_scene_captions.js"></script>
+<script>
+// =====================================================================
+// MASTER TIMELINE
+// =====================================================================
+const tl = gsap.timeline({ paused: true });
+window.tl = tl;
+
+const time = (sec) => {
+    let shifted = sec;
+    if (sec >= 0.0) shifted += 9.5;
+    if (sec > 91.615) shifted += 10.0;
+    return shifted;
+};
+
+// =====================================================================
+// CANVAS AMBIENT PARTICLES
+// =====================================================================
+const canvas = document.getElementById('canvas-bg');
+const ctx = canvas.getContext('2d');
+const PARTICLES = Array.from({length:80},()=>({
+  x:Math.random()*1080, y:Math.random()*1920,
+  r:Math.random()*2+0.5,
+  vx:(Math.random()-.5)*.4, vy:(Math.random()-.5)*.4,
+  a:Math.random()*.5+.1,
+  c:`hsl(${[180,200,270,300][Math.floor(Math.random()*4)]},100%,70%)`
+}));
+function drawParticles(){
+  ctx.clearRect(0,0,1080,1920);
+  PARTICLES.forEach(p=>{
+    p.x+=p.vx; p.y+=p.vy;
+    if(p.x<0)p.x=1080; if(p.x>1080)p.x=0;
+    if(p.y<0)p.y=1920; if(p.y>1920)p.y=0;
+    ctx.beginPath();
+    ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+    ctx.fillStyle=p.c;
+    ctx.globalAlpha=p.a;
+    ctx.fill();
+  });
+  ctx.globalAlpha=1;
+  requestAnimationFrame(drawParticles);
+}
+drawParticles();
+
+// =====================================================================
+// CAPTIONS SYNC
+// =====================================================================
+const sentences = window.ep_04_scene_captions || [];
+const captionContainer = document.getElementById('caption-container');
+const highlightWords = ["generalist","proactive","robotic","economy","self-changing","predictions","agents","sandbox","guardrails","prompt","chaining","subscribe","autonomous","physical","self-modifying","prediction","lego","partner","coffee","business","testing","future","subscribe"];
+const dangerWords = ["safety","risk","dangerous","breaks","shuts","cannot","touch","rewrite","blocked","rejected","danger"];
+
+sentences.forEach(sentence => {
+  const sDiv = document.createElement('div');
+  sDiv.className = 'sentence-block';
+  gsap.set(sDiv, { display:'none', opacity:0 });
+  sentence.words.forEach(w => {
+    const wSpan = document.createElement('span');
+    wSpan.className = 'cap-word';
+    wSpan.innerText = w.text;
+    sDiv.appendChild(wSpan);
+    const clean = w.text.toLowerCase().replace(/[.,\/#!$%\^&\*;:{}=\-_`~()?%]/g,'');
+    let activeClass = 'active';
+    if(highlightWords.includes(clean)) activeClass = 'active-highlight';
+    if(dangerWords.includes(clean)) activeClass = 'active-danger';
+    tl.to(wSpan,{
+      onStart:()=>{ wSpan.classList.add(activeClass); wSpan.classList.remove('past'); },
+      onReverseComplete:()=>{ wSpan.classList.remove(activeClass); wSpan.classList.remove('past'); },
+      duration:0.05
+    }, w.start);
+    if(w.end){
+      tl.to(wSpan,{
+        onStart:()=>{ wSpan.classList.remove(activeClass); wSpan.classList.add('past'); },
+        duration:0.05
+      }, w.end);
+    }
+  });
+  captionContainer.appendChild(sDiv);
+  tl.to(sDiv,{ display:'flex', opacity:1, duration:0.15 }, sentence.start);
+  tl.to(sDiv,{ opacity:0, duration:0.15 }, sentence.end - 0.1);
+  tl.to(sDiv,{ display:'none', duration:0.05 }, sentence.end);
+});
+
+// =====================================================================
+// SCENE ANIMATIONS
+// =====================================================================
+
+// --- ACT 1: HOOK GLOBE ---
+tl.set('#act1',{opacity:1}, time(7.0));
+tl.to('#globe_container',{opacity:1,duration:1.0,ease:'power2.out'}, time(7.5));
+tl.to('#globe_label',{opacity:1,scale:1,duration:0.8,ease:'back.out(1.7)'}, time(10.2));
+['#sat1','#sat2','#sat3','#sat4','#sat5'].forEach((s,i)=>{
+  tl.to(s,{opacity:1,duration:0.4,ease:'power2.out'}, time(8.0+i*0.3));
+});
+tl.to('#act1',{opacity:0,duration:0.4}, time(13.2));
+
+// --- ACT 2: GENERALIST ---
+tl.set('#act2',{opacity:1}, time(13.5));
+tl.to('#pred1_label',{opacity:1,y:0,duration:0.6,ease:'power3.out'}, time(13.617));
+tl.to('#checklist_panel',{opacity:1,duration:0.5,ease:'power2.out'}, time(16.4));
+document.querySelectorAll('.check-item').forEach((el,i)=>{
+  tl.to(el,{opacity:1,x:0,duration:0.5,ease:'power2.out'}, time(17.0+i*0.8));
+});
+tl.to('#act2',{opacity:0,duration:0.5}, time(32.5));
+
+// --- ACT 3: PROACTIVE + ROBOTIC ---
+tl.set('#act3',{opacity:1}, time(33.0));
+tl.to('#pred2_card',{opacity:1,y:0,duration:0.7,ease:'power3.out'}, time(33.007));
+tl.to('#pred2_card',{opacity:0,duration:0.5,ease:'power2.in'}, time(44.5));
+tl.to('#pred3_card',{opacity:1,duration:0.7,ease:'power2.out'}, time(45.5));
+tl.to('#act3',{opacity:0,duration:0.5}, time(60.5));
+
+// --- ACT 4: ECONOMY + METAMORPHIC ---
+tl.set('#act4',{opacity:1}, time(61.0));
+tl.to('#pred4_dashboard',{opacity:1,y:0,duration:0.7,ease:'power3.out'}, time(61.089));
+tl.to('#pred4_dashboard',{opacity:0,duration:0.5,ease:'power2.in'}, time(78.5));
+tl.to('#pred5_tree',{opacity:1,duration:0.7,ease:'power2.out'}, time(79.294));
+document.querySelectorAll('.tree-node').forEach((el,i)=>{
+  tl.to(el,{opacity:1,x:0,duration:0.5,ease:'power2.out'}, time(80.0+i*0.6));
+});
+tl.to('#act4',{opacity:0,duration:0.5}, time(101.8));
+
+// --- ACT 5: SAFETY ---
+tl.set('#act5',{opacity:1}, time(112.0));
+tl.to('#safety_shield',{opacity:1,scale:1,duration:0.8,ease:'back.out(1.4)'}, time(112.035));
+tl.to('#safety_shield',{
+  onStart:()=>document.getElementById('safety_shield').classList.add('shield-pulse'),
+  duration:0.05
+}, time(117.477));
+tl.to('#act5',{opacity:0,duration:0.5}, time(134.5));
+
+// --- ACT 6: OUTRO ---
+tl.set('#act6',{opacity:1}, time(135.0));
+tl.to('#outro_cta',{opacity:1,scale:1,duration:1.0,ease:'back.out(1.7)'}, time(135.036));
+tl.to('#outro_cta',{
+  onStart:()=>document.getElementById('outro_cta').classList.add('cta-pulse'),
+  duration:0.05
+}, time(141.675));
+tl.to('#act6',{opacity:0,duration:0.3}, time(144.3));
+
+// =====================================================================
+// KEYBOARD CONTROLS
+// =====================================================================
+const actTimes = [7.351,13.617,33.007,61.089,112.035,135.036];
+document.addEventListener('keydown',e=>{
+  if(e.code==='Space'){e.preventDefault(); tl.paused()?tl.play():tl.pause();}
+  const n=parseInt(e.key);
+  if(n>=1&&n<=actTimes.length){ tl.seek(time(actTimes[n-1])); tl.play(); }
+});
+</script>
+</body>
+</html>
