@@ -11,38 +11,48 @@
 This is the clean text you will read during voice recording/teleprompting.
 
 **Riya (Intro Hook at 0.0s - 10.0s):**
-"In this video, we will learn why giving one big prompt to an AI often fails. And how breaking it into small steps — called Prompt Chaining — makes it work much better."
+"Ever asked an AI to do five things at once… and it forgot half of them? Today you'll learn why that happens — and the simple trick to fix it."
 
 **Presenter:**
-"Let me show you the problem. Imagine you ask an AI: 'Read this market report, summarize it, find the top three trends with data, and write an email to the team.' That is four jobs in one prompt.
+"Okay, picture this. You give an AI one big prompt: 'Read this market report. Summarize it. Find the top three trends with numbers. And write an email to the team.'
 
-What happens? The AI might summarize well, but forget to extract the data points. Or it writes a good email but misses a trend. This is because a single prompt puts too much load on the model. It starts forgetting instructions, losing track of context, and sometimes it just makes things up.
+Four tasks. One prompt. What happens?
 
-This is called prompt overload. And the solution is simple: Prompt Chaining.
+The summary? Pretty good. The trends? It missed one. The email? It forgot the data completely.
 
-Instead of one big prompt, we break the task into small steps. Step one: summarize the report. Step two: take that summary and find the top trends with data. Step three: take those trends and write the email.
+Why? Because one prompt is too much. The AI gets confused. It forgets instructions. It loses track halfway. And sometimes? It just makes stuff up.
 
-Each step does only one job. And the output of one step becomes the input of the next step. This is like a factory assembly line — each worker does one task, and passes the result to the next worker."
+So here's the fix. Don't give it one big task. Break it into small steps.
+
+Step one — just summarize the report. That's it.
+Step two — take that summary and pull out the trends with numbers.
+Step three — take those trends and write the email.
+
+Each step does one job. And the result of each step feeds into the next one. Like a factory line — one worker, one job, pass it forward.
+
+This is called Prompt Chaining. And it changes everything."
 
 **Riya (Question Overlay at 50.0s - 60.0s):**
-"But if one step gives messy output, won't the next step also fail? How do we make sure the data passed between steps is clean and correct?"
+"Okay, but what if step one gives a messy answer? Won't that mess up step two also? How do we keep the data clean between steps?"
 
 **Presenter:**
-"Great question, Riya! This is why we use structured output — like JSON. Instead of letting the AI write its answer in free text, we tell it to return a clean JSON object. This way, the next step can read the data exactly, without any confusion.
+"Smart question. So here's what we do — we don't let the AI write freely. We say: give me the answer in JSON format. A fixed structure.
 
-For example, the trend extraction step returns a JSON with trend name and supporting data. The email step reads that JSON and uses it directly. Clean input, clean output. That is the power of structured chaining.
+So instead of messy paragraphs, you get something like: trend name, supporting data — clean and organized. The next step reads it directly. No confusion.
 
-In our next video, we will look at real-world use cases of prompt chaining. Subscribe to keep learning!"
+Clean in, clean out. That's the rule.
+
+Next up — real-world use cases of prompt chaining. Subscribe!"
 
 ### 2. Visual Storyboard
 This coordinates the animations, overlays, and timing cues for the video assembly.
 
 | Time | Visual State / Animation | Audio Cues |
 | :--- | :--- | :--- |
-| **0.0s - 10.0s** | **[Riya Intro (PiP)]** Riya's glassmorphic card overlays the center visual space at $x: 140, y: 140, w: 800, h: 1160$ with an orange border glow. Background shows a dark grid with faint prompt text scrolling. | Riya: "In this video, we will learn why..." |
-| **10.0s - 22.0s** | **[The Problem]** Riya's card fades. Presenter's face circle appears. A giant single prompt box appears on screen with four highlighted tasks crammed inside. Red warning icons appear next to "Extract Data" and "Draft Email" — showing they failed. | Presenter: "Let me show you the problem..." |
-| **22.0s - 32.0s** | **[Prompt Overload]** The single prompt box cracks and breaks apart. Labels fly out: "Instruction Neglect", "Context Drift", "Hallucination". Each label pulses red. | Presenter: "This is called prompt overload..." |
-| **32.0s - 50.0s** | **[The Chain Solution]** Three clean, small prompt boxes line up left-to-right connected by glowing arrows. Box 1: "Summarize" → Box 2: "Find Trends" → Box 3: "Write Email". Each box lights up green as it completes. A factory assembly line animation runs underneath. | Presenter: "Instead of one big prompt..." |
-| **50.0s - 60.0s** | **[Riya Question (PiP)]** Riya's glassmorphic overlay card slides in at $x: 140, y: 140, w: 800, h: 1160$ with an orange border glow. Background chain animations freeze. Presenter's face circle is hidden. | Riya: "But if one step gives messy output..." |
-| **60.0s - 70.0s** | **[Structured JSON]** Riya's card fades. Presenter's face circle reappears. Show a clean JSON object on screen: `{"trends": [{"trend_name": "AI Personalization", "supporting_data": "73% of consumers prefer..."}]}`. An arrow feeds it into the next prompt box which lights up green. | Presenter: "Great question, Riya!..." |
-| **70.0s - 75.0s** | **[Outro / Subscribe]** The chain zooms out showing the full three-step pipeline with green checkmarks. Text overlay: "Next: Prompt Chaining in Practice" with a pulsing subscribe button. | Presenter: "In our next video..." |
+| **0.0s - 10.0s** | **[Riya Intro (PiP)]** Riya's glassmorphic card overlays the center visual space at $x: 140, y: 140, w: 800, h: 1160$ with an orange border glow. Background shows a dark grid with faint prompt text scrolling. | Riya: "Ever asked an AI to do five things..." |
+| **10.0s - 22.0s** | **[The Problem]** Riya's card fades. Presenter's face circle appears. A giant single prompt box appears on screen with four highlighted tasks crammed inside. Red warning icons appear next to "Extract Data" and "Draft Email" — showing they failed. | Presenter: "Okay, picture this..." |
+| **22.0s - 32.0s** | **[Prompt Overload]** The single prompt box cracks and breaks apart. Labels fly out: "Forgot Instructions", "Lost Track", "Made Stuff Up". Each label pulses red. | Presenter: "Why? Because one prompt is too much..." |
+| **32.0s - 50.0s** | **[The Chain Solution]** Three clean, small prompt boxes line up left-to-right connected by glowing arrows. Box 1: "Summarize" → Box 2: "Find Trends" → Box 3: "Write Email". Each box lights up green as it completes. A factory assembly line animation runs underneath. | Presenter: "So here's the fix..." |
+| **50.0s - 60.0s** | **[Riya Question (PiP)]** Riya's glassmorphic overlay card slides in at $x: 140, y: 140, w: 800, h: 1160$ with an orange border glow. Background chain animations freeze. Presenter's face circle is hidden. | Riya: "Okay, but what if step one gives..." |
+| **60.0s - 70.0s** | **[Structured JSON]** Riya's card fades. Presenter's face circle reappears. Show a clean JSON object on screen: `{"trends": [{"trend_name": "AI Personalization", "supporting_data": "73% prefer..."}]}`. An arrow feeds it into the next prompt box which lights up green. | Presenter: "Smart question. So here's what we do..." |
+| **70.0s - 75.0s** | **[Outro / Subscribe]** The chain zooms out showing the full three-step pipeline with green checkmarks. Text overlay: "Next: Prompt Chaining in Practice" with a pulsing subscribe button. | Presenter: "Next up — real-world use cases..." |

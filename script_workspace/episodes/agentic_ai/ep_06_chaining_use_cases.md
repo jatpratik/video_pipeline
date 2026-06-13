@@ -11,36 +11,52 @@
 This is the clean text you will read during voice recording/teleprompting.
 
 **Riya (Intro Hook at 0.0s - 10.0s):**
-"In this video, we will see how prompt chaining is used in real projects — from reading invoices to building full research reports."
+"Prompt chaining isn't just theory. Today we'll see it work on real tasks — reading invoices, building reports, and even writing code."
 
 **Presenter:**
-"Prompt chaining is not just theory. Let me show you how people use it in the real world.
+"Let's make this real.
 
-Use case one: Reading invoices. Imagine you have a scanned PDF invoice. Step one: the AI reads the text from the image using OCR. Step two: it cleans up the data — for example, converting 'one thousand and fifty' into the number 1050. Step three: if there is any math to do, like calculating tax, we send the numbers to a calculator tool. The AI is not good at math, so we use an external tool for that part. Step four: we get the final, accurate result.
+Your company gets hundreds of scanned invoices every month. All PDFs. How does AI handle this?
 
-Use case two: Building a research report. Step one: find and download many articles about a topic. Step two: extract key information from each article. This part can actually run in parallel — all articles at the same time. Step three: once all the data is collected, we chain it together. Combine the findings into one document, then write a draft, and then review and improve the draft. These last steps must happen one after the other, because each step depends on the previous one.
+Step one — the AI reads text from the scanned image. That's OCR.
+Step two — it cleans up the messy text. 'One thousand fifty' becomes 1050.
+Step three — any math needed? Like tax? We don't trust the AI with math. We send the numbers to a calculator tool. It does the math perfectly.
+Step four — done. Clean, accurate data.
 
-Use case three: Writing code. Step one: understand the request and write an outline. Step two: write the code. Step three: check for errors. Step four: fix the errors and add comments. Each step builds on the last one."
+Now, a bigger example. You need a research report on a topic.
+
+Step one — find and download ten articles. Here's the cool part — this step can run in parallel. All ten at the same time. They don't depend on each other.
+
+But after that? It's sequential. Step two — combine all findings into one document. Step three — write the draft. Step four — review and polish it. Each step needs the previous one to finish first.
+
+One more. Writing code.
+
+Step one — understand the request and plan it out.
+Step two — write the first draft of code.
+Step three — check for bugs.
+Step four — fix bugs, add comments. Done."
 
 **Riya (Question Overlay at 55.0s - 65.0s):**
-"You said some steps can run at the same time, and some must run one after the other. In a big project, how do we decide which parts to run in parallel and which to chain?"
+"So some steps run together, and some run one by one. How do you decide which is which?"
 
 **Presenter:**
-"Good question, Riya! The rule is simple: if two tasks do not depend on each other, run them in parallel. For example, reading ten different articles — each one is independent. But once you need to combine all the results into one report, that must be sequential. You cannot combine data you have not collected yet.
+"Simple rule. If two tasks don't need each other — run them together. Reading ten different articles? Independent. Run them all at once.
 
-So in practice, real systems use both: parallel processing for independent work, and prompt chaining for the steps that depend on each other.
+But combining those articles into one report? That needs all the data first. So it waits. It runs after.
 
-In our next video, we will write actual Python code to build a prompt chain. Subscribe to code with me!"
+Real systems use both. Parallel for speed. Chaining for order.
+
+Next — we'll write actual Python code to build a chain. Subscribe!"
 
 ### 2. Visual Storyboard
 This coordinates the animations, overlays, and timing cues for the video assembly.
 
 | Time | Visual State / Animation | Audio Cues |
 | :--- | :--- | :--- |
-| **0.0s - 10.0s** | **[Riya Intro (PiP)]** Riya's glassmorphic card overlays the center visual space at $x: 140, y: 140, w: 800, h: 1160$ with an orange border glow. Background shows blurred document icons and code snippets. | Riya: "In this video, we will see..." |
-| **10.0s - 30.0s** | **[Use Case 1: Invoice]** Riya's card fades. Presenter's face circle appears. A scanned invoice image appears. Arrows flow: OCR (text extraction) → Cleanup ("one thousand" becomes "1050") → Calculator tool icon → Final clean data card with green checkmark. | Presenter: "Use case one: Reading invoices..." |
-| **30.0s - 45.0s** | **[Use Case 2: Research Report]** Transition to a library of article thumbnails. Multiple articles download simultaneously (parallel arrows). Then a funnel merges them into one document → Draft text block → Polished report with gold badge. Sequential arrows are shown for the last three steps. | Presenter: "Use case two: Building a research report..." |
-| **45.0s - 55.0s** | **[Use Case 3: Code Generation]** Transition to a code editor. Steps appear as tabs: "Outline" → "Draft Code" → "Error Check" → "Final Code + Comments". Each tab lights up green in sequence. | Presenter: "Use case three: Writing code..." |
-| **55.0s - 65.0s** | **[Riya Question (PiP)]** Riya's glassmorphic overlay card slides in at $x: 140, y: 140, w: 800, h: 1160$ with an orange border glow. Background code editor freezes. Presenter's face circle is hidden. | Riya: "You said some steps can run..." |
-| **65.0s - 75.0s** | **[Parallel vs Sequential]** Riya's card fades. Presenter's face circle reappears. Split screen: Left side shows 10 parallel arrows going into 10 article boxes (parallel). Right side shows 3 sequential boxes connected by arrows: "Combine" → "Draft" → "Review" (sequential). | Presenter: "Good question, Riya!..." |
-| **75.0s - 80.0s** | **[Outro / Subscribe]** All three use case icons (invoice, report, code) line up with green checkmarks. Text overlay: "Next: Coding a Prompt Chain" with a pulsing subscribe button. | Presenter: "In our next video..." |
+| **0.0s - 10.0s** | **[Riya Intro (PiP)]** Riya's glassmorphic card overlays the center visual space at $x: 140, y: 140, w: 800, h: 1160$ with an orange border glow. Background shows blurred document icons and code snippets. | Riya: "Prompt chaining isn't just theory..." |
+| **10.0s - 30.0s** | **[Use Case 1: Invoice]** Riya's card fades. Presenter's face circle appears. A scanned invoice image appears. Arrows flow: OCR (text extraction) → Cleanup ("one thousand" becomes "1050") → Calculator tool icon → Final clean data card with green checkmark. | Presenter: "Your company gets hundreds..." |
+| **30.0s - 45.0s** | **[Use Case 2: Research Report]** Transition to a library of article thumbnails. Multiple articles download simultaneously (parallel arrows). Then a funnel merges them into one document → Draft text block → Polished report with gold badge. Sequential arrows are shown for the last three steps. | Presenter: "Now, a bigger example..." |
+| **45.0s - 55.0s** | **[Use Case 3: Code Generation]** Transition to a code editor. Steps appear as tabs: "Plan" → "Draft Code" → "Bug Check" → "Final Code". Each tab lights up green in sequence. | Presenter: "One more. Writing code..." |
+| **55.0s - 65.0s** | **[Riya Question (PiP)]** Riya's glassmorphic overlay card slides in at $x: 140, y: 140, w: 800, h: 1160$ with an orange border glow. Background code editor freezes. Presenter's face circle is hidden. | Riya: "So some steps run together..." |
+| **65.0s - 75.0s** | **[Parallel vs Sequential]** Riya's card fades. Presenter's face circle reappears. Split screen: Left side shows 10 parallel arrows going into 10 article boxes (parallel). Right side shows 3 sequential boxes connected by arrows: "Combine" → "Draft" → "Review" (sequential). | Presenter: "Simple rule..." |
+| **75.0s - 80.0s** | **[Outro / Subscribe]** All three use case icons (invoice, report, code) line up with green checkmarks. Text overlay: "Next: Coding a Prompt Chain" with a pulsing subscribe button. | Presenter: "Next — we'll write actual Python code..." |
