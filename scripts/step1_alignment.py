@@ -182,11 +182,74 @@ def _update_scenes_metadata(scenes_dir: Path, scene_id: str, duration: float) ->
     logger.info(f"Updated scenes.json metadata for scene '{scene_id}'")
 
 
+def chunk_alignment_segments(segments: list, max_words: int = 8, max_gap: float = 0.4) -> list:
+    """
+    Split long segments into smaller sub-segments (chunks) based on:
+    - Maximum word count per chunk (max_words).
+    - Large silence gaps between words (max_gap).
+    - Punctuation marks at the end of words.
+    """
+    chunked_segments = []
+    punctuation_marks = {".", ",", "?", "!", ";", ":"}
+
+    for seg in segments:
+        words = seg.get("words", [])
+        if not words:
+            continue
+
+        current_chunk = []
+        for w in words:
+            should_split = False
+            if current_chunk:
+                # 1. Check max words constraint
+                if len(current_chunk) >= max_words:
+                    should_split = True
+
+                # 2. Check time gap constraint
+                prev_word = current_chunk[-1]
+                gap = w["start"] - prev_word["end"]
+                if gap >= max_gap:
+                    should_split = True
+
+                # 3. Check punctuation constraint on the previous word
+                prev_text = prev_word.get("word", "").strip()
+                if prev_text and prev_text[-1] in punctuation_marks:
+                    should_split = True
+
+            if should_split and current_chunk:
+                chunk_text = " ".join([cw["word"] for cw in current_chunk])
+                chunked_segments.append({
+                    "text": chunk_text,
+                    "start": current_chunk[0]["start"],
+                    "end": current_chunk[-1]["end"],
+                    "words": list(current_chunk)
+                })
+                current_chunk = []
+
+            current_chunk.append(w)
+
+        if current_chunk:
+            chunk_text = " ".join([cw["word"] for cw in current_chunk])
+            chunked_segments.append({
+                "text": chunk_text,
+                "start": current_chunk[0]["start"],
+                "end": current_chunk[-1]["end"],
+                "words": list(current_chunk)
+            })
+
+    return chunked_segments
+
+
 def _write_js_captions(scenes_dir: Path, scene_id: str, alignment: dict) -> Path:
-    """Write browser-ready captions JS array."""
+    """Write browser-ready captions JS array after chunking long segments."""
     js_output_path = scenes_dir / f"{scene_id}_captions.js"
+    
+    # Chunk long segments to prevent boundary overflow
+    original_segments = alignment.get("segments", [])
+    chunked_segments = chunk_alignment_segments(original_segments)
+    
     js_segments = []
-    for seg in alignment["segments"]:
+    for seg in chunked_segments:
         js_words = []
         for w in seg["words"]:
             js_words.append({
@@ -204,7 +267,7 @@ def _write_js_captions(scenes_dir: Path, scene_id: str, alignment: dict) -> Path
     js_content = f"window.{scene_id}_captions = {json.dumps(js_segments, indent=2, ensure_ascii=False)};\n"
     with open(js_output_path, "w", encoding="utf-8") as f:
         f.write(js_content)
-    logger.info(f"Saved captions array to {js_output_path}")
+    logger.info(f"Saved chunked captions array to {js_output_path}")
     return js_output_path
 
 

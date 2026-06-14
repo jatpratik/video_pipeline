@@ -153,11 +153,12 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         }
 
         .sentence-block {
+            position: absolute;
+            width: calc(100% - 48px);
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
             align-content: center;
-            width: 100%;
             gap: 8px 12px;
             text-shadow: 0 3px 10px rgba(0, 0, 0, 0.9);
         }
@@ -363,7 +364,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
                 wSpan.innerText = w.text;
                 sDiv.appendChild(wSpan);
 
-                const cleanWord = w.text.toLowerCase().replace(/[.,\/#!$%\^&\*;:{}=\-_`~()?%]/g, "");
+                const cleanWord = w.text.toLowerCase().replace(/[.,\\/#!$%\\^\\&\\*;:{}=\\-_`~()?%]/g, "");
                 let activeClass = "active";
                 if (highlightWords.includes(cleanWord)) {
                     activeClass = "active-highlight";

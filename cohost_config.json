@@ -1,7 +1,7 @@
 {
   "explanation_video": "output/final_video_speed.mp4",
   "output_video": "output/release_ready.mp4",
-  "speed": 1.25,
+  "speed": 1.30,
   "cohosts": [
     {
       "name": "start_hook",
@@ -14,18 +14,18 @@
     {
       "name": "student_speaking",
       "video_path": "input/student_speaking.mp4",
-      "insert_time_original": 91.615,
+      "insert_time_original": 71.48,
       "padding_start": 0.5,
       "padding_end": 0.5,
       "captions": [
         {
-          "text": "Wait... if a system can write its own code and change its own structure,",
+          "text": "Okay, but what if step one gives a messy answer? Won't that mess up step two also?",
           "start": 0.5,
-          "end": 4.5
+          "end": 5.0
         },
         {
-          "text": "how do we keep it under control? What if it does something dangerous?",
-          "start": 4.6,
+          "text": "How do we keep the data clean between steps?",
+          "start": 5.1,
           "end": 8.5
         }
       ]

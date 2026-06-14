@@ -1,1827 +1,1524 @@
 {
   "segments": [
     {
-      "text": "Here are 5 predictions for what is next.",
-      "start": 0.695,
-      "end": 3.036,
+      "text": "okay picture this you give an ai one big prompt read this market report summarize it find the top three trends with numbers and write an email to the team we have four tasks one prompt what happens the summary pretty good the trends it missed one the email it forgot the data completely",
+      "start": 1.188,
+      "end": 23.189,
       "words": [
         {
-          "word": "Here",
-          "start": 0.695,
-          "end": 0.895,
-          "score": 0.945
-        },
-        {
-          "word": "are",
-          "start": 0.975,
-          "end": 1.075,
-          "score": 0.855
-        },
-        {
-          "word": "5",
-          "start": 1.155,
-          "end": 1.415,
-          "score": 0.729
-        },
-        {
-          "word": "predictions",
-          "start": 1.475,
-          "end": 1.996,
-          "score": 0.882
-        },
-        {
-          "word": "for",
-          "start": 2.076,
-          "end": 2.236,
-          "score": 0.9
-        },
-        {
-          "word": "what",
-          "start": 2.296,
-          "end": 2.476,
-          "score": 0.819
-        },
-        {
-          "word": "is",
-          "start": 2.536,
-          "end": 2.636,
-          "score": 0.718
-        },
-        {
-          "word": "next.",
-          "start": 2.736,
-          "end": 3.036,
-          "score": 0.887
-        }
-      ]
-    },
-    {
-      "text": "Prediction 1.",
-      "start": 4.117,
-      "end": 4.937,
-      "words": [
-        {
-          "word": "Prediction",
-          "start": 4.117,
-          "end": 4.637,
-          "score": 0.878
-        },
-        {
-          "word": "1.",
-          "start": 4.797,
-          "end": 4.937,
-          "score": 0.819
-        }
-      ]
-    },
-    {
-      "text": "Generalist agents.",
-      "start": 5.317,
-      "end": 6.338,
-      "words": [
-        {
-          "word": "Generalist",
-          "start": 5.317,
-          "end": 5.878,
-          "score": 0.849
-        },
-        {
-          "word": "agents.",
-          "start": 6.018,
-          "end": 6.338,
-          "score": 0.953
-        }
-      ]
-    },
-    {
-      "text": "Instead of doing only one small task, these agents will manage big projects over weeks like planning a company trip.",
-      "start": 6.898,
-      "end": 15.663,
-      "words": [
-        {
-          "word": "Instead",
-          "start": 6.898,
-          "end": 7.258,
-          "score": 0.851
-        },
-        {
-          "word": "of",
-          "start": 7.299,
-          "end": 7.379,
-          "score": 0.832
-        },
-        {
-          "word": "doing",
-          "start": 7.459,
-          "end": 7.739,
-          "score": 0.845
-        },
-        {
-          "word": "only",
-          "start": 7.919,
-          "end": 8.199,
-          "score": 0.544
-        },
-        {
-          "word": "one",
-          "start": 8.499,
-          "end": 8.659,
-          "score": 0.721
-        },
-        {
-          "word": "small",
-          "start": 8.719,
-          "end": 9.019,
-          "score": 0.895
-        },
-        {
-          "word": "task,",
-          "start": 9.079,
-          "end": 9.4,
-          "score": 0.993
-        },
-        {
-          "word": "these",
-          "start": 10.36,
-          "end": 10.58,
-          "score": 0.712
-        },
-        {
-          "word": "agents",
-          "start": 10.7,
-          "end": 11.0,
-          "score": 0.844
-        },
-        {
-          "word": "will",
-          "start": 11.06,
-          "end": 11.261,
-          "score": 0.875
-        },
-        {
-          "word": "manage",
-          "start": 11.301,
-          "end": 11.601,
-          "score": 0.756
-        },
-        {
-          "word": "big",
-          "start": 11.641,
-          "end": 11.801,
-          "score": 0.879
-        },
-        {
-          "word": "projects",
-          "start": 11.841,
-          "end": 12.261,
-          "score": 0.95
-        },
-        {
-          "word": "over",
-          "start": 12.441,
-          "end": 12.661,
-          "score": 0.904
-        },
-        {
-          "word": "weeks",
-          "start": 12.701,
-          "end": 12.961,
-          "score": 0.95
-        },
-        {
-          "word": "like",
-          "start": 14.282,
-          "end": 14.462,
-          "score": 0.944
-        },
-        {
-          "word": "planning",
-          "start": 14.542,
-          "end": 14.883,
-          "score": 0.904
-        },
-        {
-          "word": "a",
-          "start": 14.943,
-          "end": 14.963,
-          "score": 1.0
-        },
-        {
-          "word": "company",
-          "start": 15.023,
-          "end": 15.403,
-          "score": 0.898
-        },
-        {
-          "word": "trip.",
-          "start": 15.443,
-          "end": 15.663,
-          "score": 0.799
-        }
-      ]
-    },
-    {
-      "text": "Or we will connect many small, cheap models like lego blocks to do the same job.",
-      "start": 16.463,
-      "end": 22.086,
-      "words": [
-        {
-          "word": "Or",
-          "start": 16.463,
-          "end": 16.563,
-          "score": 0.842
-        },
-        {
-          "word": "we",
-          "start": 16.784,
-          "end": 16.904,
-          "score": 0.85
-        },
-        {
-          "word": "will",
-          "start": 16.924,
-          "end": 17.084,
-          "score": 0.846
-        },
-        {
-          "word": "connect",
-          "start": 17.104,
-          "end": 17.384,
-          "score": 0.855
-        },
-        {
-          "word": "many",
-          "start": 17.424,
-          "end": 17.624,
-          "score": 0.874
-        },
-        {
-          "word": "small,",
-          "start": 17.684,
-          "end": 17.964,
-          "score": 0.953
-        },
-        {
-          "word": "cheap",
-          "start": 18.464,
-          "end": 18.705,
-          "score": 0.923
-        },
-        {
-          "word": "models",
-          "start": 18.765,
-          "end": 19.125,
-          "score": 0.871
-        },
-        {
-          "word": "like",
-          "start": 19.525,
-          "end": 19.765,
-          "score": 0.94
-        },
-        {
-          "word": "lego",
-          "start": 20.065,
-          "end": 20.365,
-          "score": 0.968
-        },
-        {
-          "word": "blocks",
-          "start": 20.405,
-          "end": 20.706,
-          "score": 0.941
-        },
-        {
-          "word": "to",
-          "start": 20.826,
-          "end": 20.986,
-          "score": 0.996
-        },
-        {
-          "word": "do",
-          "start": 21.246,
-          "end": 21.406,
-          "score": 0.875
-        },
-        {
-          "word": "the",
-          "start": 21.446,
-          "end": 21.546,
-          "score": 0.819
-        },
-        {
-          "word": "same",
-          "start": 21.566,
-          "end": 21.766,
-          "score": 0.837
-        },
-        {
-          "word": "job.",
-          "start": 21.806,
-          "end": 22.086,
-          "score": 0.989
-        }
-      ]
-    },
-    {
-      "text": "Prediction 2 proactive partners.",
-      "start": 23.507,
-      "end": 25.208,
-      "words": [
-        {
-          "word": "Prediction",
-          "start": 23.507,
-          "end": 24.027,
-          "score": 0.907
-        },
-        {
-          "word": "2",
-          "start": 24.207,
-          "end": 24.267,
-          "score": 0.706
-        },
-        {
-          "word": "proactive",
-          "start": 24.307,
-          "end": 24.748,
-          "score": 0.885
-        },
-        {
-          "word": "partners.",
-          "start": 24.788,
-          "end": 25.208,
-          "score": 0.954
-        }
-      ]
-    },
-    {
-      "text": "These agents will learn your habits and goals.",
-      "start": 25.708,
-      "end": 28.61,
-      "words": [
-        {
-          "word": "These",
-          "start": 25.708,
-          "end": 25.888,
-          "score": 0.814
-        },
-        {
-          "word": "agents",
-          "start": 25.988,
-          "end": 26.289,
-          "score": 0.874
-        },
-        {
-          "word": "will",
-          "start": 26.549,
-          "end": 26.729,
-          "score": 0.848
-        },
-        {
-          "word": "learn",
-          "start": 26.769,
-          "end": 26.949,
-          "score": 0.806
-        },
-        {
-          "word": "your",
-          "start": 26.969,
-          "end": 27.149,
-          "score": 0.835
-        },
-        {
-          "word": "habits",
-          "start": 27.229,
-          "end": 27.649,
-          "score": 0.895
-        },
-        {
-          "word": "and",
-          "start": 28.129,
-          "end": 28.23,
-          "score": 0.976
-        },
-        {
-          "word": "goals.",
-          "start": 28.31,
-          "end": 28.61,
-          "score": 0.849
-        }
-      ]
-    },
-    {
-      "text": "They won't wait for your command.",
-      "start": 29.477,
-      "end": 30.958,
-      "words": [
-        {
-          "word": "They",
-          "start": 29.477,
-          "end": 29.637,
-          "score": 0.831
-        },
-        {
-          "word": "won't",
-          "start": 29.697,
-          "end": 29.917,
-          "score": 0.786
-        },
-        {
-          "word": "wait",
-          "start": 29.977,
-          "end": 30.177,
-          "score": 0.933
-        },
-        {
-          "word": "for",
-          "start": 30.217,
-          "end": 30.338,
-          "score": 0.78
-        },
-        {
-          "word": "your",
-          "start": 30.358,
-          "end": 30.498,
-          "score": 0.969
-        },
-        {
-          "word": "command.",
-          "start": 30.558,
-          "end": 30.958,
-          "score": 0.953
-        }
-      ]
-    },
-    {
-      "text": "They will suggest ideas and start tasks on their own.",
-      "start": 31.518,
-      "end": 34.6,
-      "words": [
-        {
-          "word": "They",
-          "start": 31.518,
-          "end": 31.638,
-          "score": 0.993
-        },
-        {
-          "word": "will",
-          "start": 31.658,
-          "end": 31.818,
-          "score": 0.877
-        },
-        {
-          "word": "suggest",
-          "start": 31.838,
-          "end": 32.178,
-          "score": 0.95
-        },
-        {
-          "word": "ideas",
-          "start": 32.279,
-          "end": 32.679,
-          "score": 0.797
-        },
-        {
-          "word": "and",
-          "start": 32.979,
-          "end": 33.079,
-          "score": 0.946
-        },
-        {
-          "word": "start",
-          "start": 33.159,
-          "end": 33.479,
-          "score": 0.988
-        },
-        {
-          "word": "tasks",
-          "start": 33.559,
-          "end": 33.919,
-          "score": 0.735
-        },
-        {
-          "word": "on",
-          "start": 34.059,
-          "end": 34.119,
-          "score": 0.999
-        },
-        {
-          "word": "their",
-          "start": 34.16,
-          "end": 34.34,
-          "score": 0.875
-        },
-        {
-          "word": "own.",
-          "start": 34.46,
-          "end": 34.6,
-          "score": 0.912
-        }
-      ]
-    },
-    {
-      "text": "Prediction 3.",
-      "start": 36.0,
-      "end": 36.861,
-      "words": [
-        {
-          "word": "Prediction",
-          "start": 36.0,
-          "end": 36.501,
-          "score": 0.932
-        },
-        {
-          "word": "3.",
-          "start": 36.581,
-          "end": 36.861,
-          "score": 0.664
-        }
-      ]
-    },
-    {
-      "text": "Robotic agents.",
-      "start": 37.501,
-      "end": 38.442,
-      "words": [
-        {
-          "word": "Robotic",
-          "start": 37.501,
-          "end": 38.022,
-          "score": 0.906
-        },
-        {
-          "word": "agents.",
-          "start": 38.122,
-          "end": 38.442,
-          "score": 0.973
-        }
-      ]
-    },
-    {
-      "text": "AI agents will leave computers and enter the physical world.",
-      "start": 38.802,
-      "end": 42.744,
-      "words": [
-        {
-          "word": "AI",
-          "start": 38.802,
-          "end": 39.062,
-          "score": 0.786
-        },
-        {
-          "word": "agents",
-          "start": 39.122,
-          "end": 39.382,
-          "score": 0.737
-        },
-        {
-          "word": "will",
-          "start": 39.442,
-          "end": 39.602,
-          "score": 0.808
-        },
-        {
-          "word": "leave",
-          "start": 39.642,
-          "end": 39.822,
-          "score": 0.838
-        },
-        {
-          "word": "computers",
-          "start": 39.863,
-          "end": 40.423,
-          "score": 0.912
-        },
-        {
-          "word": "and",
-          "start": 40.883,
-          "end": 41.003,
-          "score": 0.821
-        },
-        {
-          "word": "enter",
-          "start": 41.103,
-          "end": 41.403,
-          "score": 0.959
-        },
-        {
-          "word": "the",
-          "start": 41.443,
-          "end": 41.583,
-          "score": 0.8
-        },
-        {
-          "word": "physical",
-          "start": 41.984,
-          "end": 42.384,
-          "score": 0.897
-        },
-        {
-          "word": "world.",
-          "start": 42.464,
-          "end": 42.744,
-          "score": 0.871
-        }
-      ]
-    },
-    {
-      "text": "By connecting AI with robots, a home agent can use cameras to see a leaky tap and fix it.",
-      "start": 43.464,
-      "end": 51.048,
-      "words": [
-        {
-          "word": "By",
-          "start": 43.464,
-          "end": 43.644,
-          "score": 0.76
-        },
-        {
-          "word": "connecting",
-          "start": 43.725,
-          "end": 44.245,
-          "score": 0.874
-        },
-        {
-          "word": "AI",
-          "start": 44.705,
-          "end": 45.005,
-          "score": 0.758
-        },
-        {
-          "word": "with",
-          "start": 45.065,
-          "end": 45.225,
+          "word": "okay",
+          "start": 1.188,
+          "end": 1.488,
+          "score": 0.65
+        },
+        {
+          "word": "picture",
+          "start": 1.548,
+          "end": 1.869,
           "score": 0.872
         },
         {
-          "word": "robots,",
-          "start": 45.285,
-          "end": 45.786,
-          "score": 0.862
+          "word": "this",
+          "start": 1.889,
+          "end": 2.089,
+          "score": 0.924
         },
         {
-          "word": "a",
-          "start": 46.546,
-          "end": 46.606,
-          "score": 0.687
+          "word": "you",
+          "start": 2.589,
+          "end": 2.75,
+          "score": 0.994
         },
         {
-          "word": "home",
-          "start": 46.646,
-          "end": 46.886,
-          "score": 0.925
+          "word": "give",
+          "start": 2.79,
+          "end": 2.95,
+          "score": 0.98
         },
         {
-          "word": "agent",
-          "start": 47.006,
-          "end": 47.326,
-          "score": 0.831
+          "word": "an",
+          "start": 3.01,
+          "end": 3.09,
+          "score": 0.756
         },
         {
-          "word": "can",
-          "start": 47.867,
-          "end": 48.067,
+          "word": "ai",
+          "start": 3.19,
+          "end": 3.59,
+          "score": 0.782
+        },
+        {
+          "word": "one",
+          "start": 3.77,
+          "end": 3.911,
+          "score": 0.707
+        },
+        {
+          "word": "big",
+          "start": 4.391,
+          "end": 4.611,
+          "score": 0.932
+        },
+        {
+          "word": "prompt",
+          "start": 4.651,
+          "end": 5.052,
+          "score": 0.842
+        },
+        {
+          "word": "read",
+          "start": 5.432,
+          "end": 5.632,
+          "score": 0.978
+        },
+        {
+          "word": "this",
+          "start": 5.692,
+          "end": 5.852,
+          "score": 0.918
+        },
+        {
+          "word": "market",
+          "start": 6.013,
+          "end": 6.393,
+          "score": 0.91
+        },
+        {
+          "word": "report",
+          "start": 6.433,
+          "end": 6.793,
+          "score": 0.971
+        },
+        {
+          "word": "summarize",
+          "start": 7.754,
+          "end": 8.315,
           "score": 0.837
         },
         {
-          "word": "use",
-          "start": 48.267,
-          "end": 48.407,
-          "score": 0.993
+          "word": "it",
+          "start": 8.395,
+          "end": 8.495,
+          "score": 0.83
         },
         {
-          "word": "cameras",
-          "start": 48.487,
-          "end": 48.947,
-          "score": 0.867
+          "word": "find",
+          "start": 8.895,
+          "end": 9.076,
+          "score": 0.842
         },
         {
-          "word": "to",
-          "start": 49.307,
-          "end": 49.408,
-          "score": 0.999
+          "word": "the",
+          "start": 9.116,
+          "end": 9.196,
+          "score": 0.676
         },
         {
-          "word": "see",
-          "start": 49.448,
-          "end": 49.628,
-          "score": 0.927
+          "word": "top",
+          "start": 9.236,
+          "end": 9.436,
+          "score": 0.925
         },
         {
-          "word": "a",
-          "start": 49.668,
-          "end": 49.708,
-          "score": 0.5
+          "word": "three",
+          "start": 9.476,
+          "end": 9.676,
+          "score": 0.962
         },
         {
-          "word": "leaky",
-          "start": 49.768,
-          "end": 50.048,
-          "score": 0.975
+          "word": "trends",
+          "start": 9.716,
+          "end": 9.956,
+          "score": 0.779
         },
         {
-          "word": "tap",
-          "start": 50.108,
-          "end": 50.348,
-          "score": 0.998
+          "word": "with",
+          "start": 9.996,
+          "end": 10.157,
+          "score": 0.877
         },
         {
-          "word": "and",
-          "start": 50.548,
-          "end": 50.648,
-          "score": 0.818
-        },
-        {
-          "word": "fix",
-          "start": 50.708,
-          "end": 50.908,
-          "score": 0.997
-        },
-        {
-          "word": "it.",
-          "start": 50.968,
-          "end": 51.048,
-          "score": 0.854
-        }
-      ]
-    },
-    {
-      "text": "Prediction 4.",
-      "start": 51.589,
-      "end": 52.369,
-      "words": [
-        {
-          "word": "Prediction",
-          "start": 51.589,
-          "end": 52.029,
+          "word": "numbers",
+          "start": 10.197,
+          "end": 10.537,
           "score": 0.919
         },
         {
-          "word": "4.",
-          "start": 52.109,
-          "end": 52.369,
-          "score": 0.836
-        }
-      ]
-    },
-    {
-      "text": "The agent economy.",
-      "start": 52.829,
-      "end": 54.21,
-      "words": [
-        {
-          "word": "The",
-          "start": 52.829,
-          "end": 53.049,
-          "score": 0.755
-        },
-        {
-          "word": "agent",
-          "start": 53.31,
-          "end": 53.61,
-          "score": 0.84
-        },
-        {
-          "word": "economy.",
-          "start": 53.69,
-          "end": 54.21,
-          "score": 0.972
-        }
-      ]
-    },
-    {
-      "text": "Agents will buy and sell things on their own.",
-      "start": 55.171,
-      "end": 57.432,
-      "words": [
-        {
-          "word": "Agents",
-          "start": 55.171,
-          "end": 55.531,
-          "score": 0.87
-        },
-        {
-          "word": "will",
-          "start": 55.631,
-          "end": 55.831,
-          "score": 0.832
-        },
-        {
-          "word": "buy",
-          "start": 55.891,
-          "end": 56.171,
-          "score": 0.734
-        },
-        {
           "word": "and",
-          "start": 56.211,
-          "end": 56.311,
-          "score": 0.989
+          "start": 11.137,
+          "end": 11.278,
+          "score": 0.68
         },
         {
-          "word": "sell",
-          "start": 56.371,
-          "end": 56.591,
+          "word": "write",
+          "start": 11.358,
+          "end": 11.598,
+          "score": 0.811
+        },
+        {
+          "word": "an",
+          "start": 11.678,
+          "end": 11.758,
+          "score": 0.865
+        },
+        {
+          "word": "email",
+          "start": 11.918,
+          "end": 12.259,
+          "score": 0.829
+        },
+        {
+          "word": "to",
+          "start": 12.319,
+          "end": 12.459,
+          "score": 0.89
+        },
+        {
+          "word": "the",
+          "start": 12.499,
+          "end": 12.579,
+          "score": 0.828
+        },
+        {
+          "word": "team",
+          "start": 12.639,
+          "end": 12.859,
+          "score": 0.821
+        },
+        {
+          "word": "we",
+          "start": 13.299,
+          "end": 13.44,
+          "score": 0.917
+        },
+        {
+          "word": "have",
+          "start": 13.48,
+          "end": 13.64,
+          "score": 0.803
+        },
+        {
+          "word": "four",
+          "start": 13.68,
+          "end": 13.9,
+          "score": 0.744
+        },
+        {
+          "word": "tasks",
+          "start": 13.94,
+          "end": 14.26,
+          "score": 0.723
+        },
+        {
+          "word": "one",
+          "start": 14.741,
+          "end": 14.881,
+          "score": 0.903
+        },
+        {
+          "word": "prompt",
+          "start": 14.901,
+          "end": 15.181,
+          "score": 0.771
+        },
+        {
+          "word": "what",
+          "start": 15.642,
+          "end": 15.762,
           "score": 0.998
         },
         {
-          "word": "things",
-          "start": 56.631,
-          "end": 56.871,
-          "score": 0.788
-        },
-        {
-          "word": "on",
-          "start": 56.972,
-          "end": 57.052,
+          "word": "happens",
+          "start": 15.802,
+          "end": 16.142,
           "score": 0.834
         },
         {
-          "word": "their",
-          "start": 57.092,
-          "end": 57.252,
-          "score": 0.934
+          "word": "the",
+          "start": 17.023,
+          "end": 17.123,
+          "score": 0.849
         },
         {
-          "word": "own.",
-          "start": 57.312,
-          "end": 57.432,
+          "word": "summary",
+          "start": 17.143,
+          "end": 17.543,
+          "score": 0.911
+        },
+        {
+          "word": "pretty",
+          "start": 17.744,
+          "end": 17.964,
+          "score": 0.851
+        },
+        {
+          "word": "good",
+          "start": 17.984,
+          "end": 18.164,
+          "score": 0.77
+        },
+        {
+          "word": "the",
+          "start": 18.544,
+          "end": 18.645,
+          "score": 0.846
+        },
+        {
+          "word": "trends",
+          "start": 18.665,
+          "end": 18.945,
+          "score": 0.818
+        },
+        {
+          "word": "it",
+          "start": 19.625,
+          "end": 19.706,
+          "score": 0.855
+        },
+        {
+          "word": "missed",
+          "start": 19.746,
+          "end": 19.946,
+          "score": 0.828
+        },
+        {
+          "word": "one",
+          "start": 20.046,
+          "end": 20.186,
+          "score": 0.871
+        },
+        {
+          "word": "the",
+          "start": 20.727,
+          "end": 20.827,
+          "score": 0.835
+        },
+        {
+          "word": "email",
+          "start": 20.887,
+          "end": 21.227,
+          "score": 0.762
+        },
+        {
+          "word": "it",
+          "start": 21.627,
+          "end": 21.747,
+          "score": 0.645
+        },
+        {
+          "word": "forgot",
+          "start": 21.828,
+          "end": 22.228,
+          "score": 0.958
+        },
+        {
+          "word": "the",
+          "start": 22.268,
+          "end": 22.348,
+          "score": 0.814
+        },
+        {
+          "word": "data",
+          "start": 22.388,
+          "end": 22.648,
+          "score": 0.862
+        },
+        {
+          "word": "completely",
+          "start": 22.688,
+          "end": 23.189,
           "score": 0.948
         }
       ]
     },
     {
-      "text": "For example, an agent can run an online shop, find trending products, change prices, and talk to supplier systems without human help.",
-      "start": 58.185,
-      "end": 68.253,
+      "text": "Why?",
+      "start": 23.819,
+      "end": 24.139,
       "words": [
         {
-          "word": "For",
-          "start": 58.185,
-          "end": 58.345,
-          "score": 0.944
-        },
-        {
-          "word": "example,",
-          "start": 58.405,
-          "end": 58.866,
-          "score": 0.938
-        },
-        {
-          "word": "an",
-          "start": 59.246,
-          "end": 59.346,
-          "score": 0.456
-        },
-        {
-          "word": "agent",
-          "start": 59.466,
-          "end": 59.746,
-          "score": 0.783
-        },
-        {
-          "word": "can",
-          "start": 59.846,
-          "end": 60.026,
-          "score": 0.931
-        },
-        {
-          "word": "run",
-          "start": 60.107,
-          "end": 60.307,
-          "score": 0.86
-        },
-        {
-          "word": "an",
-          "start": 60.447,
-          "end": 60.507,
-          "score": 0.864
-        },
-        {
-          "word": "online",
-          "start": 60.727,
-          "end": 61.147,
-          "score": 0.914
-        },
-        {
-          "word": "shop,",
-          "start": 61.207,
-          "end": 61.448,
-          "score": 0.952
-        },
-        {
-          "word": "find",
-          "start": 62.108,
-          "end": 62.408,
-          "score": 0.761
-        },
-        {
-          "word": "trending",
-          "start": 62.448,
-          "end": 62.809,
-          "score": 0.825
-        },
-        {
-          "word": "products,",
-          "start": 62.889,
-          "end": 63.329,
-          "score": 0.888
-        },
-        {
-          "word": "change",
-          "start": 63.689,
-          "end": 63.99,
-          "score": 0.772
-        },
-        {
-          "word": "prices,",
-          "start": 64.05,
-          "end": 64.47,
-          "score": 0.878
-        },
-        {
-          "word": "and",
-          "start": 65.15,
-          "end": 65.251,
-          "score": 0.947
-        },
-        {
-          "word": "talk",
-          "start": 65.311,
-          "end": 65.551,
-          "score": 0.966
-        },
-        {
-          "word": "to",
-          "start": 65.591,
-          "end": 65.711,
-          "score": 0.833
-        },
-        {
-          "word": "supplier",
-          "start": 65.751,
-          "end": 66.171,
-          "score": 0.625
-        },
-        {
-          "word": "systems",
-          "start": 66.231,
-          "end": 66.612,
-          "score": 0.882
-        },
-        {
-          "word": "without",
-          "start": 67.252,
-          "end": 67.612,
-          "score": 0.916
-        },
-        {
-          "word": "human",
-          "start": 67.713,
-          "end": 67.993,
-          "score": 0.909
-        },
-        {
-          "word": "help.",
-          "start": 68.053,
-          "end": 68.253,
-          "score": 0.848
+          "word": "Why?",
+          "start": 23.819,
+          "end": 24.139,
+          "score": 0.898
         }
       ]
     },
     {
-      "text": "And prediction 5 self, changing systems.",
-      "start": 69.794,
-      "end": 72.676,
+      "text": "Because one prompt is too much.",
+      "start": 24.8,
+      "end": 26.42,
       "words": [
         {
-          "word": "And",
-          "start": 69.794,
-          "end": 69.914,
-          "score": 0.877
-        },
-        {
-          "word": "prediction",
-          "start": 69.994,
-          "end": 70.415,
-          "score": 0.974
-        },
-        {
-          "word": "5",
-          "start": 70.475,
-          "end": 70.715,
-          "score": 0.743
-        },
-        {
-          "word": "self,",
-          "start": 70.755,
-          "end": 71.015,
-          "score": 0.89
-        },
-        {
-          "word": "changing",
-          "start": 71.696,
-          "end": 72.136,
-          "score": 0.802
-        },
-        {
-          "word": "systems.",
-          "start": 72.216,
-          "end": 72.676,
-          "score": 0.788
-        }
-      ]
-    },
-    {
-      "text": "You just tell the system your goal, like start a coffee business.",
-      "start": 73.097,
-      "end": 77.06,
-      "words": [
-        {
-          "word": "You",
-          "start": 73.097,
-          "end": 73.277,
-          "score": 0.923
-        },
-        {
-          "word": "just",
-          "start": 73.317,
-          "end": 73.517,
-          "score": 0.766
-        },
-        {
-          "word": "tell",
-          "start": 73.717,
-          "end": 73.897,
-          "score": 0.998
-        },
-        {
-          "word": "the",
-          "start": 73.937,
-          "end": 74.058,
-          "score": 0.769
-        },
-        {
-          "word": "system",
-          "start": 74.098,
-          "end": 74.498,
-          "score": 0.776
-        },
-        {
-          "word": "your",
-          "start": 74.558,
-          "end": 74.778,
-          "score": 0.915
-        },
-        {
-          "word": "goal,",
-          "start": 74.818,
-          "end": 75.078,
-          "score": 0.94
-        },
-        {
-          "word": "like",
-          "start": 75.639,
-          "end": 75.839,
-          "score": 0.991
-        },
-        {
-          "word": "start",
-          "start": 75.899,
-          "end": 76.219,
-          "score": 0.978
-        },
-        {
-          "word": "a",
-          "start": 76.259,
-          "end": 76.319,
-          "score": 0.83
-        },
-        {
-          "word": "coffee",
-          "start": 76.359,
-          "end": 76.66,
-          "score": 0.998
-        },
-        {
-          "word": "business.",
-          "start": 76.72,
-          "end": 77.06,
-          "score": 0.928
-        }
-      ]
-    },
-    {
-      "text": "The AI will decide how many agents it needs, write its own code, and even change its own structure as it works.",
-      "start": 78.081,
-      "end": 86.047,
-      "words": [
-        {
-          "word": "The",
-          "start": 78.081,
-          "end": 78.361,
-          "score": 0.711
-        },
-        {
-          "word": "AI",
-          "start": 78.481,
-          "end": 78.621,
-          "score": 0.31
-        },
-        {
-          "word": "will",
-          "start": 79.121,
-          "end": 79.302,
-          "score": 0.942
-        },
-        {
-          "word": "decide",
-          "start": 79.342,
-          "end": 79.702,
-          "score": 0.843
-        },
-        {
-          "word": "how",
-          "start": 79.882,
-          "end": 80.042,
-          "score": 0.882
-        },
-        {
-          "word": "many",
-          "start": 80.082,
-          "end": 80.302,
-          "score": 0.811
-        },
-        {
-          "word": "agents",
-          "start": 80.423,
-          "end": 80.723,
-          "score": 0.95
-        },
-        {
-          "word": "it",
-          "start": 80.823,
-          "end": 80.903,
-          "score": 0.84
-        },
-        {
-          "word": "needs,",
-          "start": 80.983,
-          "end": 81.263,
-          "score": 0.875
-        },
-        {
-          "word": "write",
-          "start": 81.904,
-          "end": 82.144,
-          "score": 0.867
-        },
-        {
-          "word": "its",
-          "start": 82.204,
-          "end": 82.304,
-          "score": 0.838
-        },
-        {
-          "word": "own",
-          "start": 82.424,
-          "end": 82.544,
-          "score": 0.985
-        },
-        {
-          "word": "code,",
-          "start": 82.624,
-          "end": 82.884,
-          "score": 0.537
-        },
-        {
-          "word": "and",
-          "start": 83.305,
-          "end": 83.425,
-          "score": 0.679
-        },
-        {
-          "word": "even",
-          "start": 83.545,
-          "end": 83.785,
-          "score": 0.882
-        },
-        {
-          "word": "change",
-          "start": 83.885,
-          "end": 84.205,
-          "score": 0.847
-        },
-        {
-          "word": "its",
-          "start": 84.266,
-          "end": 84.366,
-          "score": 0.724
-        },
-        {
-          "word": "own",
-          "start": 84.486,
-          "end": 84.626,
-          "score": 0.756
-        },
-        {
-          "word": "structure",
-          "start": 84.706,
-          "end": 85.166,
-          "score": 0.913
-        },
-        {
-          "word": "as",
-          "start": 85.466,
-          "end": 85.547,
-          "score": 0.837
-        },
-        {
-          "word": "it",
-          "start": 85.627,
-          "end": 85.687,
-          "score": 0.908
-        },
-        {
-          "word": "works.",
-          "start": 85.747,
-          "end": 86.047,
-          "score": 0.846
-        }
-      ]
-    },
-    {
-      "text": "It is a machine that improves itself.",
-      "start": 86.733,
-      "end": 88.694,
-      "words": [
-        {
-          "word": "It",
-          "start": 86.733,
-          "end": 86.813,
-          "score": 0.804
-        },
-        {
-          "word": "is",
-          "start": 86.893,
-          "end": 86.993,
-          "score": 0.57
-        },
-        {
-          "word": "a",
-          "start": 87.053,
-          "end": 87.093,
-          "score": 0.589
-        },
-        {
-          "word": "machine",
-          "start": 87.153,
-          "end": 87.513,
-          "score": 0.886
-        },
-        {
-          "word": "that",
-          "start": 87.573,
-          "end": 87.733,
-          "score": 0.913
-        },
-        {
-          "word": "improves",
-          "start": 87.833,
-          "end": 88.274,
-          "score": 0.875
-        },
-        {
-          "word": "itself.",
-          "start": 88.334,
-          "end": 88.694,
-          "score": 0.832
-        }
-      ]
-    },
-    {
-      "text": "But this brings a big safety risk.",
-      "start": 89.734,
-      "end": 91.615,
-      "words": [
-        {
-          "word": "But",
-          "start": 89.734,
-          "end": 89.874,
-          "score": 0.958
-        },
-        {
-          "word": "this",
-          "start": 89.934,
-          "end": 90.114,
-          "score": 0.751
-        },
-        {
-          "word": "brings",
-          "start": 90.214,
-          "end": 90.495,
-          "score": 0.825
-        },
-        {
-          "word": "a",
-          "start": 90.515,
-          "end": 90.535,
-          "score": 0.0
-        },
-        {
-          "word": "big",
-          "start": 90.715,
-          "end": 90.895,
-          "score": 1.0
-        },
-        {
-          "word": "safety",
-          "start": 90.935,
-          "end": 91.295,
-          "score": 0.865
-        },
-        {
-          "word": "risk.",
-          "start": 91.355,
-          "end": 91.615,
-          "score": 0.957
-        }
-      ]
-    },
-    {
-      "text": "That is a major challenge Maya.",
-      "start": 92.535,
-      "end": 94.236,
-      "words": [
-        {
-          "word": "That",
-          "start": 92.535,
-          "end": 92.755,
-          "score": 0.874
-        },
-        {
-          "word": "is",
-          "start": 92.855,
-          "end": 92.935,
-          "score": 0.918
-        },
-        {
-          "word": "a",
-          "start": 92.995,
-          "end": 93.036,
-          "score": 0.536
-        },
-        {
-          "word": "major",
-          "start": 93.076,
-          "end": 93.396,
-          "score": 0.899
-        },
-        {
-          "word": "challenge",
-          "start": 93.436,
-          "end": 93.856,
-          "score": 0.875
-        },
-        {
-          "word": "Maya.",
-          "start": 93.916,
-          "end": 94.236,
-          "score": 0.698
-        }
-      ]
-    },
-    {
-      "text": "In practice, we must set hard limits.",
-      "start": 94.916,
-      "end": 97.377,
-      "words": [
-        {
-          "word": "In",
-          "start": 94.916,
-          "end": 94.996,
-          "score": 0.981
-        },
-        {
-          "word": "practice,",
-          "start": 95.076,
-          "end": 95.576,
-          "score": 0.876
-        },
-        {
-          "word": "we",
-          "start": 96.057,
-          "end": 96.217,
-          "score": 0.876
-        },
-        {
-          "word": "must",
-          "start": 96.297,
-          "end": 96.517,
+          "word": "Because",
+          "start": 24.8,
+          "end": 25.08,
           "score": 0.883
         },
         {
-          "word": "set",
-          "start": 96.577,
-          "end": 96.777,
-          "score": 0.893
+          "word": "one",
+          "start": 25.2,
+          "end": 25.34,
+          "score": 0.865
         },
         {
-          "word": "hard",
-          "start": 96.817,
-          "end": 97.017,
-          "score": 0.977
+          "word": "prompt",
+          "start": 25.4,
+          "end": 25.74,
+          "score": 0.906
         },
         {
-          "word": "limits.",
-          "start": 97.057,
-          "end": 97.377,
-          "score": 0.846
+          "word": "is",
+          "start": 25.8,
+          "end": 25.9,
+          "score": 0.728
+        },
+        {
+          "word": "too",
+          "start": 25.94,
+          "end": 26.12,
+          "score": 0.812
+        },
+        {
+          "word": "much.",
+          "start": 26.18,
+          "end": 26.42,
+          "score": 0.909
         }
       ]
     },
     {
-      "text": "We run the self-modifying code in a secure sandbox, use automatic testing, and build guardrails that the AI cannot touch or rewrite.",
-      "start": 97.977,
-      "end": 108.542,
+      "text": "The AI gets confused.",
+      "start": 27.061,
+      "end": 28.421,
       "words": [
         {
-          "word": "We",
-          "start": 97.977,
-          "end": 98.137,
-          "score": 0.868
-        },
-        {
-          "word": "run",
-          "start": 98.178,
-          "end": 98.338,
-          "score": 0.909
-        },
-        {
-          "word": "the",
-          "start": 98.378,
-          "end": 98.478,
-          "score": 0.915
-        },
-        {
-          "word": "self-modifying",
-          "start": 98.518,
-          "end": 99.918,
-          "score": 0.896
-        },
-        {
-          "word": "code",
-          "start": 99.998,
-          "end": 100.218,
-          "score": 0.565
-        },
-        {
-          "word": "in",
-          "start": 100.378,
-          "end": 100.458,
-          "score": 0.838
-        },
-        {
-          "word": "a",
-          "start": 100.478,
-          "end": 100.518,
-          "score": 0.493
-        },
-        {
-          "word": "secure",
-          "start": 100.558,
-          "end": 100.899,
-          "score": 0.835
-        },
-        {
-          "word": "sandbox,",
-          "start": 100.939,
-          "end": 101.459,
-          "score": 0.792
-        },
-        {
-          "word": "use",
-          "start": 102.179,
-          "end": 102.359,
-          "score": 0.831
-        },
-        {
-          "word": "automatic",
-          "start": 102.779,
-          "end": 103.26,
-          "score": 0.88
-        },
-        {
-          "word": "testing,",
-          "start": 103.3,
-          "end": 103.66,
-          "score": 0.926
-        },
-        {
-          "word": "and",
-          "start": 104.22,
-          "end": 104.34,
-          "score": 0.685
-        },
-        {
-          "word": "build",
-          "start": 104.44,
-          "end": 104.68,
-          "score": 0.864
-        },
-        {
-          "word": "guardrails",
-          "start": 104.72,
-          "end": 105.22,
-          "score": 0.637
-        },
-        {
-          "word": "that",
-          "start": 106.001,
-          "end": 106.141,
-          "score": 0.977
-        },
-        {
-          "word": "the",
-          "start": 106.181,
-          "end": 106.301,
-          "score": 0.773
+          "word": "The",
+          "start": 27.061,
+          "end": 27.161,
+          "score": 0.975
         },
         {
           "word": "AI",
-          "start": 106.401,
-          "end": 106.661,
-          "score": 0.82
+          "start": 27.261,
+          "end": 27.521,
+          "score": 0.55
         },
         {
-          "word": "cannot",
-          "start": 106.721,
-          "end": 107.041,
-          "score": 0.9
+          "word": "gets",
+          "start": 27.601,
+          "end": 27.801,
+          "score": 0.793
         },
         {
-          "word": "touch",
-          "start": 107.121,
-          "end": 107.381,
-          "score": 0.83
-        },
-        {
-          "word": "or",
-          "start": 107.961,
-          "end": 108.081,
-          "score": 0.839
-        },
-        {
-          "word": "rewrite.",
-          "start": 108.121,
-          "end": 108.542,
-          "score": 0.734
+          "word": "confused.",
+          "start": 27.881,
+          "end": 28.421,
+          "score": 0.936
         }
       ]
     },
     {
-      "text": "If the code breaks any safety rules, the system shuts it down immediately.",
-      "start": 109.702,
-      "end": 114.444,
+      "text": "It forgets instructions.",
+      "start": 29.082,
+      "end": 30.362,
       "words": [
         {
-          "word": "If",
-          "start": 109.702,
-          "end": 109.782,
+          "word": "It",
+          "start": 29.082,
+          "end": 29.162,
+          "score": 0.718
+        },
+        {
+          "word": "forgets",
+          "start": 29.242,
+          "end": 29.642,
+          "score": 0.845
+        },
+        {
+          "word": "instructions.",
+          "start": 29.782,
+          "end": 30.362,
+          "score": 0.877
+        }
+      ]
+    },
+    {
+      "text": "It loses track halfway.",
+      "start": 30.943,
+      "end": 32.583,
+      "words": [
+        {
+          "word": "It",
+          "start": 30.943,
+          "end": 31.023,
+          "score": 0.832
+        },
+        {
+          "word": "loses",
+          "start": 31.123,
+          "end": 31.523,
+          "score": 0.838
+        },
+        {
+          "word": "track",
+          "start": 31.603,
+          "end": 31.903,
+          "score": 0.881
+        },
+        {
+          "word": "halfway.",
+          "start": 32.123,
+          "end": 32.583,
+          "score": 0.944
+        }
+      ]
+    },
+    {
+      "text": "And sometimes, it just makes stuff up.",
+      "start": 33.904,
+      "end": 36.245,
+      "words": [
+        {
+          "word": "And",
+          "start": 33.904,
+          "end": 34.004,
+          "score": 0.702
+        },
+        {
+          "word": "sometimes,",
+          "start": 34.044,
+          "end": 34.564,
+          "score": 0.826
+        },
+        {
+          "word": "it",
+          "start": 34.884,
+          "end": 34.964,
+          "score": 0.834
+        },
+        {
+          "word": "just",
+          "start": 35.004,
+          "end": 35.205,
+          "score": 0.914
+        },
+        {
+          "word": "makes",
+          "start": 35.285,
+          "end": 35.525,
+          "score": 0.934
+        },
+        {
+          "word": "stuff",
+          "start": 35.745,
+          "end": 36.045,
+          "score": 0.891
+        },
+        {
+          "word": "up.",
+          "start": 36.145,
+          "end": 36.245,
+          "score": 0.998
+        }
+      ]
+    },
+    {
+      "text": "So here's the fix.",
+      "start": 36.925,
+      "end": 37.806,
+      "words": [
+        {
+          "word": "So",
+          "start": 36.925,
+          "end": 37.045,
+          "score": 0.969
+        },
+        {
+          "word": "here's",
+          "start": 37.106,
+          "end": 37.346,
+          "score": 0.887
+        },
+        {
+          "word": "the",
+          "start": 37.406,
+          "end": 37.486,
+          "score": 0.869
+        },
+        {
+          "word": "fix.",
+          "start": 37.526,
+          "end": 37.806,
+          "score": 0.943
+        }
+      ]
+    },
+    {
+      "text": "Don't give it one big task.",
+      "start": 38.466,
+      "end": 39.707,
+      "words": [
+        {
+          "word": "Don't",
+          "start": 38.466,
+          "end": 38.646,
+          "score": 0.87
+        },
+        {
+          "word": "give",
+          "start": 38.686,
+          "end": 38.826,
+          "score": 0.892
+        },
+        {
+          "word": "it",
+          "start": 38.866,
+          "end": 38.926,
+          "score": 0.75
+        },
+        {
+          "word": "one",
+          "start": 39.026,
+          "end": 39.146,
+          "score": 0.739
+        },
+        {
+          "word": "big",
+          "start": 39.187,
+          "end": 39.347,
+          "score": 0.917
+        },
+        {
+          "word": "task.",
+          "start": 39.387,
+          "end": 39.707,
+          "score": 0.985
+        }
+      ]
+    },
+    {
+      "text": "Break it into small steps.",
+      "start": 40.367,
+      "end": 41.488,
+      "words": [
+        {
+          "word": "Break",
+          "start": 40.367,
+          "end": 40.567,
+          "score": 0.941
+        },
+        {
+          "word": "it",
+          "start": 40.607,
+          "end": 40.647,
+          "score": 0.996
+        },
+        {
+          "word": "into",
+          "start": 40.687,
+          "end": 40.867,
+          "score": 0.867
+        },
+        {
+          "word": "small",
+          "start": 40.927,
+          "end": 41.167,
+          "score": 0.823
+        },
+        {
+          "word": "steps.",
+          "start": 41.187,
+          "end": 41.488,
+          "score": 0.981
+        }
+      ]
+    },
+    {
+      "text": "Step 1.",
+      "start": 41.988,
+      "end": 42.628,
+      "words": [
+        {
+          "word": "Step",
+          "start": 41.988,
+          "end": 42.348,
+          "score": 0.957
+        },
+        {
+          "word": "1.",
+          "start": 42.508,
+          "end": 42.628,
+          "score": 0.727
+        }
+      ]
+    },
+    {
+      "text": "Just summarize the report.",
+      "start": 43.609,
+      "end": 45.089,
+      "words": [
+        {
+          "word": "Just",
+          "start": 43.609,
+          "end": 43.849,
+          "score": 0.784
+        },
+        {
+          "word": "summarize",
+          "start": 43.909,
+          "end": 44.509,
+          "score": 0.76
+        },
+        {
+          "word": "the",
+          "start": 44.569,
+          "end": 44.669,
+          "score": 0.779
+        },
+        {
+          "word": "report.",
+          "start": 44.689,
+          "end": 45.089,
+          "score": 0.959
+        }
+      ]
+    },
+    {
+      "text": "That's it.",
+      "start": 45.75,
+      "end": 46.15,
+      "words": [
+        {
+          "word": "That's",
+          "start": 45.75,
+          "end": 45.97,
+          "score": 0.899
+        },
+        {
+          "word": "it.",
+          "start": 46.05,
+          "end": 46.15,
+          "score": 0.929
+        }
+      ]
+    },
+    {
+      "text": "Step 2.",
+      "start": 46.65,
+      "end": 47.27,
+      "words": [
+        {
+          "word": "Step",
+          "start": 46.65,
+          "end": 47.01,
+          "score": 0.915
+        },
+        {
+          "word": "2.",
+          "start": 47.17,
+          "end": 47.27,
+          "score": 0.986
+        }
+      ]
+    },
+    {
+      "text": "Take that summary and pull out the trends with numbers.",
+      "start": 48.351,
+      "end": 51.312,
+      "words": [
+        {
+          "word": "Take",
+          "start": 48.351,
+          "end": 48.551,
+          "score": 0.782
+        },
+        {
+          "word": "that",
+          "start": 48.611,
+          "end": 48.771,
+          "score": 0.863
+        },
+        {
+          "word": "summary",
+          "start": 48.831,
+          "end": 49.271,
+          "score": 0.94
+        },
+        {
+          "word": "and",
+          "start": 49.672,
+          "end": 49.772,
+          "score": 0.801
+        },
+        {
+          "word": "pull",
+          "start": 49.852,
+          "end": 50.052,
+          "score": 0.982
+        },
+        {
+          "word": "out",
+          "start": 50.112,
+          "end": 50.232,
           "score": 0.964
         },
         {
           "word": "the",
-          "start": 109.842,
-          "end": 109.942,
-          "score": 0.836
+          "start": 50.272,
+          "end": 50.352,
+          "score": 0.841
         },
         {
-          "word": "code",
-          "start": 110.022,
-          "end": 110.282,
-          "score": 0.73
-        },
-        {
-          "word": "breaks",
-          "start": 110.402,
-          "end": 110.702,
-          "score": 0.974
-        },
-        {
-          "word": "any",
-          "start": 110.902,
-          "end": 111.063,
-          "score": 0.869
-        },
-        {
-          "word": "safety",
-          "start": 111.123,
-          "end": 111.463,
-          "score": 0.946
-        },
-        {
-          "word": "rules,",
-          "start": 111.523,
-          "end": 111.803,
-          "score": 0.848
-        },
-        {
-          "word": "the",
-          "start": 112.383,
-          "end": 112.503,
+          "word": "trends",
+          "start": 50.412,
+          "end": 50.672,
           "score": 0.84
         },
         {
-          "word": "system",
-          "start": 112.543,
-          "end": 112.943,
-          "score": 0.792
+          "word": "with",
+          "start": 50.712,
+          "end": 50.872,
+          "score": 0.848
         },
         {
-          "word": "shuts",
-          "start": 113.023,
-          "end": 113.283,
-          "score": 0.875
-        },
-        {
-          "word": "it",
-          "start": 113.343,
-          "end": 113.403,
-          "score": 0.825
-        },
-        {
-          "word": "down",
-          "start": 113.443,
-          "end": 113.644,
-          "score": 0.881
-        },
-        {
-          "word": "immediately.",
-          "start": 113.864,
-          "end": 114.444,
-          "score": 0.891
+          "word": "numbers.",
+          "start": 50.952,
+          "end": 51.312,
+          "score": 0.92
         }
       ]
     },
     {
-      "text": "In our next video, we will start learning the actual design patterns, chapter prompt chaining.",
-      "start": 115.536,
-      "end": 121.653,
+      "text": "Step 3.",
+      "start": 51.773,
+      "end": 52.153,
       "words": [
         {
-          "word": "In",
-          "start": 115.536,
-          "end": 115.616,
-          "score": 0.945
+          "word": "Step",
+          "start": 51.773,
+          "end": 52.073,
+          "score": 0.954
         },
         {
-          "word": "our",
-          "start": 115.737,
-          "end": 115.857,
-          "score": 0.888
+          "word": "3.",
+          "start": 52.093,
+          "end": 52.153,
+          "score": 0.92
+        }
+      ]
+    },
+    {
+      "text": "take those trends and write the email each step does one job and the result of each step feeds into the next one like a factory line one worker one job pass it forward this is called prompt chaining and it changes everything smart question so here's what we do",
+      "start": 53.534,
+      "end": 74.524,
+      "words": [
+        {
+          "word": "take",
+          "start": 53.534,
+          "end": 53.794,
+          "score": 0.764
         },
         {
-          "word": "next",
-          "start": 115.897,
-          "end": 116.118,
-          "score": 0.833
+          "word": "those",
+          "start": 54.314,
+          "end": 54.575,
+          "score": 0.858
         },
         {
-          "word": "video,",
-          "start": 116.178,
-          "end": 116.519,
-          "score": 0.753
-        },
-        {
-          "word": "we",
-          "start": 117.101,
-          "end": 117.261,
-          "score": 0.998
-        },
-        {
-          "word": "will",
-          "start": 117.301,
-          "end": 117.502,
-          "score": 0.768
-        },
-        {
-          "word": "start",
-          "start": 117.542,
-          "end": 117.843,
-          "score": 0.882
-        },
-        {
-          "word": "learning",
-          "start": 117.883,
-          "end": 118.204,
-          "score": 0.778
-        },
-        {
-          "word": "the",
-          "start": 118.444,
-          "end": 118.565,
-          "score": 0.69
-        },
-        {
-          "word": "actual",
-          "start": 118.625,
-          "end": 118.926,
+          "word": "trends",
+          "start": 54.715,
+          "end": 55.135,
           "score": 0.859
         },
         {
-          "word": "design",
-          "start": 118.966,
-          "end": 119.287,
-          "score": 0.876
+          "word": "and",
+          "start": 55.635,
+          "end": 55.735,
+          "score": 0.936
         },
         {
-          "word": "patterns,",
-          "start": 119.327,
-          "end": 119.748,
+          "word": "write",
+          "start": 55.795,
+          "end": 56.035,
+          "score": 0.718
+        },
+        {
+          "word": "the",
+          "start": 56.075,
+          "end": 56.135,
+          "score": 0.996
+        },
+        {
+          "word": "email",
+          "start": 56.215,
+          "end": 56.555,
+          "score": 0.775
+        },
+        {
+          "word": "each",
+          "start": 57.536,
+          "end": 57.676,
+          "score": 0.922
+        },
+        {
+          "word": "step",
+          "start": 57.716,
+          "end": 57.956,
+          "score": 0.956
+        },
+        {
+          "word": "does",
+          "start": 58.016,
+          "end": 58.196,
+          "score": 0.867
+        },
+        {
+          "word": "one",
+          "start": 58.316,
+          "end": 58.456,
+          "score": 0.801
+        },
+        {
+          "word": "job",
+          "start": 58.496,
+          "end": 58.716,
           "score": 0.9
         },
         {
-          "word": "chapter",
-          "start": 120.53,
-          "end": 120.851,
-          "score": 0.943
+          "word": "and",
+          "start": 59.397,
+          "end": 59.497,
+          "score": 0.916
+        },
+        {
+          "word": "the",
+          "start": 59.537,
+          "end": 59.637,
+          "score": 0.825
+        },
+        {
+          "word": "result",
+          "start": 59.677,
+          "end": 60.017,
+          "score": 0.881
+        },
+        {
+          "word": "of",
+          "start": 60.077,
+          "end": 60.157,
+          "score": 0.836
+        },
+        {
+          "word": "each",
+          "start": 60.237,
+          "end": 60.357,
+          "score": 0.893
+        },
+        {
+          "word": "step",
+          "start": 60.397,
+          "end": 60.657,
+          "score": 0.914
+        },
+        {
+          "word": "feeds",
+          "start": 60.717,
+          "end": 60.998,
+          "score": 0.827
+        },
+        {
+          "word": "into",
+          "start": 61.138,
+          "end": 61.358,
+          "score": 0.816
+        },
+        {
+          "word": "the",
+          "start": 61.378,
+          "end": 61.438,
+          "score": 0.966
+        },
+        {
+          "word": "next",
+          "start": 61.498,
+          "end": 61.658,
+          "score": 0.875
+        },
+        {
+          "word": "one",
+          "start": 61.778,
+          "end": 61.878,
+          "score": 0.839
+        },
+        {
+          "word": "like",
+          "start": 62.858,
+          "end": 63.018,
+          "score": 0.916
+        },
+        {
+          "word": "a",
+          "start": 63.058,
+          "end": 63.079,
+          "score": 0.999
+        },
+        {
+          "word": "factory",
+          "start": 63.139,
+          "end": 63.479,
+          "score": 0.824
+        },
+        {
+          "word": "line",
+          "start": 63.499,
+          "end": 63.739,
+          "score": 0.844
+        },
+        {
+          "word": "one",
+          "start": 64.659,
+          "end": 64.779,
+          "score": 0.731
+        },
+        {
+          "word": "worker",
+          "start": 64.839,
+          "end": 65.199,
+          "score": 0.909
+        },
+        {
+          "word": "one",
+          "start": 65.48,
+          "end": 65.6,
+          "score": 0.834
+        },
+        {
+          "word": "job",
+          "start": 65.66,
+          "end": 65.9,
+          "score": 0.894
+        },
+        {
+          "word": "pass",
+          "start": 66.44,
+          "end": 66.68,
+          "score": 0.909
+        },
+        {
+          "word": "it",
+          "start": 66.72,
+          "end": 66.8,
+          "score": 0.862
+        },
+        {
+          "word": "forward",
+          "start": 66.86,
+          "end": 67.22,
+          "score": 0.905
+        },
+        {
+          "word": "this",
+          "start": 67.761,
+          "end": 67.921,
+          "score": 0.956
+        },
+        {
+          "word": "is",
+          "start": 67.981,
+          "end": 68.061,
+          "score": 0.557
+        },
+        {
+          "word": "called",
+          "start": 68.121,
+          "end": 68.361,
+          "score": 0.832
         },
         {
           "word": "prompt",
-          "start": 120.971,
-          "end": 121.252,
-          "score": 0.846
+          "start": 68.481,
+          "end": 68.741,
+          "score": 0.853
         },
         {
-          "word": "chaining.",
-          "start": 121.272,
-          "end": 121.653,
-          "score": 0.925
+          "word": "chaining",
+          "start": 68.761,
+          "end": 69.121,
+          "score": 0.873
+        },
+        {
+          "word": "and",
+          "start": 69.802,
+          "end": 69.922,
+          "score": 0.67
+        },
+        {
+          "word": "it",
+          "start": 69.982,
+          "end": 70.042,
+          "score": 0.758
+        },
+        {
+          "word": "changes",
+          "start": 70.082,
+          "end": 70.422,
+          "score": 0.921
+        },
+        {
+          "word": "everything",
+          "start": 70.522,
+          "end": 70.902,
+          "score": 0.862
+        },
+        {
+          "word": "smart",
+          "start": 72.063,
+          "end": 72.403,
+          "score": 0.869
+        },
+        {
+          "word": "question",
+          "start": 72.483,
+          "end": 72.863,
+          "score": 0.867
+        },
+        {
+          "word": "so",
+          "start": 73.323,
+          "end": 73.523,
+          "score": 0.79
+        },
+        {
+          "word": "here's",
+          "start": 73.703,
+          "end": 73.964,
+          "score": 0.745
+        },
+        {
+          "word": "what",
+          "start": 74.004,
+          "end": 74.164,
+          "score": 0.778
+        },
+        {
+          "word": "we",
+          "start": 74.204,
+          "end": 74.364,
+          "score": 0.99
+        },
+        {
+          "word": "do",
+          "start": 74.404,
+          "end": 74.524,
+          "score": 1.0
         }
       ]
     },
     {
-      "text": "Subscribe to build the future of AI with me.",
-      "start": 122.175,
-      "end": 125.123,
+      "text": "we don't let the ai write freely we say give me the answer in json format a fixed structure so instead of messy paragraphs you get something like trend name supporting data clean and organized the next step reads it directly no confusion clean in clean out that's the rule next up real world use cases of prompt chaining",
+      "start": 75.7,
+      "end": 102.538,
       "words": [
         {
-          "word": "Subscribe",
-          "start": 122.175,
-          "end": 122.736,
-          "score": 0.859
+          "word": "we",
+          "start": 75.7,
+          "end": 75.9,
+          "score": 0.901
         },
         {
-          "word": "to",
-          "start": 122.796,
-          "end": 122.897,
-          "score": 1.0
+          "word": "don't",
+          "start": 75.94,
+          "end": 76.18,
+          "score": 0.686
         },
         {
-          "word": "build",
-          "start": 122.997,
-          "end": 123.298,
-          "score": 0.778
+          "word": "let",
+          "start": 76.26,
+          "end": 76.461,
+          "score": 0.923
         },
         {
           "word": "the",
-          "start": 123.338,
-          "end": 123.438,
-          "score": 0.919
+          "start": 76.581,
+          "end": 76.721,
+          "score": 0.901
         },
         {
-          "word": "future",
-          "start": 123.498,
-          "end": 123.899,
-          "score": 0.88
+          "word": "ai",
+          "start": 77.021,
+          "end": 77.441,
+          "score": 0.806
+        },
+        {
+          "word": "write",
+          "start": 77.481,
+          "end": 77.761,
+          "score": 0.772
+        },
+        {
+          "word": "freely",
+          "start": 77.842,
+          "end": 78.202,
+          "score": 0.816
+        },
+        {
+          "word": "we",
+          "start": 78.762,
+          "end": 78.882,
+          "score": 0.982
+        },
+        {
+          "word": "say",
+          "start": 78.922,
+          "end": 79.122,
+          "score": 0.802
+        },
+        {
+          "word": "give",
+          "start": 79.182,
+          "end": 79.342,
+          "score": 0.877
+        },
+        {
+          "word": "me",
+          "start": 79.383,
+          "end": 79.483,
+          "score": 0.834
+        },
+        {
+          "word": "the",
+          "start": 79.503,
+          "end": 79.603,
+          "score": 0.766
+        },
+        {
+          "word": "answer",
+          "start": 79.683,
+          "end": 79.963,
+          "score": 0.948
+        },
+        {
+          "word": "in",
+          "start": 80.063,
+          "end": 80.143,
+          "score": 0.921
+        },
+        {
+          "word": "json",
+          "start": 80.183,
+          "end": 80.783,
+          "score": 0.816
+        },
+        {
+          "word": "format",
+          "start": 80.803,
+          "end": 81.244,
+          "score": 0.798
+        },
+        {
+          "word": "a",
+          "start": 82.104,
+          "end": 82.124,
+          "score": 0.999
+        },
+        {
+          "word": "fixed",
+          "start": 82.184,
+          "end": 82.445,
+          "score": 0.833
+        },
+        {
+          "word": "structure",
+          "start": 82.545,
+          "end": 82.985,
+          "score": 0.881
+        },
+        {
+          "word": "so",
+          "start": 83.585,
+          "end": 83.765,
+          "score": 0.886
+        },
+        {
+          "word": "instead",
+          "start": 83.845,
+          "end": 84.146,
+          "score": 0.892
         },
         {
           "word": "of",
-          "start": 123.959,
-          "end": 124.0,
-          "score": 1.0
+          "start": 84.186,
+          "end": 84.246,
+          "score": 0.748
+        },
+        {
+          "word": "messy",
+          "start": 84.306,
+          "end": 84.566,
+          "score": 0.943
+        },
+        {
+          "word": "paragraphs",
+          "start": 84.606,
+          "end": 85.206,
+          "score": 0.839
+        },
+        {
+          "word": "you",
+          "start": 85.707,
+          "end": 85.867,
+          "score": 0.929
+        },
+        {
+          "word": "get",
+          "start": 85.887,
+          "end": 86.047,
+          "score": 0.883
+        },
+        {
+          "word": "something",
+          "start": 86.107,
+          "end": 86.507,
+          "score": 0.908
+        },
+        {
+          "word": "like",
+          "start": 87.168,
+          "end": 87.428,
+          "score": 0.776
+        },
+        {
+          "word": "trend",
+          "start": 87.508,
+          "end": 87.828,
+          "score": 0.704
+        },
+        {
+          "word": "name",
+          "start": 87.888,
+          "end": 88.108,
+          "score": 0.91
+        },
+        {
+          "word": "supporting",
+          "start": 88.569,
+          "end": 89.029,
+          "score": 0.884
+        },
+        {
+          "word": "data",
+          "start": 89.069,
+          "end": 89.389,
+          "score": 0.869
+        },
+        {
+          "word": "clean",
+          "start": 90.09,
+          "end": 90.43,
+          "score": 0.816
+        },
+        {
+          "word": "and",
+          "start": 91.01,
+          "end": 91.15,
+          "score": 0.851
+        },
+        {
+          "word": "organized",
+          "start": 91.29,
+          "end": 91.811,
+          "score": 0.811
+        },
+        {
+          "word": "the",
+          "start": 92.271,
+          "end": 92.371,
+          "score": 0.998
+        },
+        {
+          "word": "next",
+          "start": 92.431,
+          "end": 92.651,
+          "score": 0.897
+        },
+        {
+          "word": "step",
+          "start": 92.751,
+          "end": 93.032,
+          "score": 0.914
+        },
+        {
+          "word": "reads",
+          "start": 93.372,
+          "end": 93.672,
+          "score": 0.868
+        },
+        {
+          "word": "it",
+          "start": 93.752,
+          "end": 93.832,
+          "score": 0.838
+        },
+        {
+          "word": "directly",
+          "start": 93.932,
+          "end": 94.433,
+          "score": 0.956
+        },
+        {
+          "word": "no",
+          "start": 95.173,
+          "end": 95.313,
+          "score": 0.867
+        },
+        {
+          "word": "confusion",
+          "start": 95.373,
+          "end": 95.893,
+          "score": 0.863
+        },
+        {
+          "word": "clean",
+          "start": 96.254,
+          "end": 96.514,
+          "score": 0.83
+        },
+        {
+          "word": "in",
+          "start": 96.554,
+          "end": 96.654,
+          "score": 0.682
+        },
+        {
+          "word": "clean",
+          "start": 97.014,
+          "end": 97.234,
+          "score": 0.947
+        },
+        {
+          "word": "out",
+          "start": 97.294,
+          "end": 97.435,
+          "score": 0.905
+        },
+        {
+          "word": "that's",
+          "start": 97.735,
+          "end": 97.915,
+          "score": 0.914
+        },
+        {
+          "word": "the",
+          "start": 97.955,
+          "end": 98.055,
+          "score": 0.851
+        },
+        {
+          "word": "rule",
+          "start": 98.095,
+          "end": 98.315,
+          "score": 0.913
+        },
+        {
+          "word": "next",
+          "start": 99.276,
+          "end": 99.516,
+          "score": 0.733
+        },
+        {
+          "word": "up",
+          "start": 99.616,
+          "end": 99.716,
+          "score": 0.992
+        },
+        {
+          "word": "real",
+          "start": 100.657,
+          "end": 100.937,
+          "score": 0.795
+        },
+        {
+          "word": "world",
+          "start": 100.977,
+          "end": 101.237,
+          "score": 0.892
+        },
+        {
+          "word": "use",
+          "start": 101.357,
+          "end": 101.477,
+          "score": 0.969
+        },
+        {
+          "word": "cases",
+          "start": 101.517,
+          "end": 101.797,
+          "score": 0.851
+        },
+        {
+          "word": "of",
+          "start": 101.857,
+          "end": 101.937,
+          "score": 0.818
+        },
+        {
+          "word": "prompt",
+          "start": 101.978,
+          "end": 102.218,
+          "score": 0.773
+        },
+        {
+          "word": "chaining",
+          "start": 102.238,
+          "end": 102.538,
+          "score": 0.799
+        }
+      ]
+    },
+    {
+      "text": "Subscribe for more AI educational videos.",
+      "start": 104.011,
+      "end": 106.417,
+      "words": [
+        {
+          "word": "Subscribe",
+          "start": 104.011,
+          "end": 104.516,
+          "score": 0.919
+        },
+        {
+          "word": "for",
+          "start": 104.557,
+          "end": 104.719,
+          "score": 0.884
+        },
+        {
+          "word": "more",
+          "start": 104.82,
+          "end": 105.062,
+          "score": 0.806
         },
         {
           "word": "AI",
-          "start": 124.02,
-          "end": 124.06,
-          "score": 0.0
+          "start": 105.184,
+          "end": 105.426,
+          "score": 0.758
         },
         {
-          "word": "with",
-          "start": 124.661,
-          "end": 124.862,
-          "score": 0.987
+          "word": "educational",
+          "start": 105.548,
+          "end": 106.053,
+          "score": 0.946
         },
         {
-          "word": "me.",
-          "start": 124.962,
-          "end": 125.123,
-          "score": 0.99
+          "word": "videos.",
+          "start": 106.094,
+          "end": 106.417,
+          "score": 0.813
         }
       ]
     }
   ],
-  "original_script": "Here are five predictions for what is next.\n\nPrediction one: Generalist Agents. Instead of doing only one small task, these agents will manage big projects over weeks—like planning a company trip. Or, we will connect many small, cheap models like Lego blocks to do the same job.\n\nPrediction two: Proactive Partners. These agents will learn your habits and goals. They won't wait for your command; they will suggest ideas and start tasks on their own.\n\nPrediction three: Robotic Agents. A-I agents will leave computers and enter the physical world. By connecting A-I with robots, a home agent can use cameras to see a leaky tap and fix it.\n\nPrediction four: The Agent Economy. Agents will buy and sell things on their own. For example, an agent can run an online shop, find trending products, change prices, and talk to supplier systems without human help.\n\nAnd prediction five: Self-Changing Systems. You just tell the system your goal, like start a coffee business. The A-I will decide how many agents it needs, write its own code, and even change its own structure as it works. It is a machine that improves itself. But this brings a big safety risk.\n\nThat is a major challenge, Maya. In practice, we must set hard limits. We run the self-modifying code in a secure sandbox, use automatic testing, and build guardrails that the A-I cannot touch or rewrite. If the code breaks any safety rules, the system shuts it down immediately.\n\nIn our next video, we will start learning the actual design patterns: Chapter 1: Prompt Chaining. Subscribe to build the future of A-I with me!"
+  "original_script": "Okay, picture this. You give an A-I one big prompt: Read this market report. Summarize it. Find the top three trends with numbers. And write an email to the team.\n\nFour tasks. One prompt. What happens?\n\nThe summary? Pretty good. The trends? It missed one. The email? It forgot the data completely.\n\nWhy? Because one prompt is too much. The A-I gets confused. It forgets instructions. It loses track halfway. And sometimes? It just makes stuff up.\n\nSo here's the fix. Don't give it one big task. Break it into small steps.\n\nStep one — just summarize the report. That's it.\nStep two — take that summary and pull out the trends with numbers.\nStep three — take those trends and write the email.\n\nEach step does one job. And the result of each step feeds into the next one. Like a factory line — one worker, one job, pass it forward.\n\nThis is called Prompt Chaining. And it changes everything.\n\nSmart question. So here's what we do — we don't let the A-I write freely. We say: give me the answer in J-S-O-N format. A fixed structure.\n\nSo instead of messy paragraphs, you get something like: trend name, supporting data — clean and organized. The next step reads it directly. No confusion.\n\nClean in, clean out. That's the rule.\n\nNext up — real-world use cases of prompt chaining. Subscribe."
 }
