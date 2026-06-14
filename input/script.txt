@@ -1,15 +1,25 @@
-Here are five predictions for what is next.
+Okay, picture this. You give an A-I one big prompt: Read this market report. Summarize it. Find the top three trends with numbers. And write an email to the team.
 
-Prediction one: Generalist Agents. Instead of doing only one small task, these agents will manage big projects over weeks—like planning a company trip. Or, we will connect many small, cheap models like Lego blocks to do the same job.
+Four tasks. One prompt. What happens?
 
-Prediction two: Proactive Partners. These agents will learn your habits and goals. They won't wait for your command; they will suggest ideas and start tasks on their own.
+The summary? Pretty good. The trends? It missed one. The email? It forgot the data completely.
 
-Prediction three: Robotic Agents. A-I agents will leave computers and enter the physical world. By connecting A-I with robots, a home agent can use cameras to see a leaky tap and fix it.
+Why? Because one prompt is too much. The A-I gets confused. It forgets instructions. It loses track halfway. And sometimes? It just makes stuff up.
 
-Prediction four: The Agent Economy. Agents will buy and sell things on their own. For example, an agent can run an online shop, find trending products, change prices, and talk to supplier systems without human help.
+So here's the fix. Don't give it one big task. Break it into small steps.
 
-And prediction five: Self-Changing Systems. You just tell the system your goal, like start a coffee business. The A-I will decide how many agents it needs, write its own code, and even change its own structure as it works. It is a machine that improves itself. But this brings a big safety risk.
+Step one — just summarize the report. That's it.
+Step two — take that summary and pull out the trends with numbers.
+Step three — take those trends and write the email.
 
-That is a major challenge, Maya. In practice, we must set hard limits. We run the self-modifying code in a secure sandbox, use automatic testing, and build guardrails that the A-I cannot touch or rewrite. If the code breaks any safety rules, the system shuts it down immediately.
+Each step does one job. And the result of each step feeds into the next one. Like a factory line — one worker, one job, pass it forward.
 
-In our next video, we will start learning the actual design patterns: Chapter 1: Prompt Chaining. Subscribe to build the future of A-I with me!
+This is called Prompt Chaining. And it changes everything.
+
+Smart question. So here's what we do — we don't let the A-I write freely. We say: give me the answer in J-S-O-N format. A fixed structure.
+
+So instead of messy paragraphs, you get something like: trend name, supporting data — clean and organized. The next step reads it directly. No confusion.
+
+Clean in, clean out. That's the rule.
+
+Next up — real-world use cases of prompt chaining. Subscribe.

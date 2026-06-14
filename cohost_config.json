@@ -1,0 +1,34 @@
+{
+  "explanation_video": "output/final_video_speed.mp4",
+  "output_video": "output/release_ready.mp4",
+  "speed": 1.25,
+  "cohosts": [
+    {
+      "name": "start_hook",
+      "video_path": "input/start_hook.mp4",
+      "insert_time_original": 0.0,
+      "padding_start": 0.0,
+      "padding_end": 0.5,
+      "captions": []
+    },
+    {
+      "name": "student_speaking",
+      "video_path": "input/student_speaking.mp4",
+      "insert_time_original": 91.615,
+      "padding_start": 0.5,
+      "padding_end": 0.5,
+      "captions": [
+        {
+          "text": "Wait... if a system can write its own code and change its own structure,",
+          "start": 0.5,
+          "end": 4.5
+        },
+        {
+          "text": "how do we keep it under control? What if it does something dangerous?",
+          "start": 4.6,
+          "end": 8.5
+        }
+      ]
+    }
+  ]
+}

@@ -22,6 +22,8 @@ def run_alignment(
     model_name: str = "large-v3-turbo",
     compute_type: str = "float32",
     batch_size: int = 4,
+    scene_id: str = None,
+    scenes_dir: Path = None,
 ) -> dict:
     """
     Run WhisperX forced alignment on narration audio.
@@ -34,6 +36,8 @@ def run_alignment(
         model_name:   WhisperX model identifier
         compute_type: "float32" (CPU) or "float16" (CUDA)
         batch_size:   Transcription batch size
+        scene_id:     Scene ID (e.g. agent_scene_05)
+        scenes_dir:   Directory where scenes are stored
 
     Returns:
         Structured alignment dict with segments and word timestamps.
@@ -104,14 +108,23 @@ def run_alignment(
     with open(output_path, "w", encoding="utf-8") as f:
         json.dump(alignment, f, indent=2, ensure_ascii=False)
 
+    # Get exact audio duration via ffprobe
+    audio_duration = _get_audio_duration(audio_path)
+    if audio_duration == 0.0 and alignment["segments"]:
+        audio_duration = alignment["segments"][-1]["end"]
+
     # Summary
     seg_count = len(alignment["segments"])
     word_count = sum(len(s["words"]) for s in alignment["segments"])
-    total_dur = alignment["segments"][-1]["end"] if seg_count else 0
     logger.info(f"Alignment saved → {output_path}")
     logger.info(f"  Segments : {seg_count}")
     logger.info(f"  Words    : {word_count}")
-    logger.info(f"  Duration : {total_dur:.2f}s")
+    logger.info(f"  Duration : {audio_duration:.2f}s")
+
+    # If scene_id and scenes_dir are provided, update metadata and generate JS captions
+    if scene_id and scenes_dir:
+        _update_scenes_metadata(scenes_dir, scene_id, audio_duration)
+        _write_js_captions(scenes_dir, scene_id, alignment)
 
     return alignment
 
@@ -119,6 +132,81 @@ def run_alignment(
 # ======================================================================
 # Internal helpers
 # ======================================================================
+
+def _get_audio_duration(path: Path) -> float:
+    """Get exact duration of audio using ffprobe."""
+    import subprocess
+    cmd = [
+        "ffprobe",
+        "-v", "error",
+        "-show_entries", "format=duration",
+        "-of", "json",
+        str(path),
+    ]
+    try:
+        result = subprocess.run(cmd, capture_output=True, text=True, timeout=30)
+        if result.returncode == 0:
+            info = json.loads(result.stdout)
+            return float(info.get("format", {}).get("duration", 0))
+    except Exception:
+        pass
+    return 0.0
+
+
+def _update_scenes_metadata(scenes_dir: Path, scene_id: str, duration: float) -> None:
+    """Update scenes.json metadata file automatically."""
+    scenes_json_path = scenes_dir / "scenes.json"
+    scenes = []
+    if scenes_json_path.exists():
+        try:
+            with open(scenes_json_path, "r", encoding="utf-8") as f:
+                scenes = json.load(f)
+        except Exception:
+            pass
+
+    found = False
+    for s in scenes:
+        if s.get("scene_id") == scene_id:
+            s["duration"] = round(duration, 3)
+            found = True
+            break
+    if not found:
+        scenes.append({
+            "scene_id": scene_id,
+            "duration": round(duration, 3),
+            "overlays": []
+        })
+
+    with open(scenes_json_path, "w", encoding="utf-8") as f:
+        json.dump(scenes, f, indent=2, ensure_ascii=False)
+    logger.info(f"Updated scenes.json metadata for scene '{scene_id}'")
+
+
+def _write_js_captions(scenes_dir: Path, scene_id: str, alignment: dict) -> Path:
+    """Write browser-ready captions JS array."""
+    js_output_path = scenes_dir / f"{scene_id}_captions.js"
+    js_segments = []
+    for seg in alignment["segments"]:
+        js_words = []
+        for w in seg["words"]:
+            js_words.append({
+                "text": w["word"],
+                "start": w["start"],
+                "end": w["end"]
+            })
+        js_segments.append({
+            "text": seg["text"],
+            "start": seg["start"],
+            "end": seg["end"],
+            "words": js_words
+        })
+
+    js_content = f"window.{scene_id}_captions = {json.dumps(js_segments, indent=2, ensure_ascii=False)};\n"
+    with open(js_output_path, "w", encoding="utf-8") as f:
+        f.write(js_content)
+    logger.info(f"Saved captions array to {js_output_path}")
+    return js_output_path
+
 
 def _structure_alignment(result: dict) -> dict:
     """

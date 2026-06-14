@@ -44,6 +44,7 @@ def main():
 
     # ALIGN
     parser_align = subparsers.add_parser("align", help="Run WhisperX forced alignment")
+    parser_align.add_argument("--scene", type=str, default=None, help="Scene ID (e.g. agent_scene_05), auto-detected if omitted")
     
     # RENDER
     parser_render = subparsers.add_parser("render", help="Render HTML scenes to MP4")
@@ -51,6 +52,22 @@ def main():
 
     # ASSEMBLE
     parser_assemble = subparsers.add_parser("assemble", help="Assemble clips into final video")
+
+    # SPEED
+    parser_speed = subparsers.add_parser("speed", help="Adjust speed of assembled video")
+    parser_speed.add_argument("-s", "--speed", type=float, required=True, help="Speed multiplier (e.g. 1.25)")
+    parser_speed.add_argument("-i", "--input", type=str, default="output/final_video.mp4", help="Input video path")
+    parser_speed.add_argument("-o", "--output", type=str, default="output/final_video_speed.mp4", help="Output video path")
+    parser_speed.add_argument("-m", "--method", choices=["transcode", "lossless"], default="transcode", help="Method (transcode or lossless)")
+    parser_speed.add_argument("--crf", type=int, default=12, help="CRF value for transcode")
+
+    # MERGE
+    parser_merge = subparsers.add_parser("merge", help="Merge co-host videos (hook, student speaking) into speed-adjusted video")
+    parser_merge.add_argument("-c", "--config", type=str, default="cohost_config.json", help="Path to cohost_config.json")
+
+    # SCAFFOLD
+    parser_scaffold = subparsers.add_parser("scaffold", help="Scaffold a new visual scene HTML template based on agent_scene_03.html layout")
+    parser_scaffold.add_argument("-s", "--scene", type=str, default=None, help="Scene ID (e.g. agent_scene_05), auto-detected if omitted")
 
     args = parser.parse_args()
 
@@ -60,17 +77,33 @@ def main():
     log.info(f"   Command: {args.command}")
     log.info("=" * 62)
 
-    audio_path = _find_audio(config.INPUT_DIR)
-    if audio_path is None:
-        log.error(f"No audio file found in {config.INPUT_DIR}")
-        sys.exit(1)
-
     if args.command == "align":
+        audio_path = _find_audio(config.INPUT_DIR)
+        if audio_path is None:
+            log.error(f"No audio file found in {config.INPUT_DIR}")
+            sys.exit(1)
         script_path = config.INPUT_DIR / "script.txt"
         if not script_path.exists():
             log.error(f"Script not found: {script_path}")
             sys.exit(1)
         alignment_path = config.TIMESTAMPS_DIR / "alignment.json"
+
+        scene_id = args.scene
+        if scene_id is None:
+            import re
+            max_num = 0
+            pattern = re.compile(r"agent_scene_(\d+)\.html")
+            if config.SCENES_DIR.exists():
+                for f in config.SCENES_DIR.iterdir():
+                    match = pattern.match(f.name)
+                    if match:
+                        num = int(match.group(1))
+                        if num > max_num:
+                            max_num = num
+            next_num = max_num + 1 if max_num > 0 else 1
+            scene_id = f"agent_scene_{next_num:02d}"
+            log.info(f"Auto-detected next Scene ID: {scene_id}")
+
         log.info("Running Step 1: Forced Alignment...")
         run_alignment(
             audio_path=audio_path,
@@ -80,6 +113,8 @@ def main():
             model_name=config.WHISPERX_MODEL,
             compute_type=config.WHISPERX_COMPUTE_TYPE,
             batch_size=config.WHISPERX_BATCH_SIZE,
+            scene_id=scene_id,
+            scenes_dir=config.SCENES_DIR,
         )
         log.info(f"Alignment complete. Output: {alignment_path}")
 
@@ -109,6 +144,10 @@ def main():
         log.info("Rendering complete.")
 
     elif args.command == "assemble":
+        audio_path = _find_audio(config.INPUT_DIR)
+        if audio_path is None:
+            log.error(f"No audio file found in {config.INPUT_DIR}")
+            sys.exit(1)
         scenes_path = config.SCENES_DIR / "scenes.json"
         if not scenes_path.exists():
             log.error(f"Scenes metadata not found: {scenes_path}")
@@ -150,6 +189,45 @@ def main():
         else:
             log.info("   ⚠️  PIPELINE COMPLETE — SOME CHECKS FAILED")
         log.info(f"   Output : {final_path}")
+
+    elif args.command == "speed":
+        from scripts.adjust_speed import adjust_speed_transcode, adjust_speed_lossless
+        input_path = Path(args.input).resolve()
+        output_path = Path(args.output).resolve()
+        log.info(f"Adjusting speed of {input_path.name} to {args.speed}x...")
+        if args.method == "lossless":
+            adjust_speed_lossless(input_path, output_path, args.speed)
+        else:
+            adjust_speed_transcode(input_path, output_path, args.speed, args.crf)
+        log.info(f"Speed adjustment complete. Output: {output_path}")
+
+    elif args.command == "merge":
+        from scripts.merge_cohost import merge_cohosts
+        config_path = Path(args.config).resolve()
+        log.info(f"Merging co-host videos based on configuration: {config_path}")
+        merge_cohosts(config_path)
+        log.info("Co-host merging complete.")
+
+    elif args.command == "scaffold":
+        from scripts.scaffold import scaffold_scene
+        scene_id = args.scene
+        if scene_id is None:
+            import re
+            max_num = 0
+            pattern = re.compile(r"agent_scene_(\d+)\.html")
+            if config.SCENES_DIR.exists():
+                for f in config.SCENES_DIR.iterdir():
+                    match = pattern.match(f.name)
+                    if match:
+                        num = int(match.group(1))
+                        if num > max_num:
+                            max_num = num
+            next_num = max_num + 1 if max_num > 0 else 1
+            scene_id = f"agent_scene_{next_num:02d}"
+            log.info(f"Auto-detected next Scene ID for scaffolding: {scene_id}")
+
+        scaffold_scene(scene_id, config.SCENES_DIR)
+        log.info("Scaffolding complete.")
 
 if __name__ == "__main__":
     main()

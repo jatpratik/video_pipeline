@@ -45,30 +45,42 @@ The pipeline is a hybrid automated/manual system that converts a narration scrip
 
 ## Core Pipeline Steps (`main.py`)
 
-1. **Step 1: Forced Alignment (`python main.py align`)**
+1. **Step 1: Forced Alignment & Auto-Captions (`python main.py align [--scene SCENE_ID]`)**
    - Inputs: `input/voice.wav` and `input/script.txt`
-   - Action: Runs WhisperX to generate exact word-level timestamps.
-   - Output: `timestamps/alignment.json`
+   - Action: Runs WhisperX to align narration audio. Auto-probes audio duration, automatically writes/updates `scenes/scenes.json`, and writes a browser-ready JS captions array (e.g. `scenes/agent_scene_05_captions.js`).
+   - Output: `timestamps/alignment.json`, updated `scenes/scenes.json`, and `scenes/<scene_id>_captions.js`
 
-2. **Step 2: Visual Implementation (Manual / AI Assistant)**
-   - Action: Using the generated alignment, an AI coding assistant (e.g., Antigravity) writes custom HTML/CSS/GSAP code for each scene. The user and AI reason over the script to divide it into scenes. 
-   - Requirements: Output HTML files and update the `scenes.json` metadata in `scenes/` with duration and `scene_id`.
-   - Output: `scenes/scenes.json` and a set of `.html` files for each scene.
+2. **Step 2: Visual Scaffolding (`python main.py scaffold [--scene SCENE_ID]`)**
+   - Action: Scaffolds a new visual HTML file (e.g. `scenes/agent_scene_05.html`) based on standard layout coordinates, fonts, face overlays, caption areas, and particle loops of previous episodes.
+   - Output: Visual boilerplate template in `scenes/<scene_id>.html`
 
-3. **Step 3: Headless Rendering (`python main.py render`)**
-   - Action: Loads the manually generated HTML scenes into a headless Playwright browser. Captures video.
-   - Output: Individual `.mp4` clips for each scene in `rendered_scenes/`.
+3. **Step 3: Visual Implementation (Manual / AI Assistant)**
+   - Action: Code custom visual divs and timeline animations inside the visuals area of the generated HTML scene file.
+   - Output: Completed visual animation HTML file.
 
-4. **Step 4: Video Assembly (`python main.py assemble`)**
-   - Action: Uses FFmpeg to concatenate the rendered scene clips and overlay the original narration audio. Validates export.
-   - Output: `output/final_video.mp4`
+4. **Step 4: Headless Rendering (`python main.py render`)**
+   - Action: Loads the manually finished HTML scenes in Playwright Chromium. Records visual animations.
+   - Output: Silent `.mp4` visual clips in `rendered_scenes/`.
+
+5. **Step 5: Video Assembly (`python main.py assemble`)**
+   - Action: Combines silent visual clips and narration audio, and overlays the presenter's face circle.
+   - Output: Assembled base video in `output/final_video.mp4`
+
+6. **Step 6: Speed Adjustment (`python main.py speed -s MULTIPLIER`)**
+   - Action: Speeds up the base video (both video, audio, and captions) using visual-lossless transcoding.
+   - Output: Speed-adjusted video in `output/final_video_speed.mp4`
+
+7. **Step 7: Co-host Video Merging (`python main.py merge [-c cohost_config.json]`)**
+   - Action: Reads the merge configurations, splices the speed-adjusted video, inserts full-screen co-host clips (hook, student questions) with smooth cloned-frame padding transitions, and burns styled co-host captions.
+   - Output: Release-ready video in `output/release_ready.mp4`
 
 ## Directory Structure
-- `input/`: Source files (`script.txt`, `voice.wav`).
-- `output/`: The final generated video.
-- `scripts/`: Implementation for pipeline steps (`step1_alignment.py`, `step4_render.py`, `step5_assembly.py`, `step6_export.py`).
-- `scenes/`: Generated HTML scenes and `scenes.json`.
-- `rendered_scenes/`: Intermediate `.mp4` scene clips.
-- `timestamps/`: WhisperX alignment output.
-- `config.py`: Central configuration (video specs, directories).
-- `main.py`: The CLI entry point and main orchestrator.
+- `input/`: Narration files (`script.txt`, `voice.wav`) and co-host clips (`start_hook.mp4`, `student_speaking.mp4`).
+- `output/`: Generated output video files (`final_video.mp4`, `final_video_speed.mp4`, and `release_ready.mp4`).
+- `scripts/`: Python orchestrators (`step1_alignment.py`, `step4_render.py`, `step5_assembly.py`, `step6_export.py`, `adjust_speed.py`, `merge_cohost.py`, `scaffold.py`).
+- `scenes/`: Generated HTML scenes, `.js` captions files, and `scenes.json`.
+- `rendered_scenes/`: Intermediate visual `.mp4` scene clips.
+- `timestamps/`: WhisperX forced alignment outputs.
+- `config.py`: Central configuration variables.
+- `cohost_config.json`: Configuration settings for the co-host merging process.
+- `main.py`: The unified CLI entry point.
